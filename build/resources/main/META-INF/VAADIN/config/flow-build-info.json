@@ -1,0 +1,9 @@
+{
+  "compatibilityMode": false,
+  "productionMode": false,
+  "npmFolder": "/home/ivaneyvieira/git/engPromocao",
+  "generatedFolder": "/home/ivaneyvieira/git/engPromocao/target/frontend",
+  "frontendFolder": "/home/ivaneyvieira/git/engPromocao/frontend",
+  "pnpm.enable": false,
+  "require.home.node": false
+}
