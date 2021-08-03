@@ -5,6 +5,8 @@ import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
+import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
+import br.com.astrosoft.promocao.model.beans.PrecoPromocao
 
 class QuerySaci : QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -36,6 +38,16 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("bitAcesso", user.bitAcesso)
       addOptionalParameter("loja", user.storeno)
       addOptionalParameter("appName", appName)
+    }
+  }
+
+  fun produtosPromocao(filtro : FiltroPrecoPromocao) : List<PrecoPromocao>{
+    val sql = "/sqlSaci/produtosPromocao.sql"
+    return query(sql, PrecoPromocao::class){
+      addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("clno", filtro.clno)
+      addOptionalParameter("typeno", filtro.typeno)
+      addOptionalParameter("tipoLista", filtro.tipoLista.name)
     }
   }
 
