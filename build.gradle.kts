@@ -1,6 +1,7 @@
 import Build_gradle.Defs.vaadin10_version
 import Build_gradle.Defs.vaadinonkotlin_version
 import org.gradle.api.JavaVersion.VERSION_11
+import org.gradle.api.JavaVersion.VERSION_1_8
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object Defs {
@@ -31,13 +32,13 @@ val staging: Configuration by configurations.creating
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    jvmTarget = "11"
+    jvmTarget = "1.8"
   }
 }
 
 group = "promocao"
 version = "1.0"
-java.sourceCompatibility = VERSION_11
+java.sourceCompatibility = VERSION_1_8
 
 dependencies {
   // Vaadin-on-Kotlin dependency, includes Vaadin
