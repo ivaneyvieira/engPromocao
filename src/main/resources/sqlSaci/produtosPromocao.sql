@@ -2,6 +2,7 @@ DO @HOJE := CURRENT_DATE * 1;
 DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
 DO @CLNO := :clno;
+DO @TIPO := :tipoLista;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
@@ -74,10 +75,10 @@ SELECT TRIM(P.prdno)                            AS codigo,
 	   THEN 'PRECIFICACAO'
 	 WHEN M.precoPromocional IS NOT NULL
 	   THEN 'PROMOCAO'
-	 ELSE ''
+	 ELSE 'BASE'
        END                                      AS origemPromocao,
        refPrice,
-       promoPrice,
+       V.promoPrice,
        promono,
        descricaoPromocao,
        M.tipo                                   AS tipoPromocao,
@@ -87,3 +88,4 @@ FROM T_PRD           AS P
 	       ON P.prdno = V.prdno
   LEFT JOIN  T_PROMO    M
 	       ON M.prdno = V.prdno
+HAVING origemPromocao = @TIPO

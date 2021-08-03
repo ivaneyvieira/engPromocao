@@ -31,5 +31,5 @@ class PrecoPromocao(
 data class FiltroPrecoPromocao(val vendno: Int, val clno: Int, val typeno: Int, val tipoLista: ETipoListaPromocao)
 
 enum class ETipoListaPromocao(val descricao: String) {
-  BASE("Base"), PROMOCAO("Promoção")
+  BASE("Base"), PROMOCAO("Promoção"), PRECIFICACAO("Precificação")
 }
