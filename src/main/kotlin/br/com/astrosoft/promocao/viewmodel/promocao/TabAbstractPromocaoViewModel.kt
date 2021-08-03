@@ -7,7 +7,7 @@ import br.com.astrosoft.promocao.model.beans.PrecoPromocao
 
 abstract class TabAbstractPromocaoViewModel<T : ITabAbstractPromocaoViewModel>(val viewModel: PromocaoViewModel) {
   abstract val subView: T
-  abstract val tipoTab: ETipoListaPromocao
+  abstract val tipoTab: List<ETipoListaPromocao>
 
   fun updateView() {
     val filtro = subView.filtro()

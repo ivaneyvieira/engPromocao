@@ -9,62 +9,50 @@ import com.vaadin.flow.component.grid.Grid
 
 object NotaNddViewColumns {
   fun Grid<PrecoPromocao>.promocaoCodigo() = addColumnString(PrecoPromocao::codigo) {
-    this.setHeader("Código")
+    this.setHeader("Cod")
   }
 
   fun Grid<PrecoPromocao>.promocaoDescricao() = addColumnString(PrecoPromocao::descricao) {
     this.setHeader("Descrição")
   }
 
+  fun Grid<PrecoPromocao>.promocaoVendno() = addColumnInt(PrecoPromocao::vendno) {
+    this.setHeader("Forn")
+  }
+
   fun Grid<PrecoPromocao>.promocaoFornecedor() = addColumnString(PrecoPromocao::fornecedor) {
-    this.setHeader("Fornecedor")
+    this.setHeader("Abrev")
   }
 
-  fun Grid<PrecoPromocao>.promocaoCentroLucro() = addColumnString(PrecoPromocao::centroLucro) {
-    this.setHeader("Centro de Lucro")
+  fun Grid<PrecoPromocao>.promocaoCentroLucro() = addColumnInt(PrecoPromocao::clno) {
+    this.setHeader("Cent Lucro")
   }
 
-  fun Grid<PrecoPromocao>.promocaoTipoProduto() = addColumnString(PrecoPromocao::tipoProduto) {
+  fun Grid<PrecoPromocao>.promocaoTipoProduto() = addColumnInt(PrecoPromocao::typeno) {
     this.setHeader("Tipo")
-  }
-
-  fun Grid<PrecoPromocao>.promocaoPrecoVista() = addColumnDouble(PrecoPromocao::preco) {
-    this.setHeader("Preço a Vista")
   }
 
   fun Grid<PrecoPromocao>.promocaoValidade() = addColumnLocalDate(PrecoPromocao::validade) {
     this.setHeader("Validade")
   }
 
-  fun Grid<PrecoPromocao>.promocaoPrecificacao() = addColumnDouble(PrecoPromocao::precoPromocional) {
-    this.setHeader("Preço Promocional")
+  fun Grid<PrecoPromocao>.promocaoPrecoPromocional() = addColumnDouble(PrecoPromocao::precoPromocional) {
+    this.setHeader("R$ Promo")
+  }
+
+  fun Grid<PrecoPromocao>.promocaoDesconto() = addColumnDouble(PrecoPromocao::desconto) {
+    this.setHeader("% Perc")
+  }
+
+  fun Grid<PrecoPromocao>.promocaoSaldo() = addColumnInt(PrecoPromocao::saldo) {
+    this.setHeader("Saldo")
   }
 
   fun Grid<PrecoPromocao>.promocaoPrecoRef() = addColumnDouble(PrecoPromocao::refPrice) {
-    this.setHeader("Preço Ref")
-  }
-
-  fun Grid<PrecoPromocao>.promocaoPrecoPromo() = addColumnDouble(PrecoPromocao::promoPrice) {
-    this.setHeader("Preço Promocional")
+    this.setHeader("R$ Ref.")
   }
 
   fun Grid<PrecoPromocao>.promocaoOrigem() = addColumnString(PrecoPromocao::origemPromocao) {
     this.setHeader("Origem")
-  }
-
-  fun Grid<PrecoPromocao>.promocaoNumPromocao() = addColumnInt(PrecoPromocao::promono) {
-    this.setHeader("Num Promoção")
-  }
-
-  fun Grid<PrecoPromocao>.promocaoPromoDescricao() = addColumnString(PrecoPromocao::descricaoPromocao) {
-    this.setHeader("Promoção")
-  }
-
-  fun Grid<PrecoPromocao>.promocaoTipoPromo() = addColumnString(PrecoPromocao::tipoPromocao) {
-    this.setHeader("Tipo Promoção")
-  }
-
-  fun Grid<PrecoPromocao>.promocaoDesconto() = addColumnDouble(PrecoPromocao::percentual) {
-    this.setHeader("% Desconto")
   }
 }

@@ -47,7 +47,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("vendno", filtro.vendno)
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("typeno", filtro.typeno)
-      addOptionalParameter("tipoLista", filtro.tipoLista.name)
+      addOptionalParameter("saldo", filtro.tipoSaldo.name)
+      addOptionalParameter("tipoLista", filtro.tipoLista.map { it.name })
     }
   }
 

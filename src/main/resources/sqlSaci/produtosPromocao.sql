@@ -2,7 +2,7 @@ DO @HOJE := CURRENT_DATE * 1;
 DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
 DO @CLNO := :clno;
-DO @TIPO := :tipoLista;
+DO @SALDO := :saldo;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
@@ -28,6 +28,25 @@ WHERE (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
   AND (P.mfno = @VENDNO OR @VENDNO = 0)
   AND (P.typeno = @TYPENO OR @TYPENO = 0);
 
+DROP TABLE IF EXISTS T_SALDO;
+CREATE TEMPORARY TABLE T_SALDO (
+  PRIMARY KEY (prdno)
+)
+SELECT prdno, SUM(qtty_varejo + qtty_atacado) / 100 AS qt
+FROM sqldados.stk
+  INNER JOIN T_PRD
+	       USING (prdno)
+WHERE storeno IN (2, 3, 4, 5, 6)
+GROUP BY prdno
+HAVING CASE @SALDO
+	 WHEN 'SALDO'
+	   THEN qt > 0
+	 WHEN 'ZERO'
+	   THEN qt = 0
+	 WHEN 'TUDO'
+	   THEN TRUE
+       END;
+
 DROP TEMPORARY TABLE IF EXISTS T_PRICE;
 CREATE TEMPORARY TABLE T_PRICE (
   PRIMARY KEY (prdno)
@@ -40,52 +59,23 @@ FROM sqldados.prp  AS V
   INNER JOIN T_PRD AS P
 	       ON P.prdno = V.prdno AND V.storeno = 10;
 
-
-DROP TEMPORARY TABLE IF EXISTS T_PROMO;
-CREATE TEMPORARY TABLE T_PROMO (
-  PRIMARY KEY (promono, prdno)
-)
-SELECT P.no                                AS promono,
-       I.prdno                             AS prdno,
-       P.name                              AS descricaoPromocao,
-       IF(type = 0, 'PERCENTUAL', 'VALOR') AS tipo,
-       CAST(enddate AS DATE)               AS validade,
-       ROUND(P.auxLong1 / 100, 2)          AS percentual,
-       ROUND(I.price / 100, 2)             AS precoPromocional
-FROM sqldados.promo            AS P
-  INNER JOIN sqldados.promoprd AS I
-	       ON I.promono = P.no
-WHERE P.begdate <= @HOJE
-  AND P.enddate >= @HOJE
-GROUP BY promono, prdno;
-
-SELECT TRIM(P.prdno)                            AS codigo,
-       descricao,
-       clno                                     AS clno,
-       centroLucro                              AS centroLucro,
-       vendno                                   AS vendno,
-       fornecedor                               AS fornecedor,
-       P.typeno                                 AS typeno,
-       P.tipo                                   AS tipoProduto,
-       preco,
-       IFNULL(V.validade, M.validade)           AS validade,
-       IFNULL(V.promoPrice, M.precoPromocional) AS precoPromocional,
-       CASE
-	 WHEN V.promoPrice IS NOT NULL
-	   THEN 'PRECIFICACAO'
-	 WHEN M.precoPromocional IS NOT NULL
-	   THEN 'PROMOCAO'
-	 ELSE 'BASE'
-       END                                      AS origemPromocao,
-       refPrice,
-       V.promoPrice,
-       promono,
-       descricaoPromocao,
-       M.tipo                                   AS tipoPromocao,
-       percentual
+SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
+       descricao                                               AS descricao,
+       V.validade                                              AS validade,
+       refPrice                                                AS refPrice,
+       ROUND((refPrice - V.promoPrice) * 100.00 / refPrice, 2) AS desconto,
+       V.promoPrice                                            AS precoPromocional,
+       clno                                                    AS clno,
+       centroLucro                                             AS centroLucro,
+       vendno                                                  AS vendno,
+       fornecedor                                              AS fornecedor,
+       P.typeno                                                AS typeno,
+       P.tipo                                                  AS tipoProduto,
+       ROUND(qt, 2)                                            AS saldo,
+       IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE')        AS origemPromocao
 FROM T_PRD           AS P
   INNER JOIN T_PRICE AS V
-	       ON P.prdno = V.prdno
-  LEFT JOIN  T_PROMO    M
-	       ON M.prdno = V.prdno
-HAVING origemPromocao = @TIPO
+	       USING (prdno)
+  INNER JOIN T_SALDO AS S
+	       USING (prdno)
+WHERE IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE') IN (:tipoLista)
