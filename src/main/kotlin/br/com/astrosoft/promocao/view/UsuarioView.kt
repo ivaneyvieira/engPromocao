@@ -1,10 +1,12 @@
 package br.com.astrosoft.promocao.view
 
-import br.com.astrosoft.promocao.model.beans.UserSaci
-import br.com.astrosoft.promocao.viewmodel.UsuarioViewModel
 import br.com.astrosoft.framework.view.UserLayout
 import br.com.astrosoft.framework.viewmodel.IUsuarioView
-import com.github.mvysny.karibudsl.v10.*
+import br.com.astrosoft.promocao.model.beans.UserSaci
+import br.com.astrosoft.promocao.viewmodel.UsuarioViewModel
+import com.github.mvysny.karibudsl.v10.comboBox
+import com.github.mvysny.karibudsl.v10.integerField
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.Binder
@@ -59,8 +61,7 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
           isAllowCustomValue = false
           binder.bind(this, UserSaci::storeno.name)
-        }
-        /*
+        }/*
         formLayout {
           h4("Promoção") {
             colspan = 2

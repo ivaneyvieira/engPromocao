@@ -3,6 +3,7 @@ package br.com.astrosoft.framework.view
 import com.github.mvysny.karibudsl.v10.getAll
 import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
+import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -10,13 +11,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 import kotlin.reflect.KClass
 
-abstract class TabPanelGrid<T : Any>(classGrid: KClass<T>) : ITabPanel {
+abstract class TabPanelGrid<T : Any>(classGrid: KClass<T>) : VerticalLayout() {
   private val dataProviderPanel = ListDataProvider<T>(mutableListOf())
   private val gridPanel: Grid<T> = Grid(classGrid.java, false)
   protected abstract fun HorizontalLayout.toolBarConfig()
   protected abstract fun Grid<T>.gridPanel()
 
-  override val createComponent = VerticalLayout().apply {
+  fun createTabComponent(): Component {
     this.setSizeFull()
     isMargin = false
     isPadding = false
@@ -33,6 +34,7 @@ abstract class TabPanelGrid<T : Any>(classGrid: KClass<T>) : ITabPanel {
       gridPanel()
     }
     addAndExpand(gridPanel)
+    return this
   }
 
   fun updateGrid(itens: List<T>) {

@@ -44,10 +44,6 @@ object NotaNddViewColumns {
     this.setHeader("% Perc")
   }
 
-  fun Grid<PrecoPromocao>.promocaoSaldo() = addColumnInt(PrecoPromocao::saldo) {
-    this.setHeader("Saldo")
-  }
-
   fun Grid<PrecoPromocao>.promocaoPrecoRef() = addColumnDouble(PrecoPromocao::refPrice) {
     this.setHeader("R$ Ref.")
   }

@@ -2,7 +2,6 @@ DO @HOJE := CURRENT_DATE * 1;
 DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
 DO @CLNO := :clno;
-DO @SALDO := :saldo;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
@@ -28,25 +27,6 @@ WHERE (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
   AND (P.mfno = @VENDNO OR @VENDNO = 0)
   AND (P.typeno = @TYPENO OR @TYPENO = 0);
 
-DROP TABLE IF EXISTS T_SALDO;
-CREATE TEMPORARY TABLE T_SALDO (
-  PRIMARY KEY (prdno)
-)
-SELECT prdno, SUM(qtty_varejo + qtty_atacado) / 100 AS qt
-FROM sqldados.stk
-  INNER JOIN T_PRD
-	       USING (prdno)
-WHERE storeno IN (2, 3, 4, 5, 6)
-GROUP BY prdno
-HAVING CASE @SALDO
-	 WHEN 'SALDO'
-	   THEN qt > 0
-	 WHEN 'ZERO'
-	   THEN qt = 0
-	 WHEN 'TUDO'
-	   THEN TRUE
-       END;
-
 DROP TEMPORARY TABLE IF EXISTS T_PRICE;
 CREATE TEMPORARY TABLE T_PRICE (
   PRIMARY KEY (prdno)
@@ -71,11 +51,8 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
        fornecedor                                              AS fornecedor,
        P.typeno                                                AS typeno,
        P.tipo                                                  AS tipoProduto,
-       ROUND(qt, 2)                                            AS saldo,
        IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE')        AS origemPromocao
 FROM T_PRD           AS P
   INNER JOIN T_PRICE AS V
-	       USING (prdno)
-  INNER JOIN T_SALDO AS S
 	       USING (prdno)
 WHERE IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE') IN (:tipoLista)
