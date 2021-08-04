@@ -1,5 +1,6 @@
 package br.com.astrosoft.promocao.model.beans
 
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -22,15 +23,19 @@ class PrecoPromocao(val codigo: String,
     fun find(filtro: FiltroPrecoPromocao) = saci.produtosPromocao(filtro)
 
     fun marcaDesconto(list: List<PrecoPromocao>, desconto: Double, validade: LocalDate) {
+      val login = Config.user?.login ?: "ADM"
+      saci.apagaMarcasPromocao(login)
+
       val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-      val marca = LocalDateTime.now().format(formatter)
+      val marca = LocalDateTime.now().format(formatter) + Config.user?.login
       list.forEach { precoPromocao ->
         saci.executaPromocao(precoPromocao.codigo, desconto, validade, marca)
       }
     }
 
     fun desfazDesconto() {
-      saci.desfazerPromocao()
+      val login = Config.user?.login ?: "ADM"
+      saci.desfazerPromocao(login)
     }
   }
 }

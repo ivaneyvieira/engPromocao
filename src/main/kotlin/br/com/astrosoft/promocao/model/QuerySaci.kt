@@ -63,9 +63,18 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun desfazerPromocao() {
+  fun desfazerPromocao(login : String) {
     val sql = "/sqlSaci/desfazerPromocao.sql"
-    script(sql)
+    script(sql){
+      addOptionalParameter("login", login)
+    }
+  }
+
+  fun apagaMarcasPromocao(login : String) {
+    val sql = "/sqlSaci/apagamMarcasPromocao.sql"
+    script(sql){
+      addOptionalParameter("login", login)
+    }
   }
 
   companion object {
