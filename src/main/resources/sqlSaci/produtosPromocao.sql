@@ -1,4 +1,6 @@
 DO @HOJE := CURRENT_DATE * 1;
+DO @CODIGO := :codigo;
+DO @PRDNO := LPAD(@CODIGO, 16, ' ');
 DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
 DO @CLNO := :clno;
@@ -25,7 +27,8 @@ FROM sqldados.prd          AS P
 	       ON P.mfno = V.no
 WHERE (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
   AND (P.mfno = @VENDNO OR @VENDNO = 0)
-  AND (P.typeno = @TYPENO OR @TYPENO = 0);
+  AND (P.typeno = @TYPENO OR @TYPENO = 0)
+  AND (P.no = @PRDNO OR @CODIGO = 0);
 
 DROP TEMPORARY TABLE IF EXISTS T_PRICE;
 CREATE TEMPORARY TABLE T_PRICE (

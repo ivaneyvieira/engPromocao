@@ -2,7 +2,6 @@ package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.localePtBr
 import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
 import br.com.astrosoft.promocao.model.beans.PrecoPromocao
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoCentroLucro
@@ -16,21 +15,17 @@ import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promoc
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoValidade
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoVendno
 import br.com.astrosoft.promocao.viewmodel.promocao.*
-import com.github.mvysny.karibudsl.v10.button
-import com.github.mvysny.karibudsl.v10.datePicker
 import com.github.mvysny.karibudsl.v10.integerField
-import com.github.mvysny.karibudsl.v10.numberField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.grid.Grid.SelectionMode.SINGLE
-import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
-import com.vaadin.flow.component.textfield.TextFieldVariant
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val viewModel: TabAbstractPromocaoViewModel<T>) :
         TabPanelGrid<PrecoPromocao>(PrecoPromocao::class), ITabAbstractPromocaoViewModel {
+  private lateinit var edtCodigo: IntegerField
   private lateinit var edtVend: IntegerField
   private lateinit var edtCl: IntegerField
   private lateinit var edtType: IntegerField
@@ -44,6 +39,13 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
   }
 
   override fun HorizontalLayout.toolBarConfig() {
+    edtCodigo = integerField("Código") {
+      this.valueChangeMode = TIMEOUT
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
     edtVend = integerField("Fornecedor") {
       this.valueChangeMode = TIMEOUT
       addValueChangeListener {
@@ -72,7 +74,8 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
 
   override fun isAuthorized(user: IUser) = true
 
-  override fun filtro() = FiltroPrecoPromocao(vendno = edtVend.value ?: 0,
+  override fun filtro() = FiltroPrecoPromocao(codigo = edtCodigo.value ?: 0,
+                                              vendno = edtVend.value ?: 0,
                                               clno = edtCl.value ?: 0,
                                               typeno = edtType.value ?: 0,
                                               tipoLista = viewModel.tipoTab)

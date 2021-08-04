@@ -40,7 +40,11 @@ class PrecoPromocao(val codigo: String,
   }
 }
 
-data class FiltroPrecoPromocao(val vendno: Int, val clno: Int, val typeno: Int, val tipoLista: List<ETipoListaPromocao>)
+data class FiltroPrecoPromocao(val codigo: Int,
+                               val vendno: Int,
+                               val clno: Int,
+                               val typeno: Int,
+                               val tipoLista: List<ETipoListaPromocao>)
 
 enum class ETipoListaPromocao {
   BASE, PROMOCAO

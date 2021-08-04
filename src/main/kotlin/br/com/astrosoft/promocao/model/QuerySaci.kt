@@ -46,6 +46,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   fun produtosPromocao(filtro: FiltroPrecoPromocao): List<PrecoPromocao> {
     val sql = "/sqlSaci/produtosPromocao.sql"
     return query(sql, PrecoPromocao::class) {
+      addOptionalParameter("codigo", filtro.codigo)
       addOptionalParameter("vendno", filtro.vendno)
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("typeno", filtro.typeno)
@@ -63,16 +64,16 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun desfazerPromocao(login : String) {
+  fun desfazerPromocao(login: String) {
     val sql = "/sqlSaci/desfazerPromocao.sql"
-    script(sql){
+    script(sql) {
       addOptionalParameter("login", login)
     }
   }
 
-  fun apagaMarcasPromocao(login : String) {
+  fun apagaMarcasPromocao(login: String) {
     val sql = "/sqlSaci/apagamMarcasPromocao.sql"
-    script(sql){
+    script(sql) {
       addOptionalParameter("login", login)
     }
   }
