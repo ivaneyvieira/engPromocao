@@ -1,7 +1,7 @@
 package br.com.astrosoft.promocao.model.beans
 
-import br.com.astrosoft.promocao.model.saci
 import br.com.astrosoft.framework.model.IUser
+import br.com.astrosoft.promocao.model.saci
 import kotlin.math.pow
 import kotlin.reflect.KProperty
 

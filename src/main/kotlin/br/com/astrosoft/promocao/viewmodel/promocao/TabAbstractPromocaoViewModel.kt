@@ -5,7 +5,7 @@ import br.com.astrosoft.promocao.model.beans.ETipoListaPromocao
 import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
 import br.com.astrosoft.promocao.model.beans.PrecoPromocao
 
-abstract class TabAbstractPromocaoViewModel<T : ITabAbstractPromocaoViewModel>(val viewModel: PromocaoViewModel) {
+sealed class TabAbstractPromocaoViewModel<T : ITabAbstractPromocaoViewModel>(val viewModel: PromocaoViewModel) {
   abstract val subView: T
   abstract val tipoTab: List<ETipoListaPromocao>
 
@@ -19,4 +19,5 @@ abstract class TabAbstractPromocaoViewModel<T : ITabAbstractPromocaoViewModel>(v
 interface ITabAbstractPromocaoViewModel : ITabView {
   fun filtro(): FiltroPrecoPromocao
   fun updateGrid(itens: List<PrecoPromocao>)
+  fun listSelected(): List<PrecoPromocao>
 }

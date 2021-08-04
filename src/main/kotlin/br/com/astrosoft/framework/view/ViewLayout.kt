@@ -50,7 +50,7 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
       setSizeFull()
       val tabs = viewModel.tabsAuthorized()
       tabs.forEach { tab ->
-        tabPanel(tab as ITabPanel)
+        tabPanel(tab)
       }
       tabs.firstOrNull()?.updateComponent()
     }

@@ -2,6 +2,8 @@ package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class PrecoPromocao(val codigo: String,
                     val descricao: String,
@@ -15,23 +17,26 @@ class PrecoPromocao(val codigo: String,
                     val fornecedor: String,
                     val typeno: Int,
                     val tipoProduto: String,
-                    val saldo: Int,
                     val origemPromocao: String) {
   companion object {
     fun find(filtro: FiltroPrecoPromocao) = saci.produtosPromocao(filtro)
+
+    fun marcaDesconto(list: List<PrecoPromocao>, desconto: Double, validade: LocalDate) {
+      val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+      val marca = LocalDateTime.now().format(formatter)
+      list.forEach { precoPromocao ->
+        saci.executaPromocao(precoPromocao.codigo, desconto, validade, marca)
+      }
+    }
+
+    fun desfazDesconto() {
+      saci.desfazerPromocao()
+    }
   }
 }
 
-data class FiltroPrecoPromocao(val vendno: Int,
-                               val clno: Int,
-                               val typeno: Int,
-                               val tipoSaldo: ETipoSaldo,
-                               val tipoLista: List<ETipoListaPromocao>)
+data class FiltroPrecoPromocao(val vendno: Int, val clno: Int, val typeno: Int, val tipoLista: List<ETipoListaPromocao>)
 
-enum class ETipoListaPromocao(val descricao: String) {
-  BASE("Base"), PROMOCAO("Promoção")
-}
-
-enum class ETipoSaldo(val descricao: String) {
-  SALDO("Com saldo"), ZERO("Sem Saldo"), TUDO("Tudo")
+enum class ETipoListaPromocao {
+  BASE, PROMOCAO
 }

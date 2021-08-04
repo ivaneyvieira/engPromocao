@@ -1,12 +1,14 @@
 package br.com.astrosoft.promocao.model
 
-import br.com.astrosoft.promocao.model.beans.Loja
-import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
+import br.com.astrosoft.framework.util.toSaciDate
 import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
+import br.com.astrosoft.promocao.model.beans.Loja
 import br.com.astrosoft.promocao.model.beans.PrecoPromocao
+import br.com.astrosoft.promocao.model.beans.UserSaci
+import java.time.LocalDate
 
 class QuerySaci : QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -41,15 +43,29 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun produtosPromocao(filtro : FiltroPrecoPromocao) : List<PrecoPromocao>{
+  fun produtosPromocao(filtro: FiltroPrecoPromocao): List<PrecoPromocao> {
     val sql = "/sqlSaci/produtosPromocao.sql"
-    return query(sql, PrecoPromocao::class){
+    return query(sql, PrecoPromocao::class) {
       addOptionalParameter("vendno", filtro.vendno)
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("typeno", filtro.typeno)
-      addOptionalParameter("saldo", filtro.tipoSaldo.name)
       addOptionalParameter("tipoLista", filtro.tipoLista.map { it.name })
     }
+  }
+
+  fun executaPromocao(codigo: String, desconto: Double, validade: LocalDate, marca: String) {
+    val sql = "/sqlSaci/executaPromocao.sql"
+    script(sql) {
+      addOptionalParameter("codigo", codigo)
+      addOptionalParameter("desconto", desconto)
+      addOptionalParameter("validade", validade.toSaciDate())
+      addOptionalParameter("marca", marca)
+    }
+  }
+
+  fun desfazerPromocao() {
+    val sql = "/sqlSaci/desfazerPromocao.sql"
+    script(sql)
   }
 
   companion object {

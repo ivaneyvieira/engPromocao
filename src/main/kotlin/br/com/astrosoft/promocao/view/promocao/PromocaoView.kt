@@ -10,7 +10,7 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-@Route(value="", layout = PromocaoLayout::class)
+@Route(value = "", layout = PromocaoLayout::class)
 @PageTitle("Promoção")
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class PromocaoView : ViewLayout<PromocaoViewModel>(), IPromocaoView {
@@ -18,7 +18,6 @@ class PromocaoView : ViewLayout<PromocaoViewModel>(), IPromocaoView {
   override val tabBaseViewModel = TabBase(viewModel.tabBaseViewModel)
   override val tabPromocaoViewModel = TabPromocao(viewModel.tabPromocaoViewModel)
   override val tabSemPromocaoViewModel = TabSemPromocao(viewModel.tabSemPromocaoViewModel)
-
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
