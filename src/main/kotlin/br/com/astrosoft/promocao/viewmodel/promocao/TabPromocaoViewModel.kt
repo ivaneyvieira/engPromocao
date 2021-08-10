@@ -1,6 +1,9 @@
 package br.com.astrosoft.promocao.viewmodel.promocao
 
+import br.com.astrosoft.framework.viewmodel.fail
 import br.com.astrosoft.promocao.model.beans.ETipoListaPromocao.PROMOCAO
+import br.com.astrosoft.promocao.model.beans.PrecoPromocao
+import java.time.LocalDate
 
 class TabPromocaoViewModel(viewModel: PromocaoViewModel) :
         TabAbstractPromocaoViewModel<ITabPromocaoViewModel>(viewModel) {
@@ -8,6 +11,29 @@ class TabPromocaoViewModel(viewModel: PromocaoViewModel) :
     get() = viewModel.view.tabPromocaoViewModel
   override val tipoTab
     get() = listOf(PROMOCAO)
+
+  private fun validade(): LocalDate {
+    val validade = subView.validade() ?: fail("Validade não informado")
+
+    if (validade.isBefore(LocalDate.now())) {
+      fail("Data de validade inválida")
+    }
+    return validade
+  }
+
+  fun prorrogaValidade() = viewModel.exec {
+    val validade = validade()
+
+    val list = subView.listSelected().ifEmpty { fail("Não há produtos selecionados") }
+
+    PrecoPromocao.prorrogaDesconto(list, validade)
+
+    subView.updateComponent()
+
+    viewModel.showInformation("Operação realizada com sucesso")
+  }
 }
 
-interface ITabPromocaoViewModel : ITabAbstractPromocaoViewModel
+interface ITabPromocaoViewModel : ITabAbstractPromocaoViewModel {
+  fun validade(): LocalDate?
+}

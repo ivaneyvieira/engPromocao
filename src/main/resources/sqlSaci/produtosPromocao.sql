@@ -37,7 +37,8 @@ CREATE TEMPORARY TABLE T_PRICE (
 SELECT V.prdno                                                            AS prdno,
        CAST(IF(V.promo_validate < @HOJE, NULL, V.promo_validate) AS DATE) AS validade,
        ROUND(V.refprice / 100, 2)                                         AS refPrice,
-       ROUND(IF(V.promo_validate < @HOJE, NULL, V.promo_price) / 100, 2)  AS promoPrice
+       ROUND(IF(V.promo_validate < @HOJE, NULL, V.promo_price) / 100, 2)  AS promoPrice,
+       V.c4                                                               AS login
 FROM sqldados.prp  AS V
   INNER JOIN T_PRD AS P
 	       ON P.prdno = V.prdno AND V.storeno = 10;
@@ -54,7 +55,8 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
        fornecedor                                              AS fornecedor,
        P.typeno                                                AS typeno,
        P.tipo                                                  AS tipoProduto,
-       IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE')        AS origemPromocao
+       IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE')        AS origemPromocao,
+       V.login                                                 AS login
 FROM T_PRD           AS P
   INNER JOIN T_PRICE AS V
 	       USING (prdno)

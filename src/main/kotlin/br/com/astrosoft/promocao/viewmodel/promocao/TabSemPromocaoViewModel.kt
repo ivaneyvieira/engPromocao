@@ -7,14 +7,14 @@ import java.time.LocalDate
 
 class TabSemPromocaoViewModel(viewModel: PromocaoViewModel) :
         TabAbstractPromocaoViewModel<ITabSemPromocaoViewModel>(viewModel) {
-  fun executaDesconto()= viewModel.exec {
+  fun executaDesconto() = viewModel.exec {
     val desconto = desconto()
 
     val validade = validade()
 
     val list = subView.listSelected().ifEmpty { fail("Não há produtos selecionados") }
 
-    PrecoPromocao.marcaDesconto(list, desconto, validade)
+    PrecoPromocao.executaDesconto(list, desconto, validade)
 
     subView.updateComponent()
 
@@ -39,21 +39,13 @@ class TabSemPromocaoViewModel(viewModel: PromocaoViewModel) :
     return desconto
   }
 
-  fun desfazDesconto() = viewModel.exec{
-    PrecoPromocao.desfazDesconto()
-
-    subView.updateComponent()
-
-    viewModel.showInformation("Operação realizada com sucesso")
-  }
-
   override val subView
     get() = viewModel.view.tabSemPromocaoViewModel
   override val tipoTab
     get() = listOf(BASE)
 }
 
-interface ITabSemPromocaoViewModel : ITabAbstractPromocaoViewModel{
-  fun desconto() : Double?
+interface ITabSemPromocaoViewModel : ITabAbstractPromocaoViewModel {
+  fun desconto(): Double?
   fun validade(): LocalDate?
 }

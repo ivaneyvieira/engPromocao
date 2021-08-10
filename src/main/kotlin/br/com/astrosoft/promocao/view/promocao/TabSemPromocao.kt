@@ -1,7 +1,6 @@
 package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.view.localePtBr
-import br.com.astrosoft.promocao.model.beans.PrecoPromocao
 import br.com.astrosoft.promocao.viewmodel.promocao.ITabSemPromocaoViewModel
 import br.com.astrosoft.promocao.viewmodel.promocao.TabSemPromocaoViewModel
 import com.github.mvysny.karibudsl.v10.button
@@ -15,8 +14,8 @@ import com.vaadin.flow.component.textfield.NumberField
 import com.vaadin.flow.component.textfield.TextFieldVariant
 import java.time.LocalDate
 
-class TabSemPromocao(override val viewModel: TabSemPromocaoViewModel) : TabAbstractPromocao<ITabSemPromocaoViewModel>(viewModel),
-        ITabSemPromocaoViewModel {
+class TabSemPromocao(override val viewModel: TabSemPromocaoViewModel) :
+        TabAbstractPromocao<ITabSemPromocaoViewModel>(viewModel), ITabSemPromocaoViewModel {
   private lateinit var edtValidade: DatePicker
   private lateinit var edtDesconto: NumberField
 
@@ -28,13 +27,13 @@ class TabSemPromocao(override val viewModel: TabSemPromocaoViewModel) : TabAbstr
     get() = "Sem Promocao"
 
   override fun HorizontalLayout.addAditionaisFields() {
-     edtDesconto = numberField("% Desconto") {
+    edtDesconto = numberField("% Desconto") {
       addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT)
       min = 0.00
       max = 100.00
       value = 0.00
     }
-     edtValidade = datePicker("Validade") {
+    edtValidade = datePicker("Validade") {
       this.localePtBr()
     }
     button("Executa") {
@@ -42,13 +41,6 @@ class TabSemPromocao(override val viewModel: TabSemPromocaoViewModel) : TabAbstr
 
       onLeftClick {
         viewModel.executaDesconto()
-      }
-    }
-    button("Desfaz") {
-      this.icon = VaadinIcon.ARROW_BACKWARD.create()
-
-      onLeftClick {
-        viewModel.desfazDesconto()
       }
     }
   }

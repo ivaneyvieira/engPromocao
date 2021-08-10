@@ -3,8 +3,6 @@ package br.com.astrosoft.promocao.model.beans
 import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class PrecoPromocao(val codigo: String,
                     val descricao: String,
@@ -18,24 +16,32 @@ class PrecoPromocao(val codigo: String,
                     val fornecedor: String,
                     val typeno: Int,
                     val tipoProduto: String,
-                    val origemPromocao: String) {
+                    val origemPromocao: String,
+                    val login: String) {
   companion object {
     fun find(filtro: FiltroPrecoPromocao) = saci.produtosPromocao(filtro)
 
-    fun marcaDesconto(list: List<PrecoPromocao>, desconto: Double, validade: LocalDate) {
+    fun prorrogaDesconto(list: List<PrecoPromocao>, validade: LocalDate) {
       val login = Config.user?.login ?: "ADM"
-      saci.apagaMarcasPromocao(login)
 
-      val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-      val marca = LocalDateTime.now().format(formatter) + Config.user?.login
       list.forEach { precoPromocao ->
-        saci.executaPromocao(precoPromocao.codigo, desconto, validade, marca)
+        saci.prorrogaPromocao(precoPromocao.codigo, validade, login)
       }
     }
 
-    fun desfazDesconto() {
+    fun executaDesconto(list: List<PrecoPromocao>, desconto: Double, validade: LocalDate) {
       val login = Config.user?.login ?: "ADM"
-      saci.desfazerPromocao(login)
+
+      list.forEach { precoPromocao ->
+        saci.executaPromocao(precoPromocao.codigo, desconto, validade, login)
+      }
+    }
+
+    fun desfazDesconto(list: List<PrecoPromocao>) {
+      val login = Config.user?.login ?: "ADM"
+      list.forEach { precoPromocao ->
+        saci.desfazPromocao(precoPromocao.codigo, login)
+      }
     }
   }
 }

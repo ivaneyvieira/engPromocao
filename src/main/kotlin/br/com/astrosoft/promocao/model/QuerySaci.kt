@@ -54,27 +54,30 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun executaPromocao(codigo: String, desconto: Double, validade: LocalDate, marca: String) {
+  fun prorrogaPromocao(codigo: String, validade: LocalDate, login: String) {
+    val sql = "/sqlSaci/prorrogaPromocao.sql"
+    script(sql) {
+      addOptionalParameter("codigo", codigo)
+      addOptionalParameter("validade", validade.toSaciDate())
+      addOptionalParameter("login", login)
+    }
+  }
+
+  fun executaPromocao(codigo: String, desconto: Double, validade: LocalDate, login: String) {
     val sql = "/sqlSaci/executaPromocao.sql"
     script(sql) {
       addOptionalParameter("codigo", codigo)
       addOptionalParameter("desconto", desconto)
       addOptionalParameter("validade", validade.toSaciDate())
-      addOptionalParameter("marca", marca)
+      addOptionalParameter("login", login)
     }
   }
 
-  fun desfazerPromocao(login: String) {
+  fun desfazPromocao(codigo: String, login: String) {
     val sql = "/sqlSaci/desfazerPromocao.sql"
     script(sql) {
       addOptionalParameter("login", login)
-    }
-  }
-
-  fun apagaMarcasPromocao(login: String) {
-    val sql = "/sqlSaci/apagamMarcasPromocao.sql"
-    script(sql) {
-      addOptionalParameter("login", login)
+      addOptionalParameter("codigo", codigo)
     }
   }
 
