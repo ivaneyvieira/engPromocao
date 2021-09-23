@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
 import br.com.astrosoft.promocao.model.beans.PrecoPromocao
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoCentroLucro
@@ -83,8 +84,14 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
   override fun Grid<PrecoPromocao>.gridPanel() {
     when (viewModel) {
       is TabBaseViewModel        -> setSelectionMode(SINGLE)
-      is TabPromocaoViewModel    -> setSelectionMode(MULTI)
-      is TabSemPromocaoViewModel -> setSelectionMode(MULTI)
+      is TabPromocaoViewModel    -> {
+        setSelectionMode(MULTI)
+        this.shiftSelect()
+      }
+      is TabSemPromocaoViewModel -> {
+        setSelectionMode(MULTI)
+        this.shiftSelect()
+      }
     }
 
     promocaoCodigo()
