@@ -4,6 +4,13 @@ DO @PRDNO := LPAD(@CODIGO, 16, ' ');
 DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
 DO @CLNO := :clno;
+DO @CLNF := CASE
+	      WHEN @CLNO LIKE '%0000'
+		THEN CONCAT(MID(@CLNO, 1, 2), '9999')
+	      WHEN @CLNO LIKE '%00'
+		THEN CONCAT(MID(@CLNO, 1, 4), '99')
+	      ELSE @CLNO
+	    END;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
@@ -25,7 +32,7 @@ FROM sqldados.prd          AS P
 	       ON P.typeno = T.no
   INNER JOIN sqldados.vend AS V
 	       ON P.mfno = V.no
-WHERE (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
+WHERE (P.clno BETWEEN @CLNO AND @CLNF OR @CLNO = 0)
   AND (P.mfno = @VENDNO OR @VENDNO = 0)
   AND (P.typeno = @TYPENO OR @TYPENO = 0)
   AND (P.no = @PRDNO OR @CODIGO = 0);
