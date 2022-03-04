@@ -3,7 +3,7 @@ DO @CODIGO := :codigo;
 DO @PRDNO := LPAD(@CODIGO, 16, ' ');
 DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
-DO @CLNO := :clno;
+DO @CLNO := LPAD(:clno, 6, '0');
 DO @CLNF := CASE
 	      WHEN @CLNO LIKE '%0000'
 		THEN CONCAT(MID(@CLNO, 1, 2), '9999')
