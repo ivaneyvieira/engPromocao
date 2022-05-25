@@ -20,8 +20,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     registerDriver(driver)
     val maps = HashMap<Class<*>, Converter<*>>()
     maps[LocalDate::class.java] = LocalDateConverter()
-    maps[LocalTime::class.java] = LocalSqlTimeConverter()
-    maps[ByteArray::class.java] = ByteArrayConverter()
+    maps[LocalTime::class.java] = LocalSqlTimeConverter() //maps[ByteArray::class.java] = ByteArraySQLConverter()
     this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
   }
 

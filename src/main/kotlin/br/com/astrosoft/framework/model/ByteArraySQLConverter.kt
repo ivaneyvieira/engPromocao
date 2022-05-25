@@ -7,7 +7,7 @@ import java.io.InputStream
 import java.sql.Blob
 import java.sql.SQLException
 
-class ByteArrayConverter : ConverterBase<ByteArray>() {
+class ByteArraySQLConverter : ConverterBase<ByteArray>() {
   @Throws(ConverterException::class)
   override fun convert(value: Any): ByteArray? {
     if (value is Blob) {
