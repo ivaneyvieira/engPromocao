@@ -4,10 +4,7 @@ import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.toSaciDate
-import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
-import br.com.astrosoft.promocao.model.beans.Loja
-import br.com.astrosoft.promocao.model.beans.PrecoPromocao
-import br.com.astrosoft.promocao.model.beans.UserSaci
+import br.com.astrosoft.promocao.model.beans.*
 import java.time.LocalDate
 
 class QuerySaci : QueryDB(driver, url, username, password) {
@@ -78,6 +75,14 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     script(sql) {
       addOptionalParameter("login", login)
       addOptionalParameter("codigo", codigo)
+    }
+  }
+
+  fun consultaValidade(tipo: ETipoDiferencaGarantia): List<ComparaValidade> {
+    val sql = "sqlSaci/consultaValidade.sql"
+
+    return query(sql, ComparaValidade::class) {
+      addOptionalParameter("tipo", tipo.num)
     }
   }
 

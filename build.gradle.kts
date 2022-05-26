@@ -103,3 +103,9 @@ vaadin {
   pnpmEnable = false
   productionMode = true
 }
+
+tasks {
+  withType<Copy> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  }
+}
