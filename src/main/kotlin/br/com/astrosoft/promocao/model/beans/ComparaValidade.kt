@@ -2,9 +2,10 @@ package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.promocao.model.saci
 
-class ComparaValidade(val codigo: String,
+class ComparaValidade(val codigo: Int,
                       val prdno: String,
                       val descricao: String,
+                      val estoque: Int,
                       val validade_descricao: Int,
                       val validade_cadastro: Int,
                       val diferenca: Int,

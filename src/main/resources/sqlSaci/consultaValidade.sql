@@ -7,7 +7,7 @@ SELECT prdno,
        TRIM(MID(name, 61, 100)) AS linha2
 FROM sqldados.prdnam
 WHERE name LIKE '%VAL%'
-HAVING linha2 LIKE 'VAL%M';
+HAVING linha2 LIKE '%VAL%M%';
 
 DROP TEMPORARY TABLE IF EXISTS T_VALNAME;
 CREATE TEMPORARY TABLE T_VALNAME (
@@ -38,17 +38,31 @@ DISTINCT
 SELECT prdno
 FROM T_VALCAD;
 
+DROP TEMPORARY TABLE IF EXISTS T_SALDO;
+CREATE TEMPORARY TABLE T_SALDO (
+  PRIMARY KEY (prdno)
+)
+SELECT prdno, SUM(qtty_varejo / 1000) AS saldo
+FROM sqldados.stk     AS S
+  INNER JOIN T_MESTRE AS M
+	       USING (prdno)
+WHERE S.storeno IN (2, 3, 4, 5, 6, 7)
+GROUP BY prdno;
+
 DROP TEMPORARY TABLE IF EXISTS T_VALCOMPARA;
 CREATE TEMPORARY TABLE T_VALCOMPARA
-SELECT TRIM(M.prdno)              AS codigo,
+SELECT TRIM(M.prdno) * 1          AS codigo,
        M.prdno                    AS prdno,
        TRIM(MID(P.name, 1, 37))   AS descricao,
+       IFNULL(saldo, 0)           AS estoque,
        IFNULL(N.validade, 0)      AS validade_descricao,
        IFNULL(C.mesesValidade, 0) AS validade_cadastro
 FROM T_MESTRE             AS M
   LEFT JOIN  T_VALNAME    AS N
 	       USING (prdno)
   LEFT JOIN  T_VALCAD     AS C
+	       USING (prdno)
+  LEFT JOIN  T_SALDO      AS S
 	       USING (prdno)
   INNER JOIN sqldados.prd AS P
 	       ON P.no = M.prdno;
@@ -58,6 +72,7 @@ CREATE TEMPORARY TABLE T_VALCOMPARA_NUM
 SELECT codigo,
        prdno,
        descricao,
+       estoque,
        validade_descricao,
        validade_cadastro,
        validade_descricao - validade_cadastro AS diferenca,
@@ -76,6 +91,7 @@ ORDER BY tipo, diferenca;
 SELECT codigo,
        prdno,
        descricao,
+       estoque,
        validade_descricao,
        validade_cadastro,
        diferenca,

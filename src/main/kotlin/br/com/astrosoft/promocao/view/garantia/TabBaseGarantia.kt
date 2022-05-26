@@ -7,6 +7,7 @@ import br.com.astrosoft.promocao.model.beans.ETipoDiferencaGarantia
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaCodigo
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaDescicao
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaDiferenca
+import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaEstoque
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaTipoDiferenca
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaValidadeCad
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaValidadeDesc
@@ -55,6 +56,7 @@ class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<Co
   override fun Grid<ComparaValidade>.gridPanel() {
     garantiaCodigo()
     garantiaDescicao()
+    garantiaEstoque()
     garantiaValidadeDesc()
     garantiaValidadeCad()
     garantiaDiferenca()
