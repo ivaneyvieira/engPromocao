@@ -6,11 +6,6 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.view.PromocaoLayout
-import br.com.astrosoft.promocao.view.promocao.TabBase
-import br.com.astrosoft.promocao.view.promocao.TabPromocao
-import br.com.astrosoft.promocao.view.promocao.TabSemPromocao
-import br.com.astrosoft.promocao.viewmodel.promocao.IPromocaoView
-import br.com.astrosoft.promocao.viewmodel.promocao.PromocaoViewModel
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route

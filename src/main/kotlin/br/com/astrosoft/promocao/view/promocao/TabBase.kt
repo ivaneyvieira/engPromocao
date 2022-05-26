@@ -9,6 +9,5 @@ class TabBase(viewModel: TabBaseViewModel) : TabAbstractPromocao<ITabBaseViewMod
     get() = "Base"
 
   override fun HorizontalLayout.addAditionaisFields() {
-
   }
 }
