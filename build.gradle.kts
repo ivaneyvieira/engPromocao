@@ -104,8 +104,3 @@ vaadin {
   productionMode = true
 }
 
-tasks {
-  withType<Copy> {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-  }
-}

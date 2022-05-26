@@ -45,6 +45,11 @@ class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) :
       this.setItems(ETipoDiferencaGarantia.values().toList())
       this.isAutoOpen = true
       this.isAllowCustomValue = false
+      this.value = ETipoDiferencaGarantia.TODOS
+      this.width = "250px"
+      this.setItemLabelGenerator {
+        it.descricao
+      }
 
       this.addValueChangeListener {
         viewModel.updateView()

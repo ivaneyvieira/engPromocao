@@ -15,8 +15,8 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-@Route(value = "", layout = PromocaoLayout::class)
-@PageTitle("Promoção")
+@Route(value = "garantia", layout = PromocaoLayout::class)
+@PageTitle("Garantia")
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class GarantiaView : ViewLayout<GarantiaViewModel>(), IGarantiaView {
   override val viewModel: GarantiaViewModel = GarantiaViewModel(this)

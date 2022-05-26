@@ -81,4 +81,4 @@ SELECT codigo,
        diferenca,
        tipo
 FROM T_VALCOMPARA_NUM
-WHERE tipo = :tipo
+WHERE (tipo = :tipo OR :tipo = 0)

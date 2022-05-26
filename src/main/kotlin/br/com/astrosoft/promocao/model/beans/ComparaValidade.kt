@@ -25,5 +25,5 @@ enum class ETipoDiferencaGarantia(val num: Int, val descricao: String) {
   DIFCAD(2, "Sem validade cadastro"),
   DIFDESC(3, "Sem validade descricao"),
   DIFTUDO(4, "Validade Diferente"),
-  TODOS(5, "Todos")
+  TODOS(0, "Todos")
 }
