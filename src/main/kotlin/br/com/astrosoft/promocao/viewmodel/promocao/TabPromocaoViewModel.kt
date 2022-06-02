@@ -1,8 +1,10 @@
 package br.com.astrosoft.promocao.viewmodel.promocao
 
+import br.com.astrosoft.framework.viewmodel.exec
 import br.com.astrosoft.framework.viewmodel.fail
 import br.com.astrosoft.promocao.model.beans.ETipoListaPromocao.PROMOCAO
 import br.com.astrosoft.promocao.model.beans.PrecoPromocao
+import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 
 class TabPromocaoViewModel(viewModel: PromocaoViewModel) :
@@ -31,6 +33,17 @@ class TabPromocaoViewModel(viewModel: PromocaoViewModel) :
     subView.updateComponent()
 
     viewModel.showInformation("Operação realizada com sucesso")
+  }
+
+  fun modificaData(dataNew: LocalDate?, dataOld: LocalDate?) = viewModel.exec {
+    dataNew ?: fail("Data Não informada")
+    dataOld ?: fail("Data Não informada")
+
+    val filtro = subView.filtro()
+    val resultList = PrecoPromocao.find(filtro)
+
+    saci.modificaData(resultList, dataOld, dataNew)
+    updateView()
   }
 }
 

@@ -30,5 +30,12 @@ class TabPromocao(override val viewModel: TabPromocaoViewModel) : TabAbstractPro
         viewModel.prorrogaValidade()
       }
     }
+
+    button("Mudar data") {
+      onLeftClick {
+        val dialog = DialogDatas(viewModel)
+        dialog.open()
+      }
+    }
   }
 }
