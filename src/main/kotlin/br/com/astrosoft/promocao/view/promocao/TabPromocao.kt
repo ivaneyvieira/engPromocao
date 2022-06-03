@@ -33,8 +33,15 @@ class TabPromocao(override val viewModel: TabPromocaoViewModel) : TabAbstractPro
 
     button("Mudar data") {
       onLeftClick {
-        val dialog = DialogDatas(viewModel)
-        dialog.open()
+        val itens = itensSelecionados()
+        if (itens.isEmpty()) {
+          showErro("Nenhum item selecionado")
+        }
+        else {
+          val validade= itens.firstOrNull()?.validade
+          val dialog = DialogDatas(viewModel, validade)
+          dialog.open()
+        }
       }
     }
   }
