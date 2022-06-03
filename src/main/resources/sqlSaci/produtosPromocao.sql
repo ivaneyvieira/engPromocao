@@ -68,3 +68,4 @@ FROM T_PRD           AS P
   INNER JOIN T_PRICE AS V
 	       USING (prdno)
 WHERE IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE') IN (:tipoLista)
+AND if(:decimal99 = 'S', ROUND(refPrice*100 - truncate(refPrice,0)*100) = 99 , true)

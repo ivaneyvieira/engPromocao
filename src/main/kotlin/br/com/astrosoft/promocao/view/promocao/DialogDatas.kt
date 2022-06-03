@@ -9,7 +9,7 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import java.time.LocalDate
 
-class DialogDatas(val viewModel: TabPromocaoViewModel, val validade : LocalDate?) : Dialog() {
+class DialogDatas(val viewModel: TabPromocaoViewModel, val validade: LocalDate?) : Dialog() {
   private lateinit var dataNew: DatePicker
   private lateinit var dataOld: DatePicker
 
@@ -45,10 +45,7 @@ class DialogDatas(val viewModel: TabPromocaoViewModel, val validade : LocalDate?
         button("Confirma") {
           addThemeVariants(ButtonVariant.LUMO_PRIMARY)
           onLeftClick {
-            viewModel.modificaData(
-              dataNew = dataNew.value,
-              dataOld = dataOld.value
-                                  )
+            viewModel.modificaData(dataNew = dataNew.value, dataOld = dataOld.value)
             this@DialogDatas.close()
           }
         }

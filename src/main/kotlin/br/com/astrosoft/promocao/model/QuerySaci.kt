@@ -47,6 +47,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("vendno", filtro.vendno)
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("typeno", filtro.typeno)
+      addOptionalParameter("decimal99", filtro.decimal99)
       addOptionalParameter("tipoLista", filtro.tipoLista.map { it.name })
     }
   }
@@ -86,10 +87,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun modificaData(resultList : List<PrecoPromocao>, dataOld: LocalDate, dataNew: LocalDate) {
+  fun modificaData(resultList: List<PrecoPromocao>, dataOld: LocalDate, dataNew: LocalDate) {
     val sql = "/sqlSaci/updateDatas.sql"
-    resultList.forEach {preco ->
-      script(sql){
+    resultList.forEach { preco ->
+      script(sql) {
         addOptionalParameter("dataOld", dataOld.toSaciDate())
         addOptionalParameter("dataNew", dataNew.toSaciDate())
         addOptionalParameter("codigo", preco.codigo)

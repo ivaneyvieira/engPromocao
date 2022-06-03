@@ -16,6 +16,7 @@ import com.vaadin.flow.router.Route
 class PromocaoView : ViewLayout<PromocaoViewModel>(), IPromocaoView {
   override val viewModel: PromocaoViewModel = PromocaoViewModel(this)
   override val tabBaseViewModel = TabBase(viewModel.tabBaseViewModel)
+  override val tab99ViewModel = Tab99(viewModel.tab99ViewModel)
   override val tabPromocaoViewModel = TabPromocao(viewModel.tabPromocaoViewModel)
   override val tabSemPromocaoViewModel = TabSemPromocao(viewModel.tabSemPromocaoViewModel)
 

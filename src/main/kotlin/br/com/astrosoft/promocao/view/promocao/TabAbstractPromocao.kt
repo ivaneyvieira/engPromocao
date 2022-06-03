@@ -108,7 +108,8 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
                                               vendno = edtVend.value ?: 0,
                                               clno = edtCl.value ?: 0,
                                               typeno = edtType.value ?: 0,
-                                              tipoLista = viewModel.tipoTab)
+                                              tipoLista = viewModel.tipoTab,
+                                              decimal99 = "N")
 
   override fun Grid<PrecoPromocao>.gridPanel() {
     when (viewModel) {
