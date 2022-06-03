@@ -54,7 +54,7 @@ abstract class TabPanelGrid<T : Any>(classGrid: KClass<T>) : VerticalLayout() {
 
   fun itensSelecionados() = gridPanel.selectedItems.toList()
 
-  fun showErro(msg : String?){
+  fun showErro(msg: String?) {
     val notification = Notification()
     notification.addThemeVariants(NotificationVariant.LUMO_ERROR)
 

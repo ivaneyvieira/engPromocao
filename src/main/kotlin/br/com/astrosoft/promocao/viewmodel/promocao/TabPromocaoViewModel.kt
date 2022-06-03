@@ -1,6 +1,5 @@
 package br.com.astrosoft.promocao.viewmodel.promocao
 
-import br.com.astrosoft.framework.viewmodel.exec
 import br.com.astrosoft.framework.viewmodel.fail
 import br.com.astrosoft.promocao.model.beans.ETipoListaPromocao.PROMOCAO
 import br.com.astrosoft.promocao.model.beans.PrecoPromocao

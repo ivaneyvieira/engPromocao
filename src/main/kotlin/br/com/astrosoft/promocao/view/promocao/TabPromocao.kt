@@ -38,7 +38,7 @@ class TabPromocao(override val viewModel: TabPromocaoViewModel) : TabAbstractPro
           showErro("Nenhum item selecionado")
         }
         else {
-          val validade= itens.firstOrNull()?.validade
+          val validade = itens.firstOrNull()?.validade
           val dialog = DialogDatas(viewModel, validade)
           dialog.open()
         }
