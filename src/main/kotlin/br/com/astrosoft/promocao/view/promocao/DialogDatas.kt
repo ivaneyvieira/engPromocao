@@ -7,8 +7,9 @@ import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.orderedlayout.FlexComponent
+import java.time.LocalDate
 
-class DialogDatas(val viewModel: TabPromocaoViewModel) : Dialog() {
+class DialogDatas(val viewModel: TabPromocaoViewModel, val validade : LocalDate?) : Dialog() {
   private lateinit var dataNew: DatePicker
   private lateinit var dataOld: DatePicker
 
@@ -29,11 +30,13 @@ class DialogDatas(val viewModel: TabPromocaoViewModel) : Dialog() {
       verticalLayout {
         isSpacing = false
         isPadding = false
-        setAlignItems(FlexComponent.Alignment.STRETCH)
+        alignItems = FlexComponent.Alignment.STRETCH
         dataOld = datePicker("Data") {
+          value = validade
           this.localePtBr()
         }
         dataNew = datePicker("Data Nova") {
+          value = validade
           this.localePtBr()
         }
       }
