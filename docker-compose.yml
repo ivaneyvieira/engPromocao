@@ -1,7 +1,7 @@
 version: "3"
 services:
   engecopi_promo:
-    image: tomcat:8
+    image: tomcat:8.5
     container_name: eng_promo
     ports:
       - "8030:8080"

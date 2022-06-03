@@ -1,0 +1,7 @@
+Found orphan containers (eng_pedido_prdecomerce, eng_pedido_link, eng_pedido_retira, est_engecopi, eng_produto, engecopiApp, eng_pedido_entrega2, eng_ter_fornecedor, eng_print_pedido, eng_transferencia, eng_dev_fornecedor, eng_fornecedor) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up.
+Pulling engecopi_promo (tomcat:8.5)...
+8.5: Pulling from library/tomcat
+Digest: sha256:421c2a2c73f3e339c787beaacde0f7bbc30bba957ec653d41a77d08144c6a028
+Status: Downloaded newer image for tomcat:8.5
+Creating eng_promo ... 
+[1A[2KCreating eng_promo ... [32mdone[0m[1B
