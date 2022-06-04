@@ -126,10 +126,10 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
 
     promocaoCodigo()
     promocaoDescricao()
-    promocaoValidade()
     promocaoPrecoRef()
-    promocaoDesconto()
     promocaoPrecoPromocional()
+    promocaoDesconto()
+    promocaoValidade()
     promocaoVendno()
     promocaoFornecedor()
     promocaoTipoProduto()
