@@ -2,28 +2,26 @@ package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.shiftSelect
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoCentroLucro
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoCodigo
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoDesconto
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoDescricao
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoFornecedor
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoPrecoPromocional
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoPrecoRef
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoTipoProduto
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoValidade
+import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoVendno
 import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
 import br.com.astrosoft.promocao.model.beans.PrecoPromocao
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaPromocao
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoCentroLucro
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoCodigo
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoDesconto
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoDescricao
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoFornecedor
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoPrecoPromocional
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoPrecoRef
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoTipoProduto
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoValidade
-import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoVendno
-import br.com.astrosoft.promocao.viewmodel.promocao.*
+import br.com.astrosoft.promocao.viewmodel.preco.ITabAbstractPrecoViewModel
+import br.com.astrosoft.promocao.viewmodel.preco.TabAbstractPrecoViewModel
 import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.tooltip
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
-import com.vaadin.flow.component.grid.Grid.SelectionMode.SINGLE
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
@@ -33,8 +31,8 @@ import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val viewModel: TabAbstractPromocaoViewModel<T>) :
-        TabPanelGrid<PrecoPromocao>(PrecoPromocao::class), ITabAbstractPromocaoViewModel {
+abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewModel: TabAbstractPrecoViewModel<T>) :
+        TabPanelGrid<PrecoPromocao>(PrecoPromocao::class), ITabAbstractPrecoViewModel {
   private lateinit var edtCodigo: IntegerField
   private lateinit var edtVend: IntegerField
   private lateinit var edtCl: IntegerField
@@ -112,27 +110,19 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
                                               decimal99 = "N")
 
   override fun Grid<PrecoPromocao>.gridPanel() {
-    when (viewModel) {
-      is TabBasePromocaoViewModel -> setSelectionMode(SINGLE)
-      is TabPromocaoViewModel     -> {
-        setSelectionMode(MULTI)
-        this.shiftSelect()
-      }
-      is TabSemPromocaoViewModel  -> {
-        setSelectionMode(MULTI)
-        this.shiftSelect()
-      }
-    }
+    setSelectionMode(Grid.SelectionMode.SINGLE)
 
-    promocaoCodigo()
-    promocaoDescricao()
-    promocaoPrecoRef()
-    promocaoPrecoPromocional()
-    promocaoDesconto()
-    promocaoValidade()
-    promocaoVendno()
-    promocaoFornecedor()
-    promocaoTipoProduto()
-    promocaoCentroLucro()
+    precoCodigo()
+    precoDescricao()
+    precoPrecoRef()
+    precoPrecoPromocional()
+    precoDesconto()
+    precoValidade()
+    precoVendno()
+    precoFornecedor()
+    precoTipoProduto()
+    precoCentroLucro()
   }
 }
+
+

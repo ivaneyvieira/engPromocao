@@ -1,13 +1,13 @@
-package br.com.astrosoft.promocao.viewmodel.promocao
+package br.com.astrosoft.promocao.viewmodel.preco
 
 import br.com.astrosoft.promocao.model.beans.ETipoListaPromocao.BASE
 import br.com.astrosoft.promocao.model.beans.ETipoListaPromocao.PROMOCAO
 
-class TabBaseViewModel(viewModel: PromocaoViewModel) : TabAbstractPromocaoViewModel<ITabBaseViewModel>(viewModel) {
+class TabBasePrecoViewModel(viewModel: PrecoViewModel) : TabAbstractPrecoViewModel<ITabBasePrecoViewModel>(viewModel) {
   override val subView
     get() = viewModel.view.tabBaseViewModel
   override val tipoTab
     get() = listOf(BASE, PROMOCAO)
 }
 
-interface ITabBaseViewModel : ITabAbstractPromocaoViewModel
+interface ITabBasePrecoViewModel : ITabAbstractPrecoViewModel
