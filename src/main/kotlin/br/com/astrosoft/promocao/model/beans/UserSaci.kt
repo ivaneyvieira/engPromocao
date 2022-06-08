@@ -17,6 +17,7 @@ class UserSaci : IUser {
   override var ativo by DelegateAuthorized(0)
   val menuPromocao by DelegateAuthorized(1)
   val menuGarantia by DelegateAuthorized(2)
+  val menuPreco by DelegateAuthorized(3)
 
   override val admin
     get() = login == "ADM"

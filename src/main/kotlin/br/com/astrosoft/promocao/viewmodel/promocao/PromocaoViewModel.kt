@@ -4,7 +4,7 @@ import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 
 class PromocaoViewModel(view: IPromocaoView) : ViewModel<IPromocaoView>(view) {
-  val tabBaseViewModel = TabBaseViewModel(this)
+  val tabBaseViewModel = TabBasePromocaoViewModel(this)
   val tab99ViewModel = Tab99ViewModel(this)
   val tabPromocaoViewModel = TabPromocaoViewModel(this)
   val tabSemPromocaoViewModel = TabSemPromocaoViewModel(this)
@@ -14,7 +14,7 @@ class PromocaoViewModel(view: IPromocaoView) : ViewModel<IPromocaoView>(view) {
 }
 
 interface IPromocaoView : IView {
-  val tabBaseViewModel: ITabBaseViewModel
+  val tabBaseViewModel: ITabBasePromocaoViewModel
   val tab99ViewModel: ITab99ViewModel
   val tabPromocaoViewModel: ITabPromocaoViewModel
   val tabSemPromocaoViewModel: ITabSemPromocaoViewModel

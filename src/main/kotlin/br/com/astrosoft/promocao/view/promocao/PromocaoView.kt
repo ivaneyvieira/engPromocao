@@ -15,7 +15,7 @@ import com.vaadin.flow.router.Route
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class PromocaoView : ViewLayout<PromocaoViewModel>(), IPromocaoView {
   override val viewModel: PromocaoViewModel = PromocaoViewModel(this)
-  override val tabBaseViewModel = TabBase(viewModel.tabBaseViewModel)
+  override val tabBaseViewModel = TabBasePromocao(viewModel.tabBaseViewModel)
   override val tab99ViewModel = Tab99(viewModel.tab99ViewModel)
   override val tabPromocaoViewModel = TabPromocao(viewModel.tabPromocaoViewModel)
   override val tabSemPromocaoViewModel = TabSemPromocao(viewModel.tabSemPromocaoViewModel)
