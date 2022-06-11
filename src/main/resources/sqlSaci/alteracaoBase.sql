@@ -1,3 +1,5 @@
+USE sqldados;
+
 DO @HOJE := CURRENT_DATE * 1;
 DO @CODIGO := :codigo;
 DO @PRDNO := LPAD(@CODIGO, 16, ' ');
@@ -11,6 +13,7 @@ DO @CLNF := CASE
 		THEN CONCAT(MID(@CLNO, 1, 4), '99')
 	      ELSE @CLNO
 	    END;
+DO @DATA := :dataAlteracao;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
@@ -52,20 +55,19 @@ FROM sqldados.prp  AS V
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
        descricao                                               AS descricao,
-       CAST(validade AS date)                                  AS validade,
-       refPrice                                                AS refPrice,
-       ROUND((refPrice - V.promoPrice) * 100.00 / refPrice, 2) AS desconto,
-       V.promoPrice                                            AS precoPromocional,
+       NULL                                                    AS alteracao,
+       promoPrice                                              AS precoNew,
+       refPrice                                                AS precoOld,
        clno                                                    AS clno,
        centroLucro                                             AS centroLucro,
        vendno                                                  AS vendno,
        fornecedor                                              AS fornecedor,
        P.typeno                                                AS typeno,
        P.tipo                                                  AS tipoProduto,
-       IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE')        AS origemPromocao,
-       V.login                                                 AS login
+       CAST(validade AS date)                                  AS validade,
+       refPrice,
+       ROUND((refPrice - V.promoPrice) * 100.00 / refPrice, 2) AS desconto,
+       V.promoPrice                                            AS precoPromocional
 FROM T_PRD           AS P
   INNER JOIN T_PRICE AS V
 	       USING (prdno)
-WHERE IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE') IN (:tipoLista)
-  AND IF(:decimal99 = 'S', ROUND(refPrice * 100 - TRUNCATE(refPrice, 0) * 100) = 99, TRUE)

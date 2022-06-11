@@ -59,6 +59,39 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun produtosPrecoAlteracao(filtro: FiltroPrecoAlteracao): List<PrecoAlteracao> {
+    val sql = "/sqlSaci/alteracaoPreco.sql"
+    return query(sql, PrecoAlteracao::class) {
+      addOptionalParameter("codigo", filtro.codigo)
+      addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("clno", filtro.clno)
+      addOptionalParameter("typeno", filtro.typeno)
+      addOptionalParameter("dataAlteracao", filtro.dataAlteracao.toSaciDate())
+    }
+  }
+
+  fun produtosPromocaoAlteracao(filtro: FiltroPrecoAlteracao): List<PrecoAlteracao> {
+    val sql = "/sqlSaci/alteracaoPromocao.sql"
+    return query(sql, PrecoAlteracao::class) {
+      addOptionalParameter("codigo", filtro.codigo)
+      addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("clno", filtro.clno)
+      addOptionalParameter("typeno", filtro.typeno)
+      addOptionalParameter("dataAlteracao", filtro.dataAlteracao.toSaciDate())
+    }
+  }
+
+  fun produtosBaseAlteracao(filtro: FiltroPrecoAlteracao): List<PrecoAlteracao> {
+    val sql = "/sqlSaci/alteracaoBase.sql"
+    return query(sql, PrecoAlteracao::class) {
+      addOptionalParameter("codigo", filtro.codigo)
+      addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("clno", filtro.clno)
+      addOptionalParameter("typeno", filtro.typeno)
+      addOptionalParameter("dataAlteracao", filtro.dataAlteracao.toSaciDate())
+    }
+  }
+
   fun prorrogaPromocao(codigo: String, validade: LocalDate, login: String) {
     val sql = "/sqlSaci/prorrogaPromocao.sql"
     script(sql) {
