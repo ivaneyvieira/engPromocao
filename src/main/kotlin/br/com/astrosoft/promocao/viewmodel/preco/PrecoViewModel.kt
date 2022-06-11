@@ -4,14 +4,17 @@ import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 
 class PrecoViewModel(view: IPrecoView) : ViewModel<IPrecoView>(view) {
-  val tabBaseViewModel = TabBasePrecoViewModel(this)
-
+  val tabBaseViewModel = TabBaseAlteradoViewModel(this)
+  val tabPrecoViewModel = TabPrecoAlteradoViewModel(this)
+  val tabPromocaoViewModel = TabPromocaoAlteradoViewModel(this)
 
   override fun listTab() =
-    listOf(view.tabBaseViewModel)
+    listOf(view.tabBaseViewModel, view.tabPrecoViewModel, view.tabPromocaoViewModel)
 }
 
 interface IPrecoView : IView {
-  val tabBaseViewModel: ITabBasePrecoViewModel
+  val tabBaseViewModel: ITabBaseAlteradoViewModel
+  val tabPrecoViewModel: ITabPrecoAlteradoViewModel
+  val tabPromocaoViewModel: ITabPromocaoAlteradoViewModel
 }
 

@@ -1,54 +1,62 @@
-package br.com.astrosoft.preco.view.preco.columns
+package br.com.astrosoft.promocao.view.preco.columns
 
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
-import br.com.astrosoft.promocao.model.beans.PrecoPromocao
+import br.com.astrosoft.promocao.model.beans.PrecoAlteracao
 import com.vaadin.flow.component.grid.Grid
 
 object NotaNddViewColumns {
-  fun Grid<PrecoPromocao>.precoCodigo() = addColumnString(PrecoPromocao::codigo) {
+  fun Grid<PrecoAlteracao>.precoCodigo() = addColumnString(PrecoAlteracao::codigo) {
     this.setHeader("Cod")
   }
 
-  fun Grid<PrecoPromocao>.precoDescricao() = addColumnString(PrecoPromocao::descricao) {
+  fun Grid<PrecoAlteracao>.precoDescricao() = addColumnString(PrecoAlteracao::descricao) {
     this.setHeader("Descrição")
   }
 
-  fun Grid<PrecoPromocao>.precoVendno() = addColumnInt(PrecoPromocao::vendno) {
+  fun Grid<PrecoAlteracao>.precoVendno() = addColumnInt(PrecoAlteracao::vendno) {
     this.setHeader("Forn")
   }
 
-  fun Grid<PrecoPromocao>.precoFornecedor() = addColumnString(PrecoPromocao::fornecedor) {
+  fun Grid<PrecoAlteracao>.precoFornecedor() = addColumnString(PrecoAlteracao::fornecedor) {
     this.setHeader("Abrev")
   }
 
-  fun Grid<PrecoPromocao>.precoCentroLucro() = addColumnInt(PrecoPromocao::clno) {
+  fun Grid<PrecoAlteracao>.precoCentroLucro() = addColumnInt(PrecoAlteracao::clno) {
     this.setHeader("Cent Lucro")
   }
 
-  fun Grid<PrecoPromocao>.precoTipoProduto() = addColumnInt(PrecoPromocao::typeno) {
+  fun Grid<PrecoAlteracao>.precoTipoProduto() = addColumnInt(PrecoAlteracao::typeno) {
     this.setHeader("Tipo")
   }
 
-  fun Grid<PrecoPromocao>.precoValidade() = addColumnLocalDate(PrecoPromocao::validade) {
+  fun Grid<PrecoAlteracao>.precoAlteracao() = addColumnLocalDate(PrecoAlteracao::alteracao) {
+    this.setHeader("Alteração")
+  }
+
+  fun Grid<PrecoAlteracao>.precoValidade() = addColumnLocalDate(PrecoAlteracao::validade) {
     this.setHeader("Validade")
   }
 
-  fun Grid<PrecoPromocao>.precoPrecoPromocional() = addColumnDouble(PrecoPromocao::precoPromocional) {
+  fun Grid<PrecoAlteracao>.precoPrecoPromocional() = addColumnDouble(PrecoAlteracao::precoPromocional) {
     this.setHeader("R$ Promo")
   }
 
-  fun Grid<PrecoPromocao>.precoDesconto() = addColumnDouble(PrecoPromocao::desconto) {
+  fun Grid<PrecoAlteracao>.precoDesconto() = addColumnDouble(PrecoAlteracao::desconto) {
     this.setHeader("% Perc")
   }
 
-  fun Grid<PrecoPromocao>.precoPrecoRef() = addColumnDouble(PrecoPromocao::refPrice) {
+  fun Grid<PrecoAlteracao>.precoPrecoRef() = addColumnDouble(PrecoAlteracao::refPrice) {
     this.setHeader("R$ Ref.")
   }
 
-  fun Grid<PrecoPromocao>.precoOrigem() = addColumnString(PrecoPromocao::origemPromocao) {
-    this.setHeader("Origem")
+  fun Grid<PrecoAlteracao>.precoPrecoAnterior() = addColumnDouble(PrecoAlteracao::precoOld) {
+    this.setHeader("R$ Anterior")
+  }
+
+  fun Grid<PrecoAlteracao>.precoPrecoAtual() = addColumnDouble(PrecoAlteracao::precoNew) {
+    this.setHeader("R$ Atual")
   }
 }

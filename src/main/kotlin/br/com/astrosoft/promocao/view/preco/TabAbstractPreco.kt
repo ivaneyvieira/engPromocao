@@ -1,26 +1,20 @@
-package br.com.astrosoft.promocao.view.promocao
+package br.com.astrosoft.promocao.view.preco
 
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoCentroLucro
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoCodigo
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoDesconto
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoDescricao
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoFornecedor
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoPrecoPromocional
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoPrecoRef
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoTipoProduto
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoValidade
-import br.com.astrosoft.preco.view.preco.columns.NotaNddViewColumns.precoVendno
-import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
-import br.com.astrosoft.promocao.model.beans.PrecoPromocao
-import br.com.astrosoft.promocao.model.planilhas.PlanilhaPromocao
+import br.com.astrosoft.framework.view.localePtBr
+import br.com.astrosoft.promocao.model.EtiquetaChave
+import br.com.astrosoft.promocao.model.beans.FiltroPrecoAlteracao
+import br.com.astrosoft.promocao.model.beans.PrecoAlteracao
+import br.com.astrosoft.promocao.model.beans.UserSaci
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaAlteracao
 import br.com.astrosoft.promocao.viewmodel.preco.ITabAbstractPrecoViewModel
 import br.com.astrosoft.promocao.viewmodel.preco.TabAbstractPrecoViewModel
-import com.github.mvysny.karibudsl.v10.integerField
-import com.github.mvysny.karibudsl.v10.tooltip
+import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
+import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -28,22 +22,20 @@ import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewModel: TabAbstractPrecoViewModel<T>) :
-        TabPanelGrid<PrecoPromocao>(PrecoPromocao::class), ITabAbstractPrecoViewModel {
+        TabPanelGrid<PrecoAlteracao>(PrecoAlteracao::class), ITabAbstractPrecoViewModel {
   private lateinit var edtCodigo: IntegerField
   private lateinit var edtVend: IntegerField
   private lateinit var edtCl: IntegerField
   private lateinit var edtType: IntegerField
+  private lateinit var edtData: DatePicker
 
   override fun updateComponent() {
     viewModel.updateView()
-  }
-
-  override fun listSelected(): List<PrecoPromocao> {
-    return itensSelecionados()
   }
 
   override fun HorizontalLayout.toolBarConfig() {
@@ -75,14 +67,41 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
       }
     }
 
+    edtData = datePicker("Validade") {
+      localePtBr()
+      value = LocalDate.now()
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
     this.downloadExcel()
+
+    button("Etiqueta") {
+      icon = VaadinIcon.PRINT.create()
+      onLeftClick {
+        val itens = itensSelecionados()
+        if(itens.isEmpty()){
+          showErro("Nenhum item selecionado")
+        }else {
+          val dados = itens.flatMap {
+            it.dadosEtiquetas()
+          }
+          val userSaci = Config.user as? UserSaci
+          val impressora = userSaci?.impressora
+          if(impressora != null) {
+            EtiquetaChave.printPreviewProdutos(impressora, dados)
+          }
+        }
+      }
+    }
 
     addAditionaisFields()
   }
 
   private fun HasComponents.downloadExcel() {
     val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
-      val planilha = PlanilhaPromocao()
+      val planilha = PlanilhaAlteracao()
       val bytes = planilha.grava(listBeans())
       ByteArrayInputStream(bytes)
     })
@@ -102,27 +121,18 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
 
   override fun isAuthorized(user: IUser) = true
 
-  override fun filtro() = FiltroPrecoPromocao(codigo = edtCodigo.value ?: 0,
+  override fun filtro() = FiltroPrecoAlteracao(codigo = edtCodigo.value ?: 0,
                                               vendno = edtVend.value ?: 0,
                                               clno = edtCl.value ?: 0,
                                               typeno = edtType.value ?: 0,
-                                              tipoLista = viewModel.tipoTab,
-                                              decimal99 = "N")
+                                              dataAlteracao = edtData.value)
 
-  override fun Grid<PrecoPromocao>.gridPanel() {
+  override fun Grid<PrecoAlteracao>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
-
-    precoCodigo()
-    precoDescricao()
-    precoPrecoRef()
-    precoPrecoPromocional()
-    precoDesconto()
-    precoValidade()
-    precoVendno()
-    precoFornecedor()
-    precoTipoProduto()
-    precoCentroLucro()
+    this.colunasGrid()
   }
+
+  abstract fun Grid<PrecoAlteracao>.colunasGrid()
 }
 
 
