@@ -60,7 +60,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   implementation("net.sourceforge.jtds:jtds:1.3.1")
   implementation("org.imgscalr:imgscalr-lib:4.2")
   implementation("com.jcraft:jsch:0.1.55")
-  implementation("org.cups4j:cups4j:0.7.8") // https://mvnrepository.com/artifact/org.jsoup/jsoup
+  implementation("org.cups4j:cups4j:0.7.9") // https://mvnrepository.com/artifact/org.jsoup/jsoup
   implementation("org.jsoup:jsoup:1.13.1")
 
   // logging
@@ -97,6 +97,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   implementation("javax.xml.bind:jaxb-api:2.3.1")
   implementation("com.sun.mail:javax.mail:1.6.2")
   implementation("com.sun.mail:gimap:1.6.2")
+  implementation("com.squareup.okhttp3:okhttp:4.9.3")
 }
 
 vaadin {

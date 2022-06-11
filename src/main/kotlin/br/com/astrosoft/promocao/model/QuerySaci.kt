@@ -40,6 +40,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun produtoGrade(codigo : String) : List<ProdutoGrade> {
+    val sql = "/sqlSaci/produtoGrade.sql"
+    return query(sql,ProdutoGrade::class ){
+      addOptionalParameter("codigo", codigo.toIntOrNull()?.toString())
+    }
+  }
+
   fun produtosPromocao(filtro: FiltroPrecoPromocao): List<PrecoPromocao> {
     val sql = "/sqlSaci/produtosPromocao.sql"
     return query(sql, PrecoPromocao::class) {
