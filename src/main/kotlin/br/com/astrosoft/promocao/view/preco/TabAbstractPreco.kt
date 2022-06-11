@@ -110,7 +110,7 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
                                               decimal99 = "N")
 
   override fun Grid<PrecoPromocao>.gridPanel() {
-    setSelectionMode(Grid.SelectionMode.SINGLE)
+    setSelectionMode(Grid.SelectionMode.MULTI)
 
     precoCodigo()
     precoDescricao()

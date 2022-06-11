@@ -1,6 +1,7 @@
 package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.framework.model.Config
+import br.com.astrosoft.promocao.model.DadosEtiquetaProduto
 import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 
@@ -18,6 +19,13 @@ class PrecoPromocao(val codigo: String,
                     val tipoProduto: String,
                     val origemPromocao: String,
                     val login: String) {
+
+  fun dadosEtiquetas(): List<DadosEtiquetaProduto> {
+    return saci.produtoGrade(codigo).map {
+      DadosEtiquetaProduto(codigo = codigo, grade = it.grade, descricao = descricao, barcode = it.barcode)
+    }
+  }
+
   companion object {
     fun find(filtro: FiltroPrecoPromocao) = saci.produtosPromocao(filtro)
 
