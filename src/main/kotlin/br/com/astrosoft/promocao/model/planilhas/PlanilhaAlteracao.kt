@@ -23,9 +23,11 @@ class PlanilhaAlteracao {
            CampoString("Abrev") { fornecedor },
            CampoString("Tipo") { typeno.toString() },
            CampoString("Centro Lucro") { clno.toString() },
-           CampoNumber("Preço Anterior") { precoOld },
            CampoNumber("Preco Novo") { precoNew },
-           CampoString("Data de Alteracao") { alteracao.format() })
+           CampoString("Usuário") { usuario ?: "" },
+           CampoString("Data") { data.format() },
+           CampoString("Hora") { time.format() },
+          )
 
   fun grava(listaProdutos: List<PrecoAlteracao>): ByteArray {
     val wb = workbook {

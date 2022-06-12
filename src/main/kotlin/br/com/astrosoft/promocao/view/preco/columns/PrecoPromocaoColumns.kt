@@ -1,9 +1,6 @@
 package br.com.astrosoft.promocao.view.preco.columns
 
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import br.com.astrosoft.promocao.model.beans.PrecoAlteracao
 import com.vaadin.flow.component.grid.Grid
 
@@ -14,6 +11,10 @@ object NotaNddViewColumns {
 
   fun Grid<PrecoAlteracao>.precoDescricao() = addColumnString(PrecoAlteracao::descricao) {
     this.setHeader("Descrição")
+  }
+
+  fun Grid<PrecoAlteracao>.precoUsuario() = addColumnString(PrecoAlteracao::usuario) {
+    this.setHeader("Usuário")
   }
 
   fun Grid<PrecoAlteracao>.precoVendno() = addColumnInt(PrecoAlteracao::vendno) {
@@ -32,8 +33,12 @@ object NotaNddViewColumns {
     this.setHeader("Tipo")
   }
 
-  fun Grid<PrecoAlteracao>.precoAlteracao() = addColumnLocalDate(PrecoAlteracao::alteracao) {
-    this.setHeader("Alteração")
+  fun Grid<PrecoAlteracao>.precoDataAlteracao() = addColumnLocalDate(PrecoAlteracao::data) {
+    this.setHeader("Data")
+  }
+
+  fun Grid<PrecoAlteracao>.precoHoraAlteracao() = addColumnLocalTime(PrecoAlteracao::time) {
+    this.setHeader("Hora")
   }
 
   fun Grid<PrecoAlteracao>.precoValidade() = addColumnLocalDate(PrecoAlteracao::validade) {
@@ -52,11 +57,7 @@ object NotaNddViewColumns {
     this.setHeader("R$ Ref.")
   }
 
-  fun Grid<PrecoAlteracao>.precoPrecoAnterior() = addColumnDouble(PrecoAlteracao::precoOld) {
-    this.setHeader("R$ Anterior")
-  }
-
   fun Grid<PrecoAlteracao>.precoPrecoAtual() = addColumnDouble(PrecoAlteracao::precoNew) {
-    this.setHeader("R$ Atual")
+    this.setHeader("R$ Ref.")
   }
 }

@@ -66,7 +66,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("vendno", filtro.vendno)
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("typeno", filtro.typeno)
-      addOptionalParameter("dataAlteracao", filtro.dataAlteracao.toSaciDate())
+      addOptionalParameter("dataInicial", filtro.dataInicial?.toSaciDate() ?: 0)
+      addOptionalParameter("dataFinal", filtro.dataFinal?.toSaciDate() ?: 0)
     }
   }
 
@@ -77,7 +78,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("vendno", filtro.vendno)
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("typeno", filtro.typeno)
-      addOptionalParameter("dataAlteracao", filtro.dataAlteracao.toSaciDate())
+      addOptionalParameter("dataInicial", filtro.dataInicial?.toSaciDate() ?: 0)
+      addOptionalParameter("dataFinal", filtro.dataFinal?.toSaciDate() ?: 0)
     }
   }
 
@@ -88,7 +90,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("vendno", filtro.vendno)
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("typeno", filtro.typeno)
-      addOptionalParameter("dataAlteracao", filtro.dataAlteracao.toSaciDate())
+      addOptionalParameter("dataInicial", filtro.dataInicial?.toSaciDate() ?: 0)
+      addOptionalParameter("dataFinal", filtro.dataFinal?.toSaciDate() ?: 0)
     }
   }
 
