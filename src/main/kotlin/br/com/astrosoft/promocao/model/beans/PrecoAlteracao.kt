@@ -3,12 +3,15 @@ package br.com.astrosoft.promocao.model.beans
 import br.com.astrosoft.promocao.model.DadosEtiquetaProduto
 import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
+import java.time.LocalTime
 
 class PrecoAlteracao(val codigo: String,
                      val descricao: String,
-                     val alteracao: LocalDate?,
+                     val data: LocalDate?,
+                     val time: LocalTime?,
+                     val userno : Int?,
+                     val usuario : String?,
                      val precoNew: Double,
-                     val precoOld: Double,
                      val clno: Int,
                      val centroLucro: String,
                      val vendno: Int,
@@ -36,4 +39,6 @@ data class FiltroPrecoAlteracao(val codigo: Int,
                                 val vendno: Int,
                                 val clno: Int,
                                 val typeno: Int,
-                                val dataAlteracao: LocalDate)
+                                val dataInicial: LocalDate?,
+                                val dataFinal: LocalDate?,
+                               )

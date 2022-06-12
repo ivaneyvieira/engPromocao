@@ -32,7 +32,8 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
   private lateinit var edtVend: IntegerField
   private lateinit var edtCl: IntegerField
   private lateinit var edtType: IntegerField
-  private lateinit var edtData: DatePicker
+  private lateinit var edtDataI: DatePicker
+  private lateinit var edtDataF: DatePicker
 
   override fun updateComponent() {
     viewModel.updateView()
@@ -67,7 +68,14 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
       }
     }
 
-    edtData = datePicker("Validade") {
+    edtDataI = datePicker("Validade") {
+      localePtBr()
+      value = LocalDate.now().minusDays(1)
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+    edtDataF = datePicker("Validade") {
       localePtBr()
       value = LocalDate.now()
       addValueChangeListener {
@@ -125,7 +133,8 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
                                               vendno = edtVend.value ?: 0,
                                               clno = edtCl.value ?: 0,
                                               typeno = edtType.value ?: 0,
-                                              dataAlteracao = edtData.value)
+                                              dataInicial = edtDataI.value,
+                                              dataFinal = edtDataF.value)
 
   override fun Grid<PrecoAlteracao>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)

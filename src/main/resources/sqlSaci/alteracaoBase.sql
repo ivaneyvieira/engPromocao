@@ -13,7 +13,6 @@ DO @CLNF := CASE
 		THEN CONCAT(MID(@CLNO, 1, 4), '99')
 	      ELSE @CLNO
 	    END;
-DO @DATA := :dataAlteracao;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
@@ -55,9 +54,11 @@ FROM sqldados.prp  AS V
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
        descricao                                               AS descricao,
-       NULL                                                    AS alteracao,
-       promoPrice                                              AS precoNew,
-       refPrice                                                AS precoOld,
+       NULL                                                    AS data,
+       NULL                                                    AS time,
+       NULL                                                    AS userno,
+       NULL                                                    AS usuario,
+       refprice                                                AS precoNew,
        clno                                                    AS clno,
        centroLucro                                             AS centroLucro,
        vendno                                                  AS vendno,
@@ -65,7 +66,7 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
        P.typeno                                                AS typeno,
        P.tipo                                                  AS tipoProduto,
        CAST(validade AS date)                                  AS validade,
-       refPrice,
+       refPrice                                                AS refPrice,
        ROUND((refPrice - V.promoPrice) * 100.00 / refPrice, 2) AS desconto,
        V.promoPrice                                            AS precoPromocional
 FROM T_PRD           AS P

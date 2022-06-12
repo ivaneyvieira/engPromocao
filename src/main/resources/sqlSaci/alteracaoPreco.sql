@@ -7,13 +7,12 @@ DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
 DO @CLNO := LPAD(:clno, 6, '0');
 DO @CLNF := CASE
-	      WHEN @CLNO LIKE '%0000'
-		THEN CONCAT(MID(@CLNO, 1, 2), '9999')
-	      WHEN @CLNO LIKE '%00'
-		THEN CONCAT(MID(@CLNO, 1, 4), '99')
+	      WHEN @CLNO LIKE '%0000' THEN CONCAT(MID(@CLNO, 1, 2), '9999')
+	      WHEN @CLNO LIKE '%00'   THEN CONCAT(MID(@CLNO, 1, 4), '99')
 	      ELSE @CLNO
 	    END;
-DO @DATA := :dataAlteracao;
+DO @DATAI := :dataInicial;
+DO @DATAF := :dataFinal;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
@@ -40,17 +39,9 @@ WHERE (P.clno BETWEEN @CLNO AND @CLNF OR @CLNO = 0)
   AND (P.typeno = @TYPENO OR @TYPENO = 0)
   AND (P.no = @PRDNO OR @CODIGO = 0);
 
-DROP TEMPORARY TABLE IF EXISTS T_PRECO_ATUAL;
-CREATE TEMPORARY TABLE T_PRECO_ATUAL (
-  PRIMARY KEY (storeno, prdno)
-)
-SELECT storeno,
-       prdno,
-       refprice
-FROM sqldados.prp
-  INNER JOIN T_PRD
-	       USING (prdno)
-WHERE storeno = 10;
+DO @CODIGO := '';
+DO @MARCA := NULL;
+DO @PRECO := 0;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRECO_HIS;
 CREATE TEMPORARY TABLE T_PRECO_HIS (
@@ -58,92 +49,35 @@ CREATE TEMPORARY TABLE T_PRECO_HIS (
   datetime VARCHAR(20)
 )
 SELECT H.storeno,
-       H.prdno,
-       refprice,
-       CONCAT(LPAD(date, 10, '0'), LPAD(time, 10, '0')) AS datetime,
-       userno
+       @NOVOCODIGO := IF(@CODIGO = H.prdno, 0, 1)                         AS novo,
+       @CODIGO := H.prdno                                                 AS prdno,
+       @MARCA := IF(@NOVOCODIGO = 1, 0, IF(@PRECO = H.refprice, 0, 1))    AS marca,
+       @PRECO := H.refprice                                               AS refprice,
+       CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR) AS datetime,
+       H.userno
 FROM sqldados.prphis AS H
   INNER JOIN T_PRD
 	       USING (prdno)
-WHERE H.date >= @DATA;
+WHERE H.date BETWEEN @DATAI AND @DATAF
+  AND H.storeno = 10
+ORDER BY H.storeno, H.prdno, H.date, H.date;
 
-DROP TEMPORARY TABLE IF EXISTS T_PRECO_ALTER;
-CREATE TEMPORARY TABLE T_PRECO_ALTER (
-  PRIMARY KEY (storeno, prdno, datetime)
-)
-SELECT H.storeno,
-       H.prdno,
-       MAX(datetime) AS datetime
-FROM T_PRECO_HIS           AS H
-  INNER JOIN T_PRECO_ATUAL AS P
-	       ON P.storeno = H.storeno AND P.prdno = H.prdno AND P.refprice = H.refprice
-GROUP BY H.storeno, H.prdno;
-
-DROP TEMPORARY TABLE IF EXISTS T_PRECO_OLD;
-CREATE TEMPORARY TABLE T_PRECO_OLD (
-  PRIMARY KEY (storeno, prdno, datetime)
-)
-SELECT H.storeno,
-       H.prdno,
-       MAX(datetime) AS datetime
-FROM T_PRECO_HIS           AS H
-  INNER JOIN T_PRECO_ATUAL AS P
-	       ON P.storeno = H.storeno AND P.prdno = H.prdno AND P.refprice != H.refprice
-GROUP BY H.storeno, H.prdno;
-
-DROP TEMPORARY TABLE IF EXISTS T_PRECO_01;
-CREATE TEMPORARY TABLE T_PRECO_01 (
-  PRIMARY KEY (storeno, prdno)
-)
-SELECT storeno,
-       prdno,
-       CAST(MID(datetime, 1, 10) * 1 AS DATE) AS date,
+SELECT LPAD(TRIM(P.prdno), 6, '0')            AS codigo,
+       descricao                              AS descricao,
+       CAST(MID(datetime, 1, 10) * 1 AS DATE) AS data,
        SEC_TO_TIME(MID(datetime, 11, 10) * 1) AS time,
-       H.userno,
-       H.refprice / 100                       AS refprice
-FROM T_PRECO_HIS           AS H
-  INNER JOIN T_PRECO_ALTER AS A
-	       USING (storeno, prdno, datetime);
-
-DROP TEMPORARY TABLE IF EXISTS T_PRECO_02;
-CREATE TEMPORARY TABLE T_PRECO_02 (
-  PRIMARY KEY (storeno, prdno)
-)
-SELECT storeno,
-       prdno,
-       CAST(MID(datetime, 1, 10) * 1 AS DATE) AS date,
-       SEC_TO_TIME(MID(datetime, 11, 10) * 1) AS time,
-       H.userno,
-       H.refprice / 100                       AS refprice
-FROM T_PRECO_HIS         AS H
-  INNER JOIN T_PRECO_OLD AS A
-	       USING (storeno, prdno, datetime);
-
-DROP TEMPORARY TABLE IF EXISTS T_PRECO_ALTERACAO;
-CREATE TEMPORARY TABLE T_PRECO_ALTERACAO (
-  PRIMARY KEY (prdno)
-)
-SELECT prdno,
-       N.date     AS date,
-       N.time     AS time,
-       N.userno,
-       O.refprice AS refpriceOld,
-       N.refprice AS refpriceNew
-FROM T_PRECO_01         AS N
-  INNER JOIN T_PRECO_02 AS O
-	       USING (storeno, prdno);
-
-SELECT LPAD(TRIM(P.prdno), 6, '0') AS codigo,
-       descricao                   AS descricao,
-       date                        AS alteracao,
-       refPriceNew                 AS precoNew,
-       refPriceOld                 AS precoOld,
-       clno                        AS clno,
-       centroLucro                 AS centroLucro,
-       vendno                      AS vendno,
-       fornecedor                  AS fornecedor,
-       P.typeno                    AS typeno,
-       P.tipo                      AS tipoProduto
-FROM T_PRD                     AS P
-  INNER JOIN T_PRECO_ALTERACAO AS V
+       userno                                 AS userno,
+       U.name                                 AS usuario,
+       refprice                               AS precoNew,
+       clno                                   AS clno,
+       centroLucro                            AS centroLucro,
+       vendno                                 AS vendno,
+       fornecedor                             AS fornecedor,
+       P.typeno                               AS typeno,
+       P.tipo                                 AS tipoProduto
+FROM T_PRD                  AS P
+  INNER JOIN T_PRECO_HIS    AS V
 	       USING (prdno)
+  INNER JOIN sqldados.users AS U
+	       ON U.no = userno
+WHERE marca > 0
