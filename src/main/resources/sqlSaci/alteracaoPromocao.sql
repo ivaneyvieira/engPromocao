@@ -7,8 +7,10 @@ DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
 DO @CLNO := LPAD(:clno, 6, '0');
 DO @CLNF := CASE
-	      WHEN @CLNO LIKE '%0000' THEN CONCAT(MID(@CLNO, 1, 2), '9999')
-	      WHEN @CLNO LIKE '%00'   THEN CONCAT(MID(@CLNO, 1, 4), '99')
+	      WHEN @CLNO LIKE '%0000'
+		THEN CONCAT(MID(@CLNO, 1, 2), '9999')
+	      WHEN @CLNO LIKE '%00'
+		THEN CONCAT(MID(@CLNO, 1, 4), '99')
 	      ELSE @CLNO
 	    END;
 DO @DATAI := :dataInicial;
@@ -49,12 +51,14 @@ CREATE TEMPORARY TABLE T_PRECO_HIS (
   datetime VARCHAR(20)
 )
 SELECT H.storeno,
-       @NOVOCODIGO := IF(@CODIGO = H.prdno, 0, 1)                                                                 AS novo,
-       @CODIGO := H.prdno                                                                                         AS prdno,
-       @MARCA := IF(@NOVOCODIGO = 1, 0, IF(@PRECO = IF(H.promo_validate >= H.date, promo_price, refprice), 0,
-					   1))                                                                    AS marca,
-       @PRECO := IF(H.promo_validate >= H.date, promo_price, refprice)                                            AS refprice,
-       CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)                                         AS datetime,
+       @NOVOCODIGO := IF(@CODIGO = H.prdno, 0, 1)                                             AS novo,
+       @CODIGO := H.prdno                                                                     AS prdno,
+       @MARCA := IF(@NOVOCODIGO = 1, 0,
+		    IF(@PRECO = IF(H.promo_validate >= H.date, promo_price, refprice), 0,
+		       1))                                                                    AS marca,
+       @PRECO := IF(H.promo_validate >= H.date, promo_price, refprice) /
+		 100                                                                          AS refprice,
+       CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)                     AS datetime,
        H.userno
 FROM sqldados.prphis AS H
   INNER JOIN T_PRD

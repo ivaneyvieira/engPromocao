@@ -52,7 +52,7 @@ SELECT H.storeno,
        @NOVOCODIGO := IF(@CODIGO = H.prdno, 0, 1)                         AS novo,
        @CODIGO := H.prdno                                                 AS prdno,
        @MARCA := IF(@NOVOCODIGO = 1, 0, IF(@PRECO = H.refprice, 0, 1))    AS marca,
-       @PRECO := H.refprice                                               AS refprice,
+       @PRECO := H.refprice/100                                           AS refprice,
        CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR) AS datetime,
        H.userno
 FROM sqldados.prphis AS H
