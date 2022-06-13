@@ -1,6 +1,5 @@
 package br.com.astrosoft.framework.util
 
-
 import com.vaadin.flow.component.html.IFrame
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.server.InputStreamFactory
@@ -38,7 +37,8 @@ object ZPLPreview {
 
     val embedded = IFrame(registration.resourceUri.toString())
     embedded.setSizeFull()
-    ConfirmDialog.create()
+    ConfirmDialog
+      .create()
       .withMessage(embedded)
       .withCaption("Impressão ($impressora)")
       .withNoButton(printRunnable, ButtonOption.caption("Imprimir"), ButtonOption.icon(VaadinIcon.PRINT))

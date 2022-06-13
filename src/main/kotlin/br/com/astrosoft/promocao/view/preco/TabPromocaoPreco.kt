@@ -16,9 +16,8 @@ import br.com.astrosoft.promocao.viewmodel.preco.TabPromocaoAlteradoViewModel
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-class TabPromocaoPreco(viewModel: TabPromocaoAlteradoViewModel) : TabAbstractPreco<ITabPromocaoAlteradoViewModel>
-  (viewModel),
-        ITabPromocaoAlteradoViewModel {
+class TabPromocaoPreco(viewModel: TabPromocaoAlteradoViewModel) :
+        TabAbstractPreco<ITabPromocaoAlteradoViewModel>(viewModel), ITabPromocaoAlteradoViewModel {
   override val label: String
     get() = "Preço Promocional"
 

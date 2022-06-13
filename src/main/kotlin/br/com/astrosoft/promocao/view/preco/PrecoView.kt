@@ -4,9 +4,6 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.view.PromocaoLayout
-import br.com.astrosoft.promocao.view.preco.TabBasePreco
-import br.com.astrosoft.promocao.view.preco.TabPrecoPreco
-import br.com.astrosoft.promocao.view.preco.TabPromocaoPreco
 import br.com.astrosoft.promocao.viewmodel.preco.IPrecoView
 import br.com.astrosoft.promocao.viewmodel.preco.PrecoViewModel
 import com.vaadin.flow.component.dependency.CssImport

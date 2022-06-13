@@ -99,7 +99,7 @@ data class PrinterCupsInfo(val name: String, /*val location: String, */val descr
   companion object {
     fun newInstance(printer: CupsPrinter, printerType: PrinterType) =
       PrinterCupsInfo(name = printer.name,/* location = printer.location ?: "",*/
-                  description = printer.description ?: "", type = printerType)
+                      description = printer.description ?: "", type = printerType)
   }
 }
 

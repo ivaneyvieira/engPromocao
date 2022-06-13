@@ -9,7 +9,7 @@ class Tab99(viewModel: Tab99ViewModel) : TabAbstractPromocao<ITab99ViewModel>(vi
   override val label: String
     get() = "Preço 99"
 
-  override fun filtro() : FiltroPrecoPromocao {
+  override fun filtro(): FiltroPrecoPromocao {
     return super.filtro().copy(decimal99 = "S")
   }
 

@@ -8,8 +8,7 @@ class PrecoViewModel(view: IPrecoView) : ViewModel<IPrecoView>(view) {
   val tabPrecoViewModel = TabPrecoAlteradoViewModel(this)
   val tabPromocaoViewModel = TabPromocaoAlteradoViewModel(this)
 
-  override fun listTab() =
-    listOf(view.tabBaseViewModel, view.tabPrecoViewModel, view.tabPromocaoViewModel)
+  override fun listTab() = listOf(view.tabBaseViewModel, view.tabPrecoViewModel, view.tabPromocaoViewModel)
 }
 
 interface IPrecoView : IView {

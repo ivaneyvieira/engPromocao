@@ -89,15 +89,16 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
       icon = VaadinIcon.PRINT.create()
       onLeftClick {
         val itens = itensSelecionados()
-        if(itens.isEmpty()){
+        if (itens.isEmpty()) {
           showErro("Nenhum item selecionado")
-        }else {
+        }
+        else {
           val dados = itens.flatMap {
             it.dadosEtiquetas()
           }
           val userSaci = Config.user as? UserSaci
           val impressora = userSaci?.impressora
-          if(impressora != null) {
+          if (impressora != null) {
             EtiquetaChave.printPreviewProdutos(impressora, dados)
           }
         }
@@ -130,11 +131,11 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
   override fun isAuthorized(user: IUser) = true
 
   override fun filtro() = FiltroPrecoAlteracao(codigo = edtCodigo.value ?: 0,
-                                              vendno = edtVend.value ?: 0,
-                                              clno = edtCl.value ?: 0,
-                                              typeno = edtType.value ?: 0,
-                                              dataInicial = edtDataI.value,
-                                              dataFinal = edtDataF.value)
+                                               vendno = edtVend.value ?: 0,
+                                               clno = edtCl.value ?: 0,
+                                               typeno = edtType.value ?: 0,
+                                               dataInicial = edtDataI.value,
+                                               dataFinal = edtDataF.value)
 
   override fun Grid<PrecoAlteracao>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)

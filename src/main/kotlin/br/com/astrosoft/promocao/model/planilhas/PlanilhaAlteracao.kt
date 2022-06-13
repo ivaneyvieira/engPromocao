@@ -13,20 +13,21 @@ import org.apache.poi.ss.usermodel.VerticalAlignment
 
 class PlanilhaAlteracao {
   private val campos: List<Campo<*, PrecoAlteracao>> =
-    listOf(CampoString("Cod") { codigo },
-           CampoString("Descrição") { descricao },
-           CampoString("Validade") { validade.format() },
-           CampoNumber("R\$ Ref.") { refPrice },
-           CampoNumber("% Perc") { desconto ?: 0.00 },
-           CampoNumber("R\$ Promo") { precoPromocional ?: 0.00 },
-           CampoString("Forn") { vendno.toString() },
-           CampoString("Abrev") { fornecedor },
-           CampoString("Tipo") { typeno.toString() },
-           CampoString("Centro Lucro") { clno.toString() },
-           CampoNumber("Preco Novo") { precoNew },
-           CampoString("Usuário") { usuario ?: "" },
-           CampoString("Data") { data.format() },
-           CampoString("Hora") { time.format() },
+    listOf(
+      CampoString("Cod") { codigo },
+      CampoString("Descrição") { descricao },
+      CampoString("Validade") { validade.format() },
+      CampoNumber("R\$ Ref.") { refPrice },
+      CampoNumber("% Perc") { desconto ?: 0.00 },
+      CampoNumber("R\$ Promo") { precoPromocional ?: 0.00 },
+      CampoString("Forn") { vendno.toString() },
+      CampoString("Abrev") { fornecedor },
+      CampoString("Tipo") { typeno.toString() },
+      CampoString("Centro Lucro") { clno.toString() },
+      CampoNumber("Preco Novo") { precoNew },
+      CampoString("Usuário") { usuario ?: "" },
+      CampoString("Data") { data.format() },
+      CampoString("Hora") { time.format() },
           )
 
   fun grava(listaProdutos: List<PrecoAlteracao>): ByteArray {
