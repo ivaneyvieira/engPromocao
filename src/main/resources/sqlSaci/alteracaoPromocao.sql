@@ -58,6 +58,7 @@ SELECT H.storeno,
 		       1))                                                                    AS marca,
        @PRECO := IF(H.promo_validate >= H.date, promo_price, refprice) /
 		 100                                                                          AS refprice,
+       H.promo_validate                                                                       AS dataPromocao,
        CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)                     AS datetime,
        H.userno
 FROM sqldados.prphis AS H
@@ -75,6 +76,7 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')            AS codigo,
        userno                                 AS userno,
        U.name                                 AS usuario,
        refprice                               AS precoNew,
+       CAST(dataPromocao AS DATE)             AS dataPromocao,
        clno                                   AS clno,
        centroLucro                            AS centroLucro,
        vendno                                 AS vendno,
