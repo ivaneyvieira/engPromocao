@@ -7,9 +7,10 @@ import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoData
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoDescricao
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoFornecedor
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoHoraAlteracao
-import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoAtual
+import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoPromocionalHist
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoTipoProduto
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoUsuario
+import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoValidadePromocionalHist
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoVendno
 import br.com.astrosoft.promocao.viewmodel.preco.ITabPromocaoAlteradoViewModel
 import br.com.astrosoft.promocao.viewmodel.preco.TabPromocaoAlteradoViewModel
@@ -27,7 +28,8 @@ class TabPromocaoPreco(viewModel: TabPromocaoAlteradoViewModel) :
   override fun Grid<PrecoAlteracao>.colunasGrid() {
     precoCodigo()
     precoDescricao()
-    precoPrecoAtual()
+    precoPrecoPromocionalHist()
+    precoValidadePromocionalHist()
     precoDataAlteracao()
     precoHoraAlteracao()
     precoUsuario()

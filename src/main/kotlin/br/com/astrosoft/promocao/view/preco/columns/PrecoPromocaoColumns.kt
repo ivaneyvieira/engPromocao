@@ -41,11 +41,11 @@ object NotaNddViewColumns {
     this.setHeader("Hora")
   }
 
-  fun Grid<PrecoAlteracao>.precoValidade() = addColumnLocalDate(PrecoAlteracao::validade) {
+  fun Grid<PrecoAlteracao>.precoValidadePromociaonalAtual() = addColumnLocalDate(PrecoAlteracao::validade) {
     this.setHeader("Validade")
   }
 
-  fun Grid<PrecoAlteracao>.precoPrecoPromocional() = addColumnDouble(PrecoAlteracao::precoPromocional) {
+  fun Grid<PrecoAlteracao>.precoPrecoPromocionalAtual() = addColumnDouble(PrecoAlteracao::precoPromocional) {
     this.setHeader("R$ Promo")
   }
 
@@ -53,11 +53,19 @@ object NotaNddViewColumns {
     this.setHeader("% Perc")
   }
 
-  fun Grid<PrecoAlteracao>.precoPrecoRef() = addColumnDouble(PrecoAlteracao::refPrice) {
+  fun Grid<PrecoAlteracao>.precoPrecoRefHist() = addColumnDouble(PrecoAlteracao::precoNew) {
     this.setHeader("R$ Ref.")
   }
 
-  fun Grid<PrecoAlteracao>.precoPrecoAtual() = addColumnDouble(PrecoAlteracao::precoNew) {
+  fun Grid<PrecoAlteracao>.precoPrecoRefAtual() = addColumnDouble(PrecoAlteracao::refPrice) {
     this.setHeader("R$ Ref.")
+  }
+
+  fun Grid<PrecoAlteracao>.precoPrecoPromocionalHist() = addColumnDouble(PrecoAlteracao::precoNew) {
+    this.setHeader("R$ Promo")
+  }
+
+  fun Grid<PrecoAlteracao>.precoValidadePromocionalHist() = addColumnLocalDate(PrecoAlteracao::dataPromocao) {
+    this.setHeader("Validade")
   }
 }
