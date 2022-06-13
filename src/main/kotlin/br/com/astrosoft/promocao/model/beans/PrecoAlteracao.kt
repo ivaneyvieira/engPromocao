@@ -12,18 +12,16 @@ class PrecoAlteracao(
   val time: LocalTime?,
   val userno: Int?,
   val usuario: String?,
-  val precoNew: Double,
+  val refprice: Double,
+  val promo_price: Double?,
   val dataPromocao: LocalDate?,
+  val desconto: Double?,
   val clno: Int,
   val centroLucro: String,
   val vendno: Int,
   val fornecedor: String,
   val typeno: Int,
   val tipoProduto: String,
-  val validade: LocalDate?,
-  val refPrice: Double,
-  val desconto: Double?,
-  val precoPromocional: Double?,
                     ) {
   fun dadosEtiquetas(): List<DadosEtiquetaProduto> {
     return saci.produtoGrade(codigo).map {
@@ -39,7 +37,7 @@ class PrecoAlteracao(
 }
 
 data class FiltroPrecoAlteracao(
-  val codigo: Int,
+  val codigo: String,
   val vendno: Int,
   val clno: Int,
   val typeno: Int,

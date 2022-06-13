@@ -19,6 +19,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
+import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
@@ -26,9 +27,10 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewModel: TabAbstractPrecoViewModel<T>) :
+abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewModel: TabAbstractPrecoViewModel<T>,
+                                                                val showDatas: Boolean = true) :
         TabPanelGrid<PrecoAlteracao>(PrecoAlteracao::class), ITabAbstractPrecoViewModel {
-  private lateinit var edtCodigo: IntegerField
+  private lateinit var edtCodigo: TextField
   private lateinit var edtVend: IntegerField
   private lateinit var edtCl: IntegerField
   private lateinit var edtType: IntegerField
@@ -40,7 +42,7 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
   }
 
   override fun HorizontalLayout.toolBarConfig() {
-    edtCodigo = integerField("Código") {
+    edtCodigo = textField("Código") {
       this.valueChangeMode = TIMEOUT
       addValueChangeListener {
         viewModel.updateView()
@@ -68,15 +70,17 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
       }
     }
 
-    edtDataI = datePicker("Validade") {
+    edtDataI = datePicker("Data Inicial") {
       localePtBr()
+      this.isVisible = showDatas
       value = LocalDate.now().minusDays(1)
       addValueChangeListener {
         viewModel.updateView()
       }
     }
-    edtDataF = datePicker("Validade") {
+    edtDataF = datePicker("Data Final") {
       localePtBr()
+      this.isVisible = showDatas
       value = LocalDate.now()
       addValueChangeListener {
         viewModel.updateView()
@@ -130,7 +134,7 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
 
   override fun isAuthorized(user: IUser) = true
 
-  override fun filtro() = FiltroPrecoAlteracao(codigo = edtCodigo.value ?: 0,
+  override fun filtro() = FiltroPrecoAlteracao(codigo = edtCodigo.value ?: "",
                                                vendno = edtVend.value ?: 0,
                                                clno = edtCl.value ?: 0,
                                                typeno = edtType.value ?: 0,

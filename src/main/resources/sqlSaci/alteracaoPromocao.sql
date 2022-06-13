@@ -1,5 +1,7 @@
 USE sqldados;
 
+SET SQL_MODE = '';
+
 DO @HOJE := CURRENT_DATE * 1;
 DO @CODIGO := :codigo;
 DO @PRDNO := LPAD(@CODIGO, 16, ' ');
@@ -39,11 +41,12 @@ FROM sqldados.prd          AS P
 WHERE (P.clno BETWEEN @CLNO AND @CLNF OR @CLNO = 0)
   AND (P.mfno = @VENDNO OR @VENDNO = 0)
   AND (P.typeno = @TYPENO OR @TYPENO = 0)
-  AND (P.no = @PRDNO OR @CODIGO = 0);
+  AND (P.no = @PRDNO OR @CODIGO = '');
 
-DO @CODIGO := '';
-DO @MARCA := NULL;
-DO @PRECO := 0;
+DO @CHAVE := '';
+DO @COD := '';
+DO @PRECO := '';
+DO @NUMERO := 0;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRECO_HIS;
 CREATE TEMPORARY TABLE T_PRECO_HIS (
@@ -51,15 +54,24 @@ CREATE TEMPORARY TABLE T_PRECO_HIS (
   datetime VARCHAR(20)
 )
 SELECT H.storeno,
-       @NOVOCODIGO := IF(@CODIGO = H.prdno, 0, 1)                                             AS novo,
-       @CODIGO := H.prdno                                                                     AS prdno,
-       @MARCA := IF(@NOVOCODIGO = 1, 0,
-		    IF(@PRECO = IF(H.promo_validate >= H.date, promo_price, refprice), 0,
-		       1))                                                                    AS marca,
-       @PRECO := IF(H.promo_validate >= H.date, promo_price, refprice) /
-		 100                                                                          AS refprice,
-       H.promo_validate                                                                       AS dataPromocao,
-       CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)                     AS datetime,
+       @CHAVE                                                                                    AS chaveAnt,
+       @COD := H.prdno                                                                           AS prdnoAnt,
+       @PRECO :=
+	 IF(H.promo_validate >= H.date, promo_price, refprice)                                   AS precoSaciAnt,
+       @VALIDADE :=
+	 IF(H.promo_validate = 0, NULL, H.promo_validate)                                        AS validadeAnt,
+       @NUMERO := @NUMERO + IF(@CHAVE = CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR), 0,
+			       1)                                                                AS numero,
+       @COD := H.prdno                                                                           AS prdno,
+       @PRECO :=
+	 IF(H.promo_validate >= H.date, promo_price, refprice)                                   AS precoSaci,
+       @VALIDADE :=
+	 IF(H.promo_validate = 0, NULL, H.promo_validate)                                        AS promo_validate,
+       @CHAVE :=
+	 CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR)                                AS chave,
+       @PRECO / 100                                                                              AS promo_price,
+       refprice / 100                                                                            AS refprice,
+       CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)                        AS datetime,
        H.userno
 FROM sqldados.prphis AS H
   INNER JOIN T_PRD
@@ -67,25 +79,27 @@ FROM sqldados.prphis AS H
 WHERE H.date BETWEEN @DATAI AND @DATAF
   AND H.storeno = 10
   AND H.promo_validate >= H.date
-ORDER BY H.storeno, H.prdno, H.date, H.date;
+ORDER BY H.storeno, H.prdno, H.date, H.time;
 
-SELECT LPAD(TRIM(P.prdno), 6, '0')            AS codigo,
-       descricao                              AS descricao,
-       CAST(MID(datetime, 1, 10) * 1 AS DATE) AS data,
-       SEC_TO_TIME(MID(datetime, 11, 10) * 1) AS time,
-       userno                                 AS userno,
-       U.name                                 AS usuario,
-       refprice                               AS precoNew,
-       CAST(dataPromocao AS DATE)             AS dataPromocao,
-       clno                                   AS clno,
-       centroLucro                            AS centroLucro,
-       vendno                                 AS vendno,
-       fornecedor                             AS fornecedor,
-       P.typeno                               AS typeno,
-       P.tipo                                 AS tipoProduto
+SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
+       descricao                                              AS descricao,
+       CAST(MID(MIN(datetime), 1, 10) * 1 AS DATE)            AS data,
+       SEC_TO_TIME(MID(MIN(datetime), 11, 10) * 1)            AS time,
+       userno                                                 AS userno,
+       U.name                                                 AS usuario,
+       refprice                                               AS refprice,
+       promo_price                                            AS promo_price,
+       CAST(promo_validate AS DATE)                           AS dataPromocao,
+       ROUND((refPrice - promo_price) * 100.00 / refPrice, 2) AS desconto,
+       clno                                                   AS clno,
+       centroLucro                                            AS centroLucro,
+       vendno                                                 AS vendno,
+       fornecedor                                             AS fornecedor,
+       P.typeno                                               AS typeno,
+       P.tipo                                                 AS tipoProduto
 FROM T_PRD                  AS P
   INNER JOIN T_PRECO_HIS    AS V
 	       USING (prdno)
   INNER JOIN sqldados.users AS U
 	       ON U.no = userno
-WHERE marca > 0
+GROUP BY numero
