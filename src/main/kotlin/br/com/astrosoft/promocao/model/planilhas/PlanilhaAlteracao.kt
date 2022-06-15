@@ -16,7 +16,7 @@ class PlanilhaAlteracao {
     listOf(
       CampoString("Cod") { codigo },
       CampoString("Descrição") { descricao },
-      CampoNumber("R\$ Ref.") { refprice },
+      CampoNumber("R\$ Ref.") { refprice  ?: 0.00},
       CampoNumber("R\$ Promo.") { promo_price ?: 0.00 },
       CampoString("Validade") { dataPromocao.format() },
       CampoNumber("% Perc") { desconto ?: 0.00 },

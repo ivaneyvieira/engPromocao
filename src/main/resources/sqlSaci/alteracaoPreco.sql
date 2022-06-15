@@ -15,6 +15,7 @@ DO @CLNF := CASE
 		THEN CONCAT(MID(@CLNO, 1, 4), '99')
 	      ELSE @CLNO
 	    END;
+
 DO @DATAI := :dataInicial;
 DO @DATAF := :dataFinal;
 
@@ -43,6 +44,46 @@ WHERE (P.clno BETWEEN @CLNO AND @CLNF OR @CLNO = 0)
   AND (P.typeno = @TYPENO OR @TYPENO = 0)
   AND (P.no = @PRDNO OR @CODIGO = '');
 
+DO @DT := @DATAI;
+DO @DI := CAST(SUBDATE(20220301, 365 * 1) * 1 AS UNSIGNED);
+
+
+DROP TEMPORARY TABLE IF EXISTS T_HIS_TEMP;
+CREATE TEMPORARY TABLE T_HIS_TEMP
+SELECT storeno,
+       prdno,
+       MAX(CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)) AS datetime
+FROM sqldados.prphis AS H
+WHERE storeno = 10
+  AND date >= @DI
+  AND date < @DT
+GROUP BY storeno, prdno;
+
+DROP TEMPORARY TABLE IF EXISTS T_HIS;
+CREATE TEMPORARY TABLE T_HIS (
+  PRIMARY KEY (storeno, prdno, date, time),
+  date INT(10),
+  time INT(10)
+)
+SELECT storeno,
+       prdno,
+       MID(datetime, 1, 10) * 1  AS date,
+       MID(datetime, 11, 10) * 1 AS time
+FROM T_HIS_TEMP;
+
+
+DROP TEMPORARY TABLE IF EXISTS T_PRD_HIS;
+CREATE TEMPORARY TABLE T_PRD_HIS (
+  PRIMARY KEY (prdno)
+)
+SELECT prdno,
+       refprice                                                AS refpriceAnt,
+       IF(H.promo_validate >= H.date, H.promo_price, refprice) AS promoPreco
+FROM sqldados.prphis AS H
+  INNER JOIN T_HIS
+	       USING (storeno, prdno, date, time)
+GROUP BY prdno;
+
 DO @CHAVE := '';
 DO @COD := '';
 DO @PRECO := '';
@@ -55,23 +96,27 @@ CREATE TEMPORARY TABLE T_PRECO_HIS (
 )
 SELECT H.storeno,
        @CHAVE                                                                     AS chaveAnt,
-       @COD := H.prdno                                                            AS prdnoAnt,
-       @PRECO := refprice                                                         AS precoSaciAnt,
+       @COD := H.prdno                                                            AS prdno,
+       @PRECO := H.refprice                                                       AS precoSaci,
        @VALIDADE := IF(H.promo_validate = 0, NULL, H.promo_validate)              AS validadeAnt,
        @NUMERO := @NUMERO + IF(@CHAVE = CAST(CONCAT(@PRECO, @COD) AS CHAR), 0, 1) AS numero,
-       @COD := H.prdno                                                            AS prdno,
-       @PRECO := refprice                                                         AS precoSaci,
        @VALIDADE := IF(H.promo_validate = 0, NULL, H.promo_validate)              AS promo_validate,
        @CHAVE := CAST(CONCAT(@PRECO, @COD) AS CHAR)                               AS chave,
-       IF(H.promo_validate >= H.date, promo_price, refprice) / 100                AS promo_price,
+       IF(H.promo_validate >= H.date, promo_price, H.refprice) / 100              AS promo_price,
+       P.promoPreco / 100                                                         AS promo_priceAnt,
        @PRECO / 100                                                               AS refprice,
+       P.refpriceAnt / 100                                                        AS refpriceAnt,
+       @PRECO = P.refpriceAnt                                                     AS igual,
        CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)         AS datetime,
        H.userno
-FROM sqldados.prphis AS H
+FROM sqldados.prphis   AS H
+  LEFT JOIN T_PRD_HIS AS P
+	       USING (prdno)
   INNER JOIN T_PRD
 	       USING (prdno)
 WHERE H.date BETWEEN @DATAI AND @DATAF
   AND H.storeno = 10
+  AND IFNULL(P.refpriceAnt, 0) != H.refprice
 ORDER BY H.storeno, H.prdno, H.date, H.time;
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
@@ -81,7 +126,9 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
        userno                                                 AS userno,
        U.name                                                 AS usuario,
        refprice                                               AS refprice,
+       refpriceAnt                                            AS refpriceAnt,
        promo_price                                            AS promo_price,
+       promo_priceAnt                                         AS promo_priceAnt,
        CAST(promo_validate AS DATE)                           AS dataPromocao,
        ROUND((refPrice - promo_price) * 100.00 / refPrice, 2) AS desconto,
        clno                                                   AS clno,

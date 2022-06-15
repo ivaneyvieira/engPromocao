@@ -56,6 +56,11 @@ object NotaNddViewColumns {
     colunaFixa(100)
   }
 
+  fun Grid<PrecoAlteracao>.precoPrecoPromocionalAnt() = addColumnDouble(PrecoAlteracao::promo_priceAnt) {
+    this.setHeader("R$ Ant.")
+    colunaFixa(100)
+  }
+
   fun Grid<PrecoAlteracao>.precoPrecoPromocional() = addColumnDouble(PrecoAlteracao::promo_price) {
     this.setHeader("R$ Promo")
     colunaFixa(100)
@@ -68,6 +73,11 @@ object NotaNddViewColumns {
 
   fun Grid<PrecoAlteracao>.precoPrecoRef() = addColumnDouble(PrecoAlteracao::refprice) {
     this.setHeader("R$ Ref.")
+    colunaFixa(100)
+  }
+
+  fun Grid<PrecoAlteracao>.precoPrecoRefAnt() = addColumnDouble(PrecoAlteracao::refpriceAnt) {
+    this.setHeader("R$ Ant.")
     colunaFixa(100)
   }
 
