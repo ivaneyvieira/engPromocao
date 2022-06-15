@@ -14,6 +14,7 @@ object NotaNddViewColumns {
 
   fun Grid<PrecoAlteracao>.precoDescricao() = addColumnString(PrecoAlteracao::descricao) {
     this.setHeader("Descrição")
+    this.isResizable = true
   }
 
   fun Grid<PrecoAlteracao>.precoUsuario() = addColumnString(PrecoAlteracao::usuario) {
@@ -83,6 +84,7 @@ object NotaNddViewColumns {
 
   private fun @VaadinDsl Grid.Column<PrecoAlteracao>.colunaFixa(width : Int) {
     this.isAutoWidth = false
+    this.isResizable = true
     this.isExpand = false
     this.width = "${width}px"
   }
