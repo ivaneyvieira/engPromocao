@@ -108,9 +108,11 @@ SELECT H.storeno,
        P.refpriceAnt / 100                                                        AS refpriceAnt,
        @PRECO = P.refpriceAnt                                                     AS igual,
        CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)         AS datetime,
-       H.userno
+       H.userno,
+       H.date,
+       H.time
 FROM sqldados.prphis   AS H
-  LEFT JOIN T_PRD_HIS AS P
+  LEFT JOIN  T_PRD_HIS AS P
 	       USING (prdno)
   INNER JOIN T_PRD
 	       USING (prdno)
@@ -118,6 +120,41 @@ WHERE H.date BETWEEN @DATAI AND @DATAF
   AND H.storeno = 10
   AND IFNULL(P.refpriceAnt, 0) != H.refprice
 ORDER BY H.storeno, H.prdno, H.date, H.time;
+
+DROP TEMPORARY TABLE IF EXISTS T_PRECO_HIS_MAX;
+CREATE TEMPORARY TABLE T_PRECO_HIS_MAX (
+  PRIMARY KEY (storeno, prdno, date, time)
+)
+SELECT H.storeno,
+       H.prdno,
+       H.date,
+       MAX(H.time) AS time
+FROM T_PRECO_HIS AS H
+GROUP BY H.storeno, H.prdno, H.date;
+
+DROP TEMPORARY TABLE IF EXISTS T_PRECO_HIS02;
+CREATE TEMPORARY TABLE T_PRECO_HIS02 (
+  PRIMARY KEY (storeno, prdno, datetime),
+  datetime VARCHAR(20)
+)
+SELECT storeno,
+       chaveAnt,
+       prdno,
+       precoSaci,
+       promo_validate,
+       numero,
+       chave,
+       promo_price,
+       promo_priceAnt,
+       refprice,
+       refpriceAnt,
+       datetime,
+       userno,
+       date,
+       time
+FROM T_PRECO_HIS AS H
+  INNER JOIN T_PRECO_HIS_MAX
+	       USING (storeno, prdno, date, time);
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
        descricao                                              AS descricao,
@@ -138,7 +175,7 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
        P.typeno                                               AS typeno,
        P.tipo                                                 AS tipoProduto
 FROM T_PRD                  AS P
-  INNER JOIN T_PRECO_HIS    AS V
+  INNER JOIN T_PRECO_HIS02    AS V
 	       USING (prdno)
   INNER JOIN sqldados.users AS U
 	       ON U.no = userno
