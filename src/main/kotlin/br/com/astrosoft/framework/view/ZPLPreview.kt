@@ -25,8 +25,8 @@ object ZPLPreview {
     return if (response.isSuccessful) response.body?.bytes() else null
   }
 
-  fun showZPLPreview(impressora: String, zplCode: String, printRunnable: () -> Unit) {
-    val image = createPdf(zplCode, "3x1")
+  fun showZPLPreview(impressora: String, zplPreview: String, printRunnable: () -> Unit) {
+    val image = createPdf(zplPreview, "3x1")
     if (image != null) showImage(impressora, image, printRunnable)
   }
 
