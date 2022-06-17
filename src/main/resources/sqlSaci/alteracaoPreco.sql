@@ -154,7 +154,8 @@ SELECT storeno,
        time
 FROM T_PRECO_HIS AS H
   INNER JOIN T_PRECO_HIS_MAX
-	       USING (storeno, prdno, date, time);
+	       USING (storeno, prdno, date, time)
+WHERE H.promo_validate >= @HOJE;
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
        descricao                                              AS descricao,
