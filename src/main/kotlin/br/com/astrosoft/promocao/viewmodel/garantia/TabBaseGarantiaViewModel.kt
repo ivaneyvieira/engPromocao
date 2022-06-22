@@ -1,6 +1,5 @@
 package br.com.astrosoft.promocao.viewmodel.garantia
 
-import br.com.astrosoft.Garantia.viewmodel.garantia.GarantiaViewModel
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.promocao.model.beans.ComparaValidade
 import br.com.astrosoft.promocao.model.beans.ETipoDiferencaGarantia

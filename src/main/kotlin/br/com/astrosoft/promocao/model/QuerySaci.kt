@@ -141,6 +141,15 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun consultaProdutoValidade(filtro : String): List<ProdutoValidade> {
+    val sql = "/sqlSaci/produtosValidade.sql"
+
+    return query(sql, ProdutoValidade::class) {
+      addOptionalParameter("filtro", filtro)
+    }
+  }
+
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
