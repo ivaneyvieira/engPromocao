@@ -48,11 +48,14 @@ FROM sqldados.prd            AS P
 	       ON P.mfno = V.no
   LEFT JOIN  sqldados.prdnam AS N
 	       ON P.no = N.prdno
-WHERE ((P.clno BETWEEN @CLNO AND @CLNF) OR (P.mfno = @VENDNO) OR (P.typeno = @TYPENO) OR
-       (P.no = @PRDNO) OR @CODIGO = '0')
-  AND ((C.name LIKE @FILTROLIKE) OR (V.name LIKE @FILTROLIKE) OR (T.name LIKE @FILTROLIKE) OR
-       (P.name LIKE @FILTROLIKE) OR (IFNULL(N.name, '') LIKE @FILTROLIKE));
-
+WHERE ((P.clno BETWEEN @CLNO AND @CLNF AND P.no NOT REGEXP ' +9[0-9]{5}') OR
+       (P.mfno = @VENDNO AND P.no NOT REGEXP ' +9[0-9]{5}') OR
+       (P.typeno = @TYPENO AND P.no NOT REGEXP ' +9[0-9]{5}') OR (P.no = @PRDNO) OR @CODIGO = '0')
+  AND ((C.name LIKE @FILTROLIKE AND P.no NOT REGEXP ' +9[0-9]{5}') OR
+       (V.name LIKE @FILTROLIKE AND P.no NOT REGEXP ' +9[0-9]{5}') OR
+       (T.name LIKE @FILTROLIKE AND P.no NOT REGEXP ' +9[0-9]{5}') OR (P.name LIKE @FILTROLIKE) OR
+       (IFNULL(N.name, '') LIKE @FILTROLIKE))
+  AND (@FILTRO != '' OR P.no NOT REGEXP ' +9[0-9]{5}');
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')    AS codigo,
        descricao                      AS descricao,

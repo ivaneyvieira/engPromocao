@@ -9,8 +9,10 @@ DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
 DO @CLNO := LPAD(:clno, 6, '0');
 DO @CLNF := CASE
-	      WHEN @CLNO LIKE '%0000' THEN CONCAT(MID(@CLNO, 1, 2), '9999')
-	      WHEN @CLNO LIKE '%00'   THEN CONCAT(MID(@CLNO, 1, 4), '99')
+	      WHEN @CLNO LIKE '%0000'
+		THEN CONCAT(MID(@CLNO, 1, 2), '9999')
+	      WHEN @CLNO LIKE '%00'
+		THEN CONCAT(MID(@CLNO, 1, 4), '99')
 	      ELSE @CLNO
 	    END;
 DO @DATAI := :dataInicial;
@@ -76,7 +78,9 @@ DO @DI := CAST(SUBDATE(20220301, 365 * 1) * 1 AS UNSIGNED);
 
 DROP TEMPORARY TABLE IF EXISTS T_HIS_TEMP;
 CREATE TEMPORARY TABLE T_HIS_TEMP
-SELECT storeno, prdno, MAX(CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)) AS datetime
+SELECT storeno,
+       prdno,
+       MAX(CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)) AS datetime
 FROM sqldados.prphis AS H
 WHERE storeno = 10
   AND date >= @DI
@@ -89,7 +93,10 @@ CREATE TEMPORARY TABLE T_HIS (
   date INT(10),
   time INT(10)
 )
-SELECT storeno, prdno, MID(datetime, 1, 10) * 1 AS date, MID(datetime, 11, 10) * 1 AS time
+SELECT storeno,
+       prdno,
+       MID(datetime, 1, 10) * 1  AS date,
+       MID(datetime, 11, 10) * 1 AS time
 FROM T_HIS_TEMP;
 
 
@@ -97,7 +104,11 @@ DROP TEMPORARY TABLE IF EXISTS T_PRD_HIS;
 CREATE TEMPORARY TABLE T_PRD_HIS (
   PRIMARY KEY (prdno)
 )
-SELECT prdno, date, refprice AS refpriceAnt, H.promo_validate AS promo_validateAnt, H.promo_price AS promo_priceAnt
+SELECT prdno,
+       date,
+       refprice         AS refpriceAnt,
+       H.promo_validate AS promo_validateAnt,
+       H.promo_price    AS promo_priceAnt
 FROM sqldados.prphis AS H
   INNER JOIN T_HIS
 	       USING (storeno, prdno, date, time)
@@ -114,18 +125,22 @@ CREATE TEMPORARY TABLE T_PRECO_HIS (
   datetime VARCHAR(20)
 )
 SELECT H.storeno,
-       @CHAVE                                                                                           AS chaveAnt,
-       @COD := H.prdno                                                                                  AS prdno,
-       @PRECO := IF(H.promo_validate >= H.date, H.promo_price, refprice)                                AS precoSaci,
-       @VALIDADE := IF(H.promo_validate = 0, NULL, H.promo_validate)                                    AS promo_validate,
-       @NUMERO := @NUMERO + IF(@CHAVE = CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR), 0, 1) AS numero,
-       @CHAVE := CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR)                               AS chave,
-       @PRECO / 100                                                                                     AS promo_price,
+       @CHAVE                                                                                    AS chaveAnt,
+       @COD := H.prdno                                                                           AS prdno,
+       @PRECO :=
+	 IF(H.promo_validate >= H.date, H.promo_price, refprice)                                 AS precoSaci,
+       @VALIDADE :=
+	 IF(H.promo_validate = 0, NULL, H.promo_validate)                                        AS promo_validate,
+       @NUMERO := @NUMERO + IF(@CHAVE = CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR), 0,
+			       1)                                                                AS numero,
+       @CHAVE :=
+	 CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR)                                AS chave,
+       @PRECO / 100                                                                              AS promo_price,
        IF(P.promo_validateAnt >= P.date, P.promo_priceAnt, P.refpriceAnt) /
-       100                                                                                              AS promo_priceAnt,
-       refprice / 100                                                                                   AS refprice,
-       P.refpriceAnt / 100                                                                              AS refpriceAnt,
-       CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)                               AS datetime,
+       100                                                                                       AS promo_priceAnt,
+       refprice / 100                                                                            AS refprice,
+       P.refpriceAnt / 100                                                                       AS refpriceAnt,
+       CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)                        AS datetime,
        H.userno,
        H.date,
        H.time
@@ -143,7 +158,10 @@ DROP TEMPORARY TABLE IF EXISTS T_PRECO_HIS_MAX;
 CREATE TEMPORARY TABLE T_PRECO_HIS_MAX (
   PRIMARY KEY (storeno, prdno, date, time)
 )
-SELECT H.storeno, H.prdno, H.date, MAX(H.time) AS time
+SELECT H.storeno,
+       H.prdno,
+       H.date,
+       MAX(H.time) AS time
 FROM T_PRECO_HIS AS H
 GROUP BY H.storeno, H.prdno, H.date;
 
@@ -190,7 +208,7 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
        P.typeno                                               AS typeno,
        P.tipo                                                 AS tipoProduto
 FROM T_PRD                  AS P
-  INNER JOIN T_PRECO_HIS02    AS V
+  INNER JOIN T_PRECO_HIS02  AS V
 	       USING (prdno)
   INNER JOIN sqldados.users AS U
 	       ON U.no = userno
