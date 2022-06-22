@@ -2,20 +2,21 @@ package br.com.astrosoft.promocao.view.garantia
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.promocao.model.beans.ETipoDiferencaGarantia
 import br.com.astrosoft.promocao.model.beans.ETipoValidade
 import br.com.astrosoft.promocao.model.beans.InfoModifica
 import br.com.astrosoft.promocao.model.beans.ProdutoValidade
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaCentroLucro
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaClno
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaCodigo
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaDescicao
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaFornecedor
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaMeseValidade
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaTipoNo
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaTipoProduto
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaTipoValidade
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.garantiaVendno
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoCentroLucro
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoClno
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoCodigo
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescicao
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescricaoCompleta1
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescricaoCompleta2
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoFornecedor
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoMeseValidade
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoTipoNo
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoTipoProduto
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoTipoValidade
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoVendno
 import br.com.astrosoft.promocao.viewmodel.garantia.ITabProdutoGarantiaViewModel
 import br.com.astrosoft.promocao.viewmodel.garantia.TabProdutoGarantiaViewModel
 import com.github.mvysny.karibudsl.v10.*
@@ -84,16 +85,18 @@ class TabProdutoGarantia(val viewModel: TabProdutoGarantiaViewModel) :
 
   override fun Grid<ProdutoValidade>.gridPanel() {
     this.setSelectionMode(Grid.SelectionMode.MULTI)
-    garantiaCodigo()
-    garantiaDescicao()
-    garantiaClno()
-    garantiaCentroLucro()
-    garantiaVendno()
-    garantiaFornecedor()
-    garantiaTipoNo()
-    garantiaTipoProduto()
-    garantiaTipoValidade()
-    garantiaMeseValidade()
+    produtoCodigo()
+    produtoDescicao()
+    produtoDescricaoCompleta1()
+    produtoDescricaoCompleta2()
+    produtoClno()
+    produtoCentroLucro()
+    produtoVendno()
+    produtoFornecedor()
+    produtoTipoNo()
+    produtoTipoProduto()
+    produtoTipoValidade()
+    produtoMeseValidade()
   }
 }
 
