@@ -5,6 +5,7 @@ import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.toSaciDate
 import br.com.astrosoft.promocao.model.beans.*
+import com.lowagie.text.pdf.PdfName.AS
 import java.time.LocalDate
 
 class QuerySaci : QueryDB(driver, url, username, password) {
@@ -141,7 +142,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun consultaProdutoValidade(filtro : String): List<ProdutoValidade> {
+  fun consultaProdutoValidade(filtro: String): List<ProdutoValidade> {
     val sql = "/sqlSaci/produtosValidade.sql"
 
     return query(sql, ProdutoValidade::class) {
@@ -149,6 +150,17 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun modificaValidade(codigo: String, infoModifica: InfoModifica) {
+    val sql = """
+      UPDATE sqldados.prd AS P
+      SET P.tipoGarantia  = ${infoModifica.tipo?.num},
+          P.garantia      = ${infoModifica.validade}
+      WHERE no = LPAD($codigo * 1, 16, ' ')
+    """.trimIndent()
+    if (infoModifica.tipo != null){
+      script(sql)
+    }
+  }
 
   companion object {
     private val db = DB("saci")

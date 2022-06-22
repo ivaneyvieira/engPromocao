@@ -58,6 +58,7 @@ SELECT LPAD(TRIM(P.prdno), 6, '0') AS codigo,
        fornecedor                  AS fornecedor,
        P.typeno                    AS typeno,
        P.tipo                      AS tipoProduto,
-       tipoValidade                AS tipoValidade,
+       P.tipoValidade              AS tipoValidade,
        P.mesesValidade             AS mesesValidade
 FROM T_PRD AS P
+
