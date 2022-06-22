@@ -5,7 +5,6 @@ import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.toSaciDate
 import br.com.astrosoft.promocao.model.beans.*
-import com.lowagie.text.pdf.PdfName.AS
 import java.time.LocalDate
 
 class QuerySaci : QueryDB(driver, url, username, password) {
@@ -157,27 +156,29 @@ class QuerySaci : QueryDB(driver, url, username, password) {
           P.garantia      = ${infoModifica.validade}
       WHERE no = LPAD(${produto.codigo} * 1, 16, ' ')
     """.trimIndent()
-    if (infoModifica.tipo != null){
+    if (infoModifica.tipo != null) {
       script(sql)
     }
   }
 
   fun modificaValidadeDescricao(produto: ProdutoValidade, infoModifica: InfoModifica) {
-    val tempo = when(infoModifica.tipo){
+    val tempo = when (infoModifica.tipo) {
       ETipoValidade.DIA    -> "D"
       ETipoValidade.SEMANA -> "S"
       ETipoValidade.MES    -> "M"
       ETipoValidade.ANO    -> "A"
       null                 -> ""
     }
-    val novaValidade = "VALIDADE: ${infoModifica.validade}${tempo}"
+    val validade = infoModifica.validade
+    val novaValidade = if (validade == 0) ""
+    else "VALIDADE: ${infoModifica.validade}${tempo}"
     val sql = """
       UPDATE sqldados.prdnam AS P
       SET P.name = CONCAT(RPAD('${produto.descricaoCompleta1}', 60, ' '), 
                           RPAD('${novaValidade}', 60, ' '))
       WHERE prdno = LPAD(${produto.codigo} * 1, 16, ' ')
     """.trimIndent()
-    if (infoModifica.tipo != null){
+    if (infoModifica.tipo != null) {
       script(sql)
     }
   }
