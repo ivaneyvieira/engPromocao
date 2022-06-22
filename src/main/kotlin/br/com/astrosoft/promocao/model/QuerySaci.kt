@@ -150,12 +150,32 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun modificaValidade(codigo: String, infoModifica: InfoModifica) {
+  fun modificaValidadeCadastro(produto: ProdutoValidade, infoModifica: InfoModifica) {
     val sql = """
       UPDATE sqldados.prd AS P
       SET P.tipoGarantia  = ${infoModifica.tipo?.num},
           P.garantia      = ${infoModifica.validade}
-      WHERE no = LPAD($codigo * 1, 16, ' ')
+      WHERE no = LPAD(${produto.codigo} * 1, 16, ' ')
+    """.trimIndent()
+    if (infoModifica.tipo != null){
+      script(sql)
+    }
+  }
+
+  fun modificaValidadeDescricao(produto: ProdutoValidade, infoModifica: InfoModifica) {
+    val tempo = when(infoModifica.tipo){
+      ETipoValidade.DIA    -> "D"
+      ETipoValidade.SEMANA -> "S"
+      ETipoValidade.MES    -> "M"
+      ETipoValidade.ANO    -> "A"
+      null                 -> ""
+    }
+    val novaValidade = "VALIDADE: ${infoModifica.validade}${tempo}"
+    val sql = """
+      UPDATE sqldados.prdnam AS P
+      SET P.name = CONCAT(RPAD('${produto.descricaoCompleta1}', 60, ' '), 
+                          RPAD('${novaValidade}', 60, ' '))
+      WHERE prdno = LPAD(${produto.codigo} * 1, 16, ' ')
     """.trimIndent()
     if (infoModifica.tipo != null){
       script(sql)

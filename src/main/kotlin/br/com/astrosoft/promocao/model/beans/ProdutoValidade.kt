@@ -17,7 +17,10 @@ class ProdutoValidade(
   val descricaoCompleta2: String,
                      ) {
   fun modifica(infoModifica: InfoModifica) {
-    saci.modificaValidade(codigo, infoModifica)
+    when (infoModifica.registro) {
+      ERegistroValidade.CADASTRO  -> saci.modificaValidadeCadastro(this, infoModifica)
+      ERegistroValidade.DESCRICAO -> saci.modificaValidadeDescricao(this, infoModifica)
+    }
   }
 
   companion object {
@@ -31,4 +34,8 @@ enum class ETipoValidade(val num: Int, val descricao: String) {
   DIA(0, "Dia"), SEMANA(1, "Semana"), MES(2, "Mês"), ANO(3, "Ano");
 }
 
-data class InfoModifica(val tipo: ETipoValidade?, val validade: Int)
+enum class ERegistroValidade(val descricao: String) {
+  CADASTRO("No Cadastro"), DESCRICAO("Na Descrição")
+}
+
+data class InfoModifica(val tipo: ETipoValidade?, val validade: Int, val registro: ERegistroValidade?)

@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.garantia
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.promocao.model.beans.ERegistroValidade
 import br.com.astrosoft.promocao.model.beans.ETipoValidade
 import br.com.astrosoft.promocao.model.beans.InfoModifica
 import br.com.astrosoft.promocao.model.beans.ProdutoValidade
@@ -26,12 +27,14 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.component.textfield.TextFieldVariant
 import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabProdutoGarantia(val viewModel: TabProdutoGarantiaViewModel) :
         TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabProdutoGarantiaViewModel {
   private lateinit var edtFiltro: TextField
   private lateinit var cmbTipoValidade: ComboBox<ETipoValidade>
+  private lateinit var cmbRegistroValidade: ComboBox<ERegistroValidade>
   private lateinit var edtValidade: IntegerField
 
   override fun updateComponent() {
@@ -45,7 +48,8 @@ class TabProdutoGarantia(val viewModel: TabProdutoGarantiaViewModel) :
   override fun infoModifica(): InfoModifica {
     return InfoModifica(
       tipo     = cmbTipoValidade.value,
-      validade = edtValidade.value ?: 0
+      validade = edtValidade.value ?: 0,
+      registro = cmbRegistroValidade.value
                        )
   }
 
@@ -66,8 +70,17 @@ class TabProdutoGarantia(val viewModel: TabProdutoGarantiaViewModel) :
         it.descricao
       }
     }
+    cmbRegistroValidade = comboBox("Salva") {
+      this.setItems(ERegistroValidade.values().toList())
+      this.isAutoOpen = true
+      this.isAllowCustomValue = false
+      this.value = ERegistroValidade.CADASTRO
+      this.setItemLabelGenerator {
+        it.descricao
+      }
+    }
     edtValidade = integerField("Validade") {
-
+      this.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT)
     }
     button("Modifica validade") {
       icon = VaadinIcon.PLUS_CIRCLE.create()
