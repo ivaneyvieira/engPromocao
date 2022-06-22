@@ -90,7 +90,7 @@ class TabProdutoGarantia(val viewModel: TabProdutoGarantiaViewModel) :
     produtoDescricaoCompleta1()
     produtoDescricaoCompleta2()
     produtoClno()
-    produtoCentroLucro()
+    //produtoCentroLucro()
     produtoVendno()
     produtoFornecedor()
     produtoTipoNo()
