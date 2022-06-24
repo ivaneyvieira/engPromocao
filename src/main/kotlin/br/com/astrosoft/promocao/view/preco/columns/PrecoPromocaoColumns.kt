@@ -67,6 +67,11 @@ object NotaNddViewColumns {
     colunaFixa(100)
   }
 
+  fun Grid<PrecoAlteracao>.precoPrecoPromocionalM() = addColumnDouble(PrecoAlteracao::promo_priceM) {
+    this.setHeader("R$ Promo M2")
+    colunaFixa(100)
+  }
+
   fun Grid<PrecoAlteracao>.precoDesconto() = addColumnDouble(PrecoAlteracao::desconto) {
     this.setHeader("% Perc")
     colunaFixa(100)
@@ -82,12 +87,17 @@ object NotaNddViewColumns {
     colunaFixa(100)
   }
 
+  fun Grid<PrecoAlteracao>.precoPrecoRefM() = addColumnDouble(PrecoAlteracao::refpriceM) {
+    this.setHeader("R$ Ref M2")
+    colunaFixa(100)
+  }
+
   fun Grid<PrecoAlteracao>.precoPrecoRefAnt() = addColumnDouble(PrecoAlteracao::refpriceAnt) {
     this.setHeader("R$ Ant.")
     colunaFixa(100)
   }
 
-  private fun @VaadinDsl Grid.Column<PrecoAlteracao>.colunaFixa(width : Int) {
+  private fun @VaadinDsl Grid.Column<PrecoAlteracao>.colunaFixa(width: Int) {
     this.isAutoWidth = false
     this.isResizable = true
     this.isExpand = false

@@ -8,10 +8,11 @@ import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoDesc
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoDescricao
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoFornecedor
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoHoraAlteracao
-import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoMetroCaixa
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoPromocional
+import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoPromocionalM
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoRef
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoRefAnt
+import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoRefM
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoTipoProduto
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoUsuario
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoValidade
@@ -39,11 +40,12 @@ class TabPrecoPreco(viewModel: TabPrecoAlteradoViewModel) : TabAbstractPreco<ITa
     precoFornecedor()
     precoTipoProduto()
     precoCentroLucro()
-    precoMetroCaixa()
     precoPrecoRefAnt()
     precoPrecoRef()
+    precoPrecoRefM()
     precoValidade()
     precoPrecoPromocional()
+    precoPrecoPromocionalM()
     precoDesconto()
   }
 }

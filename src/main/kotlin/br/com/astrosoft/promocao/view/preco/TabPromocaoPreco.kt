@@ -11,7 +11,9 @@ import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoHora
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoMetroCaixa
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoPromocional
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoPromocionalAnt
+import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoPromocionalM
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoRef
+import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoRefM
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoTipoProduto
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoUsuario
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoValidade
@@ -41,9 +43,11 @@ class TabPromocaoPreco(viewModel: TabPromocaoAlteradoViewModel) :
     precoCentroLucro()
     precoMetroCaixa()
     precoPrecoRef()
+    precoPrecoRefM()
     precoValidade()
     precoPrecoPromocionalAnt()
     precoPrecoPromocional()
+    precoPrecoPromocionalM()
     precoDesconto()
   }
 }
