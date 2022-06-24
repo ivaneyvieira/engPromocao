@@ -4,6 +4,7 @@ import br.com.astrosoft.promocao.model.DadosEtiquetaProduto
 import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlin.math.roundToInt
 
 class PrecoAlteracao(
   val codigo: String,
@@ -30,6 +31,22 @@ class PrecoAlteracao(
       DadosEtiquetaProduto(codigo = codigo, grade = it.grade, descricao = descricao, barcode = it.barcode)
     }
   }
+
+  val metroCaixa: Double?
+    get() = if (clno in 10000..19999) {
+      val regexGrupo = "\\(([\\d,]+)\\)".toRegex()
+      val numero = regexGrupo.find(descricao)?.groupValues?.getOrNull(1)
+      if (numero == null) null
+      else {
+        val valor = numero.replace(',', '.')
+        val result = if (valor.contains('.')) valor.toDoubleOrNull()
+        else valor.toDoubleOrNull()?.div(100.00)
+        result?.times(100)?.roundToInt()?.div(100.00)
+      }
+    }
+    else {
+      null
+    }
 
   companion object {
     fun precoAlterado(filtro: FiltroPrecoAlteracao) = saci.produtosPrecoAlteracao(filtro)

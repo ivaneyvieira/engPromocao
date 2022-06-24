@@ -72,6 +72,11 @@ object NotaNddViewColumns {
     colunaFixa(100)
   }
 
+  fun Grid<PrecoAlteracao>.precoMetroCaixa() = addColumnDouble(PrecoAlteracao::metroCaixa) {
+    this.setHeader("M Piso")
+    colunaFixa(100)
+  }
+
   fun Grid<PrecoAlteracao>.precoPrecoRef() = addColumnDouble(PrecoAlteracao::refprice) {
     this.setHeader("R$ Ref.")
     colunaFixa(100)

@@ -25,7 +25,7 @@ object EtiquetaChave {
   }
 
   private fun printPreview(impressora: String, dados: List<DadosEtiquetaProduto>) {
-    val dadosPreview = if(dados.size > 50) dados.subList(0, 50) else dados
+    val dadosPreview = if (dados.size > 50) dados.subList(0, 50) else dados
     val zplPreview = dadosPreview.joinToString("\n") {
       template(it)
     }
