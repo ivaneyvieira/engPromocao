@@ -43,9 +43,5 @@ class TabPrecoPreco(viewModel: TabPrecoAlteradoViewModel) : TabAbstractPreco<ITa
     precoPrecoRefAnt()
     precoPrecoRef()
     precoPrecoRefM()
-    precoValidade()
-    precoPrecoPromocional()
-    precoPrecoPromocionalM()
-    precoDesconto()
   }
 }

@@ -60,10 +60,10 @@ class PrecoAlteracao(
     }
 
   val promo_priceM: Double?
-    get() = promo_price?.div(metroCaixa ?: 1.00)
+    get() = if (metroCaixa == null) null else promo_price?.div(metroCaixa ?: 1.00)
 
   val refpriceM: Double?
-    get() = refprice?.div(metroCaixa ?: 1.00)
+    get() = if (metroCaixa == null) null else refprice?.div(metroCaixa ?: 1.00)
 
   companion object {
     fun precoAlterado(filtro: FiltroPrecoAlteracao) = saci.produtosPrecoAlteracao(filtro)
