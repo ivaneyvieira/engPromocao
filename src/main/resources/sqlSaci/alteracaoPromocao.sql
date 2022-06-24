@@ -27,6 +27,7 @@ SELECT P.no                     AS prdno,
        P.clno                   AS clno,
        C.name                   AS centroLucro,
        P.mfno                   AS vendno,
+       P.mfno_ref               AS refFornecedor,
        V.sname                  AS fornecedor,
        P.typeno                 AS typeno,
        T.name                   AS tipo,
@@ -56,6 +57,7 @@ SELECT P.no                     AS prdno,
        P.clno                   AS clno,
        C.name                   AS centroLucro,
        P.mfno                   AS vendno,
+       P.mfno_ref               AS refFornecedor,
        V.sname                  AS fornecedor,
        P.typeno                 AS typeno,
        T.name                   AS tipo,
@@ -206,7 +208,8 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
        vendno                                                 AS vendno,
        fornecedor                                             AS fornecedor,
        P.typeno                                               AS typeno,
-       P.tipo                                                 AS tipoProduto
+       P.tipo                                                 AS tipoProduto,
+       P.refFornecedor                                        AS refFornecedor
 FROM T_PRD                  AS P
   INNER JOIN T_PRECO_HIS02  AS V
 	       USING (prdno)

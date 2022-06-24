@@ -26,7 +26,7 @@ object ZPLPreview {
   }
 
   fun showZPLPreview(impressora: String, zplPreview: String, printRunnable: () -> Unit) {
-    val image = createPdf(zplPreview, "3x1")
+    val image = createPdf(zplPreview, "4x1")
     if (image != null) showImage(impressora, image, printRunnable)
   }
 

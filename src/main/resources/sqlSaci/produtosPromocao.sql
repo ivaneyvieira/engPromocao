@@ -21,6 +21,7 @@ SELECT P.no                     AS prdno,
        P.clno                   AS clno,
        C.name                   AS centroLucro,
        P.mfno                   AS vendno,
+       P.mfno_ref               AS refFornecedor,
        V.sname                  AS fornecedor,
        P.typeno                 AS typeno,
        T.name                   AS tipo,
@@ -63,7 +64,8 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
        P.typeno                                                AS typeno,
        P.tipo                                                  AS tipoProduto,
        IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE')        AS origemPromocao,
-       V.login                                                 AS login
+       V.login                                                 AS login,
+       P.refFornecedor                                         AS refFornecedor
 FROM T_PRD           AS P
   INNER JOIN T_PRICE AS V
 	       USING (prdno)
