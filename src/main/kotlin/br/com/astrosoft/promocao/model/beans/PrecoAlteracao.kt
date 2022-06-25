@@ -26,6 +26,7 @@ class PrecoAlteracao(
   val refFornecedor: String,
   val typeno: Int,
   val tipoProduto: String,
+  val precoEtiqueta: Double?
                     ) {
   fun dadosEtiquetas(): List<DadosEtiquetaProduto> {
     return saci.produtoGrade(codigo).map {
@@ -39,9 +40,6 @@ class PrecoAlteracao(
                            preco = precoEtiqueta ?: 0.00)
     }
   }
-
-  val precoEtiqueta: Double?
-    get() = if (promo_price == 0.00) refprice else promo_price
 
   val metroCaixa: Double?
     get() = if (clno in 10000..19999) {

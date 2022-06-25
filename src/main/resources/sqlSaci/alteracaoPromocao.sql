@@ -210,7 +210,8 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
        fornecedor                                             AS fornecedor,
        P.typeno                                               AS typeno,
        P.tipo                                                 AS tipoProduto,
-       P.refFornecedor                                        AS refFornecedor
+       P.refFornecedor                                        AS refFornecedor,
+       promo_price                                            AS precoEtiqueta
 FROM T_PRD                  AS P
   INNER JOIN T_PRECO_HIS02  AS V
 	       USING (prdno)

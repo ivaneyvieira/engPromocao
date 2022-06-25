@@ -15,6 +15,7 @@ object EtiquetaChave {
       .replace("[data]", dados.dataStr)
       .replace("[ref]", dados.ref)
       .replace("[preco]", dados.precoStr)
+      .replace("[marca]", dados.marca)
       .replace("[larg]", dados.largStr)
       .replace("[codigo]", dados.codigo)
       .replace("[grade]", dados.grade)
@@ -62,6 +63,9 @@ data class DadosEtiquetaProduto(val codigo: String,
     precoStr.length == 6 -> 105
     else                 -> 90
   }
+
   val largStr: String get() = larg.toString()
+
+  val marca: String = if (metroCaixa == null) "" else "M2"
 }
 
