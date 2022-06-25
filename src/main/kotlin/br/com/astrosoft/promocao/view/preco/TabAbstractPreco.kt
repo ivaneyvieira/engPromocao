@@ -132,8 +132,6 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
 
   protected abstract fun HorizontalLayout.addAditionaisFields()
 
-  override fun isAuthorized(user: IUser) = true
-
   override fun filtro() = FiltroPrecoAlteracao(codigo = edtCodigo.value ?: "",
                                                vendno = edtVend.value ?: 0,
                                                clno = edtCl.value ?: 0,

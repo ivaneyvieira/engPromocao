@@ -4,9 +4,7 @@ import br.com.astrosoft.framework.view.UserLayout
 import br.com.astrosoft.framework.viewmodel.IUsuarioView
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.viewmodel.UsuarioViewModel
-import com.github.mvysny.karibudsl.v10.comboBox
-import com.github.mvysny.karibudsl.v10.integerField
-import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.Binder
@@ -61,46 +59,64 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
           isAllowCustomValue = false
           binder.bind(this, UserSaci::storeno.name)
-        }/*
+        }
+
         formLayout {
           h4("Promoção") {
             colspan = 2
           }
 
-          checkBox("Pedido") {
+          checkBox("Base") {
             isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedido.name)
+            binder.bind(this, UserSaci::promocaoBase.name)
           }
-          checkBox("Nota série 1") {
+          checkBox("99") {
             isReadOnly = readOnly
-            binder.bind(this, UserSaci::nota01.name)
+            binder.bind(this, UserSaci::promocao99.name)
           }
-          checkBox("Nota série 1 Coleta") {
+          checkBox("Promoção") {
             isReadOnly = readOnly
-            binder.bind(this, UserSaci::nota01Coleta.name)
+            binder.bind(this, UserSaci::promocaoPromocao.name)
           }
-          checkBox("Remessa de Conserto") {
+          checkBox("Base") {
             isReadOnly = readOnly
-            binder.bind(this, UserSaci::remessaConserto.name)
-          }
-          checkBox("Ajuste Garantia") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::ajusteGarantia.name)
-          }
-          checkBox("Financeiro") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::notaFinanceiro.name)
-          }
-          checkBox("Sap x Saci") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::conferenciaSap.name)
-          }
-          checkBox("Sap") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::sap.name)
+            binder.bind(this, UserSaci::promocaoSemPromocao.name)
           }
         }
-        */
+
+        formLayout {
+          h4("Preco") {
+            colspan = 2
+          }
+
+          checkBox("Base") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::precoBase.name)
+          }
+          checkBox("Preço") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::precoPreco.name)
+          }
+          checkBox("Promoção") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::precoPromocao.name)
+          }
+        }
+
+        formLayout {
+          h4("Garantia") {
+            colspan = 2
+          }
+
+          checkBox("Base") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::garantiaBase.name)
+          }
+          checkBox("Inserir") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::garantiaInserir.name)
+          }
+        }
       }
     }
   }

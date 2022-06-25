@@ -1,6 +1,8 @@
 package br.com.astrosoft.promocao.view.promocao
 
+import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.localePtBr
+import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.viewmodel.promocao.ITabPromocaoViewModel
 import br.com.astrosoft.promocao.viewmodel.promocao.TabPromocaoViewModel
 import com.github.mvysny.karibudsl.v10.button
@@ -45,4 +47,6 @@ class TabPromocao(override val viewModel: TabPromocaoViewModel) : TabAbstractPro
       }
     }
   }
+
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.promocaoPromocao ?: false
 }

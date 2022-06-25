@@ -4,6 +4,7 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.promocao.model.beans.ComparaValidade
 import br.com.astrosoft.promocao.model.beans.ETipoDiferencaGarantia
+import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaCodigo
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaDescicao
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaDiferenca
@@ -47,7 +48,7 @@ class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<Co
     }
   }
 
-  override fun isAuthorized(user: IUser) = true
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaBase ?: false
   override val label: String
     get() = "Base"
 

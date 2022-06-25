@@ -1,6 +1,8 @@
 package br.com.astrosoft.promocao.view.preco
 
+import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.promocao.model.beans.PrecoAlteracao
+import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoCentroLucro
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoCodigo
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoDataAlteracao
@@ -8,12 +10,9 @@ import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoDesc
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoDescricao
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoFornecedor
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoHoraAlteracao
-import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoMetroCaixa
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoPromocional
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoPromocionalAnt
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoPromocionalM
-import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoRef
-import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoPrecoRefM
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoTipoProduto
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoUsuario
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoValidade
@@ -25,6 +24,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabPromocaoPreco(viewModel: TabPromocaoAlteradoViewModel) :
         TabAbstractPreco<ITabPromocaoAlteradoViewModel>(viewModel), ITabPromocaoAlteradoViewModel {
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.precoPromocao ?: false
+
   override val label: String
     get() = "Preço Promocional"
 

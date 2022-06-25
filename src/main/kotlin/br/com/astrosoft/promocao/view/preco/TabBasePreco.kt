@@ -1,6 +1,8 @@
 package br.com.astrosoft.promocao.view.preco
 
+import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.promocao.model.beans.PrecoAlteracao
+import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoCentroLucro
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoCodigo
 import br.com.astrosoft.promocao.view.preco.columns.NotaNddViewColumns.precoDesconto
@@ -21,6 +23,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabBasePreco(viewModel: TabBaseAlteradoViewModel) :
         TabAbstractPreco<ITabBaseAlteradoViewModel>(viewModel, showDatas = false), ITabBaseAlteradoViewModel {
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.precoBase ?: false
+
   override val label: String
     get() = "Base"
 

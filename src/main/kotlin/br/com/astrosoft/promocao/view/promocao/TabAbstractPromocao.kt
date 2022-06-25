@@ -102,8 +102,6 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
 
   protected abstract fun HorizontalLayout.addAditionaisFields()
 
-  override fun isAuthorized(user: IUser) = true
-
   override fun filtro() = FiltroPrecoPromocao(codigo = edtCodigo.value ?: 0,
                                               vendno = edtVend.value ?: 0,
                                               clno = edtCl.value ?: 0,

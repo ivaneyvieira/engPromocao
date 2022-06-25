@@ -2,11 +2,7 @@ package br.com.astrosoft.promocao.view.garantia
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.promocao.model.beans.ERegistroValidade
-import br.com.astrosoft.promocao.model.beans.ETipoValidade
-import br.com.astrosoft.promocao.model.beans.InfoModifica
-import br.com.astrosoft.promocao.model.beans.ProdutoValidade
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoCentroLucro
+import br.com.astrosoft.promocao.model.beans.*
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoClno
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoCodigo
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescicao
@@ -46,15 +42,13 @@ class TabProdutoGarantia(val viewModel: TabProdutoGarantiaViewModel) :
   }
 
   override fun infoModifica(): InfoModifica {
-    return InfoModifica(
-      tipo     = cmbTipoValidade.value,
-      validade = edtValidade.value ?: 0,
-      registro = cmbRegistroValidade.value
-                       )
+    return InfoModifica(tipo = cmbTipoValidade.value,
+                        validade = edtValidade.value ?: 0,
+                        registro = cmbRegistroValidade.value)
   }
 
   override fun HorizontalLayout.toolBarConfig() {
-    edtFiltro = textField ("Filtro") {
+    edtFiltro = textField("Filtro") {
       this.width = "250px"
       this.valueChangeMode = ValueChangeMode.TIMEOUT
       this.addValueChangeListener {
@@ -90,7 +84,7 @@ class TabProdutoGarantia(val viewModel: TabProdutoGarantiaViewModel) :
     }
   }
 
-  override fun isAuthorized(user: IUser) = true
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaInserir ?: false
   override val label: String
     get() = "Inserir"
 
@@ -102,8 +96,7 @@ class TabProdutoGarantia(val viewModel: TabProdutoGarantiaViewModel) :
     produtoDescicao()
     produtoDescricaoCompleta1()
     produtoDescricaoCompleta2()
-    produtoClno()
-    //produtoCentroLucro()
+    produtoClno() //produtoCentroLucro()
     produtoVendno()
     produtoFornecedor()
     produtoTipoNo()
