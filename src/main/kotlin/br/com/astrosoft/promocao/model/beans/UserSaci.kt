@@ -15,17 +15,17 @@ class UserSaci : IUser {
   var prntno: Int = 0
   var impressora: String? = ""
   override var ativo by DelegateAuthorized(0)
-  val garantiaBase by DelegateAuthorized(1)
-  val garantiaInserir by DelegateAuthorized(2)
+  var garantiaBase by DelegateAuthorized(1)
+  var garantiaInserir by DelegateAuthorized(2)
 
-  val precoBase by DelegateAuthorized(3)
-  val precoPreco by DelegateAuthorized(4)
-  val precoPromocao by DelegateAuthorized(5)
+  var precoBase by DelegateAuthorized(3)
+  var precoPreco by DelegateAuthorized(4)
+  var precoPromocao by DelegateAuthorized(5)
 
-  val promocao99 by DelegateAuthorized(6)
-  val promocaoBase by DelegateAuthorized(7)
-  val promocaoPromocao by DelegateAuthorized(8)
-  val promocaoSemPromocao by DelegateAuthorized(9)
+  var promocao99 by DelegateAuthorized(6)
+  var promocaoBase by DelegateAuthorized(7)
+  var promocaoPromocao by DelegateAuthorized(8)
+  var promocaoSemPromocao by DelegateAuthorized(9)
 
   val menuPromocao = precoBase || precoPreco || precoPromocao
   val menuGarantia = garantiaBase || garantiaInserir
