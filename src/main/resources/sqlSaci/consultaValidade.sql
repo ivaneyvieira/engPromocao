@@ -85,16 +85,19 @@ SELECT codigo,
 	   THEN 3
 	 ELSE 4
        END                                    AS tipo
-FROM T_VALCOMPARA
-ORDER BY tipo, diferenca;
+FROM T_VALCOMPARA;
 
 SELECT codigo,
-       prdno,
+       T.prdno,
        descricao,
        estoque,
        validade_descricao,
        validade_cadastro,
        diferenca,
-       tipo
-FROM T_VALCOMPARA_NUM
+       tipo,
+       CAST(MAX(MID(P.localizacao, 1, 4)) AS CHAR) AS localizacao
+FROM T_VALCOMPARA_NUM       AS T
+  LEFT JOIN sqldados.prdloc AS P
+	      ON P.prdno = T.prdno AND P.storeno = 4
 WHERE (tipo = :tipo OR :tipo = 0)
+GROUP BY T.prdno

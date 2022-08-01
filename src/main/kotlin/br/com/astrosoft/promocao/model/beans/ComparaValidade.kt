@@ -9,7 +9,8 @@ class ComparaValidade(val codigo: Int,
                       val validade_descricao: Int,
                       val validade_cadastro: Int,
                       val diferenca: Int,
-                      val tipo: Int) {
+                      val tipo: Int,
+                      val localizacao: String) {
   val tipoGarantia
     get() = ETipoDiferencaGarantia.values().toList().firstOrNull { it.num == tipo }
 

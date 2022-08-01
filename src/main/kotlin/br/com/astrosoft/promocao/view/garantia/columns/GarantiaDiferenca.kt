@@ -16,6 +16,10 @@ object GarantiaDiferenca {
     this.setHeader("Descrição")
   }
 
+  fun Grid<ComparaValidade>.garantiaLocalizacao() = addColumnString(ComparaValidade::localizacao) {
+    this.setHeader("Localização")
+  }
+
   fun Grid<ComparaValidade>.garantiaEstoque() = addColumnInt(ComparaValidade::estoque) {
     this.setHeader("Estoque")
     isExpand = false
