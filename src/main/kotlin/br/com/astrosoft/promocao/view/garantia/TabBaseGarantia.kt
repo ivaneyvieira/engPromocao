@@ -15,14 +15,14 @@ import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garanti
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaValidadeDesc
 import br.com.astrosoft.promocao.viewmodel.garantia.ITabBaseGarantiaViewModel
 import br.com.astrosoft.promocao.viewmodel.garantia.TabBaseGarantiaViewModel
-import com.github.mvysny.karibudsl.v10.comboBox
-import com.vaadin.flow.component.combobox.ComboBox
+import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.select.Select
 
 class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<ComparaValidade>(ComparaValidade::class),
         ITabBaseGarantiaViewModel {
-  private lateinit var cmbTipoGarantia: ComboBox<ETipoDiferencaGarantia>
+  private lateinit var cmbTipoGarantia: Select<ETipoDiferencaGarantia>
 
   override fun updateComponent() {
     viewModel.updateView()
@@ -33,10 +33,8 @@ class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<Co
   }
 
   override fun HorizontalLayout.toolBarConfig() {
-    cmbTipoGarantia = comboBox("Tipo Diferença") {
+    cmbTipoGarantia = select("Tipo Diferença") {
       this.setItems(ETipoDiferencaGarantia.values().toList())
-      this.isAutoOpen = true
-      this.isAllowCustomValue = false
       this.value = ETipoDiferencaGarantia.TODOS
       this.width = "250px"
       this.setItemLabelGenerator {

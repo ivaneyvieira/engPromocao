@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.viewmodel.garantia
 
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
+import br.com.astrosoft.promocao.model.beans.FiltroGarantia
 import br.com.astrosoft.promocao.model.beans.InfoModifica
 import br.com.astrosoft.promocao.model.beans.ProdutoValidade
 
@@ -27,7 +28,7 @@ class TabInserirGarantiaViewModel(val viewModel: GarantiaViewModel) {
 }
 
 interface ITabInserirGarantiaViewModel : ITabView {
-  fun filtro(): String
+  fun filtro(): FiltroGarantia
   fun updateGrid(itens: List<ProdutoValidade>)
   fun listSelected(): List<ProdutoValidade>
 

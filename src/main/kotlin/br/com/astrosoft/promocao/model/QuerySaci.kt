@@ -141,11 +141,15 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun consultaProdutoValidade(filtro: String): List<ProdutoValidade> {
+  fun consultaProdutoValidade(filtro: FiltroGarantia): List<ProdutoValidade> {
     val sql = "/sqlSaci/produtosValidade.sql"
 
     return query(sql, ProdutoValidade::class) {
-      addOptionalParameter("filtro", filtro)
+      addOptionalParameter("tipoDiferenca", filtro.tipoDiferenca.num)
+      addOptionalParameter("codigo", filtro.codigo)
+      addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("typeno", filtro.typeno)
+      addOptionalParameter("clno", filtro.clno)
     }
   }
 

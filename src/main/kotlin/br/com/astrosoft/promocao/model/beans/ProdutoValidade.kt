@@ -24,7 +24,7 @@ class ProdutoValidade(
   }
 
   companion object {
-    fun findAll(filtro: String): List<ProdutoValidade> {
+    fun findAll(filtro: FiltroGarantia): List<ProdutoValidade> {
       return saci.consultaProdutoValidade(filtro)
     }
   }
@@ -39,3 +39,11 @@ enum class ERegistroValidade(val descricao: String) {
 }
 
 data class InfoModifica(val tipo: ETipoValidade?, val validade: Int, val registro: ERegistroValidade?)
+
+data class FiltroGarantia(
+  val tipoDiferenca: ETipoDiferencaGarantia,
+  val codigo: String,
+  val vendno: String,
+  val typeno: String,
+  val clno: String,
+                         )
