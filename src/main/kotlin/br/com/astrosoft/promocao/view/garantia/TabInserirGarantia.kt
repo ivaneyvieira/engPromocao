@@ -14,8 +14,8 @@ import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produt
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoTipoProduto
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoTipoValidade
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoVendno
-import br.com.astrosoft.promocao.viewmodel.garantia.ITabProdutoGarantiaViewModel
-import br.com.astrosoft.promocao.viewmodel.garantia.TabProdutoGarantiaViewModel
+import br.com.astrosoft.promocao.viewmodel.garantia.ITabInserirGarantiaViewModel
+import br.com.astrosoft.promocao.viewmodel.garantia.TabInserirGarantiaViewModel
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.grid.Grid
@@ -26,8 +26,8 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.textfield.TextFieldVariant
 import com.vaadin.flow.data.value.ValueChangeMode
 
-class TabProdutoGarantia(val viewModel: TabProdutoGarantiaViewModel) :
-        TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabProdutoGarantiaViewModel {
+class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
+        TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabInserirGarantiaViewModel {
   private lateinit var edtFiltro: TextField
   private lateinit var cmbTipoValidade: ComboBox<ETipoValidade>
   private lateinit var cmbRegistroValidade: ComboBox<ERegistroValidade>

@@ -16,7 +16,7 @@ import com.vaadin.flow.router.Route
 class GarantiaView : ViewLayout<GarantiaViewModel>(), IGarantiaView {
   override val viewModel: GarantiaViewModel = GarantiaViewModel(this)
   override val tabBaseGarantiaViewModel = TabBaseGarantia(viewModel.tabBaseGarantiaViewModel)
-  override val tabProdutoGarantiaViewModel = TabProdutoGarantia(viewModel.tabProdutoGarantiaViewModel)
+  override val tabInserirGarantiaViewModel = TabInserirGarantia(viewModel.tabInserirGarantiaViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
