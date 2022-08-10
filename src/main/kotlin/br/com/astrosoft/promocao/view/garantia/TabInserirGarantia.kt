@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.garantia
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.showQuestion
 import br.com.astrosoft.promocao.model.beans.*
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoClno
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoCodigo
@@ -28,7 +29,7 @@ import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
         TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabInserirGarantiaViewModel {
-  private lateinit var edtTipoDiferenca: Select<ETipoDiferencaGarantia>
+  private lateinit var edtTipoValidade: Select<ETipoValidade>
   private lateinit var edtCodigo: TextField
   private lateinit var edtVendno: TextField
   private lateinit var edtTypeno: TextField
@@ -57,10 +58,10 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
       this.isSpacing = false
       this.isMargin = false
       horizontalLayout {
-        edtTipoDiferenca = select("Tipo Diferença") {
-          this.setItems(ETipoDiferencaGarantia.values().toList())
-          this.value = ETipoDiferencaGarantia.TODOS
-          this.width = "250px"
+        edtTipoValidade = select("Tempo") {
+          this.setItems(ETipoValidade.values().toList())
+          this.value = ETipoValidade.TODOS
+          this.width = "125px"
           this.setItemLabelGenerator {
             it.descricao
           }
@@ -119,7 +120,9 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
         button("Modifica validade") {
           icon = VaadinIcon.PLUS_CIRCLE.create()
           onLeftClick {
-            viewModel.modificaValidade()
+            showQuestion("Confirma o processamento?") {
+              viewModel.modificaValidade()
+            }
           }
         }
       }
@@ -131,7 +134,7 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
     get() = "Inserir"
 
   override fun filtro() = FiltroGarantia(
-    tipoDiferenca = edtTipoDiferenca.value ?: ETipoDiferencaGarantia.TODOS,
+    tipoValidade = edtTipoValidade.value ?: ETipoValidade.TODOS,
     codigo = edtCodigo.value ?: "",
     vendno = edtVendno.value ?: "",
     typeno = edtTypeno.value ?: "",

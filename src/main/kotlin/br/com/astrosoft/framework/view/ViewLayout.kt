@@ -24,8 +24,6 @@ import com.vaadin.flow.data.renderer.NumberRenderer
 import com.vaadin.flow.data.renderer.TextRenderer
 import com.vaadin.flow.router.*
 import com.vaadin.flow.shared.Registration
-import org.claspina.confirmdialog.ButtonOption
-import org.claspina.confirmdialog.ConfirmDialog
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
 import java.sql.Time
@@ -59,19 +57,19 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
   abstract fun isAccept(user: IUser): Boolean
 
   override fun showError(msg: String) {
-    ConfirmDialog.createError().withCaption("Erro do aplicativo").withMessage(msg).open()
+    showError(msg)
   }
 
   override fun showWarning(msg: String) {
-    ConfirmDialog.createWarning().withCaption("Aviso").withMessage(msg).open()
+    showWarning(msg)
   }
 
   override fun showInformation(msg: String) {
-    ConfirmDialog.createInfo().withCaption("Informação").withMessage(msg).open()
+    showInformation(msg)
   }
 
   override fun showReport(chave: String, report: ByteArray) {
-    SubWindowPDF(chave, report).open()
+    showReport(chave, report)
   }
 
   fun showQuestion(msg: String, execYes: () -> Unit) {
@@ -79,16 +77,7 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
   }
 
   private fun showQuestion(msg: String, execYes: () -> Unit, execNo: () -> Unit) {
-    ConfirmDialog
-      .createQuestion()
-      .withCaption("Confirmação")
-      .withMessage(msg)
-      .withYesButton({
-                       execYes()
-                     },
-                     ButtonOption.caption("Sim"))
-      .withNoButton({ execNo() }, ButtonOption.caption("Não"))
-      .open()
+    showQuestion(msg, execYes, execNo)
   }
 
   override fun beforeLeave(event: BeforeLeaveEvent?) {

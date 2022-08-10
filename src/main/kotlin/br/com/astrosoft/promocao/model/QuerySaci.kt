@@ -145,7 +145,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/produtosValidade.sql"
 
     return query(sql, ProdutoValidade::class) {
-      addOptionalParameter("tipoDiferenca", filtro.tipoDiferenca.num)
+      addOptionalParameter("tipoValidade", filtro.tipoValidade.num)
       addOptionalParameter("codigo", filtro.codigo)
       addOptionalParameter("vendno", filtro.vendno)
       addOptionalParameter("typeno", filtro.typeno)
@@ -171,7 +171,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       ETipoValidade.SEMANA -> "S"
       ETipoValidade.MES    -> "M"
       ETipoValidade.ANO    -> "A"
-      null                 -> ""
+      else                 -> ""
     }
     val validade = infoModifica.validade
     val novaValidade = if (validade == 0) ""
