@@ -145,6 +145,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/produtosValidade.sql"
 
     return query(sql, ProdutoValidade::class) {
+      addOptionalParameter("tipoDiferenca", filtro.tipoDiferenca.num)
       addOptionalParameter("tipoValidade", filtro.tipoValidade.num)
       addOptionalParameter("codigo", filtro.codigo)
       addOptionalParameter("vendno", filtro.vendno)

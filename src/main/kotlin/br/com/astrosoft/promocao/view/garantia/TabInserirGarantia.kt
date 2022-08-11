@@ -29,6 +29,7 @@ import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
         TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabInserirGarantiaViewModel {
+  private lateinit var edtTipoDiferenca: Select<ETipoDiferencaGarantiaSimples>
   private lateinit var edtTipoValidade: Select<ETipoValidade>
   private lateinit var edtCodigo: TextField
   private lateinit var edtVendno: TextField
@@ -58,6 +59,19 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
       this.isSpacing = false
       this.isMargin = false
       horizontalLayout {
+        edtTipoDiferenca = select("Cad x Des") {
+          this.setItems(ETipoDiferencaGarantiaSimples.values().toList())
+          this.value = ETipoDiferencaGarantiaSimples.TODOS
+          this.width = "125px"
+          this.setItemLabelGenerator {
+            it.descricao
+          }
+
+          this.addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
         edtTipoValidade = select("Tempo") {
           this.setItems(ETipoValidade.values().toList())
           this.value = ETipoValidade.TODOS
@@ -134,6 +148,7 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
     get() = "Inserir"
 
   override fun filtro() = FiltroGarantia(
+    tipoDiferenca = edtTipoDiferenca.value ?: ETipoDiferencaGarantiaSimples.TODOS,
     tipoValidade = edtTipoValidade.value ?: ETipoValidade.TODOS,
     codigo = edtCodigo.value ?: "",
     vendno = edtVendno.value ?: "",

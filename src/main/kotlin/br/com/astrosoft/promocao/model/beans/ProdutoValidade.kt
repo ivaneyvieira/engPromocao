@@ -53,6 +53,7 @@ enum class ERegistroValidade(val descricao: String) {
 data class InfoModifica(val tipo: ETipoValidade?, val validade: Int, val registro: ERegistroValidade?)
 
 data class FiltroGarantia(
+  val tipoDiferenca: ETipoDiferencaGarantiaSimples,
   val tipoValidade: ETipoValidade,
   val codigo: String,
   val vendno: String,
