@@ -55,8 +55,5 @@ data class InfoModifica(val tipo: ETipoValidade?, val validade: Int, val registr
 data class FiltroGarantia(
   val tipoDiferenca: ETipoDiferencaGarantiaSimples,
   val tipoValidade: ETipoValidade,
-  val codigo: String,
-  val vendno: String,
-  val typeno: String,
-  val clno: String,
+  val filtro: String,
                          )

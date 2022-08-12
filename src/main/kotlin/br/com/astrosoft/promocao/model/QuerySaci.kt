@@ -147,10 +147,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, ProdutoValidade::class) {
       addOptionalParameter("tipoDiferenca", filtro.tipoDiferenca.num)
       addOptionalParameter("tipoValidade", filtro.tipoValidade.num)
-      addOptionalParameter("codigo", filtro.codigo)
-      addOptionalParameter("vendno", filtro.vendno)
-      addOptionalParameter("typeno", filtro.typeno)
-      addOptionalParameter("clno", filtro.clno)
+      addOptionalParameter("filtro", filtro.filtro)
     }
   }
 

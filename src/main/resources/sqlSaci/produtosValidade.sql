@@ -2,11 +2,13 @@ USE sqldados;
 
 DO @TIPODIF := :tipoDiferenca;
 DO @TIPOVAL := :tipoValidade;
-DO @CODIGO := :codigo;
+DO @FILTRO := :filtro;
+DO @FILTRO_LIKE := CONCAT('%', @FILTRO, '%');
+DO @CODIGO := @FILTRO;
 DO @PRDNO := LPAD(@CODIGO, 16, ' ');
-DO @VENDNO := :vendno * 1;
-DO @TYPENO := :typeno * 1;
-DO @CL := :clno * 1;
+DO @VENDNO := @FILTRO * 1;
+DO @TYPENO := @FILTRO * 1;
+DO @CL := @FILTRO * 1;
 DO @CLNO := LPAD(@CL, 6, '0');
 DO @CLNF := CASE
 	      WHEN @CLNO LIKE '%0000'
@@ -62,14 +64,15 @@ SELECT TRIM(M.prdno) * 1          AS codigo,
        M.prdno                    AS prdno,
        IFNULL(N.validade, 0)      AS validade_descricao,
        IFNULL(C.mesesValidade, 0) AS validade_cadastro
-FROM T_MESTRE             AS M
-  LEFT JOIN  T_VALNAME    AS N
-	       USING (prdno)
-  LEFT JOIN  T_VALCAD     AS C
-	       USING (prdno);
+FROM T_MESTRE         AS M
+  LEFT JOIN T_VALNAME AS N
+	      USING (prdno)
+  LEFT JOIN T_VALCAD  AS C
+	      USING (prdno);
 
 DROP TEMPORARY TABLE IF EXISTS T_VALCOMPARA_NUM;
 CREATE TEMPORARY TABLE T_VALCOMPARA_NUM
+  (PRIMARY KEY (prdno))
 SELECT codigo,
        prdno,
        validade_descricao,
@@ -125,10 +128,10 @@ FROM sqldados.prd             AS P
 	       ON TV.prdno = P.no
 WHERE (IFNULL(TV.tipo, 0) = @TIPODIF OR @TIPODIF = 0)
   AND (IFNULL(tipoGarantia, 0) = @TIPOVAL OR @TIPOVAL = 4)
-  AND (P.no = @PRDNO OR @CODIGO = 0)
-  AND (P.mfno = @VENDNO OR @VENDNO = 0)
-  AND (P.typeno = @TYPENO OR @TYPENO = 0)
-  AND ((P.clno BETWEEN @CLNO AND @CLNF) OR @CL = 0);
+  AND ((P.no = @PRDNO OR @CODIGO = 0) OR (P.name LIKE @FILTRO_LIKE) OR
+       (P.mfno = @VENDNO OR @VENDNO = 0) OR (V.sname LIKE @FILTRO_LIKE) OR
+       (P.typeno = @TYPENO OR (T.name LIKE @FILTRO_LIKE) OR @TYPENO = 0) OR
+       ((P.clno BETWEEN @CLNO AND @CLNF) OR @CL = 0));
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')    AS codigo,
        descricao                      AS descricao,

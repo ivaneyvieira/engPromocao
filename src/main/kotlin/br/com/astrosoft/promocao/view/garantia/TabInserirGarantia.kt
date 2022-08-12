@@ -31,10 +31,7 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
         TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabInserirGarantiaViewModel {
   private lateinit var edtTipoDiferenca: Select<ETipoDiferencaGarantiaSimples>
   private lateinit var edtTipoValidade: Select<ETipoValidade>
-  private lateinit var edtCodigo: TextField
-  private lateinit var edtVendno: TextField
-  private lateinit var edtTypeno: TextField
-  private lateinit var edtClno: TextField
+  private lateinit var edtFiltro: TextField
 
   private lateinit var cmbTipoValidade: Select<ETipoValidade>
   private lateinit var cmbRegistroValidade: Select<ERegistroValidade>
@@ -85,29 +82,9 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
           }
         }
 
-        edtCodigo = textField("Código") {
+        edtFiltro = textField("Filtro") {
           this.valueChangeMode = ValueChangeMode.TIMEOUT
-          this.addValueChangeListener {
-            viewModel.updateView()
-          }
-        }
-
-        edtVendno = textField("Fornecedor") {
-          this.valueChangeMode = ValueChangeMode.TIMEOUT
-          this.addValueChangeListener {
-            viewModel.updateView()
-          }
-        }
-
-        edtTypeno = textField("Tipo") {
-          this.valueChangeMode = ValueChangeMode.TIMEOUT
-          this.addValueChangeListener {
-            viewModel.updateView()
-          }
-        }
-
-        edtClno = textField("CL") {
-          this.valueChangeMode = ValueChangeMode.TIMEOUT
+          this.width = "500px"
           this.addValueChangeListener {
             viewModel.updateView()
           }
@@ -150,19 +127,15 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
   override fun filtro() = FiltroGarantia(
     tipoDiferenca = edtTipoDiferenca.value ?: ETipoDiferencaGarantiaSimples.TODOS,
     tipoValidade = edtTipoValidade.value ?: ETipoValidade.TODOS,
-    codigo = edtCodigo.value ?: "",
-    vendno = edtVendno.value ?: "",
-    typeno = edtTypeno.value ?: "",
-    clno = edtClno.value ?: "",
+    filtro = edtFiltro.value ?: "",
                                         )
 
   override fun Grid<ProdutoValidade>.gridPanel() {
     this.setSelectionMode(Grid.SelectionMode.MULTI)
     produtoCodigo()
     produtoDescicao()
-    produtoDescricaoCompleta1()
     produtoDescricaoCompleta2()
-    produtoClno() //produtoCentroLucro()
+    produtoClno()
     produtoVendno()
     produtoFornecedor()
     produtoTipoNo()
