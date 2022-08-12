@@ -3,8 +3,8 @@ USE sqldados;
 DO @TIPODIF := :tipoDiferenca;
 DO @TIPOVAL := :tipoValidade;
 DO @FILTRO := :filtro;
-DO @FILTRO_LIKE := CONCAT('%', @FILTRO, '%');
-DO @CODIGO := @FILTRO;
+DO @FILTRO_LIKE := CONCAT(@FILTRO, '%');
+DO @CODIGO := IF(@FILTRO REGEXP '^[0-9]{6}$', @FILTRO*1, 0);
 DO @PRDNO := LPAD(@CODIGO, 16, ' ');
 DO @VENDNO := @FILTRO * 1;
 DO @TYPENO := @FILTRO * 1;
@@ -17,6 +17,10 @@ DO @CLNF := CASE
 		THEN CONCAT(MID(@CLNO, 1, 4), '99')
 	      ELSE @CLNO
 	    END;
+
+/*
+SELECT @FILTRO, @FILTRO_LIKE, @CODIGO, @PRDNO, @VENDNO, @CLNO, @CLNF
+*/
 
 /***********************************************************************************************/
 
@@ -71,8 +75,9 @@ FROM T_MESTRE         AS M
 	      USING (prdno);
 
 DROP TEMPORARY TABLE IF EXISTS T_VALCOMPARA_NUM;
-CREATE TEMPORARY TABLE T_VALCOMPARA_NUM
-  (PRIMARY KEY (prdno))
+CREATE TEMPORARY TABLE T_VALCOMPARA_NUM (
+  PRIMARY KEY (prdno)
+)
 SELECT codigo,
        prdno,
        validade_descricao,
@@ -128,10 +133,10 @@ FROM sqldados.prd             AS P
 	       ON TV.prdno = P.no
 WHERE (IFNULL(TV.tipo, 0) = @TIPODIF OR @TIPODIF = 0)
   AND (IFNULL(tipoGarantia, 0) = @TIPOVAL OR @TIPOVAL = 4)
-  AND ((P.no = @PRDNO OR @CODIGO = 0) OR (P.name LIKE @FILTRO_LIKE) OR
-       (P.mfno = @VENDNO OR @VENDNO = 0) OR (V.sname LIKE @FILTRO_LIKE) OR
-       (P.typeno = @TYPENO OR (T.name LIKE @FILTRO_LIKE) OR @TYPENO = 0) OR
-       ((P.clno BETWEEN @CLNO AND @CLNF) OR @CL = 0));
+  AND ((P.no = @PRDNO) OR (P.name LIKE @FILTRO_LIKE) OR
+       (P.mfno = @VENDNO) OR (V.sname LIKE @FILTRO_LIKE) OR
+       (P.typeno = @TYPENO OR (T.name LIKE @FILTRO_LIKE)) OR
+       (P.clno BETWEEN @CLNO AND @CLNF) OR (@FILTRO = ''));
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')    AS codigo,
        descricao                      AS descricao,
