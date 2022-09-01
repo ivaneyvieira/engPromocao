@@ -14,7 +14,8 @@ class ProdutoValidade(
   val tipoValidade: String,
   val mesesValidade: Int,
   val descricaoCompleta1: String,
-  val descricaoCompleta2: String
+  val descricaoCompleta2: String,
+  val estoque: Int?,
                      ) {
   fun modifica(infoModifica: InfoModifica): Int {
     when (infoModifica.registro) {

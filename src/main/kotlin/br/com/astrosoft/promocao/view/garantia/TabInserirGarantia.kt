@@ -6,9 +6,9 @@ import br.com.astrosoft.framework.view.showQuestion
 import br.com.astrosoft.promocao.model.beans.*
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoClno
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoCodigo
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescicao
-import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescricaoCompleta1
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescricao
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescricaoCompleta2
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoEstoque
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoFornecedor
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoMeseValidade
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoTipoNo
@@ -133,7 +133,8 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
   override fun Grid<ProdutoValidade>.gridPanel() {
     this.setSelectionMode(Grid.SelectionMode.MULTI)
     produtoCodigo()
-    produtoDescicao()
+    produtoDescricao()
+    produtoEstoque()
     produtoDescricaoCompleta2()
     produtoClno()
     produtoVendno()

@@ -4,7 +4,7 @@ DO @TIPODIF := :tipoDiferenca;
 DO @TIPOVAL := :tipoValidade;
 DO @FILTRO := :filtro;
 DO @FILTRO_LIKE := CONCAT(@FILTRO, '%');
-DO @CODIGO := IF(@FILTRO REGEXP '^[0-9]{6}$', @FILTRO*1, 0);
+DO @CODIGO := IF(@FILTRO REGEXP '^[0-9]{6}$', @FILTRO * 1, 0);
 DO @PRDNO := LPAD(@CODIGO, 16, ' ');
 DO @VENDNO := @FILTRO * 1;
 DO @TYPENO := @FILTRO * 1;
@@ -98,7 +98,7 @@ DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
   PRIMARY KEY (prdno)
 )
-SELECT LPAD(P.no * 1, 6, '0')    AS prdno,
+SELECT P.no                      AS prdno,
        TRIM(MID(P.name, 1, 37))  AS descricao,
        P.clno                    AS clno,
        C.name                    AS centroLucro,
@@ -133,22 +133,24 @@ FROM sqldados.prd             AS P
 	       ON TV.prdno = P.no
 WHERE (IFNULL(TV.tipo, 0) = @TIPODIF OR @TIPODIF = 0)
   AND (IFNULL(tipoGarantia, 0) = @TIPOVAL OR @TIPOVAL = 4)
-  AND ((P.no = @PRDNO) OR (P.name LIKE @FILTRO_LIKE) OR
-       (P.mfno = @VENDNO) OR (V.sname LIKE @FILTRO_LIKE) OR
-       (P.typeno = @TYPENO OR (T.name LIKE @FILTRO_LIKE)) OR
+  AND ((P.no = @PRDNO) OR (P.name LIKE @FILTRO_LIKE) OR (P.mfno = @VENDNO) OR
+       (V.sname LIKE @FILTRO_LIKE) OR (P.typeno = @TYPENO OR (T.name LIKE @FILTRO_LIKE)) OR
        (P.clno BETWEEN @CLNO AND @CLNF) OR (@FILTRO = ''));
 
-SELECT LPAD(TRIM(P.prdno), 6, '0')    AS codigo,
-       descricao                      AS descricao,
-       clno                           AS clno,
-       centroLucro                    AS centroLucro,
-       vendno                         AS vendno,
-       fornecedor                     AS fornecedor,
-       P.typeno                       AS typeno,
-       P.tipo                         AS tipoProduto,
-       P.tipoValidade                 AS tipoValidade,
-       P.mesesValidade                AS mesesValidade,
-       IFNULL(descricaoCompleta1, '') AS descricaoCompleta1,
-       IFNULL(descricaoCompleta2, '') AS descricaoCompleta2
-FROM T_PRD AS P
-
+SELECT LPAD(TRIM(P.prdno), 6, '0')          AS codigo,
+       descricao                            AS descricao,
+       clno                                 AS clno,
+       centroLucro                          AS centroLucro,
+       vendno                               AS vendno,
+       fornecedor                           AS fornecedor,
+       P.typeno                             AS typeno,
+       P.tipo                               AS tipoProduto,
+       P.tipoValidade                       AS tipoValidade,
+       P.mesesValidade                      AS mesesValidade,
+       IFNULL(descricaoCompleta1, '')       AS descricaoCompleta1,
+       IFNULL(descricaoCompleta2, '')       AS descricaoCompleta2,
+       SUM(IFNULL(S.qtty_varejo, 0) / 1000) AS estoque
+FROM T_PRD               AS P
+  LEFT JOIN sqldados.stk AS S
+	      ON P.prdno = S.prdno AND storeno IN (1, 2, 3, 4, 5, 6)
+GROUP BY P.prdno

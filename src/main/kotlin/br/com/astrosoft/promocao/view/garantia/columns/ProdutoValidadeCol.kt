@@ -1,5 +1,6 @@
 package br.com.astrosoft.promocao.view.garantia.columns
 
+import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnString
 import br.com.astrosoft.promocao.model.beans.ProdutoValidade
@@ -13,8 +14,13 @@ object ProdutoValidadeCol {
     isResizable = true
   }
 
-  fun Grid<ProdutoValidade>.produtoDescicao() = addColumnString(ProdutoValidade::descricao) {
+  fun Grid<ProdutoValidade>.produtoDescricao() = addColumnString(ProdutoValidade::descricao) {
     this.setHeader("Descrição")
+    isResizable = true
+  }
+
+  fun Grid<ProdutoValidade>.produtoEstoque() = addColumnInt(ProdutoValidade::estoque) {
+    this.setHeader("Estoque")
     isResizable = true
   }
 
