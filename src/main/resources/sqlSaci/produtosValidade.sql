@@ -131,8 +131,10 @@ FROM sqldados.prd             AS P
 	       ON P.no = N.prdno
   LEFT JOIN  T_VALCOMPARA_NUM AS TV
 	       ON TV.prdno = P.no
-WHERE (IFNULL(TV.tipo, 0) = @TIPODIF OR @TIPODIF = 0)
-  AND (IFNULL(tipoGarantia, 0) = @TIPOVAL OR @TIPOVAL = 4)
+WHERE (((IFNULL(TV.tipo, 0) = @TIPODIF OR @TIPODIF = 0) AND
+	(IFNULL(tipoGarantia, 0) = @TIPOVAL OR @TIPOVAL = 4)) OR
+       (IFNULL(tipoGarantia, 0) = 3 AND P.garantia != 999) OR
+       (IFNULL(tipoGarantia, 0) = 0 AND P.garantia != 0))
   AND ((P.no = @PRDNO) OR (P.name LIKE @FILTRO_LIKE) OR (P.mfno = @VENDNO) OR
        (V.sname LIKE @FILTRO_LIKE) OR (P.typeno = @TYPENO OR (T.name LIKE @FILTRO_LIKE)) OR
        (P.clno BETWEEN @CLNO AND @CLNF) OR (@FILTRO = ''));
