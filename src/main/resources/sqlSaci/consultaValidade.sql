@@ -89,6 +89,7 @@ FROM T_VALCOMPARA;
 
 SELECT codigo,
        T.prdno,
+       grade,
        descricao,
        estoque,
        validade_descricao,
@@ -100,4 +101,4 @@ FROM T_VALCOMPARA_NUM       AS T
   LEFT JOIN sqldados.prdloc AS P
 	      ON P.prdno = T.prdno AND P.storeno = 4
 WHERE (tipo = :tipo OR :tipo = 0)
-GROUP BY T.prdno
+GROUP BY T.prdno, grade

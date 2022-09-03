@@ -4,6 +4,7 @@ import br.com.astrosoft.promocao.model.saci
 
 class ProdutoValidade(
   val codigo: String,
+  val grade: String?,
   val descricao: String,
   val clno: Int,
   val centroLucro: String,

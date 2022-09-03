@@ -140,6 +140,7 @@ WHERE (((IFNULL(TV.tipo, 0) = @TIPODIF OR @TIPODIF = 0) AND
        (P.clno BETWEEN @CLNO AND @CLNF) OR (@FILTRO = ''));
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')          AS codigo,
+       grade                                AS grade,
        descricao                            AS descricao,
        clno                                 AS clno,
        centroLucro                          AS centroLucro,
@@ -155,4 +156,5 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')          AS codigo,
 FROM T_PRD               AS P
   LEFT JOIN sqldados.stk AS S
 	      ON P.prdno = S.prdno AND storeno IN (1, 2, 3, 4, 5, 6)
-GROUP BY P.prdno
+GROUP BY P.prdno, S.grade
+HAVING estoque != 0

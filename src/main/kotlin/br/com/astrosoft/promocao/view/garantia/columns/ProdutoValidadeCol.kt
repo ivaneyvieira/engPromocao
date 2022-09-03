@@ -19,6 +19,11 @@ object ProdutoValidadeCol {
     isResizable = true
   }
 
+  fun Grid<ProdutoValidade>.produtoGrade() = addColumnString(ProdutoValidade::grade) {
+    this.setHeader("Grade")
+    isResizable = true
+  }
+
   fun Grid<ProdutoValidade>.produtoEstoque() = addColumnInt(ProdutoValidade::estoque) {
     this.setHeader("Estoque")
     isResizable = true

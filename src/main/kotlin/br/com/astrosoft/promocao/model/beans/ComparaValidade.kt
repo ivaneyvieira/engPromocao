@@ -4,6 +4,7 @@ import br.com.astrosoft.promocao.model.saci
 
 class ComparaValidade(val codigo: Int,
                       val prdno: String,
+                      val grade: String?,
                       val descricao: String,
                       val estoque: Int,
                       val validade_descricao: Int,

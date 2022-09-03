@@ -16,6 +16,10 @@ object GarantiaDiferenca {
     this.setHeader("Descrição")
   }
 
+  fun Grid<ComparaValidade>.garantiaGrade() = addColumnString(ComparaValidade::grade) {
+    this.setHeader("Grade")
+  }
+
   fun Grid<ComparaValidade>.garantiaLocalizacao() = addColumnString(ComparaValidade::localizacao) {
     this.setHeader("Loc")
   }

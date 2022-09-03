@@ -10,6 +10,7 @@ import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produt
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescricaoCompleta2
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoEstoque
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoFornecedor
+import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoGrade
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoMeseValidade
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoTipoNo
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoTipoProduto
@@ -134,6 +135,7 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
     this.setSelectionMode(Grid.SelectionMode.MULTI)
     produtoCodigo()
     produtoDescricao()
+    produtoGrade()
     produtoEstoque()
     produtoDescricaoCompleta2()
     produtoClno()
