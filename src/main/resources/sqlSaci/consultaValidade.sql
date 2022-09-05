@@ -107,4 +107,5 @@ FROM T_VALCOMPARA_NUM       AS T
   LEFT JOIN sqldados.prdloc AS P
 	      ON P.prdno = T.prdno AND P.storeno = 4
 WHERE (tipo = :tipo OR :tipo = 0)
+  AND LPAD(TRIM(T.prdno), 6, '0') NOT BETWEEN '980000' AND '999999'
 GROUP BY T.prdno, grade
