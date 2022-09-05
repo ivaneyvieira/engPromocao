@@ -52,7 +52,7 @@ class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<Co
       }
     }
 
-    edtQuery = textField ("Filtro"){
+    edtQuery = textField("Filtro") {
       this.valueChangeMode = ValueChangeMode.TIMEOUT
       this.addValueChangeListener {
         viewModel.updateView()
@@ -64,8 +64,8 @@ class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<Co
   override val label: String
     get() = "Base"
 
-  override fun filtro() =  FiltroValidade(tipo = cmbTipoGarantia.value ?: ETipoDiferencaGarantia.TODOS, query =
-  edtQuery.value)
+  override fun filtro() =
+    FiltroValidade(tipo = cmbTipoGarantia.value ?: ETipoDiferencaGarantia.TODOS, query = edtQuery.value)
 
   override fun Grid<ComparaValidade>.gridPanel() {
     garantiaCodigo()

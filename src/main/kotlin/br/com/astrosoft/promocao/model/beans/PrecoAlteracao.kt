@@ -6,28 +6,26 @@ import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.math.roundToInt
 
-class PrecoAlteracao(
-  val codigo: String,
-  val descricao: String,
-  val data: LocalDate?,
-  val time: LocalTime?,
-  val userno: Int?,
-  val usuario: String?,
-  val refprice: Double?,
-  val refpriceAnt: Double?,
-  val promo_price: Double?,
-  val promo_priceAnt: Double?,
-  val dataPromocao: LocalDate?,
-  val desconto: Double?,
-  val clno: Int,
-  val centroLucro: String,
-  val vendno: Int,
-  val fornecedor: String,
-  val refFornecedor: String,
-  val typeno: Int,
-  val tipoProduto: String,
-  val precoEtiqueta: Double?
-                    ) {
+class PrecoAlteracao(val codigo: String,
+                     val descricao: String,
+                     val data: LocalDate?,
+                     val time: LocalTime?,
+                     val userno: Int?,
+                     val usuario: String?,
+                     val refprice: Double?,
+                     val refpriceAnt: Double?,
+                     val promo_price: Double?,
+                     val promo_priceAnt: Double?,
+                     val dataPromocao: LocalDate?,
+                     val desconto: Double?,
+                     val clno: Int,
+                     val centroLucro: String,
+                     val vendno: Int,
+                     val fornecedor: String,
+                     val refFornecedor: String,
+                     val typeno: Int,
+                     val tipoProduto: String,
+                     val precoEtiqueta: Double?) {
   fun dadosEtiquetas(): List<DadosEtiquetaProduto> {
     return saci.produtoGrade(codigo).map {
       DadosEtiquetaProduto(codigo = codigo,

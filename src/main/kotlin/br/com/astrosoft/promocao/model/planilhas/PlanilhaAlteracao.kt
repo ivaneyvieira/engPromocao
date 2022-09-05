@@ -16,9 +16,9 @@ class PlanilhaAlteracao {
     listOf(
       CampoString("Cod") { codigo },
       CampoString("Descrição") { descricao },
-      CampoNumber("M Piso") { metroCaixa  ?: 0.00},
-      CampoNumber("R\$ Ref.") { refprice  ?: 0.00},
-      CampoNumber("R\$ Ref M2") { refpriceM  ?: 0.00},
+      CampoNumber("M Piso") { metroCaixa ?: 0.00 },
+      CampoNumber("R\$ Ref.") { refprice ?: 0.00 },
+      CampoNumber("R\$ Ref M2") { refpriceM ?: 0.00 },
       CampoNumber("R\$ Promo.") { promo_price ?: 0.00 },
       CampoNumber("R\$ Promo M2") { promo_priceM ?: 0.00 },
       CampoString("Validade") { dataPromocao.format() },

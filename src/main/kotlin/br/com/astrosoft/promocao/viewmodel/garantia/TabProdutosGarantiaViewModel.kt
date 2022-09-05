@@ -32,5 +32,5 @@ interface ITabInserirGarantiaViewModel : ITabView {
   fun updateGrid(itens: List<ProdutoValidade>)
   fun listSelected(): List<ProdutoValidade>
 
-  fun infoModifica() : InfoModifica
+  fun infoModifica(): InfoModifica
 }

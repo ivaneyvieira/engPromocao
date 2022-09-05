@@ -34,7 +34,5 @@ enum class ETipoDiferencaGarantia(val num: Int, val descricao: String) {
 }
 
 enum class ETipoDiferencaGarantiaSimples(val num: Int, val descricao: String) {
-  IGUAL(1, "Igual"),
-  DIFTUDO(2, "Diferente"),
-  TODOS(0, "Todos")
+  IGUAL(1, "Igual"), DIFTUDO(2, "Diferente"), TODOS(0, "Todos")
 }
