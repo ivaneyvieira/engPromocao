@@ -1,6 +1,5 @@
 package br.com.astrosoft.promocao.view.garantia.columns
 
-import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnString
 import br.com.astrosoft.promocao.model.beans.ProdutoValidade

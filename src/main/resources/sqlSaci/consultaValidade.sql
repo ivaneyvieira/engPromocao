@@ -1,5 +1,9 @@
 USE sqldados;
 
+DO @QUERY := :query;
+DO @CODIGO := IF(@QUERY REGEXP '^[0-9]+$', @QUERY, 0);
+DO @QUERYLIKE := IF(@QUERY REGEXP '^[0-9]+$', '', CONCAT(@QUERY, '%'));
+
 DROP TEMPORARY TABLE IF EXISTS T_PNAME;
 CREATE TEMPORARY TABLE T_PNAME
 SELECT prdno,
@@ -65,7 +69,9 @@ FROM T_MESTRE             AS M
   LEFT JOIN  T_SALDO      AS S
 	       USING (prdno)
   INNER JOIN sqldados.prd AS P
-	       ON P.no = M.prdno;
+	       ON P.no = M.prdno
+WHERE (prdno = LPAD(@CODIGO, 16, ' ') OR @CODIGO = '0') AND
+      (P.name LIKE @QUERYLIKE OR @QUERYLIKE = '');
 
 DROP TEMPORARY TABLE IF EXISTS T_VALCOMPARA_NUM;
 CREATE TEMPORARY TABLE T_VALCOMPARA_NUM

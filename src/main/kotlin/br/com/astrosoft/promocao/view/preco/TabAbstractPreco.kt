@@ -1,7 +1,6 @@
 package br.com.astrosoft.promocao.view.preco
 
 import br.com.astrosoft.framework.model.Config
-import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.localePtBr
 import br.com.astrosoft.promocao.model.EtiquetaChave

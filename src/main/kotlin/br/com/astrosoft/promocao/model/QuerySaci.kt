@@ -122,11 +122,12 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun consultaValidade(tipo: ETipoDiferencaGarantia): List<ComparaValidade> {
+  fun consultaValidade(filtro: FiltroValidade): List<ComparaValidade> {
     val sql = "/sqlSaci/consultaValidade.sql"
 
     return query(sql, ComparaValidade::class) {
-      addOptionalParameter("tipo", tipo.num)
+      addOptionalParameter("tipo", filtro.tipo.num)
+      addOptionalParameter("query", filtro.query)
     }
   }
 

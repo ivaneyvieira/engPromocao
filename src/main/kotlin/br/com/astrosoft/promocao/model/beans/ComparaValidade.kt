@@ -19,9 +19,11 @@ class ComparaValidade(val codigo: Int,
     get() = tipoGarantia?.descricao ?: ""
 
   companion object {
-    fun consultaByTipo(tipo: ETipoDiferencaGarantia) = saci.consultaValidade(tipo)
+    fun consultaByTipo(filtro: FiltroValidade) = saci.consultaValidade(filtro)
   }
 }
+
+data class FiltroValidade(val tipo: ETipoDiferencaGarantia, val query: String)
 
 enum class ETipoDiferencaGarantia(val num: Int, val descricao: String) {
   IGUAL(1, "Validade Igual"),

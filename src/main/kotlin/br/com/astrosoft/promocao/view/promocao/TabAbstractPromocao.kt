@@ -1,6 +1,5 @@
 package br.com.astrosoft.promocao.view.promocao
 
-import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
@@ -116,6 +115,7 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
         setSelectionMode(MULTI)
         this.shiftSelect()
       }
+
       is TabSemPromocaoViewModel  -> {
         setSelectionMode(MULTI)
         this.shiftSelect()
