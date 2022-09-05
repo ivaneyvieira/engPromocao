@@ -4,8 +4,8 @@ DO @TIPODIF := :tipoDiferenca;
 DO @TIPOVAL := :tipoValidade;
 DO @FILTRO := :filtro;
 DO @FILTRO_LIKE := CONCAT(@FILTRO, '%');
-DO @CODIGO := IF(@FILTRO REGEXP '^[0-9]{6}$', @FILTRO * 1, 0);
-DO @PRDNO := LPAD(@CODIGO, 16, ' ');
+DO @CODIGO := IF(@FILTRO REGEXP '^[0-9]{1,6}$', @FILTRO * 1, 0);
+DO @PRDNO := (SELECT no FROM sqldados.prd WHERE no = @CODIGO*1);
 DO @VENDNO := @FILTRO * 1;
 DO @TYPENO := @FILTRO * 1;
 DO @CL := @FILTRO * 1;
@@ -17,10 +17,6 @@ DO @CLNF := CASE
 		THEN CONCAT(MID(@CLNO, 1, 4), '99')
 	      ELSE @CLNO
 	    END;
-
-/*
-SELECT @FILTRO, @FILTRO_LIKE, @CODIGO, @PRDNO, @VENDNO, @CLNO, @CLNF
-*/
 
 /***********************************************************************************************/
 
