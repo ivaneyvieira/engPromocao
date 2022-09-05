@@ -158,4 +158,4 @@ FROM T_PRD               AS P
 	      ON P.prdno = S.prdno AND storeno IN (1, 2, 3, 4, 5, 6)
 WHERE LPAD(TRIM(P.prdno), 6, '0') NOT BETWEEN '980000' AND '999999'
 GROUP BY P.prdno, S.grade
-HAVING estoque != 0
+
