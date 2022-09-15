@@ -21,7 +21,7 @@ class ProdutoValidade(
   fun modifica(infoModifica: InfoModifica): Int {
     when (infoModifica.registro) {
       ERegistroValidade.CADASTRO  -> {
-        return if (tipoValidade != "Mês" || infoModifica.tipo != ETipoValidade.ANO) {
+        return if (tipoValidade != "Mês" || infoModifica.tipo != ETipoValidade.ANO || (infoModifica.tipo == ETipoValidade.ANO && infoModifica.validade == 999)) {
           saci.modificaValidadeCadastro(this, infoModifica)
           1
         }

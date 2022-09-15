@@ -1,8 +1,8 @@
 package br.com.astrosoft.promocao.view.garantia
 
 import br.com.astrosoft.framework.model.IUser
+import br.com.astrosoft.framework.view.MessageUtils.showQuestion
 import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.showQuestion
 import br.com.astrosoft.promocao.model.beans.*
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoClno
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoCodigo

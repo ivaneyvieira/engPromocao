@@ -57,27 +57,27 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
   abstract fun isAccept(user: IUser): Boolean
 
   override fun showError(msg: String) {
-    showError(msg)
+    MessageUtils.showError(msg)
   }
 
   override fun showWarning(msg: String) {
-    showWarning(msg)
+    MessageUtils.showWarning(msg)
   }
 
   override fun showInformation(msg: String) {
-    showInformation(msg)
+    MessageUtils.showInformation(msg)
   }
 
   override fun showReport(chave: String, report: ByteArray) {
-    showReport(chave, report)
+    MessageUtils.showReport(chave, report)
   }
 
   fun showQuestion(msg: String, execYes: () -> Unit) {
-    showQuestion(msg, execYes)
+    MessageUtils.showQuestion(msg, execYes)
   }
 
   private fun showQuestion(msg: String, execYes: () -> Unit, execNo: () -> Unit) {
-    showQuestion(msg, execYes, execNo)
+    MessageUtils.showQuestion(msg, execYes, execNo)
   }
 
   override fun beforeLeave(event: BeforeLeaveEvent?) {
