@@ -6,13 +6,13 @@ CREATE TEMPORARY TABLE T_STK (
 )
 SELECT prdno,
        grade,
-       SUM(IF(storeno = 1, qtty_atacado / 100, 0.00)) AS estJS,
-       SUM(IF(storeno = 2, qtty_atacado / 100, 0.00)) AS estDS,
-       SUM(IF(storeno = 3, qtty_atacado / 100, 0.00)) AS estMR,
-       SUM(IF(storeno = 4, qtty_atacado / 100, 0.00)) AS estMF,
-       SUM(IF(storeno = 5, qtty_atacado / 100, 0.00)) AS estPK,
-       SUM(IF(storeno = 8, qtty_atacado / 100, 0.00)) AS estTM,
-       SUM(qtty_atacado)                              AS estoque
+       SUM(IF(storeno = 1, qtty_varejo / 100, 0.00)) AS estJS,
+       SUM(IF(storeno = 2, qtty_varejo / 100, 0.00)) AS estDS,
+       SUM(IF(storeno = 3, qtty_varejo / 100, 0.00)) AS estMR,
+       SUM(IF(storeno = 4, qtty_varejo / 100, 0.00)) AS estMF,
+       SUM(IF(storeno = 5, qtty_varejo / 100, 0.00)) AS estPK,
+       SUM(IF(storeno = 8, qtty_varejo / 100, 0.00)) AS estTM,
+       SUM(qtty_varejo)                              AS estoque
 FROM sqldados.stk AS S
 WHERE S.storeno IN (1, 2, 3, 4, 5, 8)
 GROUP BY prdno, grade;
@@ -21,7 +21,6 @@ GROUP BY prdno, grade;
 DROP TABLE IF EXISTS sqltmp.T_RESULT;
 CREATE TABLE sqltmp.T_RESULT (
   FULLTEXT INDEX (prdno,
-		  codigo,
 		  descricao,
 		  grade,
 		  fornStr,
@@ -31,7 +30,7 @@ CREATE TABLE sqltmp.T_RESULT (
 		  codBar)
 )
 SELECT P.no                                                              AS prdno,
-       TRIM(P.no)                                                        AS codigo,
+       TRIM(P.no) * 1                                                    AS codigo,
        TRIM(MID(P.name, 1, 37))                                          AS descricao,
        IFNULL(B.grade, '')                                               AS grade,
        CAST(P.mfno AS char ASCII)                                        AS fornStr,
@@ -87,5 +86,5 @@ SELECT prdno,
        pRef
 FROM sqltmp.T_RESULT
 WHERE :pesquisa = ''
-   OR MATCH(prdno, codigo, descricao, grade, fornStr, abrev, tipoStr, cl, codBar)
+   OR MATCH(prdno, descricao, grade, fornStr, abrev, tipoStr, cl, codBar)
 	    AGAINST(:pesquisa IN BOOLEAN MODE)

@@ -7,7 +7,7 @@ import br.com.astrosoft.promocao.model.beans.Produtos
 import com.vaadin.flow.component.grid.Grid
 
 object ProdutosColumns {
-  fun Grid<Produtos>.produto_codigo() = addColumnString(Produtos::codigo) {
+  fun Grid<Produtos>.produto_codigo() = addColumnInt(Produtos::codigo) {
     this.setHeader("Cód")
   }
   fun Grid<Produtos>.produto_descricao() = addColumnString(Produtos::descricao) {

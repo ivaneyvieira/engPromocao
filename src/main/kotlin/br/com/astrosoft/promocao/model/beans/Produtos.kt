@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 class Produtos(
   val prdno: String,
-  val codigo: String,
+  val codigo: Int,
   val descricao: String,
   val grade: String,
   val forn: Int,
