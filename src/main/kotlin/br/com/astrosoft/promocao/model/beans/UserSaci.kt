@@ -27,6 +27,10 @@ class UserSaci : IUser {
   var promocaoPromocao by DelegateAuthorized(8)
   var promocaoSemPromocao by DelegateAuthorized(9)
 
+  var produtoBase by DelegateAuthorized(10)
+
+
+  val menuProduto = produtoBase
   val menuPromocao = precoBase || precoPreco || precoPromocao
   val menuGarantia = garantiaBase || garantiaInserir
   val menuPreco = promocao99 || promocaoBase || promocaoPromocao || promocaoSemPromocao

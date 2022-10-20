@@ -19,7 +19,7 @@ GROUP BY prdno, grade;
 
 
 DROP TABLE IF EXISTS sqltmp.T_RESULT;
-CREATE  TABLE sqltmp.T_RESULT (
+CREATE TABLE sqltmp.T_RESULT (
   FULLTEXT INDEX (prdno,
 		  codigo,
 		  descricao,
@@ -86,5 +86,6 @@ SELECT prdno,
        pPromo,
        pRef
 FROM sqltmp.T_RESULT
-WHERE MATCH(prdno, codigo, descricao, grade, fornStr, abrev, tipoStr, cl, codBar)
+WHERE :pesquisa = ''
+   OR MATCH(prdno, codigo, descricao, grade, fornStr, abrev, tipoStr, cl, codBar)
 	    AGAINST(:pesquisa IN BOOLEAN MODE)

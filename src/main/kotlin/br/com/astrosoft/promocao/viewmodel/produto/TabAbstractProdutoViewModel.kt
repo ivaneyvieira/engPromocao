@@ -1,9 +1,7 @@
 package br.com.astrosoft.promocao.viewmodel.produto
 
 import br.com.astrosoft.framework.viewmodel.ITabView
-import br.com.astrosoft.promocao.model.beans.FiltroPrecoAlteracao
 import br.com.astrosoft.promocao.model.beans.FiltroProduto
-import br.com.astrosoft.promocao.model.beans.PrecoAlteracao
 import br.com.astrosoft.promocao.model.beans.Produtos
 
 sealed class TabAbstractProdutoViewModel<T : ITabAbstractProdutoViewModel>(val viewModel: ProdutoViewModel) {

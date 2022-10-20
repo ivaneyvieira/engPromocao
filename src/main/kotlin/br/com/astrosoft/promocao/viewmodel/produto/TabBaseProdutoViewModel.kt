@@ -1,8 +1,6 @@
 package br.com.astrosoft.promocao.viewmodel.produto
 
-import br.com.astrosoft.promocao.model.beans.FiltroPrecoAlteracao
 import br.com.astrosoft.promocao.model.beans.FiltroProduto
-import br.com.astrosoft.promocao.model.beans.PrecoAlteracao
 import br.com.astrosoft.promocao.model.beans.Produtos
 
 class TabBaseProdutoViewModel(viewModel: ProdutoViewModel) :
