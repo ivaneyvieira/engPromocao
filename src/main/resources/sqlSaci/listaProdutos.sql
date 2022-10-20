@@ -19,16 +19,7 @@ GROUP BY prdno, grade;
 
 
 DROP TABLE IF EXISTS sqltmp.T_RESULT;
-CREATE TABLE sqltmp.T_RESULT (
-  FULLTEXT INDEX (prdno,
-		  descricao,
-		  grade,
-		  fornStr,
-		  abrev,
-		  tipoStr,
-		  cl,
-		  codBar)
-)
+CREATE TABLE sqltmp.T_RESULT
 SELECT P.no                                                              AS prdno,
        TRIM(P.no) * 1                                                    AS codigo,
        TRIM(MID(P.name, 1, 37))                                          AS descricao,
@@ -38,7 +29,9 @@ SELECT P.no                                                              AS prdn
        V.sname                                                           AS abrev,
        CAST(P.typeno AS CHAR ASCII)                                      AS tipoStr,
        P.typeno                                                          AS tipo,
-       CAST(P.clno AS CHAR ASCII)                                        AS cl,
+       P.clno                                                            AS cl,
+       RPAD(MID(LPAD(P.clno, 6, '0'), 1, 2), 6, '0') * 1                 AS groupno,
+       RPAD(MID(LPAD(P.clno, 6, '0'), 1, 4), 6, '0') * 1                 AS deptno,
        TRIM(IF(B.grade IS NULL, IFNULL(P2.gtin, P.barcode), B.barcode))  AS codBar,
        estJS                                                             AS estJS,
        estDS                                                             AS estDS,
@@ -64,6 +57,8 @@ FROM sqldados.prd            AS P
 WHERE S.estoque != 0
 GROUP BY P.no;
 
+DO @PESQUISA := :pesquisa;
+DO @PESQUISA_LIKE := CONCAT(:pesquisa, '%');
 
 SELECT prdno,
        codigo,
@@ -86,5 +81,13 @@ SELECT prdno,
        pRef
 FROM sqltmp.T_RESULT
 WHERE :pesquisa = ''
-   OR MATCH(prdno, descricao, grade, fornStr, abrev, tipoStr, cl, codBar)
-	    AGAINST(:pesquisa IN BOOLEAN MODE)
+   OR codigo = @PESQUISA
+   OR descricao LIKE @PESQUISA_LIKE
+   OR grade LIKE @PESQUISA_LIKE
+   OR fornStr LIKE @PESQUISA_LIKE
+   OR abrev LIKE @PESQUISA_LIKE
+   OR tipo = @PESQUISA
+   OR cl = @PESQUISA
+   OR groupno = @PESQUISA
+   OR deptno = @PESQUISA
+   OR codBar = @PESQUISA
