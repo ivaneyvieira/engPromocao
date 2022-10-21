@@ -4,7 +4,6 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
-import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.config
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.charts.model.style.SolidColor
