@@ -7,7 +7,7 @@ CREATE TEMPORARY TABLE T_STK (
 SELECT prdno,
        grade,
        SUM(IF(storeno = 1, qtty_varejo / 1000, 0.00))                 AS JS_VA,
-       SUM(IF(storeno = 1, qtty_atacado / 100, 0.00))                 AS JS_AT,
+       SUM(IF(storeno = 1, qtty_atacado / 1000, 0.00))                 AS JS_AT,
        SUM(IF(storeno = 1, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS JS_TT,
 
        SUM(IF(storeno = 2, qtty_varejo / 1000, 0.00))                 AS DS_VA,
