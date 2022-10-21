@@ -1,6 +1,7 @@
 package br.com.astrosoft.promocao.view.produtos
 
 import br.com.astrosoft.framework.model.IUser
+import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_DS_AT
@@ -43,6 +44,8 @@ class TabBaseProduto(viewModel: TabBaseProdutoViewModel) :
   }
 
   override fun Grid<Produtos>.colunasGrid() {
+    this.setSelectionMode(Grid.SelectionMode.MULTI)
+    addColumnSeq("Seq")
     produto_codigo()
     produto_descricao()
     produto_grade()
