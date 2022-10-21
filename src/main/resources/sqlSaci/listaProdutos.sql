@@ -6,30 +6,30 @@ CREATE TEMPORARY TABLE T_STK (
 )
 SELECT prdno,
        grade,
-       SUM(IF(storeno = 1, qtty_varejo / 1000, 0.00))                 AS JS_VA,
+       SUM(IF(storeno = 1, qtty_varejo / 1000, 0.00))                  AS JS_VA,
        SUM(IF(storeno = 1, qtty_atacado / 1000, 0.00))                 AS JS_AT,
-       SUM(IF(storeno = 1, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS JS_TT,
+       SUM(IF(storeno = 1, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS JS_TT,
 
-       SUM(IF(storeno = 2, qtty_varejo / 1000, 0.00))                 AS DS_VA,
-       SUM(IF(storeno = 2, qtty_atacado / 1000, 0.00))                AS DS_AT,
-       SUM(IF(storeno = 2, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS DS_TT,
+       SUM(IF(storeno = 2, qtty_varejo / 1000, 0.00))                  AS DS_VA,
+       SUM(IF(storeno = 2, qtty_atacado / 1000, 0.00))                 AS DS_AT,
+       SUM(IF(storeno = 2, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS DS_TT,
 
-       SUM(IF(storeno = 3, qtty_varejo / 1000, 0.00))                 AS MR_VA,
-       SUM(IF(storeno = 3, qtty_atacado / 1000, 0.00))                AS MR_AT,
-       SUM(IF(storeno = 3, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS MR_TT,
+       SUM(IF(storeno = 3, qtty_varejo / 1000, 0.00))                  AS MR_VA,
+       SUM(IF(storeno = 3, qtty_atacado / 1000, 0.00))                 AS MR_AT,
+       SUM(IF(storeno = 3, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS MR_TT,
 
-       SUM(IF(storeno = 4, qtty_varejo / 1000, 0.00))                 AS MF_VA,
-       SUM(IF(storeno = 4, qtty_atacado / 1000, 0.00))                AS MF_AT,
-       SUM(IF(storeno = 4, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS MF_TT,
+       SUM(IF(storeno = 4, qtty_varejo / 1000, 0.00))                  AS MF_VA,
+       SUM(IF(storeno = 4, qtty_atacado / 1000, 0.00))                 AS MF_AT,
+       SUM(IF(storeno = 4, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS MF_TT,
 
-       SUM(IF(storeno = 5, qtty_varejo / 1000, 0.00))                 AS PK_VA,
-       SUM(IF(storeno = 5, qtty_atacado / 1000, 0.00))                AS PK_AT,
-       SUM(IF(storeno = 5, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS PK_TT,
+       SUM(IF(storeno = 5, qtty_varejo / 1000, 0.00))                  AS PK_VA,
+       SUM(IF(storeno = 5, qtty_atacado / 1000, 0.00))                 AS PK_AT,
+       SUM(IF(storeno = 5, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS PK_TT,
 
-       SUM(IF(storeno = 8, qtty_varejo / 1000, 0.00))                 AS TM_VA,
-       SUM(IF(storeno = 8, qtty_atacado / 1000, 0.00))                AS TM_AT,
-       SUM(IF(storeno = 8, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS TM_TT,
-       SUM(qtty_varejo + qtty_atacado) / 1000                         AS estoque
+       SUM(IF(storeno = 8, qtty_varejo / 1000, 0.00))                  AS TM_VA,
+       SUM(IF(storeno = 8, qtty_atacado / 1000, 0.00))                 AS TM_AT,
+       SUM(IF(storeno = 8, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS TM_TT,
+       SUM(qtty_varejo + qtty_atacado) / 1000                          AS estoque
 FROM sqldados.stk AS S
 WHERE S.storeno IN (1, 2, 3, 4, 5, 8)
 GROUP BY prdno, grade;
