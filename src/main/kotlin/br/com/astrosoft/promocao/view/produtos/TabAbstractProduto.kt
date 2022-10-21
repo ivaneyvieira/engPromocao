@@ -27,6 +27,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
   override fun HorizontalLayout.toolBarConfig() {
     edtPesquisa = textField("Pesquisa") {
       this.valueChangeMode = LAZY
+      this.valueChangeTimeout = 1500
       addValueChangeListener {
         viewModel.updateView()
       }

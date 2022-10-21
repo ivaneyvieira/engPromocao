@@ -1,61 +1,134 @@
 package br.com.astrosoft.promocao.view.produtos.columns
 
-import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnString
 import br.com.astrosoft.promocao.model.beans.Produtos
+import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
 object ProdutosColumns {
   fun Grid<Produtos>.produto_codigo() = addColumnInt(Produtos::codigo) {
     this.setHeader("Cód")
+    this.config()
   }
+
   fun Grid<Produtos>.produto_descricao() = addColumnString(Produtos::descricao) {
     this.setHeader("Descrição")
   }
+
   fun Grid<Produtos>.produto_grade() = addColumnString(Produtos::grade) {
     this.setHeader("Grade")
+    this.config()
   }
+
   fun Grid<Produtos>.produto_forn() = addColumnInt(Produtos::forn) {
     this.setHeader("Forn")
+    this.config()
   }
+
   fun Grid<Produtos>.produto_abrev() = addColumnString(Produtos::abrev) {
     this.setHeader("Abrev")
+    this.config()
   }
+
   fun Grid<Produtos>.produto_tipo() = addColumnInt(Produtos::tipo) {
     this.setHeader("Tipo")
+    this.config()
   }
+
   fun Grid<Produtos>.produto_cl() = addColumnInt(Produtos::cl) {
     this.setHeader("CL")
+    this.config()
   }
+
   fun Grid<Produtos>.produto_codBar() = addColumnString(Produtos::codBar) {
     this.setHeader("Cód. Barras")
+    this.config()
   }
-  fun Grid<Produtos>.produto_estJs() = addColumnDouble(Produtos::estJs) {
-    this.setHeader("Est. JS")
+
+  fun Grid<Produtos>.produto_DS_VA() = addColumnInt(Produtos::DS_VA) {
+    this.setHeader("DS VA")
+    this.config()
   }
-  fun Grid<Produtos>.produto_estDs() = addColumnDouble(Produtos::estDs) {
-    this.setHeader("Est. DS")
+
+  fun Grid<Produtos>.produto_DS_AT() = addColumnInt(Produtos::DS_AT) {
+    this.setHeader("DS AT")
+    this.config()
   }
-  fun Grid<Produtos>.produto_estMr() = addColumnDouble(Produtos::estMr) {
-    this.setHeader("Est. MR")
+
+  fun Grid<Produtos>.produto_DS_TT() = addColumnInt(Produtos::DS_TT) {
+    this.setHeader("DS TT")
+    this.config()
   }
-  fun Grid<Produtos>.produto_estMf() = addColumnDouble(Produtos::estMf) {
-    this.setHeader("Est. MF")
+
+  fun Grid<Produtos>.produto_MR_VA() = addColumnInt(Produtos::MR_VA) {
+    this.setHeader("MR VA")
+    this.config()
   }
-  fun Grid<Produtos>.produto_estPk() = addColumnDouble(Produtos::estPk) {
-    this.setHeader("Est. PK")
+
+  fun Grid<Produtos>.produto_MR_AT() = addColumnInt(Produtos::MR_AT) {
+    this.setHeader("MR AT")
+    this.config()
   }
-  fun Grid<Produtos>.produto_estTm() = addColumnDouble(Produtos::estTm) {
-    this.setHeader("Est. TM")
+
+  fun Grid<Produtos>.produto_MR_TT() = addColumnInt(Produtos::MR_TT) {
+    this.setHeader("MR TT")
+    this.config()
   }
-  fun Grid<Produtos>.produto_custo() = addColumnDouble(Produtos::custo) {
-    this.setHeader("P. Custo")
+
+  fun Grid<Produtos>.produto_MF_VA() = addColumnInt(Produtos::MF_VA) {
+    this.setHeader("MF VA")
+    this.config()
   }
-  fun Grid<Produtos>.produto_pPromo() = addColumnDouble(Produtos::pPromo) {
-    this.setHeader("P. Promo")
+
+  fun Grid<Produtos>.produto_MF_AT() = addColumnInt(Produtos::MF_AT) {
+    this.setHeader("MF AT")
+    this.config()
   }
-  fun Grid<Produtos>.produto_pRef() = addColumnDouble(Produtos::pRef) {
-    this.setHeader("Cod")
+
+  fun Grid<Produtos>.produto_MF_TT() = addColumnInt(Produtos::MF_TT) {
+    this.setHeader("MF TT")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_PK_VA() = addColumnInt(Produtos::PK_VA) {
+    this.setHeader("PK VA")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_PK_AT() = addColumnInt(Produtos::PK_AT) {
+    this.setHeader("PK AT")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_PK_TT() = addColumnInt(Produtos::PK_TT) {
+    this.setHeader("PK TT")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_TM_VA() = addColumnInt(Produtos::TM_VA) {
+    this.setHeader("TM VA")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_TM_AT() = addColumnInt(Produtos::TM_AT) {
+    this.setHeader("TM AT")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_TM_TT() = addColumnInt(Produtos::TM_TT) {
+    this.setHeader("TM TT")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_estoque() = addColumnInt(Produtos::estoque) {
+    this.setHeader("Total")
+    this.config()
+  }
+
+  private fun Grid.Column<Produtos>.config() {
+    this.isExpand = false
+    this.isAutoWidth = true
+    this.isResizable = true
   }
 }

@@ -6,43 +6,69 @@ CREATE TEMPORARY TABLE T_STK (
 )
 SELECT prdno,
        grade,
-       SUM(IF(storeno = 1, qtty_varejo / 100, 0.00)) AS estJS,
-       SUM(IF(storeno = 2, qtty_varejo / 100, 0.00)) AS estDS,
-       SUM(IF(storeno = 3, qtty_varejo / 100, 0.00)) AS estMR,
-       SUM(IF(storeno = 4, qtty_varejo / 100, 0.00)) AS estMF,
-       SUM(IF(storeno = 5, qtty_varejo / 100, 0.00)) AS estPK,
-       SUM(IF(storeno = 8, qtty_varejo / 100, 0.00)) AS estTM,
-       SUM(qtty_varejo)                              AS estoque
+       SUM(IF(storeno = 1, qtty_varejo / 100, 0.00))                  AS JS_VA,
+       SUM(IF(storeno = 1, qtty_atacado / 100, 0.00))                 AS JS_AT,
+       SUM(IF(storeno = 1, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS JS_TT,
+
+       SUM(IF(storeno = 2, qtty_varejo / 100, 0.00))                  AS DS_VA,
+       SUM(IF(storeno = 2, qtty_atacado / 100, 0.00))                 AS DS_AT,
+       SUM(IF(storeno = 2, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS DS_TT,
+
+       SUM(IF(storeno = 3, qtty_varejo / 100, 0.00))                  AS MR_VA,
+       SUM(IF(storeno = 3, qtty_atacado / 100, 0.00))                 AS MR_AT,
+       SUM(IF(storeno = 3, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS MR_TT,
+
+       SUM(IF(storeno = 4, qtty_varejo / 100, 0.00))                  AS MF_VA,
+       SUM(IF(storeno = 4, qtty_atacado / 100, 0.00))                 AS MF_AT,
+       SUM(IF(storeno = 4, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS MF_TT,
+
+       SUM(IF(storeno = 5, qtty_varejo / 100, 0.00))                  AS PK_VA,
+       SUM(IF(storeno = 5, qtty_atacado / 100, 0.00))                 AS PK_AT,
+       SUM(IF(storeno = 5, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS PK_TT,
+
+       SUM(IF(storeno = 8, qtty_varejo / 100, 0.00))                  AS TM_VA,
+       SUM(IF(storeno = 8, qtty_atacado / 100, 0.00))                 AS TM_AT,
+       SUM(IF(storeno = 8, (qtty_varejo + qtty_atacado) / 100, 0.00)) AS TM_TT,
+       SUM(qtty_varejo + qtty_atacado)                                AS estoque
 FROM sqldados.stk AS S
 WHERE S.storeno IN (1, 2, 3, 4, 5, 8)
 GROUP BY prdno, grade;
 
 
-DROP TABLE IF EXISTS sqltmp.T_RESULT;
-CREATE TABLE sqltmp.T_RESULT
-SELECT P.no                                                              AS prdno,
-       TRIM(P.no) * 1                                                    AS codigo,
-       TRIM(MID(P.name, 1, 37))                                          AS descricao,
-       IFNULL(B.grade, '')                                               AS grade,
-       CAST(P.mfno AS char ASCII)                                        AS fornStr,
-       P.mfno                                                            AS forn,
-       V.sname                                                           AS abrev,
-       CAST(P.typeno AS CHAR ASCII)                                      AS tipoStr,
-       P.typeno                                                          AS tipo,
-       P.clno                                                            AS cl,
-       RPAD(MID(LPAD(P.clno, 6, '0'), 1, 2), 6, '0') * 1                 AS groupno,
-       RPAD(MID(LPAD(P.clno, 6, '0'), 1, 4), 6, '0') * 1                 AS deptno,
-       TRIM(IF(B.grade IS NULL, IFNULL(P2.gtin, P.barcode), B.barcode))  AS codBar,
-       estJS                                                             AS estJS,
-       estDS                                                             AS estDS,
-       estMR                                                             AS estMR,
-       estMF                                                             AS estMF,
-       estPK                                                             AS estPK,
-       estTM                                                             AS estTM,
-       estoque                                                           AS estoque,
-       PR.cost / 10000                                                   AS custo,
-       IF(PR.promo_validate >= CURRENT_DATE, PR.promo_price / 100, 0.00) AS pPromo,
-       PR.refprice / 100                                                 AS pRef
+DROP TABLE IF EXISTS T_RESULT;
+CREATE TEMPORARY TABLE T_RESULT
+SELECT P.no                                                             AS prdno,
+       TRIM(P.no) * 1                                                   AS codigo,
+       TRIM(MID(P.name, 1, 37))                                         AS descricao,
+       IFNULL(B.grade, '')                                              AS grade,
+       CAST(P.mfno AS char ASCII)                                       AS fornStr,
+       P.mfno                                                           AS forn,
+       V.sname                                                          AS abrev,
+       CAST(P.typeno AS CHAR ASCII)                                     AS tipoStr,
+       P.typeno                                                         AS tipo,
+       P.clno                                                           AS cl,
+       RPAD(MID(LPAD(P.clno, 6, '0'), 1, 2), 6, '0') * 1                AS groupno,
+       RPAD(MID(LPAD(P.clno, 6, '0'), 1, 4), 6, '0') * 1                AS deptno,
+       TRIM(IF(B.grade IS NULL, IFNULL(P2.gtin, P.barcode), B.barcode)) AS codBar,
+       ROUND(JS_VA)                                                     AS JS_VA,
+       ROUND(JS_AT)                                                     AS JS_AT,
+       ROUND(JS_TT)                                                     AS JS_TT,
+       ROUND(DS_VA)                                                     AS DS_VA,
+       ROUND(DS_AT)                                                     AS DS_AT,
+       ROUND(DS_TT)                                                     AS DS_TT,
+       ROUND(MR_VA)                                                     AS MR_VA,
+       ROUND(MR_AT)                                                     AS MR_AT,
+       ROUND(MR_TT)                                                     AS MR_TT,
+       ROUND(MF_VA)                                                     AS MF_VA,
+       ROUND(MF_AT)                                                     AS MF_AT,
+       ROUND(MF_TT)                                                     AS MF_TT,
+       ROUND(PK_VA)                                                     AS PK_VA,
+       ROUND(PK_AT)                                                     AS PK_AT,
+       ROUND(PK_TT)                                                     AS PK_TT,
+       ROUND(TM_VA)                                                     AS TM_VA,
+       ROUND(TM_AT)                                                     AS TM_AT,
+       ROUND(TM_TT)                                                     AS TM_TT,
+       ROUND(estoque)                                                   AS estoque
 FROM sqldados.prd            AS P
   INNER JOIN T_STK           AS S
 	       ON S.prdno = P.no
@@ -50,8 +76,6 @@ FROM sqldados.prd            AS P
 	       ON P.no = P2.prdno
   LEFT JOIN  sqldados.vend   AS V
 	       ON V.no = P.mfno
-  LEFT JOIN  sqldados.prp    AS PR
-	       ON PR.prdno = P.no AND PR.storeno = 10
   LEFT JOIN  sqldados.prdbar AS B
 	       ON S.prdno = B.prdno AND S.grade = B.grade
 WHERE S.estoque != 0
@@ -69,25 +93,31 @@ SELECT prdno,
        tipo,
        cl,
        codBar,
-       estJS,
-       estDS,
-       estMR,
-       estMF,
-       estPK,
-       estTM,
-       estoque,
-       custo,
-       pPromo,
-       pRef
-FROM sqltmp.T_RESULT
+       DS_VA,
+       DS_AT,
+       DS_TT,
+       MR_VA,
+       MR_AT,
+       MR_TT,
+       MF_VA,
+       MF_AT,
+       MF_TT,
+       PK_VA,
+       PK_AT,
+       PK_TT,
+       TM_VA,
+       TM_AT,
+       TM_TT,
+       estoque
+FROM T_RESULT
 WHERE :pesquisa = ''
-   OR codigo = @PESQUISA
+   OR codigo LIKE @PESQUISA
    OR descricao LIKE @PESQUISA_LIKE
    OR grade LIKE @PESQUISA_LIKE
-   OR fornStr LIKE @PESQUISA_LIKE
+   OR fornStr LIKE @PESQUISA
    OR abrev LIKE @PESQUISA_LIKE
-   OR tipo = @PESQUISA
-   OR cl = @PESQUISA
-   OR groupno = @PESQUISA
-   OR deptno = @PESQUISA
-   OR codBar = @PESQUISA
+   OR tipo LIKE @PESQUISA
+   OR cl LIKE @PESQUISA
+   OR groupno LIKE @PESQUISA
+   OR deptno LIKE @PESQUISA
+   OR codBar LIKE @PESQUISA
