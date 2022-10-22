@@ -34,13 +34,12 @@ FROM sqldados.stk AS S
 WHERE S.storeno IN (1, 2, 3, 4, 5, 8)
 GROUP BY prdno, grade;
 
-
 DROP TABLE IF EXISTS T_RESULT;
 CREATE TEMPORARY TABLE T_RESULT
 SELECT P.no                                                             AS prdno,
        TRIM(P.no) * 1                                                   AS codigo,
        TRIM(MID(P.name, 1, 37))                                         AS descricao,
-       IFNULL(B.grade, '')                                              AS grade,
+       IFNULL(S.grade, '')                                              AS grade,
        CAST(P.mfno AS char ASCII)                                       AS fornStr,
        P.mfno                                                           AS forn,
        V.sname                                                          AS abrev,
