@@ -192,8 +192,26 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("pesquisa", filtro.pesquisa)
     }
   }
+  fun listaPrecificacao(filtro: FiltroPrecificacao) : List<Precificacao> {
+    val sql = "/sqlSaci/selectPrecificacao.sql"
 
-  companion object {
+    return query(sql, Precificacao::class) {
+      addOptionalParameter("codigo", filtro.codigo)
+      addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("tributacao", filtro.tributacao)
+    }
+  }
+
+  fun savePrecificacao(prp: Precificacao) {
+    val sql = "/sqlSaci/updatePrecificacao.sql"
+    script(sql){
+      addOptionalParameter("prdno", prp.prdno)
+      addOptionalParameter("cpmf", prp.cpmf)
+    }
+  }
+
+
+    companion object {
     private val db = DB("saci")
     internal val driver = db.driver
     internal val url = db.url

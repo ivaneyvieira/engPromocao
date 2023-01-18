@@ -19,6 +19,7 @@ class PromocaoView : ViewLayout<PromocaoViewModel>(), IPromocaoView {
   override val tab99ViewModel = Tab99(viewModel.tab99ViewModel)
   override val tabPromocaoViewModel = TabPromocao(viewModel.tabPromocaoViewModel)
   override val tabSemPromocaoViewModel = TabSemPromocao(viewModel.tabSemPromocaoViewModel)
+  override val tabPrecificacaoViewModel = TabPrecificacao(viewModel.tabPrecificacaoViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
