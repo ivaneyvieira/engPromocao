@@ -25,7 +25,7 @@ object NotaNddViewColumns {
   }
 
   fun Grid<PrecoPromocao>.promocaoCentroLucro() = addColumnInt(PrecoPromocao::clno) {
-    this.setHeader("Cent Lucro")
+    this.setHeader("CL")
   }
 
   fun Grid<PrecoPromocao>.promocaoTipoProduto() = addColumnInt(PrecoPromocao::typeno) {

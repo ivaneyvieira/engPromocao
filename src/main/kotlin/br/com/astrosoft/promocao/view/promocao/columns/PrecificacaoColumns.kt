@@ -21,7 +21,7 @@ object PrecificacaoColumns {
     this.setHeader("Tipo")
   }
   fun Grid<Precificacao>.promocaoClno() = addColumnInt(Precificacao::clno) {
-    this.setHeader("Centro de Lucro")
+    this.setHeader("CL")
   }
   fun Grid<Precificacao>.promocaoFornecedor() = addColumnString(Precificacao::fornecedor) {
     this.setHeader("Fornecedor")

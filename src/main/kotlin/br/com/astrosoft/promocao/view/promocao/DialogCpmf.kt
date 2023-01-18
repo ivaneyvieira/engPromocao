@@ -25,7 +25,7 @@ class DialogCpmf(val viewModel: TabPrecificacaoViewModel, val cpmf: Double?) : D
       isPadding = false
       alignItems = FlexComponent.Alignment.STRETCH
       style.set("width", "300px").set("max-width", "100%")
-      h2("Modificação de data de vencimento") {
+      h2("Modificar Percentuais da Planilha de Precificação") {
         style.set("margin", "var(--lumo-space-m) 0 0 0").set("font-size", "1.5em").set("font-weight", "bold")
       }
       verticalLayout {
