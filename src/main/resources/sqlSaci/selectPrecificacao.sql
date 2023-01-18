@@ -1,7 +1,9 @@
 DO @CODIGO := :codigo;
 DO @PRDNO := LPAD(@CODIGO, 16, ' ');
-DO @VENDNO := :vendno;
+DO @LISTVEND := REPLACE(:listVend, ' ', '');
 DO @TRIBUTACAO := :tributacao;
+DO @TYPENO := :typeno;
+DO @CLNO := :clno;
 
 SELECT prdno                     AS prdno,
        LPAD(TRIM(prdno), 6, '0') AS codigo,
@@ -9,7 +11,9 @@ SELECT prdno                     AS prdno,
        PD.mfno                   AS vendno,
        V.sname                   AS fornecedor,
        ROUND(adm / 100, 2)       AS cpmf,
-       taxno                     AS tributacao
+       taxno                     AS tributacao,
+       PD.typeno                 AS typeno,
+       PD.clno                   AS clno
 FROM sqldados.prp          AS P
   INNER JOIN sqldados.prd  AS PD
 	       ON PD.no = P.prdno
@@ -17,5 +21,7 @@ FROM sqldados.prp          AS P
 	       ON PD.mfno = V.no
 WHERE storeno = 10
   AND (P.prdno = @PRDNO OR @CODIGO = 0)
-  AND (PD.mfno = @VENDNO OR @VENDNO = 0)
+  AND(FIND_IN_SET(PD.mfno, @LISTVEND) OR @LISTVEND = '')
+  AND (PD.typeno = @TYPENO OR @TYPENO = 0)
+  AND (PD.clno = @CLNO OR @CLNO = 0)
   AND (PD.taxno = @TRIBUTACAO OR @TRIBUTACAO = '')

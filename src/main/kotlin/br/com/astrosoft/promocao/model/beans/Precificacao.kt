@@ -6,10 +6,12 @@ class Precificacao(
   val prdno: String,
   val codigo: String,
   val descricao: String,
-  val cpmf: Double,
+  var cpmf: Double,
   val vendno: Int,
   val fornecedor: String,
   val tributacao: String,
+  val typeno: Int,
+  val clno: Int,
                   ) {
   fun save() {
     saci.savePrecificacao(this)
@@ -20,4 +22,10 @@ class Precificacao(
   }
 }
 
-data class FiltroPrecificacao(val codigo: Int, val vendno: Int, val tributacao: String)
+data class FiltroPrecificacao(
+  val codigo: Int,
+  val listVend: List<Int>,
+  val tributacao: String,
+  val typeno: Int,
+  val clno: Int,
+                             )

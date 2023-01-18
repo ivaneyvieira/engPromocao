@@ -17,6 +17,12 @@ object PrecificacaoColumns {
   fun Grid<Precificacao>.promocaoVendno() = addColumnInt(Precificacao::vendno) {
     this.setHeader("Cod For")
   }
+  fun Grid<Precificacao>.promocaoTypeno() = addColumnInt(Precificacao::typeno) {
+    this.setHeader("Tipo")
+  }
+  fun Grid<Precificacao>.promocaoClno() = addColumnInt(Precificacao::clno) {
+    this.setHeader("Centro de Lucro")
+  }
   fun Grid<Precificacao>.promocaoFornecedor() = addColumnString(Precificacao::fornecedor) {
     this.setHeader("Fornecedor")
   }
