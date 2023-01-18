@@ -20,6 +20,7 @@ FROM sqldados.prp          AS P
   INNER JOIN sqldados.vend AS V
 	       ON PD.mfno = V.no
 WHERE storeno = 10
+  AND P.prdno < LPAD('960001', 16, ' ')
   AND (P.prdno = @PRDNO OR @CODIGO = 0)
   AND(FIND_IN_SET(PD.mfno, @LISTVEND) OR @LISTVEND = '')
   AND (PD.typeno = @TYPENO OR @TYPENO = 0)
