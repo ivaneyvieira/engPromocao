@@ -71,7 +71,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
       }
     }
 
-    button("Mudar CPMF") {
+    button("Mudar %") {
       onLeftClick {
         val itens = itensSelecionados()
         if (itens.isEmpty()) {
