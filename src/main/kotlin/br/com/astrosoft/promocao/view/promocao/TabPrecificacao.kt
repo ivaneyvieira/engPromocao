@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.promocao.model.beans.FiltroPrecificacao
 import br.com.astrosoft.promocao.model.beans.Precificacao
@@ -11,6 +12,8 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCpmf
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoDescricao
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFornecedor
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsEnt
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMva
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTributacao
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTypeno
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoVendno
@@ -97,6 +100,8 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     promocaoTypeno()
     promocaoClno()
     promocaoTributacao()
+    promocaoMva()
+    promocaoIcmsEnt()
     promocaoCpmf()
   }
 

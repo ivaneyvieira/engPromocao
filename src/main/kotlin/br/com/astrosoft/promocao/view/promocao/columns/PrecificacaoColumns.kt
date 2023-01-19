@@ -29,6 +29,12 @@ object PrecificacaoColumns {
   fun Grid<Precificacao>.promocaoCpmf() = addColumnDouble(Precificacao::cpmf) {
     this.setHeader("CPMF")
   }
+  fun Grid<Precificacao>.promocaoMva() = addColumnDouble(Precificacao::mvap) {
+    this.setHeader("MVA")
+  }
+  fun Grid<Precificacao>.promocaoIcmsEnt() = addColumnDouble(Precificacao::icmsp) {
+    this.setHeader("ICMS Ent")
+  }
   fun Grid<Precificacao>.promocaoTributacao() = addColumnString(Precificacao::tributacao) {
     this.setHeader("Trib")
   }
