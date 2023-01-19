@@ -1,24 +1,29 @@
 package br.com.astrosoft.promocao.view.promocao
 
-import br.com.astrosoft.framework.view.localePtBr
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.promocao.viewmodel.promocao.TabPrecificacaoViewModel
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.button.ButtonVariant
-import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.textfield.BigDecimalField
 import com.vaadin.flow.component.textfield.TextFieldVariant
-import java.time.LocalDate
+import com.vaadin.flow.data.value.ValueChangeMode
 
-class DialogCpmf(val viewModel: TabPrecificacaoViewModel, val cpmf: Double?) : Dialog() {
-  private lateinit var cpmfNew: BigDecimalField
+class DialogCpmf(val viewModel: TabPrecificacaoViewModel, val bean: BeanForm) : Dialog() {
+  private lateinit var edtCpmf: BigDecimalField
+  private lateinit var edtFcp: BigDecimalField
 
   init {
     element.setAttribute("aria-label", "Create new employee")
     isModal = true
     createDialogLayout()
   }
+
+  fun cpmfChange(): Boolean = edtCpmf.value?.toDouble().format() != bean.cpmf.format()
+
+  fun fcpChange(): Boolean = edtFcp.value?.toDouble().format() != bean.fcp.format()
 
   fun createDialogLayout() {
     verticalLayout {
@@ -32,11 +37,29 @@ class DialogCpmf(val viewModel: TabPrecificacaoViewModel, val cpmf: Double?) : D
         isSpacing = false
         isPadding = false
         alignItems = FlexComponent.Alignment.STRETCH
-        cpmfNew = bigDecimalField("CPMF Novo") {
+        edtCpmf = bigDecimalField("CPMF Novo") {
           this.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT)
-          val decimal = cpmf?.toBigDecimal()
+          val decimal = bean.cpmf?.toBigDecimal()
           decimal?.setScale(2)
           value = decimal
+
+          this.valueChangeMode = ValueChangeMode.EAGER
+          addValueChangeListener {
+            if (!cpmfChange()) this.prefixComponent = VaadinIcon.CHECK.create()
+            else this.prefixComponent = null
+          }
+        }
+        edtFcp = bigDecimalField("FCP Novo") {
+          this.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT)
+          val decimal = bean.fcp?.toBigDecimal()
+          decimal?.setScale(2)
+          value = decimal
+
+          this.valueChangeMode = ValueChangeMode.EAGER
+          addValueChangeListener {
+            if (!cpmfChange()) this.prefixComponent = VaadinIcon.CHECK.create()
+            else this.prefixComponent = null
+          }
         }
       }
       horizontalLayout {
@@ -44,7 +67,8 @@ class DialogCpmf(val viewModel: TabPrecificacaoViewModel, val cpmf: Double?) : D
         button("Confirma") {
           addThemeVariants(ButtonVariant.LUMO_PRIMARY)
           onLeftClick {
-            viewModel.modificaCpmf(cpmfNew = cpmfNew.value?.toDouble())
+            if (cpmfChange()) viewModel.modificaCpmf(cpmfNew = edtCpmf.value?.toDouble())
+            if (fcpChange()) viewModel.modificaFcp(fcpNew = edtFcp.value?.toDouble())
             this@DialogCpmf.close()
           }
         }
@@ -57,3 +81,5 @@ class DialogCpmf(val viewModel: TabPrecificacaoViewModel, val cpmf: Double?) : D
     }
   }
 }
+
+data class BeanForm(val cpmf: Double?, val fcp: Double?)

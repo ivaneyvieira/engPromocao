@@ -24,6 +24,17 @@ class TabPrecificacaoViewModel(val viewModel: PromocaoViewModel) {
       updateView()
     }
   }
+
+  fun modificaFcp(fcpNew: Double?) {
+    val list = subView.listSelected()
+    if (fcpNew != null) {
+      list.forEach { pre ->
+        pre.fcp = fcpNew
+        pre.save()
+      }
+      updateView()
+    }
+  }
 }
 
 interface ITabPrecificacaoViewModel : ITabView {

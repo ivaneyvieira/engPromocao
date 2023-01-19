@@ -14,6 +14,7 @@ class Precificacao(
   val clno: Int,
   val mvap: Double?,
   val icmsp: Double?,
+  var fcp: Double,
                   ) {
   fun save() {
     saci.savePrecificacao(this)

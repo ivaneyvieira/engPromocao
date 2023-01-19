@@ -2,7 +2,6 @@ package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.promocao.model.beans.FiltroPrecificacao
 import br.com.astrosoft.promocao.model.beans.Precificacao
@@ -11,6 +10,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCodigo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCpmf
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoDescricao
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFCP
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFornecedor
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsEnt
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMva
@@ -82,7 +82,8 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
         }
         else {
           val cpmf = itens.firstOrNull()?.cpmf
-          val dialog = DialogCpmf(viewModel, cpmf)
+          val fcp = itens.firstOrNull()?.fcp
+          val dialog = DialogCpmf(viewModel, BeanForm(cpmf = cpmf, fcp = fcp))
           dialog.open()
         }
       }
@@ -102,6 +103,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     promocaoTributacao()
     promocaoMva()
     promocaoIcmsEnt()
+    promocaoFCP()
     promocaoCpmf()
   }
 

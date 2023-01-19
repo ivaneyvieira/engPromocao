@@ -213,6 +213,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     script(sql) {
       addOptionalParameter("prdno", prp.prdno)
       addOptionalParameter("cpmf", prp.cpmf)
+      addOptionalParameter("fcp", prp.fcp)
     }
   }
 

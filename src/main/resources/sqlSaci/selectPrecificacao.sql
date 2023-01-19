@@ -15,7 +15,8 @@ SELECT prdno                                                                   A
        PD.typeno                                                               AS typeno,
        PD.clno                                                                 AS clno,
        ROUND(IF(PD.taxno = '00', 0.00, IFNULL(PD.lucroTributado, 0)) / 100, 4) AS mvap,
-       ROUND(IFNULL(P.dicm, 0) * (-1) / 100, 4)                                AS icmsp
+       ROUND(IFNULL(P.dicm, 0) * (-1) / 100, 4)                                AS icmsp,
+       ROUND(pis / 100, 2)                                                     AS fcp
 FROM sqldados.prp          AS P
   INNER JOIN sqldados.prd  AS PD
 	       ON PD.no = P.prdno
