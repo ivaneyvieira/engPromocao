@@ -22,7 +22,16 @@ class Precificacao(
   val creditoICMS: Double?,
   val frete: Double?,
   val custoContabil: Double?,
-                  ) {
+  val icms: Double?,
+  val pis: Double?,
+  val ir: Double?,
+  val contrib: Double?,
+  val fixa: Double?,
+  val outras: Double?,
+  val lucroLiq: Double?,
+  val precoSug: Double?,
+  val precoRef: Double?,
+  ) {
   fun save() {
     saci.savePrecificacao(this)
   }

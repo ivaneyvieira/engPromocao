@@ -2,24 +2,34 @@ package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.promocao.model.beans.FiltroPrecificacao
 import br.com.astrosoft.promocao.model.beans.Precificacao
 import br.com.astrosoft.promocao.model.beans.UserSaci
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCS
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoClno
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCodigo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoContabil
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCpmf
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoDescricao
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoDesp
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoEmbalagem
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFCP
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFornecedor
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFrete
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIR
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcms
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsEnt
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsSai
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIpi
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoLucro
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMva
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoOut
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPFabrica
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPRef
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPSug
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPis
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoRetido
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTributacao
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTypeno
@@ -106,6 +116,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     setSelectionMode(Grid.SelectionMode.MULTI)
     this.shiftSelect()
 
+    addColumnSeq("Seq")
     promocaoCodigo()
     promocaoDescricao()
     promocaoVendno()
@@ -122,6 +133,16 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     promocaoIcms()
     promocaoFrete()
     promocaoContabil()
+    promocaoIcmsSai()
+    promocaoPis()
+    promocaoIR()
+    promocaoCS()
+    promocaoDesp()
+    promocaoOut()
+    promocaoLucro()
+    promocaoPSug()
+    promocaoPRef()
+
     promocaoFCP()
     promocaoCpmf()
   }

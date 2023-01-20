@@ -24,7 +24,19 @@ SELECT prdno                                                                   A
        P.costdel3 / 100                                                        AS retido,
        P.dicm / 100                                                            AS creditoICMS,
        P.freight / 100                                                         AS frete,
-       P.cost / 10000                                                          AS custoContabil
+       P.cost / 10000                                                          AS custoContabil,
+       P.icm / 100                                                             AS icms,
+       P.finsoc / 100                                                          AS pis,
+       P.comm / 100                                                            AS ir,
+       P.adv / 100                                                             AS contrib,
+       P.refpdel2 / 100                                                        AS fixa,
+       P.refpdel3 / 100                                                        AS outras,
+       P.profit / 100                                                          AS lucroLiq,
+       TRUNCATE((P.cost / 100) / ((100 - (((P.icm + P.pis + P.finsoc + comm + adv + adm + refpdel1 +
+					    refpdel2 + refpdel3) + profit) / 100)) / 100), 0) /
+       100                                                                     AS precoSug,
+       P.refprice / 100                                                        AS precoRef
+
 FROM sqldados.prp          AS P
   INNER JOIN sqldados.prd  AS PD
 	       ON PD.no = P.prdno

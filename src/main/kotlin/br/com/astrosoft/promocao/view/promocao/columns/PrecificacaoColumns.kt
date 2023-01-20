@@ -35,6 +35,42 @@ object PrecificacaoColumns {
     this.setHeader("CPMF")
   }
 
+  fun Grid<Precificacao>.promocaoIcmsSai() = addColumnDouble(Precificacao::icms) {
+    this.setHeader("ICM Sai")
+  }
+
+  fun Grid<Precificacao>.promocaoPis() = addColumnDouble(Precificacao::pis) {
+    this.setHeader("Pis")
+  }
+
+  fun Grid<Precificacao>.promocaoIR() = addColumnDouble(Precificacao::ir) {
+    this.setHeader("IR")
+  }
+
+  fun Grid<Precificacao>.promocaoCS() = addColumnDouble(Precificacao::contrib) {
+    this.setHeader("CS")
+  }
+
+  fun Grid<Precificacao>.promocaoDesp() = addColumnDouble(Precificacao::fixa) {
+    this.setHeader("Desp")
+  }
+
+  fun Grid<Precificacao>.promocaoOut() = addColumnDouble(Precificacao::outras) {
+    this.setHeader("Out")
+  }
+
+  fun Grid<Precificacao>.promocaoLucro() = addColumnDouble(Precificacao::lucroLiq) {
+    this.setHeader("Lucro")
+  }
+
+  fun Grid<Precificacao>.promocaoPSug() = addColumnDouble(Precificacao::precoSug) {
+    this.setHeader("P.Sug.")
+  }
+
+  fun Grid<Precificacao>.promocaoPRef() = addColumnDouble(Precificacao::precoRef) {
+    this.setHeader("P.Ref.")
+  }
+
   fun Grid<Precificacao>.promocaoFCP() = addColumnDouble(Precificacao::fcp) {
     this.setHeader("FCP")
   }
