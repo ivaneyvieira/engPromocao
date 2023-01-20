@@ -15,6 +15,13 @@ class Precificacao(
   val mvap: Double?,
   val icmsp: Double?,
   var fcp: Double,
+  val pcfabrica: Double?,
+  val ipi: Double?,
+  val embalagem: Double?,
+  val retido: Double?,
+  val creditoICMS: Double?,
+  val frete: Double?,
+  val custoContabil: Double?,
                   ) {
   fun save() {
     saci.savePrecificacao(this)

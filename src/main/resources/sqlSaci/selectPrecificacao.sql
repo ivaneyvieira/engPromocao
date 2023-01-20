@@ -16,7 +16,14 @@ SELECT prdno                                                                   A
        PD.clno                                                                 AS clno,
        ROUND(IF(PD.taxno = '00', 0.00, IFNULL(PD.lucroTributado, 0)) / 100, 4) AS mvap,
        ROUND(IFNULL(P.dicm, 0) * (-1) / 100, 4)                                AS icmsp,
-       ROUND(pis / 100, 2)                                                     AS fcp
+       ROUND(pis / 100, 2)                                                     AS fcp,
+       P.fob / 10000                                                           AS pcfabrica,
+       P.ipi / 100                                                             AS ipi,
+       P.package / 100                                                         AS embalagem,
+       P.costdel3 / 100                                                        AS retido,
+       P.dicm / 100                                                            AS creditoICMS,
+       P.freight / 100                                                         AS frete,
+       P.cost / 10000                                                          AS custoContabil
 FROM sqldados.prp          AS P
   INNER JOIN sqldados.prd  AS PD
 	       ON PD.no = P.prdno

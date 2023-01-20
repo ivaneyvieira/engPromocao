@@ -8,12 +8,19 @@ import br.com.astrosoft.promocao.model.beans.Precificacao
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoClno
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCodigo
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoContabil
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCpmf
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoDescricao
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoEmbalagem
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFCP
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFornecedor
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFrete
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcms
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsEnt
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIpi
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMva
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPFabrica
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoRetido
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTributacao
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTypeno
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoVendno
@@ -103,6 +110,13 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     promocaoTributacao()
     promocaoMva()
     promocaoIcmsEnt()
+    promocaoPFabrica()
+    promocaoIpi()
+    promocaoEmbalagem()
+    promocaoRetido()
+    promocaoIcms()
+    promocaoFrete()
+    promocaoContabil()
     promocaoFCP()
     promocaoCpmf()
   }
