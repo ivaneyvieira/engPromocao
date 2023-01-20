@@ -26,10 +26,8 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoVendno
 import br.com.astrosoft.promocao.viewmodel.promocao.ITabPrecificacaoViewModel
 import br.com.astrosoft.promocao.viewmodel.promocao.TabPrecificacaoViewModel
-import com.github.mvysny.karibudsl.v10.button
-import com.github.mvysny.karibudsl.v10.integerField
-import com.github.mvysny.karibudsl.v10.onLeftClick
-import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.karibudsl.v10.*
+import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
@@ -43,6 +41,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
   private lateinit var edtType: IntegerField
   private lateinit var edtCl: IntegerField
   private lateinit var edtTributacao: TextField
+  private lateinit var edtMarcaPonto: Checkbox
   override fun HorizontalLayout.toolBarConfig() {
     edtCodigo = integerField("Código") {
       this.valueChangeMode = ValueChangeMode.LAZY
@@ -76,6 +75,12 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
 
     edtCl = integerField("Centro de Lucro") {
       this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtMarcaPonto = checkBox("Marca Ponto") {
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -128,6 +133,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
       tributacao = edtTributacao.value ?: "",
       typeno = edtType.value ?: 0,
       clno = edtCl.value ?: 0,
+      marcadoPonto = edtMarcaPonto.value ?: false
                              )
   }
 
