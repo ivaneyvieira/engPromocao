@@ -16,7 +16,6 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoDesp
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoEmbalagem
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFCP
-import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFornecedor
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFrete
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIR
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcms
@@ -119,8 +118,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     addColumnSeq("Seq")
     promocaoCodigo()
     promocaoDescricao()
-    promocaoVendno()
-    //promocaoFornecedor()
+    promocaoVendno() //promocaoFornecedor()
     promocaoTypeno()
     promocaoClno()
     promocaoTributacao()
@@ -134,28 +132,25 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     promocaoFrete()
     promocaoContabil()
     promocaoIcmsSai()
+    promocaoFCP()
     promocaoPis()
     promocaoIR()
     promocaoCS()
+    promocaoCpmf()
     promocaoDesp()
     promocaoOut()
     promocaoLucro()
     promocaoPSug()
     promocaoPRef()
-
-    promocaoFCP()
-    promocaoCpmf()
   }
 
   override fun filtro(): FiltroPrecificacao {
-    return FiltroPrecificacao(
-      codigo = edtCodigo.value ?: 0,
-      listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
-      tributacao = edtTributacao.value ?: "",
-      typeno = edtType.value ?: 0,
-      clno = edtCl.value ?: 0,
-      marcadoPonto = edtMarcaPonto.value ?: false
-                             )
+    return FiltroPrecificacao(codigo = edtCodigo.value ?: 0,
+                              listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
+                              tributacao = edtTributacao.value ?: "",
+                              typeno = edtType.value ?: 0,
+                              clno = edtCl.value ?: 0,
+                              marcadoPonto = edtMarcaPonto.value ?: false)
   }
 
   override fun listSelected(): List<Precificacao> {

@@ -83,7 +83,7 @@ object PrecificacaoColumns {
     this.setHeader("ICMS Ent")
   }
 
-  fun Grid<Precificacao>.promocaoPFabrica() = addColumnDouble(Precificacao::pcfabrica, pattern = "#,##0.0000") {
+  fun Grid<Precificacao>.promocaoPFabrica() = addColumnDouble(Precificacao::pcfabrica) {
     this.setHeader("P. Fab")
   }
 
@@ -107,7 +107,7 @@ object PrecificacaoColumns {
     this.setHeader("Frete")
   }
 
-  fun Grid<Precificacao>.promocaoContabil() = addColumnDouble(Precificacao::custoContabil, pattern = "#,##0.0000") {
+  fun Grid<Precificacao>.promocaoContabil() = addColumnDouble(Precificacao::custoContabil) {
     this.setHeader("C.Cont")
   }
 
