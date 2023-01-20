@@ -22,7 +22,7 @@ SELECT prdno                                                                   A
        P.ipi / 100                                                             AS ipi,
        P.package / 100                                                         AS embalagem,
        P.costdel3 / 100                                                        AS retido,
-       P.dicm / 100                                                            AS creditoICMS,
+       IF(PD.taxno = '06', PD.auxShort1 / 100, 0.00)                           AS creditoICMS,
        P.freight / 100                                                         AS frete,
        P.cost / 10000                                                          AS custoContabil,
        P.icm / 100                                                             AS icms,

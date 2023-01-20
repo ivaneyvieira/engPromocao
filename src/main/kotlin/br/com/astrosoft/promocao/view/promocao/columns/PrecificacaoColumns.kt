@@ -4,6 +4,7 @@ import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnString
 import br.com.astrosoft.promocao.model.beans.Precificacao
+import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
 object PrecificacaoColumns {
@@ -17,10 +18,12 @@ object PrecificacaoColumns {
 
   fun Grid<Precificacao>.promocaoVendno() = addColumnInt(Precificacao::vendno) {
     this.setHeader("Cod For")
+    this.isExpand = false
   }
 
   fun Grid<Precificacao>.promocaoTypeno() = addColumnInt(Precificacao::typeno) {
     this.setHeader("Tipo")
+    this.isExpand = false
   }
 
   fun Grid<Precificacao>.promocaoClno() = addColumnInt(Precificacao::clno) {
@@ -65,10 +68,16 @@ object PrecificacaoColumns {
 
   fun Grid<Precificacao>.promocaoPSug() = addColumnDouble(Precificacao::precoSug) {
     this.setHeader("P.Sug.")
+    this.isExpand = false
+    this.isAutoWidth = false
+    this.width = "100px"
   }
 
   fun Grid<Precificacao>.promocaoPRef() = addColumnDouble(Precificacao::precoRef) {
     this.setHeader("P.Ref.")
+    this.isExpand = false
+    this.isAutoWidth = false
+    this.width = "100px"
   }
 
   fun Grid<Precificacao>.promocaoFCP() = addColumnDouble(Precificacao::fcp) {
