@@ -120,7 +120,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     promocaoCodigo()
     promocaoDescricao()
     promocaoVendno()
-    promocaoFornecedor()
+    //promocaoFornecedor()
     promocaoTypeno()
     promocaoClno()
     promocaoTributacao()
