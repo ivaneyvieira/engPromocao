@@ -94,6 +94,9 @@ object PrecificacaoColumns {
 
   fun Grid<Precificacao>.promocaoPFabrica() = addColumnDouble(Precificacao::pcfabrica) {
     this.setHeader("P. Fab")
+    this.isExpand = false
+    this.isAutoWidth = false
+    this.width = "100px"
   }
 
   fun Grid<Precificacao>.promocaoIpi() = addColumnDouble(Precificacao::ipi) {
