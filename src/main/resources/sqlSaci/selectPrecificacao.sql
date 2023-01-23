@@ -16,7 +16,7 @@ SELECT prdno                                                                   A
        PD.typeno                                                               AS typeno,
        PD.clno                                                                 AS clno,
        ROUND(IF(PD.taxno = '00', 0.00, IFNULL(PD.lucroTributado, 0)) / 100, 4) AS mvap,
-       ROUND(IFNULL(P.dicm, 0) * (-1) / 100, 4)                                AS icmsp,
+       P.dicm / 100                                                            AS icmsp,
        ROUND(pis / 100, 2)                                                     AS fcp,
        P.fob / 10000                                                           AS pcfabrica,
        P.ipi / 100                                                             AS ipi,
