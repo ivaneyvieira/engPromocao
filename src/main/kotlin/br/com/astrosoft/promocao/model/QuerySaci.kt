@@ -1,5 +1,6 @@
 package br.com.astrosoft.promocao.model
 
+import br.com.astrosoft.framework.model.BeanForm
 import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
@@ -213,8 +214,114 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/updatePrecificacao.sql"
     script(sql) {
       addOptionalParameter("prdno", prp.prdno)
-      addOptionalParameter("cpmf", prp.cpmf)
+
+      addOptionalParameter("mvap", prp.mvap)
+      addOptionalParameter("creditoICMS", prp.creditoICMS)
+      addOptionalParameter("pcfabrica", prp.pcfabrica)
+      addOptionalParameter("ipi", prp.ipi)
+
+      addOptionalParameter("embalagem", prp.embalagem)
+      addOptionalParameter("retido", prp.retido)
+      addOptionalParameter("icmsp", prp.icmsp)
+      addOptionalParameter("frete", prp.frete)
+
+      addOptionalParameter("icms", prp.icms)
       addOptionalParameter("fcp", prp.fcp)
+      addOptionalParameter("pis", prp.pis)
+      addOptionalParameter("ir", prp.ir)
+
+      addOptionalParameter("contrib", prp.contrib)
+      addOptionalParameter("cpmf", prp.cpmf)
+      addOptionalParameter("fixa", prp.fixa)
+      addOptionalParameter("outras", prp.outras)
+    }
+  }
+
+  fun saveListPrecificacao(list: List<Precificacao>, bean: BeanForm) {
+    transaction {
+      list.forEach { pre ->
+        val mvap = bean.mvap
+        if (mvap != null) {
+          pre.mvap = mvap.toDouble()
+        }
+
+        val creditoICMS = bean.creditoICMS
+        if (creditoICMS != null) {
+          pre.creditoICMS = creditoICMS.toDouble()
+        }
+
+        val pcfabrica = bean.pcfabrica
+        if (pcfabrica != null) {
+          pre.pcfabrica = pcfabrica.toDouble()
+        }
+
+        val ipi = bean.ipi
+        if (ipi != null) {
+          pre.ipi = ipi.toDouble()
+        }
+
+        val embalagem = bean.embalagem
+        if (embalagem != null) {
+          pre.embalagem = embalagem.toDouble()
+        }
+
+        val retido = bean.retido
+        if (retido != null) {
+          pre.retido = retido.toDouble()
+        }
+
+        val icmsp = bean.icmsp
+        if (icmsp != null) {
+          pre.icmsp = icmsp.toDouble()
+        }
+
+        val frete = bean.frete
+        if (frete != null) {
+          pre.frete = frete.toDouble()
+        }
+
+        val icms = bean.icms
+        if (icms != null) {
+          pre.icms = icms.toDouble()
+        }
+
+        val fcp = bean.fcp
+        if (fcp != null) {
+          pre.fcp = fcp.toDouble()
+        }
+
+        val pis = bean.pis
+        if (pis != null) {
+          pre.pis = pis.toDouble()
+        }
+
+        val ir = bean.ir
+        if (ir != null) {
+          pre.ir = ir.toDouble()
+        }
+
+        val contrib = bean.contrib
+        if (contrib != null) {
+          pre.contrib = contrib.toDouble()
+        }
+
+        val cpmf = bean.cpmf
+        if (cpmf != null) {
+          pre.cpmf = cpmf.toDouble()
+        }
+
+        val fixa = bean.fixa
+        if (fixa != null) {
+          pre.fixa = fixa.toDouble()
+        }
+
+        val outras = bean.outras
+        if (outras != null) {
+          pre.outras = outras.toDouble()
+        }
+
+        pre.save()
+      }
     }
   }
 

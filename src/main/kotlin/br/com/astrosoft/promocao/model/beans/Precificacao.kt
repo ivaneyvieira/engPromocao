@@ -1,5 +1,6 @@
 package br.com.astrosoft.promocao.model.beans
 
+import br.com.astrosoft.framework.model.BeanForm
 import br.com.astrosoft.promocao.model.saci
 
 class Precificacao(
@@ -12,22 +13,22 @@ class Precificacao(
   val tributacao: String,
   val typeno: Int,
   val clno: Int,
-  val mvap: Double?,
-  val icmsp: Double?,
+  var mvap: Double?,
+  var icmsp: Double?,
   var fcp: Double,
-  val pcfabrica: Double?,
-  val ipi: Double?,
-  val embalagem: Double?,
-  val retido: Double?,
-  val creditoICMS: Double?,
-  val frete: Double?,
+  var pcfabrica: Double?,
+  var ipi: Double?,
+  var embalagem: Double?,
+  var retido: Double?,
+  var creditoICMS: Double?,
+  var frete: Double?,
   val custoContabil: Double?,
-  val icms: Double?,
-  val pis: Double?,
-  val ir: Double?,
-  val contrib: Double?,
-  val fixa: Double?,
-  val outras: Double?,
+  var icms: Double?,
+  var pis: Double?,
+  var ir: Double?,
+  var contrib: Double?,
+  var fixa: Double?,
+  var outras: Double?,
   val lucroLiq: Double?,
   val precoSug: Double?,
   val precoRef: Double?,
@@ -38,6 +39,9 @@ class Precificacao(
 
   companion object {
     fun findAll(filtro: FiltroPrecificacao) = saci.listaPrecificacao(filtro)
+    fun updateItens(list: List<Precificacao>, bean: BeanForm) {
+      saci.saveListPrecificacao(list, bean)
+    }
   }
 }
 

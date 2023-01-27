@@ -1,5 +1,6 @@
 package br.com.astrosoft.promocao.view.promocao
 
+import br.com.astrosoft.framework.model.BeanForm
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnSeq
@@ -104,7 +105,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
         else {
           val cpmf = itens.firstOrNull()?.cpmf
           val fcp = itens.firstOrNull()?.fcp
-          val dialog = DialogCpmf(viewModel, BeanForm(cpmf = cpmf, fcp = fcp))
+          val dialog = DialogPrecificacao(viewModel, BeanForm())
           dialog.open()
         }
       }

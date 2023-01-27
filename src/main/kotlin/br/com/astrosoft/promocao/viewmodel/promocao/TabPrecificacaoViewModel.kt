@@ -1,5 +1,6 @@
 package br.com.astrosoft.promocao.viewmodel.promocao
 
+import br.com.astrosoft.framework.model.BeanForm
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.promocao.model.beans.FiltroPrecificacao
 import br.com.astrosoft.promocao.model.beans.Precificacao
@@ -14,26 +15,10 @@ class TabPrecificacaoViewModel(val viewModel: PromocaoViewModel) {
     subView.updateGrid(list)
   }
 
-  fun modificaCpmf(cpmfNew: Double?) {
+  fun updatePrecificacao(bean: BeanForm) {
     val list = subView.listSelected()
-    if (cpmfNew != null) {
-      list.forEach { pre ->
-        pre.cpmf = cpmfNew
-        pre.save()
-      }
-      updateView()
-    }
-  }
-
-  fun modificaFcp(fcpNew: Double?) {
-    val list = subView.listSelected()
-    if (fcpNew != null) {
-      list.forEach { pre ->
-        pre.fcp = fcpNew
-        pre.save()
-      }
-      updateView()
-    }
+    Precificacao.updateItens(list, bean)
+    updateView()
   }
 }
 
