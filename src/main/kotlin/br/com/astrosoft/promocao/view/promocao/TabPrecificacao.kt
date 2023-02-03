@@ -8,6 +8,8 @@ import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.promocao.model.beans.FiltroPrecificacao
 import br.com.astrosoft.promocao.model.beans.Precificacao
 import br.com.astrosoft.promocao.model.beans.UserSaci
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaPrecificacao
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaPromocao
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCS
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoClno
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCodigo
@@ -37,12 +39,19 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.viewmodel.promocao.ITabPrecificacaoViewModel
 import br.com.astrosoft.promocao.viewmodel.promocao.TabPrecificacaoViewModel
 import com.github.mvysny.karibudsl.v10.*
+import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
+import org.vaadin.stefan.LazyDownloadButton
+import java.io.ByteArrayInputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Precificacao>(Precificacao::class),
         ITabPrecificacaoViewModel {
@@ -110,6 +119,27 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
         }
       }
     }
+
+    downloadExcel()
+  }
+
+  private fun HasComponents.downloadExcel() {
+    val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
+      val planilha = PlanilhaPrecificacao()
+      val list = itensSelecionados()
+      val bytes = planilha.grava(list)
+      ByteArrayInputStream(bytes)
+    })
+    button.addThemeVariants(ButtonVariant.LUMO_SMALL)
+    button.tooltip = "Salva a planilha"
+    add(button)
+  }
+
+  private fun filename(): String {
+    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+    val textTime = LocalDateTime.now().format(sdf)
+    val filename = "precificacao$textTime.xlsx"
+    return filename
   }
 
   override fun Grid<Precificacao>.gridPanel() {

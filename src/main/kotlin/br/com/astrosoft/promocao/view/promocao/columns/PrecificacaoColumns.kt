@@ -13,7 +13,7 @@ object PrecificacaoColumns {
   }
 
   fun Grid<Precificacao>.promocaoDescricao() = addColumnString(Precificacao::descricao) {
-    this.setHeader("Descricao")
+    this.setHeader("Descrição")
   }
 
   fun Grid<Precificacao>.promocaoVendno() = addColumnInt(Precificacao::vendno) {
