@@ -34,7 +34,7 @@ class Produtos(
   val refForn: String,
   val pesoBruto: Double,
   val uGar: String,
-  val tGar: String,
+  val tGar: Int,
   val emb: Double,
   val ncm: String,
   val site: String,

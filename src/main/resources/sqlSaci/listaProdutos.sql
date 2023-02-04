@@ -68,11 +68,20 @@ SELECT P.no                                                             AS prdno
        ROUND(TM_AT)                                                     AS TM_AT,
        ROUND(TM_TT)                                                     AS TM_TT,
        ROUND(estoque)                                                   AS estoque,
-       ''                                                               AS trib,
+       P.taxno                                                          AS trib,
        P.mfno_ref                                                       AS refForn,
        P.weight_g                                                       AS pesoBruto,
-       ''                                                               AS uGar,
-       ''                                                               AS tGar,
+       CASE P.tipoGarantia
+	 WHEN 0
+	   THEN 'Dia'
+	 WHEN 1
+	   THEN 'Semana'
+	 WHEN 2
+	   THEN 'Mês'
+	 WHEN 3
+	   THEN 'Ano'
+       END                                                              AS uGar,
+       P.GARANTIA                                                       AS tGar,
        P.qttyPackClosed / 1000                                          AS emb,
        IFNULL(N.ncm, '')                                                AS ncm,
        ''                                                               AS site

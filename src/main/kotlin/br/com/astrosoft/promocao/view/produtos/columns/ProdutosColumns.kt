@@ -147,7 +147,7 @@ object ProdutosColumns {
     this.config()
   }
 
-  fun Grid<Produtos>.produto_TGar() = addColumnString(Produtos::tGar) {
+  fun Grid<Produtos>.produto_TGar() = addColumnInt(Produtos::tGar) {
     this.setHeader("T Gar")
     this.config()
   }
