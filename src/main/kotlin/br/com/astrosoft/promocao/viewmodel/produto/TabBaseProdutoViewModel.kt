@@ -13,7 +13,7 @@ class TabBaseProdutoViewModel(viewModel: ProdutoViewModel) :
   }
 
   override fun todoEstoque(): Boolean {
-    return false
+    return true
   }
 }
 
