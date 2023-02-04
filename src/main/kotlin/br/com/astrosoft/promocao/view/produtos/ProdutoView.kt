@@ -16,6 +16,7 @@ import com.vaadin.flow.router.Route
 class ProdutoView : ViewLayout<ProdutoViewModel>(), IProdutoView {
   override val viewModel: ProdutoViewModel = ProdutoViewModel(this)
   override val tabBaseViewModel = TabBaseProduto(viewModel.tabBaseViewModel)
+  override val tabCadastroViewModel = TabCadastroProduto(viewModel.tabCadastroViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false

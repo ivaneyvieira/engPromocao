@@ -30,6 +30,14 @@ class Produtos(
   val TM_AT: Int,
   val TM_TT: Int,
   val estoque: Int,
+  val trib: String,
+  val refForn: String,
+  val pesoBruto: Double,
+  val uGar: String,
+  val tGar: String,
+  val emb: Double,
+  val ncm: String,
+  val site: String,
               ) {
   companion object {
     fun find(filter: FiltroProduto) = saci.listaProdutos(filter)

@@ -67,16 +67,26 @@ SELECT P.no                                                             AS prdno
        ROUND(TM_VA)                                                     AS TM_VA,
        ROUND(TM_AT)                                                     AS TM_AT,
        ROUND(TM_TT)                                                     AS TM_TT,
-       ROUND(estoque)                                                   AS estoque
-FROM sqldados.prd            AS P
-  INNER JOIN T_STK           AS S
+       ROUND(estoque)                                                   AS estoque,
+       ''                                                               AS trib,
+       P.mfno_ref                                                       AS refForn,
+       P.weight_g                                                       AS pesoBruto,
+       ''                                                               AS uGar,
+       ''                                                               AS tGar,
+       P.qttyPackClosed / 1000                                          AS emb,
+       IFNULL(N.ncm, '')                                                AS ncm,
+       ''                                                               AS site
+FROM sqldados.prd             AS P
+  INNER JOIN T_STK            AS S
 	       ON S.prdno = P.no
-  LEFT JOIN  sqldados.prd2   AS P2
+  LEFT JOIN  sqldados.prd2    AS P2
 	       ON P.no = P2.prdno
-  LEFT JOIN  sqldados.vend   AS V
+  LEFT JOIN  sqldados.vend    AS V
 	       ON V.no = P.mfno
-  LEFT JOIN  sqldados.prdbar AS B
+  LEFT JOIN  sqldados.prdbar  AS B
 	       ON S.prdno = B.prdno AND S.grade = B.grade
+  LEFT JOIN  sqldados.spedprd AS N
+	       ON N.prdno = P.no
 WHERE S.estoque != 0
 GROUP BY P.no;
 
@@ -107,7 +117,15 @@ SELECT prdno,
        TM_VA,
        TM_AT,
        TM_TT,
-       estoque
+       estoque,
+       trib,
+       refForn,
+       pesoBruto,
+       uGar,
+       tGar,
+       emb,
+       ncm,
+       site
 FROM T_RESULT
 WHERE :pesquisa = ''
    OR codigo LIKE @PESQUISA

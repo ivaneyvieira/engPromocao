@@ -1,5 +1,6 @@
 package br.com.astrosoft.promocao.view.produtos.columns
 
+import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnString
 import br.com.astrosoft.promocao.model.beans.Produtos
@@ -123,6 +124,46 @@ object ProdutosColumns {
 
   fun Grid<Produtos>.produto_estoque() = addColumnInt(Produtos::estoque) {
     this.setHeader("Total")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_Trib() = addColumnString(Produtos::trib) {
+    this.setHeader("Trib")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_RefForn() = addColumnString(Produtos::refForn) {
+    this.setHeader("Ref Forn")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_PesoBruto() = addColumnDouble(Produtos::pesoBruto) {
+    this.setHeader("P. Bruto")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_UGar() = addColumnString(Produtos::uGar) {
+    this.setHeader("U. Gar")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_TGar() = addColumnString(Produtos::tGar) {
+    this.setHeader("T Gar")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_Emb() = addColumnDouble(Produtos::emb) {
+    this.setHeader("Emb")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_Ncm() = addColumnString(Produtos::ncm) {
+    this.setHeader("NCM")
+    this.config()
+  }
+
+  fun Grid<Produtos>.produto_Site() = addColumnString(Produtos::site) {
+    this.setHeader("Site")
     this.config()
   }
 
