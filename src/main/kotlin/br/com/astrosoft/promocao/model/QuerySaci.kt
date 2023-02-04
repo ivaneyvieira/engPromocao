@@ -192,6 +192,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
     return query(sql, Produtos::class) {
       addOptionalParameter("pesquisa", filtro.pesquisa)
+      addOptionalParameter("marca", filtro.marcaPonto.codigo)
     }
   }
 

@@ -44,7 +44,7 @@ class Produtos(
   }
 }
 
-data class FiltroProduto(val pesquisa: String) {
+data class FiltroProduto(val pesquisa: String, val marcaPonto: EMarcaPonto) {
   val pesquisaNumero: Int?
     get() = pesquisa.toIntOrNull()
 
@@ -53,4 +53,8 @@ data class FiltroProduto(val pesquisa: String) {
 
   val pesquisaString: String?
     get() = if (pesquisa.matches("^[0-9]$".toRegex())) null else pesquisa
+}
+
+enum class EMarcaPonto(val codigo: String, val descricao: String) {
+  TODOS("T", "Todos"), SEM_PONTOS("S", "Sem Pontos"), COM_PONTOS("C", "Com Pontos")
 }

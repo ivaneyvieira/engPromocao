@@ -4,6 +4,7 @@ import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnString
 import br.com.astrosoft.promocao.model.beans.Produtos
+import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.config
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
@@ -15,6 +16,7 @@ object ProdutosColumns {
 
   fun Grid<Produtos>.produto_descricao() = addColumnString(Produtos::descricao) {
     this.setHeader("Descrição")
+    this.isResizable = true
   }
 
   fun Grid<Produtos>.produto_grade() = addColumnString(Produtos::grade) {

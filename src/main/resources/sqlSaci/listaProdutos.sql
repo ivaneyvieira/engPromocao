@@ -97,6 +97,14 @@ FROM sqldados.prd             AS P
   LEFT JOIN  sqldados.spedprd AS N
 	       ON N.prdno = P.no
 WHERE S.estoque != 0
+  AND CASE :marca
+	WHEN 'T'
+	  THEN TRUE
+	WHEN 'S'
+	  THEN P.name NOT LIKE '.%' AND P.name NOT LIKE '*%'
+	WHEN 'C'
+	  THEN P.name LIKE '.%' OR P.name LIKE '*%'
+      END
 GROUP BY P.no;
 
 DO @PESQUISA := :pesquisa;
