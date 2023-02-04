@@ -84,7 +84,8 @@ SELECT P.no                                                             AS prdno
        P.GARANTIA                                                       AS tGar,
        P.qttyPackClosed / 1000                                          AS emb,
        IFNULL(N.ncm, '')                                                AS ncm,
-       ''                                                               AS site
+       ''                                                               AS site,
+       TRIM(MID(P.name, 37, 3))                                         AS unidade
 FROM sqldados.prd             AS P
   INNER JOIN T_STK            AS S
 	       ON S.prdno = P.no
@@ -142,7 +143,8 @@ SELECT prdno,
        tGar,
        emb,
        ncm,
-       site
+       site,
+       unidade
 FROM T_RESULT
 WHERE :pesquisa = ''
    OR codigo LIKE @PESQUISA

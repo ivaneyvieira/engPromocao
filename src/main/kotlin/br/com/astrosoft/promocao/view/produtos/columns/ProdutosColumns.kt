@@ -169,6 +169,11 @@ object ProdutosColumns {
     this.config()
   }
 
+  fun Grid<Produtos>.produto_Unidade() = addColumnString(Produtos::unidade) {
+    this.setHeader("UN")
+    this.config()
+  }
+
   private fun Grid.Column<Produtos>.config() {
     this.isExpand = false
     this.isAutoWidth = true

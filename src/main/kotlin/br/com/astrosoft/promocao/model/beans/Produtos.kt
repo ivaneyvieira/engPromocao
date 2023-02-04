@@ -38,6 +38,7 @@ class Produtos(
   val emb: Double,
   val ncm: String,
   val site: String,
+  val unidade: String,
               ) {
   companion object {
     fun find(filter: FiltroProduto) = saci.listaProdutos(filter)
