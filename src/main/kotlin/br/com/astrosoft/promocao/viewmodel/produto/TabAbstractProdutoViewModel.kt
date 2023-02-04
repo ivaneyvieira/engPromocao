@@ -14,6 +14,8 @@ sealed class TabAbstractProdutoViewModel<T : ITabAbstractProdutoViewModel>(val v
   }
 
   abstract fun findPrecoAlteracao(filtro: FiltroProduto): List<Produtos>
+
+  abstract fun todoEstoque(): Boolean
 }
 
 interface ITabAbstractProdutoViewModel : ITabView {

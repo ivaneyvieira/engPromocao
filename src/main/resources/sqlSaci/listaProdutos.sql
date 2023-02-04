@@ -80,6 +80,7 @@ SELECT P.no                                                             AS prdno
 	   THEN 'Mês'
 	 WHEN 3
 	   THEN 'Ano'
+         ELSE ''
        END                                                              AS uGar,
        P.GARANTIA                                                       AS tGar,
        P.qttyPackClosed / 1000                                          AS emb,
@@ -97,7 +98,7 @@ FROM sqldados.prd             AS P
 	       ON S.prdno = B.prdno AND S.grade = B.grade
   LEFT JOIN  sqldados.spedprd AS N
 	       ON N.prdno = P.no
-WHERE S.estoque != 0
+WHERE (S.estoque != 0 OR :todoEstoque = 'S')
   AND CASE :marca
 	WHEN 'T'
 	  THEN TRUE

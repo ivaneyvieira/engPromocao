@@ -45,7 +45,7 @@ class Produtos(
   }
 }
 
-data class FiltroProduto(val pesquisa: String, val marcaPonto: EMarcaPonto) {
+data class FiltroProduto(val pesquisa: String, val marcaPonto: EMarcaPonto, val todoEstoque: Boolean) {
   val pesquisaNumero: Int?
     get() = pesquisa.toIntOrNull()
 

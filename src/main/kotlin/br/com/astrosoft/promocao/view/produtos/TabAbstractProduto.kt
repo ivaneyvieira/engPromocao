@@ -40,6 +40,9 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
     cmbPontos = select("Pontos") {
       setItems(EMarcaPonto.values().toList())
       value = EMarcaPonto.TODOS
+      this.setItemLabelGenerator {
+        it.descricao
+      }
 
       addValueChangeListener {
         viewModel.updateView()
@@ -61,8 +64,9 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
 
   protected abstract fun HorizontalLayout.addAditionaisFields()
 
-  override fun filtro() =
-    FiltroProduto(pesquisa = edtPesquisa.value ?: "", marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS)
+  override fun filtro() = FiltroProduto(pesquisa = edtPesquisa.value ?: "",
+                                        marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
+                                        todoEstoque = viewModel.todoEstoque())
 
   override fun Grid<Produtos>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)

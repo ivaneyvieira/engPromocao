@@ -11,6 +11,10 @@ class TabCadastroProdutoViewModel(viewModel: ProdutoViewModel) :
   override fun findPrecoAlteracao(filtro: FiltroProduto): List<Produtos> {
     return Produtos.find(filtro)
   }
+
+  override fun todoEstoque(): Boolean {
+    return true
+  }
 }
 
 interface ITabCadastroProdutoViewModel : ITabAbstractProdutoViewModel
