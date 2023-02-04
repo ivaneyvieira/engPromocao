@@ -5,6 +5,7 @@ import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Emb
+import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_FLinha
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Ncm
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_PesoBruto
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_RefForn
@@ -43,6 +44,7 @@ class TabCadastroProduto(viewModel: TabCadastroProdutoViewModel) :
     produto_descricao()
     produto_grade()
     produto_Unidade()
+    produto_FLinha()
     produto_Trib()
     produto_forn()
     produto_abrev()

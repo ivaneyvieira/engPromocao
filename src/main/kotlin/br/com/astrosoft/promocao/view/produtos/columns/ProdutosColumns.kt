@@ -174,6 +174,11 @@ object ProdutosColumns {
     this.config()
   }
 
+  fun Grid<Produtos>.produto_FLinha() = addColumnString(Produtos::foraLinha) {
+    this.setHeader("F. Linha")
+    this.config()
+  }
+
   private fun Grid.Column<Produtos>.config() {
     this.isExpand = false
     this.isAutoWidth = true

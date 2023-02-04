@@ -86,7 +86,8 @@ SELECT P.no                                                             AS prdno
        P.qttyPackClosed / 1000                                          AS emb,
        IFNULL(N.ncm, '')                                                AS ncm,
        ''                                                               AS site,
-       TRIM(MID(P.name, 37, 3))                                         AS unidade
+       TRIM(MID(P.name, 37, 3))                                         AS unidade,
+       IF((dereg & POW(2, 2)) = 1, 'S', 'N')                            AS foraLinha
 FROM sqldados.prd             AS P
   INNER JOIN T_STK            AS S
 	       ON S.prdno = P.no
@@ -103,10 +104,9 @@ WHERE (S.estoque != 0 OR :todoEstoque = 'S')
 	WHEN 'T'
 	  THEN TRUE
 	WHEN 'S'
-	  THEN P.name NOT LIKE '.%' AND P.name NOT LIKE '*%' AND P.name NOT LIKE '!%' AND
-	       P.name NOT LIKE '#%'
+	  THEN MID(P.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':')
 	WHEN 'C'
-	  THEN P.name LIKE '.%' OR P.name LIKE '*%' OR P.name LIKE '!%' OR P.name LIKE '#%'
+	  THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':')
       END
 GROUP BY P.no;
 
@@ -146,7 +146,8 @@ SELECT prdno,
        emb,
        ncm,
        site,
-       unidade
+       unidade,
+       foraLinha
 FROM T_RESULT
 WHERE :pesquisa = ''
    OR codigo LIKE @PESQUISA
