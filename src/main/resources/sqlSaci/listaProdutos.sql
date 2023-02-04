@@ -80,7 +80,7 @@ SELECT P.no                                                             AS prdno
 	   THEN 'Mês'
 	 WHEN 3
 	   THEN 'Ano'
-         ELSE ''
+	 ELSE ''
        END                                                              AS uGar,
        P.GARANTIA                                                       AS tGar,
        P.qttyPackClosed / 1000                                          AS emb,
@@ -103,9 +103,10 @@ WHERE (S.estoque != 0 OR :todoEstoque = 'S')
 	WHEN 'T'
 	  THEN TRUE
 	WHEN 'S'
-	  THEN P.name NOT LIKE '.%' AND P.name NOT LIKE '*%'
+	  THEN P.name NOT LIKE '.%' AND P.name NOT LIKE '*%' AND P.name NOT LIKE '!%' AND
+	       P.name NOT LIKE '#%'
 	WHEN 'C'
-	  THEN P.name LIKE '.%' OR P.name LIKE '*%'
+	  THEN P.name LIKE '.%' OR P.name LIKE '*%' OR P.name LIKE '!%' OR P.name LIKE '#%'
       END
 GROUP BY P.no;
 
