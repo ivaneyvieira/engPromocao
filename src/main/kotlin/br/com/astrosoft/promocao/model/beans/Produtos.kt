@@ -58,5 +58,5 @@ data class FiltroProduto(val pesquisa: String, val marcaPonto: EMarcaPonto, val 
 }
 
 enum class EMarcaPonto(val codigo: String, val descricao: String) {
-  TODOS("T", "Todos"), SEM_PONTOS("S", "Sem Pontos"), COM_PONTOS("C", "Com Pontos")
+  COM_PONTOS("C", "Não"), SEM_PONTOS("S", "Sim"), TODOS("T", "Todos")
 }

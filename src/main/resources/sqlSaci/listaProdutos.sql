@@ -87,7 +87,7 @@ SELECT P.no                                                             AS prdno
        IFNULL(N.ncm, '')                                                AS ncm,
        ''                                                               AS site,
        TRIM(MID(P.name, 37, 3))                                         AS unidade,
-       IF((dereg & POW(2, 2)) = 1, 'S', 'N')                            AS foraLinha
+       IF((dereg & POW(2, 2)) = 0, 'N', 'S')                            AS foraLinha
 FROM sqldados.prd             AS P
   INNER JOIN T_STK            AS S
 	       ON S.prdno = P.no
@@ -108,7 +108,7 @@ WHERE (S.estoque != 0 OR :todoEstoque = 'S')
 	WHEN 'C'
 	  THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':')
       END
-GROUP BY P.no;
+GROUP BY P.no, S.grade;
 
 DO @PESQUISA := :pesquisa;
 DO @PESQUISA_LIKE := CONCAT(:pesquisa, '%');

@@ -37,7 +37,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
     }
     this.downloadExcel()
 
-    cmbPontos = select("Pontos") {
+    cmbPontos = select("Caracteres Especiais") {
       setItems(EMarcaPonto.values().toList())
       value = EMarcaPonto.TODOS
       this.setItemLabelGenerator {
