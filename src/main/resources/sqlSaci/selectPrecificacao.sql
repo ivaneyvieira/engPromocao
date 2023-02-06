@@ -4,7 +4,6 @@ DO @LISTVEND := REPLACE(:listVend, ' ', '');
 DO @TRIBUTACAO := :tributacao;
 DO @TYPENO := :typeno;
 DO @CLNO := :clno;
-DO @FORA := :marcadoPonto;
 
 SELECT prdno                                                                   AS prdno,
        LPAD(TRIM(prdno), 6, '0')                                               AS codigo,
@@ -49,4 +48,11 @@ WHERE storeno = 10
   AND (PD.typeno = @TYPENO OR @TYPENO = 0)
   AND (PD.clno = @CLNO OR @CLNO = 0)
   AND (PD.taxno = @TRIBUTACAO OR @TRIBUTACAO = '')
-  AND (IF(:marcadoPonto = 'S', TRUE, PD.name NOT LIKE '.%' AND PD.name NOT LIKE '*%'))
+  AND CASE :marca
+	WHEN 'T'
+	  THEN TRUE
+	WHEN 'S'
+	  THEN MID(PD.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
+	WHEN 'C'
+	  THEN MID(PD.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
+      END

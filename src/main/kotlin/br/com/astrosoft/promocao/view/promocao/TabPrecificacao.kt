@@ -5,6 +5,7 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.framework.view.shiftSelect
+import br.com.astrosoft.promocao.model.beans.EMarcaPonto
 import br.com.astrosoft.promocao.model.beans.FiltroPrecificacao
 import br.com.astrosoft.promocao.model.beans.Precificacao
 import br.com.astrosoft.promocao.model.beans.UserSaci
@@ -45,6 +46,7 @@ import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
@@ -60,7 +62,8 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
   private lateinit var edtType: IntegerField
   private lateinit var edtCl: IntegerField
   private lateinit var edtTributacao: TextField
-  private lateinit var edtMarcaPonto: Checkbox
+  private lateinit var cmbPontos: Select<EMarcaPonto>
+
   override fun HorizontalLayout.toolBarConfig() {
     edtCodigo = integerField("Código") {
       this.valueChangeMode = ValueChangeMode.LAZY
@@ -99,7 +102,13 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
       }
     }
 
-    edtMarcaPonto = checkBox("Marca Ponto") {
+    cmbPontos = select("Caracteres Especiais") {
+      setItems(EMarcaPonto.values().toList())
+      value = EMarcaPonto.TODOS
+      this.setItemLabelGenerator {
+        it.descricao
+      }
+
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -181,7 +190,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
                               tributacao = edtTributacao.value ?: "",
                               typeno = edtType.value ?: 0,
                               clno = edtCl.value ?: 0,
-                              marcadoPonto = edtMarcaPonto.value ?: false)
+                              marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS)
   }
 
   override fun listSelected(): List<Precificacao> {

@@ -104,9 +104,9 @@ WHERE (S.estoque != 0 OR :todoEstoque = 'S')
 	WHEN 'T'
 	  THEN TRUE
 	WHEN 'S'
-	  THEN MID(P.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':')
+	  THEN MID(P.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
 	WHEN 'C'
-	  THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':')
+	  THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
       END
 GROUP BY P.no, S.grade;
 
