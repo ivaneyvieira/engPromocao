@@ -48,6 +48,17 @@ WHERE (P.clno BETWEEN @CLNO AND @CLNF OR @CLNO = 0)
 	  THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
       END;
 
+DROP TEMPORARY TABLE IF EXISTS T_STK;
+CREATE TEMPORARY TABLE T_STK (
+  PRIMARY KEY (prdno)
+)
+SELECT prdno, SUM(ROUND(qtty_varejo / 1000)) AS estoque
+FROM sqldados.stk AS S
+  INNER JOIN T_PRD
+	       USING (prdno)
+WHERE storeno IN (1, 2, 3, 4, 5, 6)
+GROUP BY prdno;
+
 DROP TEMPORARY TABLE IF EXISTS T_PRICE;
 CREATE TEMPORARY TABLE T_PRICE (
   PRIMARY KEY (prdno)
@@ -75,8 +86,11 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
        P.tipo                                                  AS tipoProduto,
        IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE')        AS origemPromocao,
        V.login                                                 AS login,
-       P.refFornecedor                                         AS refFornecedor
+       P.refFornecedor                                         AS refFornecedor,
+       IFNULL(estoque, 0)                                      AS estoque
 FROM T_PRD           AS P
+  LEFT JOIN  T_STK   AS S
+	       USING (prdno)
   INNER JOIN T_PRICE AS V
 	       USING (prdno)
 WHERE IF(V.validade >= @HOJE, 'PROMOCAO', 'BASE') IN (:tipoLista)

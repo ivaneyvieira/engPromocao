@@ -48,6 +48,10 @@ object NotaNddViewColumns {
     this.setHeader("R$ Ref.")
   }
 
+  fun Grid<PrecoPromocao>.promocaoEstoque() = addColumnInt(PrecoPromocao::estoque) {
+    this.setHeader("Estoque")
+  }
+
   fun Grid<PrecoPromocao>.promocaoOrigem() = addColumnString(PrecoPromocao::origemPromocao) {
     this.setHeader("Origem")
   }

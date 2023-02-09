@@ -1,6 +1,7 @@
 package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.promocao.model.beans.EMarcaPonto
 import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
@@ -10,6 +11,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promoc
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoCodigo
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoDesconto
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoDescricao
+import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoEstoque
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoFornecedor
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoPrecoPromocional
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoPrecoRef
@@ -139,9 +141,11 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
       }
     }
 
+    addColumnSeq("Item")
     promocaoCodigo()
     promocaoDescricao()
     promocaoPrecoRef()
+    promocaoEstoque()
     promocaoPrecoPromocional()
     promocaoDesconto()
     promocaoValidade()

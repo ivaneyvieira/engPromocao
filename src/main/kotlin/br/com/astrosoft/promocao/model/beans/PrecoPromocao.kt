@@ -6,21 +6,23 @@ import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 import kotlin.math.roundToInt
 
-class PrecoPromocao(val codigo: String,
-                    val descricao: String,
-                    val validade: LocalDate?,
-                    val refPrice: Double,
-                    val desconto: Double?,
-                    val precoPromocional: Double?,
-                    val clno: Int,
-                    val centroLucro: String,
-                    val vendno: Int,
-                    val fornecedor: String,
-                    val refFornecedor: String,
-                    val typeno: Int,
-                    val tipoProduto: String,
-                    val origemPromocao: String,
-                    val login: String) {
+class PrecoPromocao(
+  val codigo: String,
+  val descricao: String,
+  val validade: LocalDate?,
+  val refPrice: Double,
+  val desconto: Double?,
+  val precoPromocional: Double?,
+  val clno: Int,
+  val centroLucro: String,
+  val vendno: Int,
+  val fornecedor: String,
+  val refFornecedor: String,
+  val typeno: Int,
+  val tipoProduto: String,
+  val origemPromocao: String,
+  val login: String, val estoque: Int?,
+                   ) {
 
   fun dadosEtiquetas(): List<DadosEtiquetaProduto> {
     return saci.produtoGrade(codigo).map {
