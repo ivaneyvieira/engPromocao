@@ -1,3 +1,5 @@
+SET SQL_MODE = "";
+
 DO @HOJE := CURRENT_DATE * 1;
 DO @CODIGO := :codigo;
 DO @PRDNO := LPAD(@CODIGO, 16, ' ');
@@ -36,7 +38,15 @@ FROM sqldados.prd          AS P
 WHERE (P.clno BETWEEN @CLNO AND @CLNF OR @CLNO = 0)
   AND (P.mfno = @VENDNO OR @VENDNO = 0)
   AND (P.typeno = @TYPENO OR @TYPENO = 0)
-  AND (P.no = @PRDNO OR @CODIGO = 0);
+  AND (P.no = @PRDNO OR @CODIGO = 0)
+  AND CASE :marca
+	WHEN 'T'
+	  THEN TRUE
+	WHEN 'S'
+	  THEN MID(P.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
+	WHEN 'C'
+	  THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
+      END;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRICE;
 CREATE TEMPORARY TABLE T_PRICE (
@@ -53,7 +63,7 @@ FROM sqldados.prp  AS V
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
        descricao                                               AS descricao,
-       CAST(validade AS date)                                  AS validade,
+       CAST(IF(validade = 0, NULL, validade) AS date)          AS validade,
        refPrice                                                AS refPrice,
        ROUND((refPrice - V.promoPrice) * 100.00 / refPrice, 2) AS desconto,
        V.promoPrice                                            AS precoPromocional,
@@ -69,5 +79,5 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                             AS codigo,
 FROM T_PRD           AS P
   INNER JOIN T_PRICE AS V
 	       USING (prdno)
-WHERE IF(V.promoPrice IS NOT NULL, 'PROMOCAO', 'BASE') IN (:tipoLista)
+WHERE IF(V.validade >= @HOJE, 'PROMOCAO', 'BASE') IN (:tipoLista)
   AND IF(:decimal99 = 'S', ROUND(refPrice * 100 - TRUNCATE(refPrice, 0) * 100) = 99, TRUE)

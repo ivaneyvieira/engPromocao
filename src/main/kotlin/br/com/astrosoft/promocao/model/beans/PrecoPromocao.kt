@@ -102,7 +102,8 @@ data class FiltroPrecoPromocao(val codigo: Int,
                                val clno: Int,
                                val typeno: Int,
                                val decimal99: String,
-                               val tipoLista: List<ETipoListaPromocao>)
+                               val tipoLista: List<ETipoListaPromocao>,
+                               val marcaPonto: EMarcaPonto)
 
 enum class ETipoListaPromocao {
   BASE, PROMOCAO

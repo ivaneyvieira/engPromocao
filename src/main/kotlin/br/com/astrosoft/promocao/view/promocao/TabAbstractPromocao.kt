@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.shiftSelect
+import br.com.astrosoft.promocao.model.beans.EMarcaPonto
 import br.com.astrosoft.promocao.model.beans.FiltroPrecoPromocao
 import br.com.astrosoft.promocao.model.beans.PrecoPromocao
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaPromocao
@@ -17,6 +18,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promoc
 import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promocaoVendno
 import br.com.astrosoft.promocao.viewmodel.promocao.*
 import com.github.mvysny.karibudsl.v10.integerField
+import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.tooltip
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
@@ -25,6 +27,7 @@ import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.grid.Grid.SelectionMode.SINGLE
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 import org.vaadin.stefan.LazyDownloadButton
@@ -38,6 +41,7 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
   private lateinit var edtVend: IntegerField
   private lateinit var edtCl: IntegerField
   private lateinit var edtType: IntegerField
+  private lateinit var cmbPontos: Select<EMarcaPonto>
 
   override fun updateComponent() {
     viewModel.updateView()
@@ -76,6 +80,18 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
       }
     }
 
+    cmbPontos = select("Caracteres Especiais") {
+      setItems(EMarcaPonto.values().toList())
+      value = EMarcaPonto.TODOS
+      this.setItemLabelGenerator {
+        it.descricao
+      }
+
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
     this.downloadExcel()
 
     addAditionaisFields()
@@ -106,7 +122,8 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
                                               clno = edtCl.value ?: 0,
                                               typeno = edtType.value ?: 0,
                                               tipoLista = viewModel.tipoTab,
-                                              decimal99 = "N")
+                                              decimal99 = "N",
+                                              marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS)
 
   override fun Grid<PrecoPromocao>.gridPanel() {
     when (viewModel) {

@@ -57,6 +57,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("typeno", filtro.typeno)
       addOptionalParameter("decimal99", filtro.decimal99)
       addOptionalParameter("tipoLista", filtro.tipoLista.map { it.name })
+      addOptionalParameter("marca", filtro.marcaPonto.codigo)
     }
   }
 
