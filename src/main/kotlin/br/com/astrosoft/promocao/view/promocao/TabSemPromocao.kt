@@ -45,6 +45,19 @@ class TabSemPromocao(override val viewModel: TabSemPromocaoViewModel) :
         viewModel.executaDesconto()
       }
     }
+
+    button("Mudar data") {
+      onLeftClick {
+        val itens = itensSelecionados()
+        if (itens.isEmpty()) {
+          showErro("Nenhum item selecionado")
+        }
+        else {
+          val dialog = DialogDatasSemPromocao(viewModel)
+          dialog.open()
+        }
+      }
+    }
   }
 
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.promocaoSemPromocao ?: false

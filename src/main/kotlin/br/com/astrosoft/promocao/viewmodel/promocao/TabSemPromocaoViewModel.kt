@@ -3,6 +3,7 @@ package br.com.astrosoft.promocao.viewmodel.promocao
 import br.com.astrosoft.framework.viewmodel.fail
 import br.com.astrosoft.promocao.model.beans.ETipoListaPromocao.BASE
 import br.com.astrosoft.promocao.model.beans.PrecoPromocao
+import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 
 class TabSemPromocaoViewModel(viewModel: PromocaoViewModel) :
@@ -37,6 +38,15 @@ class TabSemPromocaoViewModel(viewModel: PromocaoViewModel) :
       fail("O desconto não pode ser zero")
     }
     return desconto
+  }
+
+  fun modificaData(dataNew: LocalDate?) = viewModel.exec {
+    dataNew ?: fail("Data Não informada")
+
+    val itens = subView.listSelected()
+
+    saci.modificaDataSolo(itens, dataNew)
+    updateView()
   }
 
   override val subView

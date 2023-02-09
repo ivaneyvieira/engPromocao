@@ -143,6 +143,16 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun modificaDataSolo(resultList: List<PrecoPromocao>, dataNew: LocalDate) {
+    val sql = "/sqlSaci/updateDatasSolo.sql"
+    resultList.forEach { preco ->
+      script(sql) {
+        addOptionalParameter("dataNew", dataNew.toSaciDate())
+        addOptionalParameter("codigo", preco.codigo)
+      }
+    }
+  }
+
   fun consultaProdutoValidade(filtro: FiltroGarantia): List<ProdutoValidade> {
     val sql = "/sqlSaci/produtosValidade.sql"
 
