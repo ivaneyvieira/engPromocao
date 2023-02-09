@@ -49,6 +49,7 @@ class TabBaseProduto(viewModel: TabBaseProdutoViewModel) :
     produto_codigo()
     produto_descricao()
     produto_grade()
+    produto_estoque()
     produto_forn()
     produto_abrev()
     produto_tipo()
@@ -70,7 +71,5 @@ class TabBaseProduto(viewModel: TabBaseProdutoViewModel) :
     produto_TM_VA()
     produto_TM_AT()
     produto_TM_TT()
-
-    produto_estoque()
   }
 }
