@@ -42,11 +42,11 @@ DROP TEMPORARY TABLE IF EXISTS T_PRICE;
 CREATE TEMPORARY TABLE T_PRICE (
   PRIMARY KEY (prdno)
 )
-SELECT V.prdno                                                            AS prdno,
-       CAST(IF(V.promo_validate < @HOJE, NULL, V.promo_validate) AS DATE) AS validade,
-       ROUND(V.refprice / 100, 2)                                         AS refPrice,
-       ROUND(IF(V.promo_validate < @HOJE, NULL, V.promo_price) / 100, 2)  AS promoPrice,
-       V.c4                                                               AS login
+SELECT V.prdno                        AS prdno,
+       CAST(V.promo_validate AS DATE) AS validade,
+       ROUND(V.refprice / 100, 2)     AS refPrice,
+       ROUND(V.promo_price / 100, 2)  AS promoPrice,
+       V.c4                           AS login
 FROM sqldados.prp  AS V
   INNER JOIN T_PRD AS P
 	       ON P.prdno = V.prdno AND V.storeno = 10;
