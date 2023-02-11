@@ -103,10 +103,20 @@ WHERE (S.estoque != 0 OR :todoEstoque = 'S')
   AND CASE :marca
 	WHEN 'T'
 	  THEN TRUE
-	WHEN 'S'
+	WHEN 'N'
 	  THEN MID(P.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
-	WHEN 'C'
+	WHEN 'S'
 	  THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
+	ELSE FALSE
+      END
+  AND CASE :inativo
+	WHEN 'T'
+	  THEN TRUE
+	WHEN 'S'
+	  THEN (P.dereg & POW(2, 2)) != 0
+	WHEN 'N'
+	  THEN (P.dereg & POW(2, 2)) = 0
+	ELSE FALSE
       END
 GROUP BY P.no, S.grade;
 

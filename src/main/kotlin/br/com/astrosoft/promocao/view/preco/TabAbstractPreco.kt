@@ -11,6 +11,7 @@ import br.com.astrosoft.promocao.model.planilhas.PlanilhaAlteracao
 import br.com.astrosoft.promocao.viewmodel.preco.ITabAbstractPrecoViewModel
 import br.com.astrosoft.promocao.viewmodel.preco.TabAbstractPrecoViewModel
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.datepicker.DatePicker

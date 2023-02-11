@@ -21,7 +21,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.NotaNddViewColumns.promoc
 import br.com.astrosoft.promocao.viewmodel.promocao.*
 import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.select
-import com.github.mvysny.karibudsl.v10.tooltip
+import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
@@ -138,6 +138,10 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
       is TabSemPromocaoViewModel  -> {
         setSelectionMode(MULTI)
         this.shiftSelect()
+      }
+
+      else                        -> {
+        // Não faz nada
       }
     }
 

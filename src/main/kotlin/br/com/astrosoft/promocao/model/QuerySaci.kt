@@ -204,6 +204,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, Produtos::class) {
       addOptionalParameter("pesquisa", filtro.pesquisa)
       addOptionalParameter("marca", filtro.marcaPonto.codigo)
+      addOptionalParameter("inativo", filtro.inativo.codigo)
       addOptionalParameter("todoEstoque", filtro.todoEstoque.let{ if(it) "S" else "N" })
     }
   }

@@ -46,7 +46,10 @@ class Produtos(
   }
 }
 
-data class FiltroProduto(val pesquisa: String, val marcaPonto: EMarcaPonto, val todoEstoque: Boolean) {
+data class FiltroProduto(val pesquisa: String,
+                         val marcaPonto: EMarcaPonto,
+                         val todoEstoque: Boolean,
+                         val inativo: EInativo,) {
   val pesquisaNumero: Int?
     get() = pesquisa.toIntOrNull()
 
@@ -58,5 +61,9 @@ data class FiltroProduto(val pesquisa: String, val marcaPonto: EMarcaPonto, val 
 }
 
 enum class EMarcaPonto(val codigo: String, val descricao: String) {
-  SEM_PONTOS("S", "Não"), COM_PONTOS("C", "Sim"), TODOS("T", "Todos")
+  NAO("N", "Não"), SIM("S", "Sim"), TODOS("T", "Todos")
+}
+
+enum class EInativo(val codigo: String, val descricao: String) {
+  NAO("N", "Não"), SIM("S", "Sim"), TODOS("T", "Todos")
 }

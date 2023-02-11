@@ -42,10 +42,11 @@ WHERE (P.clno BETWEEN @CLNO AND @CLNF OR @CLNO = 0)
   AND CASE :marca
 	WHEN 'T'
 	  THEN TRUE
-	WHEN 'S'
+	WHEN 'N'
 	  THEN MID(P.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
-	WHEN 'C'
+	WHEN 'S'
 	  THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
+	ELSE FALSE
       END;
 
 DROP TEMPORARY TABLE IF EXISTS T_STK;

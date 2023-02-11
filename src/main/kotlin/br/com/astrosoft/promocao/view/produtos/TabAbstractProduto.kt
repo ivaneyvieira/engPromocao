@@ -1,6 +1,7 @@
 package br.com.astrosoft.promocao.view.produtos
 
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.promocao.model.beans.EInativo
 import br.com.astrosoft.promocao.model.beans.EMarcaPonto
 import br.com.astrosoft.promocao.model.beans.FiltroProduto
 import br.com.astrosoft.promocao.model.beans.Produtos
@@ -22,6 +23,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
         TabPanelGrid<Produtos>(Produtos::class), ITabAbstractProdutoViewModel {
   private lateinit var edtPesquisa: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
+  private lateinit var cmbInativo: Select<EInativo>
 
   override fun updateComponent() {
     viewModel.updateView()
@@ -43,7 +45,17 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
       this.setItemLabelGenerator {
         it.descricao
       }
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
 
+    cmbInativo = select("Inativo") {
+      setItems(EInativo.values().toList())
+      value = EInativo.TODOS
+      this.setItemLabelGenerator {
+        it.descricao
+      }
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -64,9 +76,12 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
 
   protected abstract fun HorizontalLayout.addAditionaisFields()
 
-  override fun filtro() = FiltroProduto(pesquisa = edtPesquisa.value ?: "",
-                                        marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
-                                        todoEstoque = viewModel.todoEstoque())
+  override fun filtro() = FiltroProduto(
+    pesquisa = edtPesquisa.value ?: "",
+    marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
+    todoEstoque = viewModel.todoEstoque(),
+    inativo = cmbInativo.value ?: EInativo.TODOS,
+                                       )
 
   override fun Grid<Produtos>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)

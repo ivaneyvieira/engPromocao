@@ -40,6 +40,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.viewmodel.promocao.ITabPrecificacaoViewModel
 import br.com.astrosoft.promocao.viewmodel.promocao.TabPrecificacaoViewModel
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.checkbox.Checkbox
