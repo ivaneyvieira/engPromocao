@@ -4,6 +4,8 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoEstoqueTotal
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_DS_TT
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MF_TT
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MR_TT
@@ -29,6 +31,10 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
 
   override val label: String
     get() = "Estoque Total"
+
+  override fun planilha(): PlanilhaProduto {
+    return  PlanilhaProdutoEstoqueTotal()
+  }
 
   override fun HorizontalLayout.addAditionaisFields() {
   }

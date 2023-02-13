@@ -4,6 +4,8 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoCadastro
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Emb
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_FLinha
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Ncm
@@ -33,6 +35,10 @@ class TabCadastroProduto(viewModel: TabCadastroProdutoViewModel) :
 
   override val label: String
     get() = "Cadastro"
+
+  override fun planilha(): PlanilhaProduto {
+    return PlanilhaProdutoCadastro()
+  }
 
   override fun HorizontalLayout.addAditionaisFields() {
   }
