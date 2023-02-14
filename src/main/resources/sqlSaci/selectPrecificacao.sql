@@ -51,8 +51,8 @@ WHERE storeno = 10
   AND CASE :marca
 	WHEN 'T'
 	  THEN TRUE
-	WHEN 'S'
+	WHEN 'N'
 	  THEN MID(PD.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
-	WHEN 'C'
+	WHEN 'S'
 	  THEN MID(PD.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
       END
