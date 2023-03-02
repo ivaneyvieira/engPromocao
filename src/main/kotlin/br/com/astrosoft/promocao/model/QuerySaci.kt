@@ -201,11 +201,19 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   fun listaProdutos(filtro: FiltroProduto): List<Produtos> {
     val sql = "/sqlSaci/listaProdutos.sql"
 
+    val listVend = filtro.listVend.joinToString(separator = ",")
+
     return query(sql, Produtos::class) {
       addOptionalParameter("pesquisa", filtro.pesquisa)
       addOptionalParameter("marca", filtro.marcaPonto.codigo)
       addOptionalParameter("inativo", filtro.inativo.codigo)
       addOptionalParameter("todoEstoque", filtro.todoEstoque.let{ if(it) "S" else "N" })
+      addOptionalParameter("codigo", filtro.codigo)
+      addOptionalParameter("listVend", listVend)
+      addOptionalParameter("tributacao", filtro.tributacao)
+      addOptionalParameter("typeno", filtro.typeno)
+      addOptionalParameter("clno", filtro.clno)
+      addOptionalParameter("estoqueTotal", filtro.estoqueTotal.codigo)
     }
   }
 

@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.produtos
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.promocao.model.beans.EEstoqueTotal
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
@@ -77,5 +78,10 @@ class TabEstoqueGeralProduto(viewModel: TabEstoqueGeralViewModel) :
     produto_TM_VA()
     produto_TM_AT()
     produto_TM_TT()
+  }
+
+
+  override fun estoqueTotal(): EEstoqueTotal {
+    return EEstoqueTotal.TODOS
   }
 }

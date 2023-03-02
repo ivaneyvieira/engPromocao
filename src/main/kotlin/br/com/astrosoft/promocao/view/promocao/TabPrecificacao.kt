@@ -10,7 +10,6 @@ import br.com.astrosoft.promocao.model.beans.FiltroPrecificacao
 import br.com.astrosoft.promocao.model.beans.Precificacao
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaPrecificacao
-import br.com.astrosoft.promocao.model.planilhas.PlanilhaPromocao
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCS
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoClno
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCodigo
@@ -43,7 +42,6 @@ import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
-import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -186,12 +184,14 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
   }
 
   override fun filtro(): FiltroPrecificacao {
-    return FiltroPrecificacao(codigo = edtCodigo.value ?: 0,
-                              listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
-                              tributacao = edtTributacao.value ?: "",
-                              typeno = edtType.value ?: 0,
-                              clno = edtCl.value ?: 0,
-                              marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS)
+    return FiltroPrecificacao(
+      codigo = edtCodigo.value ?: 0,
+      listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
+      tributacao = edtTributacao.value ?: "",
+      typeno = edtType.value ?: 0,
+      clno = edtCl.value ?: 0,
+      marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
+                             )
   }
 
   override fun listSelected(): List<Precificacao> {

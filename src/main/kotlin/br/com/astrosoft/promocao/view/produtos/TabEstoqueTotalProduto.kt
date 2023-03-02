@@ -2,6 +2,8 @@ package br.com.astrosoft.promocao.view.produtos
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.promocao.model.beans.EEstoqueTotal
+import br.com.astrosoft.promocao.model.beans.EInativo
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
@@ -22,11 +24,14 @@ import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_g
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_tipo
 import br.com.astrosoft.promocao.viewmodel.produto.ITabEstoqueTotalViewModel
 import br.com.astrosoft.promocao.viewmodel.produto.TabEstoqueTotalViewModel
+import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.select.Select
 
 class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
         TabAbstractProduto<ITabEstoqueTotalViewModel>(viewModel, showDatas = false), ITabEstoqueTotalViewModel {
+  private lateinit var cmbEstoque: Select<EEstoqueTotal>
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoBase ?: false
 
   override val label: String
@@ -37,6 +42,16 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
   }
 
   override fun HorizontalLayout.addAditionaisFields() {
+    cmbEstoque = select("Estoque Total") {
+      setItems(EEstoqueTotal.values().toList())
+      value = EEstoqueTotal.TODOS
+      this.setItemLabelGenerator {
+        it.descricao
+      }
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
   }
 
   override fun Grid<Produtos>.colunasGrid() {
@@ -57,5 +72,9 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
     produto_MF_TT()
     produto_PK_TT()
     produto_TM_TT()
+  }
+
+  override fun estoqueTotal(): EEstoqueTotal {
+    return cmbEstoque.value ?: EEstoqueTotal.TODOS
   }
 }

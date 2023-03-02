@@ -46,10 +46,18 @@ class Produtos(
   }
 }
 
-data class FiltroProduto(val pesquisa: String,
-                         val marcaPonto: EMarcaPonto,
-                         val todoEstoque: Boolean,
-                         val inativo: EInativo,) {
+data class FiltroProduto(
+  val pesquisa: String,
+  val marcaPonto: EMarcaPonto,
+  val todoEstoque: Boolean,
+  val inativo: EInativo,
+  val codigo: Int,
+  val listVend: List<Int>,
+  val tributacao: String,
+  val typeno: Int,
+  val clno: Int,
+  val estoqueTotal: EEstoqueTotal,
+                        ) {
   val pesquisaNumero: Int?
     get() = pesquisa.toIntOrNull()
 
@@ -66,4 +74,8 @@ enum class EMarcaPonto(val codigo: String, val descricao: String) {
 
 enum class EInativo(val codigo: String, val descricao: String) {
   NAO("N", "Não"), SIM("S", "Sim"), TODOS("T", "Todos")
+}
+
+enum class EEstoqueTotal(val codigo: String, val descricao: String) {
+  MENOR("<", "<"), MAIOR(">", ">"), IGUAL("=", "="), TODOS("T", "Todos")
 }

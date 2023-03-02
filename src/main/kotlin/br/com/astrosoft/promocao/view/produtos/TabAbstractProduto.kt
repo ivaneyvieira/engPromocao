@@ -2,13 +2,11 @@ package br.com.astrosoft.promocao.view.produtos
 
 import br.com.astrosoft.framework.model.CampoNumber
 import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.promocao.model.beans.EInativo
-import br.com.astrosoft.promocao.model.beans.EMarcaPonto
-import br.com.astrosoft.promocao.model.beans.FiltroProduto
-import br.com.astrosoft.promocao.model.beans.Produtos
+import br.com.astrosoft.promocao.model.beans.*
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
 import br.com.astrosoft.promocao.viewmodel.produto.ITabAbstractProdutoViewModel
 import br.com.astrosoft.promocao.viewmodel.produto.TabAbstractProdutoViewModel
+import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.kaributools.header2
@@ -19,7 +17,9 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
+import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.data.value.ValueChangeMode.LAZY
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
@@ -32,6 +32,11 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
   private lateinit var edtPesquisa: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
   private lateinit var cmbInativo: Select<EInativo>
+  private lateinit var edtCodigo: IntegerField
+  private lateinit var edtListVend: TextField
+  private lateinit var edtType: IntegerField
+  private lateinit var edtCl: IntegerField
+  private lateinit var edtTributacao: TextField
 
   override fun updateComponent() {
     viewModel.updateView()
@@ -69,6 +74,43 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
       }
     }
 
+    edtCodigo = integerField("Código") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtListVend = textField("Fornecedores") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.width = "250px"
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtTributacao = textField("Tributação") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.width = "80px"
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtType = integerField("Tipo") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtCl = integerField("Centro de Lucro") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
     addAditionaisFields()
   }
 
@@ -87,7 +129,15 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
     marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
     todoEstoque = viewModel.todoEstoque(),
     inativo = cmbInativo.value ?: EInativo.TODOS,
+    codigo = edtCodigo.value ?: 0,
+    listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
+    tributacao = edtTributacao.value ?: "",
+    typeno = edtType.value ?: 0,
+    clno = edtCl.value ?: 0,
+    estoqueTotal = estoqueTotal(),
                                        )
+
+  abstract fun estoqueTotal(): EEstoqueTotal
 
   override fun Grid<Produtos>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)

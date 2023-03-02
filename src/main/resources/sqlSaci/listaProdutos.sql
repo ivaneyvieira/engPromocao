@@ -1,5 +1,12 @@
 USE sqldados;
 
+DO @CODIGO := :codigo;
+DO @PRDNO := LPAD(@CODIGO, 16, ' ');
+DO @LISTVEND := REPLACE(:listVend, ' ', '');
+DO @TRIBUTACAO := :tributacao;
+DO @TYPENO := :typeno;
+DO @CLNO := :clno;
+
 DROP TABLE IF EXISTS T_STK;
 CREATE TEMPORARY TABLE T_STK (
   PRIMARY KEY (prdno, grade)
@@ -99,7 +106,12 @@ FROM sqldados.prd             AS P
 	       ON S.prdno = B.prdno AND S.grade = B.grade
   LEFT JOIN  sqldados.spedprd AS N
 	       ON N.prdno = P.no
-WHERE (S.estoque != 0 OR :todoEstoque = 'S')
+WHERE (P.no = @PRDNO OR @CODIGO = 0)
+  AND (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
+  AND (P.typeno = @TYPENO OR @TYPENO = 0)
+  AND (P.clno = @CLNO OR @CLNO = 0)
+  AND (P.taxno = @TRIBUTACAO OR @TRIBUTACAO = '')
+  AND (S.estoque != 0 OR :todoEstoque = 'S')
   AND CASE :marca
 	WHEN 'T'
 	  THEN TRUE
@@ -116,6 +128,17 @@ WHERE (S.estoque != 0 OR :todoEstoque = 'S')
 	  THEN (P.dereg & POW(2, 2)) != 0
 	WHEN 'N'
 	  THEN (P.dereg & POW(2, 2)) = 0
+	ELSE FALSE
+      END
+  AND CASE :estoqueTotal
+	WHEN 'T'
+	  THEN TRUE
+	WHEN '>'
+	  THEN ROUND(estoque) > 0
+	WHEN '<'
+	  THEN ROUND(estoque) < 0
+	WHEN '='
+	  THEN ROUND(estoque) = 0
 	ELSE FALSE
       END
 GROUP BY P.no, S.grade;
@@ -170,3 +193,4 @@ WHERE :pesquisa = ''
    OR groupno LIKE @PESQUISA
    OR deptno LIKE @PESQUISA
    OR codBar LIKE @PESQUISA
+

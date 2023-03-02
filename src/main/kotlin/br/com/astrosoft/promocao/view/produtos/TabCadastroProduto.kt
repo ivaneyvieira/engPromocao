@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.produtos
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.promocao.model.beans.EEstoqueTotal
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
@@ -41,6 +42,10 @@ class TabCadastroProduto(viewModel: TabCadastroProdutoViewModel) :
   }
 
   override fun HorizontalLayout.addAditionaisFields() {
+  }
+
+  override fun estoqueTotal(): EEstoqueTotal {
+    return EEstoqueTotal.TODOS
   }
 
   override fun Grid<Produtos>.colunasGrid() {
