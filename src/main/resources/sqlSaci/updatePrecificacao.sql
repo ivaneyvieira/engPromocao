@@ -1,5 +1,5 @@
 UPDATE sqldados.prp
-SET fob      = ROUND(:pcfabrica * 100),
+SET fob      = ROUND(:pcfabrica * 10000),
     ipi      = ROUND(:ipi * 100),
 
     package  = ROUND(:embalagem * 100),
