@@ -58,7 +58,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
         ITabPrecificacaoViewModel {
   private lateinit var edtCodigo: IntegerField
   private lateinit var edtListVend: TextField
-  private lateinit var edtType: IntegerField
+  private lateinit var edtType: TextField
   private lateinit var edtCl: IntegerField
   private lateinit var edtTributacao: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
@@ -88,7 +88,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
       }
     }
 
-    edtType = integerField("Tipo") {
+    edtType = textField("Tipo") {
       this.valueChangeMode = ValueChangeMode.LAZY
       addValueChangeListener {
         viewModel.updateView()
@@ -121,8 +121,6 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
           showErro("Nenhum item selecionado")
         }
         else {
-          val cpmf = itens.firstOrNull()?.cpmf
-          val fcp = itens.firstOrNull()?.fcp
           val dialog = DialogPrecificacao(viewModel, BeanForm())
           dialog.open()
         }
@@ -154,8 +152,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
   private fun filename(): String {
     val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
     val textTime = LocalDateTime.now().format(sdf)
-    val filename = "precificacao$textTime.xlsx"
-    return filename
+    return "precificacao$textTime.xlsx"
   }
 
   override fun Grid<Precificacao>.gridPanel() {
@@ -196,7 +193,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
       codigo = edtCodigo.value ?: 0,
       listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
       tributacao = edtTributacao.value ?: "",
-      typeno = edtType.value ?: 0,
+      typeno = edtType.value ?: "",
       clno = edtCl.value ?: 0,
       marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
       query =  edtQuery.value ?: "",

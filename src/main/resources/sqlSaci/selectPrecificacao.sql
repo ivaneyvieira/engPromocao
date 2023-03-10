@@ -47,7 +47,7 @@ WHERE storeno = 10
   AND P.prdno < LPAD('960001', 16, ' ')
   AND (P.prdno = @PRDNO OR @CODIGO = 0)
   AND (FIND_IN_SET(PD.mfno, @LISTVEND) OR @LISTVEND = '')
-  AND (PD.typeno = @TYPENO OR @TYPENO = 0)
+  AND (FIND_IN_SET(PD.typeno, @TYPENO) OR @TYPENO = '')
   AND (PD.clno = @CLNO OR @CLNO = 0)
   AND (PD.taxno = @TRIBUTACAO OR @TRIBUTACAO = '')
   AND CASE :marca
