@@ -65,6 +65,13 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
   private lateinit var edtQuery: TextField
 
   override fun HorizontalLayout.toolBarConfig() {
+    edtQuery = textField("Pesquisa") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
     edtCodigo = integerField("Código") {
       this.valueChangeMode = ValueChangeMode.LAZY
       addValueChangeListener {
@@ -123,13 +130,6 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
         else {
           val dialog = DialogPrecificacao(viewModel, BeanForm())
           dialog.open()
-        }
-      }
-
-      edtQuery = textField("Pesquisa") {
-        this.valueChangeMode = ValueChangeMode.LAZY
-        addValueChangeListener {
-          viewModel.updateView()
         }
       }
     }
