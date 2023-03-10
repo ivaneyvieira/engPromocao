@@ -52,4 +52,5 @@ data class FiltroPrecificacao(
   val typeno: Int,
   val clno: Int,
   val marcaPonto: EMarcaPonto,
+  val query: String,
                              )

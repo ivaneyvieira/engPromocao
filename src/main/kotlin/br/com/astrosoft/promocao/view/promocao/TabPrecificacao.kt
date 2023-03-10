@@ -62,6 +62,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
   private lateinit var edtCl: IntegerField
   private lateinit var edtTributacao: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
+  private lateinit var edtQuery: TextField
 
   override fun HorizontalLayout.toolBarConfig() {
     edtCodigo = integerField("Código") {
@@ -124,6 +125,13 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
           val fcp = itens.firstOrNull()?.fcp
           val dialog = DialogPrecificacao(viewModel, BeanForm())
           dialog.open()
+        }
+      }
+
+      edtQuery = textField("Pesquisa") {
+        this.valueChangeMode = ValueChangeMode.LAZY
+        addValueChangeListener {
+          viewModel.updateView()
         }
       }
     }
@@ -191,6 +199,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
       typeno = edtType.value ?: 0,
       clno = edtCl.value ?: 0,
       marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
+      query =  edtQuery.value ?: "",
                              )
   }
 

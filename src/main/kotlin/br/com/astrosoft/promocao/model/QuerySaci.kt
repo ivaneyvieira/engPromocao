@@ -229,6 +229,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("typeno", filtro.typeno)
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("marca", filtro.marcaPonto.codigo)
+      addOptionalParameter("query", filtro.query)
     }
   }
 
