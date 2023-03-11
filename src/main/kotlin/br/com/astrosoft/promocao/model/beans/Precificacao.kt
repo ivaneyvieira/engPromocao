@@ -32,6 +32,7 @@ class Precificacao(
   val lucroLiq: Double?,
   val precoSug: Double?,
   val precoRef: Double?,
+  val precoDif: Double?,
   ) {
   fun save() {
     saci.savePrecificacao(this)

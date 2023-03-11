@@ -28,6 +28,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoLucro
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMva
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoOut
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPDif
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPFabrica
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPRef
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPSug
@@ -186,6 +187,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     promocaoLucro()
     promocaoPSug()
     promocaoPRef()
+    promocaoPDif()
   }
 
   override fun filtro(): FiltroPrecificacao {

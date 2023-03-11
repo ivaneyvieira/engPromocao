@@ -80,6 +80,13 @@ object PrecificacaoColumns {
     this.width = "100px"
   }
 
+  fun Grid<Precificacao>.promocaoPDif() = addColumnDouble(Precificacao::precoDif) {
+    this.setHeader("Dif")
+    this.isExpand = false
+    this.isAutoWidth = false
+    this.width = "100px"
+  }
+
   fun Grid<Precificacao>.promocaoFCP() = addColumnDouble(Precificacao::fcp) {
     this.setHeader("FCP")
   }
