@@ -7,43 +7,46 @@ DO @CLNO := :clno;
 DO @QUERY := :query;
 DO @QUERYLIKE := CONCAT(@QUERY, '%');
 
-SELECT prdno                                                                                 AS prdno,
-       LPAD(TRIM(prdno), 6, '0')                                                             AS codigo,
-       TRIM(MID(PD.name, 1, 37))                                                             AS descricao,
-       PD.mfno                                                                               AS vendno,
-       V.sname                                                                               AS fornecedor,
-       ROUND(adm / 100, 2)                                                                   AS cpmf,
-       taxno                                                                                 AS tributacao,
-       PD.typeno                                                                             AS typeno,
-       PD.clno                                                                               AS clno,
-       ROUND(IF(PD.taxno = '00', 0.00, IFNULL(PD.lucroTributado, 0)) / 100,
-	     4)                                                                              AS mvap,
-       P.dicm / 100                                                                          AS icmsp,
-       ROUND(pis / 100, 2)                                                                   AS fcp,
-       P.fob / 10000                                                                         AS pcfabrica,
-       P.ipi / 100                                                                           AS ipi,
-       P.package / 100                                                                       AS embalagem,
-       P.costdel3 / 100                                                                      AS retido,
-       IF(PD.taxno = '06', PD.auxShort1 / 100, 0.00)                                         AS creditoICMS,
-       P.freight / 100                                                                       AS frete,
-       P.cost / 10000                                                                        AS custoContabil,
-       P.icm / 100                                                                           AS icms,
-       P.finsoc / 100                                                                        AS pis,
-       P.comm / 100                                                                          AS ir,
-       P.adv / 100                                                                           AS contrib,
-       P.refpdel2 / 100                                                                      AS fixa,
-       P.refpdel3 / 100                                                                      AS outras,
-       P.profit / 100                                                                        AS lucroLiq,
-       TRUNCATE((P.cost / 100) / ((100 - (((P.icm + P.pis + P.finsoc + comm + adv + adm + refpdel1 +
-					    refpdel2 + refpdel3) + profit) / 100)) / 100), 0) /
-       100                                                                                   AS precoSug,
-       P.refprice / 100                                                                      AS precoRef,
-       (P.refprice / 100) - (TRUNCATE((P.cost / 100) / ((100 -
-							 (((P.icm + P.pis + P.finsoc + comm + adv +
-							    adm + refpdel1 + refpdel2 + refpdel3) +
-							   profit) / 100)) / 100), 0) /
-			     100)                                                            AS precoDif
-
+SELECT prdno                                                                   AS prdno,
+       LPAD(TRIM(prdno), 6, '0')                                               AS codigo,
+       TRIM(MID(PD.name, 1, 37))                                               AS descricao,
+       PD.mfno                                                                 AS vendno,
+       V.sname                                                                 AS fornecedor,
+       ROUND(adm / 100, 2)                                                     AS cpmf,
+       taxno                                                                   AS tributacao,
+       PD.typeno                                                               AS typeno,
+       PD.clno                                                                 AS clno,
+       ROUND(IF(PD.taxno = '00', 0.00, IFNULL(PD.lucroTributado, 0)) / 100, 4) AS mvap,
+       P.dicm / 100                                                            AS icmsp,
+       ROUND(pis / 100, 2)                                                     AS fcp,
+       P.fob / 10000                                                           AS pcfabrica,
+       P.ipi / 100                                                             AS ipi,
+       P.package / 100                                                         AS embalagem,
+       P.costdel3 / 100                                                        AS retido,
+       IF(PD.taxno = '06', PD.auxShort1 / 100, 0.00)                           AS creditoICMS,
+       P.freight / 100                                                         AS frete,
+       @C_CONTABIL := TRUNCATE(
+	   ROUND(P.fob / 10000, 5) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 5) +
+	   ROUND((P.fob / 10000) * (package / 100) / 100, 5) +
+	   ROUND((P.fob / 10000) * (costdel3 / 100) / 100, 5) +
+	   ROUND((P.fob / 10000) * (dicm / 100) / 100, 5) +
+	   ROUND((P.fob / 10000) * (freight / 100) / 100, 5) + ROUND(
+		 (ROUND(P.fob / 10000, 5) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 5) +
+		  ROUND((P.fob / 10000) * (package / 100) / 100, 5) +
+		  ROUND((P.fob / 10000) * (P.freight / 100) / 100, 5)) * (P.auxLong4 / 100) / 100,
+		 5), 4)                                                        AS custoContabil,
+       P.icm / 100                                                             AS icms,
+       P.finsoc / 100                                                          AS pis,
+       P.comm / 100                                                            AS ir,
+       P.adv / 100                                                             AS contrib,
+       P.refpdel2 / 100                                                        AS fixa,
+       P.refpdel3 / 100                                                        AS outras,
+       P.profit / 100                                                          AS lucroLiq,
+       @PSUG := TRUNCATE((@C_CONTABIL) / ((100 - (((P.icm + P.pis + P.finsoc + comm + adv + adm +
+						    refpdel1 + refpdel2 + refpdel3) + profit) /
+						  100)) / 100), 0) / 100       AS precoSug,
+       @PREF := P.refprice / 100                                               AS precoRef,
+       @PREF - @PSUG                                                           AS precoDif
 FROM sqldados.prp          AS P
   INNER JOIN sqldados.prd  AS PD
 	       ON PD.no = P.prdno
