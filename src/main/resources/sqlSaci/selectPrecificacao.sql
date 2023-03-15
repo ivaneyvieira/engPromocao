@@ -69,22 +69,22 @@ WHERE storeno = 10
       END
 HAVING @QUERY = ''
     OR descricao LIKE @QUERYLIKE
-    OR REPLACE(REPLACE(FORMAT(mvap, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(icmsp, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(fcp, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(pcfabrica, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(ipi, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(embalagem, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(retido, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(creditoICMS, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(frete, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(custoContabil, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(icms, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(pis, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(ir, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(contrib, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(fixa, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(outras, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(lucroLiq, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(precoSug, 2), ',', ''), '.', ',') LIKE @QUERY
-    OR REPLACE(REPLACE(FORMAT(precoRef, 2), ',', ''), '.', ',') LIKE @QUERY
+    OR REPLACE(REPLACE(FORMAT(mvap, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(icmsp, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(fcp, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(pcfabrica, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(ipi, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(embalagem, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(retido, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(creditoICMS, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(frete, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(custoContabil, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(icms, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(pis, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(ir, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(contrib, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(fixa, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(outras, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(lucroLiq, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(precoSug, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(precoRef, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
