@@ -11,10 +11,14 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextFieldVariant
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.data.value.ValueChangeMode
+import sun.jvm.hotspot.ui.tree.BooleanTreeNodeAdapter
 import java.math.BigDecimal
 import kotlin.reflect.KMutableProperty1
 
-class DialogPrecificacao(val viewModel: TabPrecificacaoAbstractViewModel, val bean: BeanForm) : Dialog() {
+class DialogPrecificacao(val viewModel: TabPrecificacaoAbstractViewModel,
+                         val bean: BeanForm,
+                         val cardEntrada: Boolean,
+                         val cardSaida: Boolean) : Dialog() {
   private val binder = Binder(BeanForm::class.java)
 
   init {
@@ -36,25 +40,29 @@ class DialogPrecificacao(val viewModel: TabPrecificacaoAbstractViewModel, val be
         isSpacing = true
         isPadding = false
         alignItems = FlexComponent.Alignment.STRETCH
-        panelCard("% de Entrada") {
-          edtNumero("MVA", BeanForm::mvap)
-          edtNumero("ICMS Ent", BeanForm::creditoICMS)
-          edtNumero("P. Fab", BeanForm::pcfabrica)
-          edtNumero("IPI", BeanForm::ipi)
-          edtNumero("Emb", BeanForm::embalagem)
-          edtNumero("IR ST", BeanForm::retido)
-          edtNumero("C. ICMS", BeanForm::icmsp)
-          edtNumero("Frete", BeanForm::frete)
+        if(cardEntrada) {
+          panelCard("% de Entrada") {
+            edtNumero("MVA", BeanForm::mvap)
+            edtNumero("ICMS Ent", BeanForm::creditoICMS)
+            edtNumero("P. Fab", BeanForm::pcfabrica)
+            edtNumero("IPI", BeanForm::ipi)
+            edtNumero("Emb", BeanForm::embalagem)
+            edtNumero("IR ST", BeanForm::retido)
+            edtNumero("C. ICMS", BeanForm::icmsp)
+            edtNumero("Frete", BeanForm::frete)
+          }
         }
-        panelCard("% de Saída") {
-          edtNumero("ICM Sai", BeanForm::icms)
-          edtNumero("FCP", BeanForm::fcp)
-          edtNumero("Pis", BeanForm::pis)
-          edtNumero("IR", BeanForm::ir)
-          edtNumero("CS", BeanForm::contrib)
-          edtNumero("CPMF", BeanForm::cpmf)
-          edtNumero("Desp", BeanForm::fixa)
-          edtNumero("Out", BeanForm::outras)
+        if(cardSaida) {
+          panelCard("% de Saída") {
+            edtNumero("ICM Sai", BeanForm::icms)
+            edtNumero("FCP", BeanForm::fcp)
+            edtNumero("Pis", BeanForm::pis)
+            edtNumero("IR", BeanForm::ir)
+            edtNumero("CS", BeanForm::contrib)
+            edtNumero("CPMF", BeanForm::cpmf)
+            edtNumero("Desp", BeanForm::fixa)
+            edtNumero("Out", BeanForm::outras)
+          }
         }
       }
       horizontalLayout {

@@ -129,7 +129,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
           showErro("Nenhum item selecionado")
         }
         else {
-          val dialog = DialogPrecificacao(viewModel, BeanForm())
+          val dialog = DialogPrecificacao(viewModel, BeanForm(), cardEntrada = true, cardSaida = true)
           dialog.open()
         }
       }
