@@ -1,7 +1,7 @@
 package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.model.BeanForm
-import br.com.astrosoft.promocao.viewmodel.promocao.TabPrecificacaoViewModel
+import br.com.astrosoft.promocao.viewmodel.promocao.TabPrecificacaoAbstractViewModel
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
@@ -14,7 +14,7 @@ import com.vaadin.flow.data.value.ValueChangeMode
 import java.math.BigDecimal
 import kotlin.reflect.KMutableProperty1
 
-class DialogPrecificacao(val viewModel: TabPrecificacaoViewModel, val bean: BeanForm) : Dialog() {
+class DialogPrecificacao(val viewModel: TabPrecificacaoAbstractViewModel, val bean: BeanForm) : Dialog() {
   private val binder = Binder(BeanForm::class.java)
 
   init {

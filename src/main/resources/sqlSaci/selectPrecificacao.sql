@@ -44,7 +44,7 @@ SELECT prdno                                                                   A
        P.profit / 100                                                          AS lucroLiq,
        @PSUG := TRUNCATE((@C_CONTABIL) / ((100 - (((P.icm + P.pis + P.finsoc + comm + adv + adm +
 						    refpdel1 + refpdel2 + refpdel3) + profit) /
-						  100)) / 100), 0) / 100       AS precoSug,
+						  100)) / 100), 0)             AS precoSug,
        @PREF := P.refprice / 100                                               AS precoRef,
        @PREF - @PSUG                                                           AS precoDif
 FROM sqldados.prp          AS P

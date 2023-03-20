@@ -9,11 +9,17 @@ class PromocaoViewModel(view: IPromocaoView) : ViewModel<IPromocaoView>(view) {
   val tabPromocaoViewModel = TabPromocaoViewModel(this)
   val tabSemPromocaoViewModel = TabSemPromocaoViewModel(this)
   val tabPrecificacaoViewModel = TabPrecificacaoViewModel(this)
+  val tabPrecificacaoEntradaViewModel = TabPrecificacaoEntradaViewModel(this)
+  val tabPrecificacaoSaidaViewModel = TabPrecificacaoSaidaViewModel(this)
 
-  override fun listTab() = listOf(view.tabBaseViewModel,
-                                  view.tabSemPromocaoViewModel,
-                                  view.tabPromocaoViewModel,
-                                  view.tabPrecificacaoViewModel)
+  override fun listTab() = listOf(
+    view.tabBaseViewModel,
+    view.tabSemPromocaoViewModel,
+    view.tabPromocaoViewModel,
+    view.tabPrecificacaoViewModel,
+    view.tabPrecificacaoEntradaViewModel,
+    view.tabPrecificacaoSaidaViewModel,
+                                 )
 }
 
 interface IPromocaoView : IView {
@@ -22,5 +28,7 @@ interface IPromocaoView : IView {
   val tabPromocaoViewModel: ITabPromocaoViewModel
   val tabSemPromocaoViewModel: ITabSemPromocaoViewModel
   val tabPrecificacaoViewModel: ITabPrecificacaoViewModel
+  val tabPrecificacaoEntradaViewModel: ITabPrecificacaoViewModel
+  val tabPrecificacaoSaidaViewModel: ITabPrecificacaoViewModel
 }
 
