@@ -72,6 +72,7 @@ WHERE P.storeno = 10
       END
 HAVING @QUERY = ''
     OR descricao LIKE @QUERYLIKE
+    OR ncm LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(mvap, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(icmsp, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(fcp, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
