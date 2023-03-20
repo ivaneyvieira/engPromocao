@@ -31,10 +31,12 @@ class UserSaci : IUser {
 
   val promocaoPrecificacao by DelegateAuthorized(11)
   var produtoCadastro by DelegateAuthorized(12)
-
+  val promocaoPrecificacaoEntrada by DelegateAuthorized(13)
+  val promocaoPrecificacaoSaida by DelegateAuthorized(14)
 
   val menuProduto = produtoBase || produtoCadastro
-  val menuPromocao = precoBase || precoPreco || precoPromocao || promocaoPrecificacao
+  val menuPromocao =
+    precoBase || precoPreco || precoPromocao || promocaoPrecificacao || promocaoPrecificacaoEntrada || promocaoPrecificacaoSaida
   val menuGarantia = garantiaBase || garantiaInserir
   val menuPreco = promocao99 || promocaoBase || promocaoPromocao || promocaoSemPromocao
 

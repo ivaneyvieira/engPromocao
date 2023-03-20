@@ -195,7 +195,7 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
     return itensSelecionados()
   }
 
-  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.promocaoPrecificacao ?: false
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.promocaoPrecificacaoSaida ?: false
 
   override val label: String
     get() = "Precificação Saída"

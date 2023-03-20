@@ -102,6 +102,14 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::promocaoPrecificacao.name)
           }
+          checkBox("Precificação Entrada") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::promocaoPrecificacaoEntrada.name)
+          }
+          checkBox("Precificação Saída") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::promocaoPrecificacaoSaida.name)
+          }
         }
 
         formLayout {

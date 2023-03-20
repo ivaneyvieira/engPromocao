@@ -183,7 +183,7 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
     return itensSelecionados()
   }
 
-  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.promocaoPrecificacao ?: false
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.promocaoPrecificacaoEntrada ?: false
 
   override val label: String
     get() = "Precificação Entrada"
