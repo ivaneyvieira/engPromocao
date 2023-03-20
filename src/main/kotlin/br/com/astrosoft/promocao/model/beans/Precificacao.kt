@@ -33,6 +33,7 @@ class Precificacao(
   val precoSug: Double?,
   val precoRef: Double?,
   val precoDif: Double?,
+  val ncm: String,
   ) {
   fun save() {
     saci.savePrecificacao(this)

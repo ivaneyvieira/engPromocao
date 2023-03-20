@@ -46,13 +46,16 @@ SELECT prdno                                                                   A
 						    refpdel1 + refpdel2 + refpdel3) + profit) /
 						  100)) / 100), 2)             AS precoSug,
        @PREF := P.refprice / 100                                               AS precoRef,
-       @PREF - @PSUG                                                           AS precoDif
-FROM sqldados.prp          AS P
-  INNER JOIN sqldados.prd  AS PD
+       @PREF - @PSUG                                                           AS precoDif,
+       S.ncm                                                                   AS ncm
+FROM sqldados.prp             AS P
+  INNER JOIN sqldados.prd     AS PD
 	       ON PD.no = P.prdno
-  INNER JOIN sqldados.vend AS V
+  INNER JOIN sqldados.spedprd AS S
+	       USING (prdno)
+  INNER JOIN sqldados.vend    AS V
 	       ON PD.mfno = V.no
-WHERE storeno = 10
+WHERE P.storeno = 10
   AND P.prdno < LPAD('960001', 16, ' ')
   AND (P.prdno = @PRDNO OR @CODIGO = 0)
   AND (FIND_IN_SET(PD.mfno, @LISTVEND) OR @LISTVEND = '')

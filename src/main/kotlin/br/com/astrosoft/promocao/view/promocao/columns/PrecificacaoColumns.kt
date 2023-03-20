@@ -30,6 +30,10 @@ object PrecificacaoColumns {
     this.setHeader("CL")
   }
 
+  fun Grid<Precificacao>.promocaoNcm() = addColumnString(Precificacao::ncm) {
+    this.setHeader("NCM")
+  }
+
   fun Grid<Precificacao>.promocaoFornecedor() = addColumnString(Precificacao::fornecedor) {
     this.setHeader("Fornecedor")
   }
