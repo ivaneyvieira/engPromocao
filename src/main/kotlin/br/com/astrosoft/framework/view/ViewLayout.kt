@@ -138,6 +138,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
     }
   }.apply {
     this.isAutoWidth = false
+    this.isResizable = true
     this.width = "4em"
     this.center()
     this.block()
@@ -152,6 +153,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
   return addColumnButton(iconButton, tooltip, execButton, configIcon, block = {
     this.setHeader(header)
     this.isAutoWidth = false
+    this.isResizable = true
     this.width = "4em"
   })
 }
@@ -174,6 +176,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnString(property: KProperty1<T, Strin
                                                    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return this.addColumnFor(property) {
     this.isAutoWidth = true
+    this.isResizable = true
     if (this.key == null) this.key = property.name
     this.left()
     this.block()
@@ -198,6 +201,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDate(property: KProperty1<T, Lo
                                                       block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return this.addColumnFor(property, renderer = LocalDateRenderer(property, "dd/MM/yyyy")) {
     this.isAutoWidth = true
+    this.isResizable = true
     if (this.key == null) this.key = property.name
     this.left()
     this.setComparator { a, b ->
@@ -216,6 +220,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnDate(property: KProperty1<T, Date?>,
     date.format()
   }) {
     this.isAutoWidth = true
+    this.isResizable = true
     if (this.key == null) this.key = property.name
     this.left()
     this.block()
@@ -229,6 +234,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalTime(property: KProperty1<T, Lo
     hora.format()
   }) {
     this.isAutoWidth = true
+    this.isResizable = true
     if (this.key == null) this.key = property.name
     this.left()
     this.block()
@@ -242,6 +248,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnTime(property: KProperty1<T, Time?>,
     hora.format()
   }) {
     this.isAutoWidth = true
+    this.isResizable = true
     if (this.key == null) this.key = property.name
     this.left()
     this.setComparator { a, b ->
@@ -258,6 +265,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDateTime(property: KProperty1<T
   return this.addColumnFor(property, renderer = LocalDateTimeRenderer(property, "dd/MM/yyyy hh:mm:ss")) {
     if (this.key == null) this.key = property.name
     this.isAutoWidth = true
+    this.isResizable = true
     this.left()
     this.setComparator { a, b ->
       val dataA = property.get(a) ?: LocalDateTime.MIN
@@ -274,6 +282,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnDouble(property: KProperty1<T, Doubl
                                                    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat(pattern))){
     this.isAutoWidth = true
+    this.isResizable = true
     this.setComparator { a, b ->
       val dataA = property.get(a) ?: Double.MIN_VALUE
       val dataB = property.get(b) ?: Double.MIN_VALUE
@@ -290,6 +299,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnInt(property: KProperty1<T, Int?>,
   return this.addColumnFor(property){
     if (this.key == null) this.key = property.name
     this.isAutoWidth = true
+    this.isResizable = true
     this.setComparator { a, b ->
       val dataA = property.get(a) ?: Int.MIN_VALUE
       val dataB = property.get(b) ?: Int.MIN_VALUE
