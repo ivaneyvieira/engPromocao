@@ -34,6 +34,7 @@ class Precificacao(
   val precoRef: Double?,
   val precoDif: Double?,
   val ncm: String,
+  val rotulo: String?,
   ) {
   fun save() {
     saci.savePrecificacao(this)

@@ -23,6 +23,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoNcm
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPFabrica
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoRetido
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoRotulo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTributacao
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTypeno
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoVendno
@@ -157,6 +158,7 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
     promocaoTypeno()
     promocaoClno()
     promocaoNcm()
+    promocaoRotulo()
     promocaoTributacao()
     promocaoMva()
     promocaoIcmsEnt()

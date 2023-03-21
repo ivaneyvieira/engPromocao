@@ -16,6 +16,10 @@ object PrecificacaoColumns {
     this.setHeader("Descrição")
   }
 
+  fun Grid<Precificacao>.promocaoRotulo() = addColumnString(Precificacao::rotulo) {
+    this.setHeader("Rótulo")
+  }
+
   fun Grid<Precificacao>.promocaoVendno() = addColumnInt(Precificacao::vendno) {
     this.setHeader("Cod For")
     this.isExpand = false

@@ -35,6 +35,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPSug
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPis
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoRetido
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoRotulo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTributacao
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoTypeno
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoVendno
@@ -168,6 +169,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
     promocaoTypeno()
     promocaoClno()
     promocaoNcm()
+    promocaoRotulo()
     promocaoTributacao()
     promocaoMva()
     promocaoIcmsEnt()

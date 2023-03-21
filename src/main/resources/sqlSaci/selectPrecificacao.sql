@@ -47,10 +47,13 @@ SELECT prdno                                                                   A
 						  100)) / 100), 2)             AS precoSug,
        @PREF := P.refprice / 100                                               AS precoRef,
        @PREF - @PSUG                                                           AS precoDif,
-       S.ncm                                                                   AS ncm
+       S.ncm                                                                   AS ncm,
+       R.form_label                                                            AS rotulo
 FROM sqldados.prp             AS P
   INNER JOIN sqldados.prd     AS PD
 	       ON PD.no = P.prdno
+  LEFT JOIN  sqldados.prdalq  AS R
+	       ON R.prdno = P.prdno
   INNER JOIN sqldados.spedprd AS S
 	       USING (prdno)
   INNER JOIN sqldados.vend    AS V
@@ -92,3 +95,7 @@ HAVING @QUERY = ''
     OR REPLACE(REPLACE(FORMAT(lucroLiq, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(precoSug, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(precoRef, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+
+
+
+
