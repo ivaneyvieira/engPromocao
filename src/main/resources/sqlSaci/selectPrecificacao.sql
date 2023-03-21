@@ -52,10 +52,10 @@ SELECT prdno                                                                   A
 FROM sqldados.prp             AS P
   INNER JOIN sqldados.prd     AS PD
 	       ON PD.no = P.prdno
-  LEFT JOIN  sqldados.prdalq  AS R
-	       ON R.prdno = P.prdno
   INNER JOIN sqldados.spedprd AS S
 	       USING (prdno)
+  LEFT JOIN  sqldados.prdalq  AS R
+	       USING(prdno)
   INNER JOIN sqldados.vend    AS V
 	       ON PD.mfno = V.no
 WHERE P.storeno = 10
@@ -76,6 +76,7 @@ WHERE P.storeno = 10
 HAVING @QUERY = ''
     OR descricao LIKE @QUERYLIKE
     OR ncm LIKE @QUERYLIKE
+    OR rotulo LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(mvap, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(icmsp, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(fcp, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
