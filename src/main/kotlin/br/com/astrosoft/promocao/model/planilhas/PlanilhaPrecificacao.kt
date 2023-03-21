@@ -17,6 +17,7 @@ class PlanilhaPrecificacao {
       CampoString("Cod") { codigo },
       CampoString("Descrição") { descricao },
       CampoInt("Cod For") { vendno },
+      CampoString("NCM") { ncm },
       CampoInt("Tipo") { typeno },
       CampoInt("CL") { clno },
       CampoString("Trib") { tributacao },
