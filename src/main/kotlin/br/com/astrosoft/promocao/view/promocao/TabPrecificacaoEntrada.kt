@@ -169,8 +169,16 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
     promocaoRetido()
     promocaoIcms()
     promocaoFrete()
-    promocaoFreteIcmsCalc()
-    promocaoFreteIcms()
+    promocaoFreteIcmsCalc().apply {
+      this.setClassNameGenerator {
+        if(it.freteICMS != it.freteICMSCalc) "marcaDiferenca" else null
+      }
+    }
+    promocaoFreteIcms().apply {
+      this.setClassNameGenerator {
+        if(it.freteICMS != it.freteICMSCalc) "marcaDiferenca" else null
+      }
+    }
     promocaoContabil()
   }
 
