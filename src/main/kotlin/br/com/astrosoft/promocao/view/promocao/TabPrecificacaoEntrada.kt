@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.promocao
 
 import br.com.astrosoft.framework.model.BeanForm
 import br.com.astrosoft.framework.model.IUser
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.framework.view.shiftSelect
@@ -171,12 +172,12 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
     promocaoFrete()
     promocaoFreteIcmsCalc().apply {
       this.setClassNameGenerator {
-        if(it.freteICMS != it.freteICMSCalc) "marcaDiferenca" else null
+        if(it.freteICMS.format() != it.freteICMSCalc.format()) "marcaDiferenca" else null
       }
     }
     promocaoFreteIcms().apply {
       this.setClassNameGenerator {
-        if(it.freteICMS != it.freteICMSCalc) "marcaDiferenca" else null
+        if(it.freteICMS.format() != it.freteICMSCalc.format()) "marcaDiferenca" else null
       }
     }
     promocaoContabil()
