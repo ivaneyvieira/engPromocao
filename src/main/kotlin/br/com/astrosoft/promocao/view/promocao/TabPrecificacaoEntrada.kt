@@ -169,8 +169,8 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
     promocaoRetido()
     promocaoIcms()
     promocaoFrete()
-    promocaoFreteIcms()
     promocaoFreteIcmsCalc()
+    promocaoFreteIcms()
     promocaoContabil()
   }
 
