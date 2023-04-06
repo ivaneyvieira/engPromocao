@@ -134,6 +134,10 @@ object PrecificacaoColumns {
     this.setHeader("Frete")
   }
 
+  fun Grid<Precificacao>.promocaoFreteIcmsCalc() = addColumnDouble(Precificacao::freteICMSCalc) {
+    this.setHeader("ICMS Calc F")
+  }
+
   fun Grid<Precificacao>.promocaoFreteIcms() = addColumnDouble(Precificacao::freteICMS) {
     this.setHeader("ICMS F")
   }

@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.framework.model.BeanForm
 import br.com.astrosoft.promocao.model.saci
+import kotlin.math.absoluteValue
 
 class Precificacao(
   val prdno: String,
@@ -37,6 +38,14 @@ class Precificacao(
   val rotulo: String?,
   var freteICMS: Double?,
 ) {
+  val freteICMSCalc: Double?
+    get() {
+      val freteCalc = frete ?: return null
+      val icmsCalc = icmsp ?: return null
+      val calc = freteCalc * (icmsCalc/100)
+      return calc.absoluteValue
+    }
+
   fun save() {
     saci.savePrecificacao(this)
   }
