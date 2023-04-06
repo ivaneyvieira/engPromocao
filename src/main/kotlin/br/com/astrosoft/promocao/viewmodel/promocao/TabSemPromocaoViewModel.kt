@@ -7,7 +7,7 @@ import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 
 class TabSemPromocaoViewModel(viewModel: PromocaoViewModel) :
-        TabAbstractPromocaoViewModel<ITabSemPromocaoViewModel>(viewModel) {
+  TabAbstractPromocaoViewModel<ITabSemPromocaoViewModel>(viewModel) {
   fun executaDesconto() = viewModel.exec {
     val desconto = desconto()
 

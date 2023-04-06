@@ -22,18 +22,20 @@ class PrecoPromocao(
   val tipoProduto: String,
   val origemPromocao: String,
   val login: String, val estoque: Int?,
-                   ) {
+) {
 
   fun dadosEtiquetas(): List<DadosEtiquetaProduto> {
     return saci.produtoGrade(codigo).map {
-      DadosEtiquetaProduto(codigo = codigo,
-                           grade = it.grade,
-                           descricao = descricao,
-                           barcode = it.barcode,
-                           ref = refFornecedor,
-                           data = LocalDate.now(),
-                           metroCaixa = metroCaixa,
-                           preco = precoEtiqueta ?: 0.00)
+      DadosEtiquetaProduto(
+        codigo = codigo,
+        grade = it.grade,
+        descricao = descricao,
+        barcode = it.barcode,
+        ref = refFornecedor,
+        data = LocalDate.now(),
+        metroCaixa = metroCaixa,
+        preco = precoEtiqueta ?: 0.00
+      )
     }
   }
 
@@ -51,8 +53,7 @@ class PrecoPromocao(
         else valor.toDoubleOrNull()?.div(100.00)
         result?.times(100)?.roundToInt()?.div(100.00)
       }
-    }
-    else {
+    } else {
       null
     }
 
@@ -99,13 +100,15 @@ class PrecoPromocao(
   }
 }
 
-data class FiltroPrecoPromocao(val codigo: Int,
-                               val vendno: Int,
-                               val clno: Int,
-                               val typeno: Int,
-                               val decimal99: String,
-                               val tipoLista: List<ETipoListaPromocao>,
-                               val marcaPonto: EMarcaPonto)
+data class FiltroPrecoPromocao(
+  val codigo: Int,
+  val vendno: Int,
+  val clno: Int,
+  val typeno: Int,
+  val decimal99: String,
+  val tipoLista: List<ETipoListaPromocao>,
+  val marcaPonto: EMarcaPonto
+)
 
 enum class ETipoListaPromocao {
   BASE, PROMOCAO

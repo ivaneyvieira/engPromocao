@@ -19,4 +19,4 @@ data class BeanForm(
   var cpmf: BigDecimal? = null,
   var fixa: BigDecimal? = null,
   var outras: BigDecimal? = null,
-                   )
+)

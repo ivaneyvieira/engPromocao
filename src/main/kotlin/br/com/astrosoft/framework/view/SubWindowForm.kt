@@ -10,7 +10,7 @@ class SubWindowForm(
   protected val labelTitle: String,
   val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
   val blockForm: () -> Component,
-                   ) : Dialog() {
+) : Dialog() {
   init {
     width = "100%"
     height = "100%"

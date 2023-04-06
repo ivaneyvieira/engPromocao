@@ -41,7 +41,7 @@ class PlanilhaPrecificacao {
       CampoNumber("Lucro") { lucroLiq ?: 0.00 },
       CampoNumber("P.Sug.") { precoSug ?: 0.00 },
       CampoNumber("P.Ref.") { precoRef ?: 0.00 },
-          )
+    )
 
   fun grava(listaProdutos: List<Precificacao>): ByteArray {
     val wb = workbook {

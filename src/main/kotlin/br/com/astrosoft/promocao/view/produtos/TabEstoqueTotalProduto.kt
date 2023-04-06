@@ -30,7 +30,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
 
 class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
-        TabAbstractProduto<ITabEstoqueTotalViewModel>(viewModel, showDatas = false), ITabEstoqueTotalViewModel {
+  TabAbstractProduto<ITabEstoqueTotalViewModel>(viewModel, showDatas = false), ITabEstoqueTotalViewModel {
   private lateinit var cmbEstoque: Select<EEstoqueTotal>
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoBase ?: false
 
@@ -38,7 +38,7 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
     get() = "Estoque Total"
 
   override fun planilha(): PlanilhaProduto {
-    return  PlanilhaProdutoEstoqueTotal()
+    return PlanilhaProdutoEstoqueTotal()
   }
 
   override fun HorizontalLayout.addAditionaisFields() {

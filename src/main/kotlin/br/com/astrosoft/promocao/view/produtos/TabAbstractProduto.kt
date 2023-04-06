@@ -26,9 +26,11 @@ import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val viewModel: TabAbstractProdutoViewModel<T>,
-                                                                    val showDatas: Boolean = true) :
-        TabPanelGrid<Produtos>(Produtos::class), ITabAbstractProdutoViewModel {
+abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
+  open val viewModel: TabAbstractProdutoViewModel<T>,
+  val showDatas: Boolean = true
+) :
+  TabPanelGrid<Produtos>(Produtos::class), ITabAbstractProdutoViewModel {
   private lateinit var edtPesquisa: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
   private lateinit var cmbInativo: Select<EInativo>
@@ -135,7 +137,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
     typeno = edtType.value ?: 0,
     clno = edtCl.value ?: 0,
     estoqueTotal = estoqueTotal(),
-                                       )
+  )
 
   abstract fun estoqueTotal(): EEstoqueTotal
 
@@ -148,7 +150,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(open val vie
   abstract fun Grid<Produtos>.colunasGrid()
 
   private fun printColunas() {
-    val colList = gridPanel.columns.joinToString("\n") {column ->
+    val colList = gridPanel.columns.joinToString("\n") { column ->
       "CampoNumber(\"${column.header2}\") { ${column.key} ?: 0.00 },"
     }
     println(label)

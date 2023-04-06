@@ -4,7 +4,7 @@ import br.com.astrosoft.promocao.model.beans.FiltroProduto
 import br.com.astrosoft.promocao.model.beans.Produtos
 
 class TabCadastroProdutoViewModel(viewModel: ProdutoViewModel) :
-        TabAbstractProdutoViewModel<ITabCadastroProdutoViewModel>(viewModel) {
+  TabAbstractProdutoViewModel<ITabCadastroProdutoViewModel>(viewModel) {
   override val subView
     get() = viewModel.view.tabCadastroViewModel
 

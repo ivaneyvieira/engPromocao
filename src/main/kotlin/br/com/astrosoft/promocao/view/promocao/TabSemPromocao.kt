@@ -17,7 +17,7 @@ import com.vaadin.flow.component.textfield.TextFieldVariant
 import java.time.LocalDate
 
 class TabSemPromocao(override val viewModel: TabSemPromocaoViewModel) :
-        TabAbstractPromocao<ITabSemPromocaoViewModel>(viewModel), ITabSemPromocaoViewModel {
+  TabAbstractPromocao<ITabSemPromocaoViewModel>(viewModel), ITabSemPromocaoViewModel {
   private lateinit var edtValidade: DatePicker
   private lateinit var edtDesconto: NumberField
 
@@ -51,8 +51,7 @@ class TabSemPromocao(override val viewModel: TabSemPromocaoViewModel) :
         val itens = itensSelecionados()
         if (itens.isEmpty()) {
           showErro("Nenhum item selecionado")
-        }
-        else {
+        } else {
           val dialog = DialogDatasSemPromocao(viewModel)
           dialog.open()
         }

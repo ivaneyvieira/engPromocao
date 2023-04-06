@@ -35,7 +35,7 @@ class Precificacao(
   val precoDif: Double?,
   val ncm: String,
   val rotulo: String?,
-  ) {
+) {
   fun save() {
     saci.savePrecificacao(this)
   }
@@ -56,4 +56,4 @@ data class FiltroPrecificacao(
   val clno: Int,
   val marcaPonto: EMarcaPonto,
   val query: String,
-                             )
+)

@@ -19,7 +19,7 @@ class PromocaoViewModel(view: IPromocaoView) : ViewModel<IPromocaoView>(view) {
     view.tabPrecificacaoViewModel,
     view.tabPrecificacaoEntradaViewModel,
     view.tabPrecificacaoSaidaViewModel,
-                                 )
+  )
 }
 
 interface IPromocaoView : IView {

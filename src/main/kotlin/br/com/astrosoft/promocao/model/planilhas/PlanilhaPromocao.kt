@@ -24,7 +24,7 @@ class PlanilhaPromocao {
       CampoString("Abrev") { fornecedor },
       CampoString("Tipo") { typeno.toString() },
       CampoString("Centro Lucro") { clno.toString() },
-          )
+    )
 
   fun grava(listaProdutos: List<PrecoPromocao>): ByteArray {
     val wb = workbook {

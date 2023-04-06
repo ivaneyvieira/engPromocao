@@ -29,7 +29,7 @@ import com.vaadin.flow.component.textfield.TextFieldVariant
 import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
-        TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabInserirGarantiaViewModel {
+  TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabInserirGarantiaViewModel {
   private lateinit var edtTipoDiferenca: Select<ETipoDiferencaGarantiaSimples>
   private lateinit var edtTipoValidade: Select<ETipoValidade>
   private lateinit var edtFiltro: TextField
@@ -47,9 +47,11 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
   }
 
   override fun infoModifica(): InfoModifica {
-    return InfoModifica(tipo = cmbTipoValidade.value,
-                        validade = edtValidade.value ?: 0,
-                        registro = cmbRegistroValidade.value)
+    return InfoModifica(
+      tipo = cmbTipoValidade.value,
+      validade = edtValidade.value ?: 0,
+      registro = cmbRegistroValidade.value
+    )
   }
 
   override fun HorizontalLayout.toolBarConfig() {
@@ -129,7 +131,7 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
     tipoDiferenca = edtTipoDiferenca.value ?: ETipoDiferencaGarantiaSimples.TODOS,
     tipoValidade = edtTipoValidade.value ?: ETipoValidade.TODOS,
     filtro = edtFiltro.value ?: "",
-                                        )
+  )
 
   override fun Grid<ProdutoValidade>.gridPanel() {
     this.setSelectionMode(Grid.SelectionMode.MULTI)

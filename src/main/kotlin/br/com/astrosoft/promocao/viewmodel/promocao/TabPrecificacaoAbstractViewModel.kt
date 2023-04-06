@@ -6,7 +6,7 @@ import br.com.astrosoft.promocao.model.beans.FiltroPrecificacao
 import br.com.astrosoft.promocao.model.beans.Precificacao
 
 abstract class TabPrecificacaoAbstractViewModel(val viewModel: PromocaoViewModel) {
-  abstract val subView:ITabPrecificacaoViewModel
+  abstract val subView: ITabPrecificacaoViewModel
 
   fun updateView() {
     val filtro = subView.filtro()

@@ -178,11 +178,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun modificaValidadeDescricao(produto: ProdutoValidade, infoModifica: InfoModifica) {
     val tempo = when (infoModifica.tipo) {
-      ETipoValidade.DIA    -> "D"
+      ETipoValidade.DIA -> "D"
       ETipoValidade.SEMANA -> "S"
-      ETipoValidade.MES    -> "M"
-      ETipoValidade.ANO    -> "A"
-      else                 -> ""
+      ETipoValidade.MES -> "M"
+      ETipoValidade.ANO -> "A"
+      else -> ""
     }
     val validade = infoModifica.validade
     val novaValidade = if (validade == 0) ""
@@ -207,7 +207,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("pesquisa", filtro.pesquisa)
       addOptionalParameter("marca", filtro.marcaPonto.codigo)
       addOptionalParameter("inativo", filtro.inativo.codigo)
-      addOptionalParameter("todoEstoque", filtro.todoEstoque.let{ if(it) "S" else "N" })
+      addOptionalParameter("todoEstoque", filtro.todoEstoque.let { if (it) "S" else "N" })
       addOptionalParameter("codigo", filtro.codigo)
       addOptionalParameter("listVend", listVend)
       addOptionalParameter("tributacao", filtro.tributacao)

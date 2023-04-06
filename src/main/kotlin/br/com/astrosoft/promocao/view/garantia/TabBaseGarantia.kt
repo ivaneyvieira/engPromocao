@@ -26,7 +26,7 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<ComparaValidade>(ComparaValidade::class),
-        ITabBaseGarantiaViewModel {
+  ITabBaseGarantiaViewModel {
   private lateinit var cmbTipoGarantia: Select<ETipoDiferencaGarantia>
   private lateinit var edtQuery: TextField
 

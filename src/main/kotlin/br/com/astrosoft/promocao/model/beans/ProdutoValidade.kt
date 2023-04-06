@@ -17,15 +17,14 @@ class ProdutoValidade(
   val descricaoCompleta1: String,
   val descricaoCompleta2: String,
   val estoque: Int?,
-                     ) {
+) {
   fun modifica(infoModifica: InfoModifica): Int {
     when (infoModifica.registro) {
-      ERegistroValidade.CADASTRO  -> {
+      ERegistroValidade.CADASTRO -> {
         return if (tipoValidade != "Mês" || infoModifica.tipo != ETipoValidade.ANO || (infoModifica.tipo == ETipoValidade.ANO && infoModifica.validade == 999)) {
           saci.modificaValidadeCadastro(this, infoModifica)
           1
-        }
-        else 0
+        } else 0
       }
 
       ERegistroValidade.DESCRICAO -> {
@@ -33,7 +32,7 @@ class ProdutoValidade(
         return 1
       }
 
-      else                        -> return 0
+      else -> return 0
     }
   }
 
@@ -58,4 +57,4 @@ data class FiltroGarantia(
   val tipoDiferenca: ETipoDiferencaGarantiaSimples,
   val tipoValidade: ETipoValidade,
   val filtro: String,
-                         )
+)

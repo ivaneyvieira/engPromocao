@@ -12,7 +12,7 @@ class ProdutoViewModel(view: IProdutoView) : ViewModel<IProdutoView>(view) {
     view.tabEstoqueGeralViewModel,
     view.tabCadastroViewModel,
     view.tabEstoqueTotalViewModel,
-                                 )
+  )
 }
 
 interface IProdutoView : IView {

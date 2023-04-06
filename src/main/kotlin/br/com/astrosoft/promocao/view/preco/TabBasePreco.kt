@@ -22,7 +22,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabBasePreco(viewModel: TabBaseAlteradoViewModel) :
-        TabAbstractPreco<ITabBaseAlteradoViewModel>(viewModel, showDatas = false), ITabBaseAlteradoViewModel {
+  TabAbstractPreco<ITabBaseAlteradoViewModel>(viewModel, showDatas = false), ITabBaseAlteradoViewModel {
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.precoBase ?: false
 
   override val label: String

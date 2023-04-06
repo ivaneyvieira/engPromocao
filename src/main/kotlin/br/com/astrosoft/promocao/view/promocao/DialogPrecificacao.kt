@@ -14,10 +14,12 @@ import com.vaadin.flow.data.value.ValueChangeMode
 import java.math.BigDecimal
 import kotlin.reflect.KMutableProperty1
 
-class DialogPrecificacao(val viewModel: TabPrecificacaoAbstractViewModel,
-                         val bean: BeanForm,
-                         val cardEntrada: Boolean,
-                         val cardSaida: Boolean) : Dialog() {
+class DialogPrecificacao(
+  val viewModel: TabPrecificacaoAbstractViewModel,
+  val bean: BeanForm,
+  val cardEntrada: Boolean,
+  val cardSaida: Boolean
+) : Dialog() {
   private val binder = Binder(BeanForm::class.java)
 
   init {
@@ -39,7 +41,7 @@ class DialogPrecificacao(val viewModel: TabPrecificacaoAbstractViewModel,
         isSpacing = true
         isPadding = false
         alignItems = FlexComponent.Alignment.STRETCH
-        if(cardEntrada) {
+        if (cardEntrada) {
           panelCard("% de Entrada") {
             edtNumero("MVA", BeanForm::mvap)
             edtNumero("ICMS Ent", BeanForm::creditoICMS)
@@ -51,7 +53,7 @@ class DialogPrecificacao(val viewModel: TabPrecificacaoAbstractViewModel,
             edtNumero("Frete", BeanForm::frete)
           }
         }
-        if(cardSaida) {
+        if (cardSaida) {
           panelCard("% de Saída") {
             edtNumero("ICM Sai", BeanForm::icms)
             edtNumero("FCP", BeanForm::fcp)

@@ -40,7 +40,7 @@ class Produtos(
   val site: String,
   val unidade: String,
   val foraLinha: String,
-              ) {
+) {
   companion object {
     fun find(filter: FiltroProduto) = saci.listaProdutos(filter)
   }
@@ -57,7 +57,7 @@ data class FiltroProduto(
   val typeno: Int,
   val clno: Int,
   val estoqueTotal: EEstoqueTotal,
-                        ) {
+) {
   val pesquisaNumero: Int?
     get() = pesquisa.toIntOrNull()
 

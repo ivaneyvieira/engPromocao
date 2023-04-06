@@ -4,7 +4,7 @@ import br.com.astrosoft.promocao.model.beans.FiltroPrecoAlteracao
 import br.com.astrosoft.promocao.model.beans.PrecoAlteracao
 
 class TabBaseAlteradoViewModel(viewModel: PrecoViewModel) :
-        TabAbstractPrecoViewModel<ITabBaseAlteradoViewModel>(viewModel) {
+  TabAbstractPrecoViewModel<ITabBaseAlteradoViewModel>(viewModel) {
   override val subView
     get() = viewModel.view.tabBaseViewModel
 

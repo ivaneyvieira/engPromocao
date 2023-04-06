@@ -7,7 +7,7 @@ import br.com.astrosoft.promocao.viewmodel.promocao.TabBasePromocaoViewModel
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabBasePromocao(viewModel: TabBasePromocaoViewModel) : TabAbstractPromocao<ITabBasePromocaoViewModel>(viewModel),
-        ITabBasePromocaoViewModel {
+  ITabBasePromocaoViewModel {
   override val label: String
     get() = "Base"
 

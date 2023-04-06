@@ -47,21 +47,23 @@ object EtiquetaChave {
   }
 }
 
-data class DadosEtiquetaProduto(val codigo: String,
-                                val grade: String,
-                                val descricao: String,
-                                val barcode: String,
-                                val ref: String,
-                                val data: LocalDate?,
-                                val preco: Double,
-                                val metroCaixa: Double?) {
+data class DadosEtiquetaProduto(
+  val codigo: String,
+  val grade: String,
+  val descricao: String,
+  val barcode: String,
+  val ref: String,
+  val data: LocalDate?,
+  val preco: Double,
+  val metroCaixa: Double?
+) {
   val dataStr: String get() = data?.format(DateTimeFormatter.ofPattern("dd/MM/yy")) ?: ""
   val precoStr: String = if (metroCaixa == null) preco.format() else (preco / metroCaixa).format()
   private val larg = when {
-    precoStr.length < 4  -> 140
+    precoStr.length < 4 -> 140
     precoStr.length == 5 -> 120
     precoStr.length == 6 -> 105
-    else                 -> 90
+    else -> 90
   }
 
   val largStr: String get() = larg.toString()

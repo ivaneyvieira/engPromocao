@@ -38,7 +38,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val viewModel: TabAbstractPromocaoViewModel<T>) :
-        TabPanelGrid<PrecoPromocao>(PrecoPromocao::class), ITabAbstractPromocaoViewModel {
+  TabPanelGrid<PrecoPromocao>(PrecoPromocao::class), ITabAbstractPromocaoViewModel {
   private lateinit var edtCodigo: IntegerField
   private lateinit var edtVend: IntegerField
   private lateinit var edtCl: IntegerField
@@ -119,28 +119,30 @@ abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val v
 
   protected abstract fun HorizontalLayout.addAditionaisFields()
 
-  override fun filtro() = FiltroPrecoPromocao(codigo = edtCodigo.value ?: 0,
-                                              vendno = edtVend.value ?: 0,
-                                              clno = edtCl.value ?: 0,
-                                              typeno = edtType.value ?: 0,
-                                              tipoLista = viewModel.tipoTab,
-                                              decimal99 = "N",
-                                              marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS)
+  override fun filtro() = FiltroPrecoPromocao(
+    codigo = edtCodigo.value ?: 0,
+    vendno = edtVend.value ?: 0,
+    clno = edtCl.value ?: 0,
+    typeno = edtType.value ?: 0,
+    tipoLista = viewModel.tipoTab,
+    decimal99 = "N",
+    marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS
+  )
 
   override fun Grid<PrecoPromocao>.gridPanel() {
     when (viewModel) {
       is TabBasePromocaoViewModel -> setSelectionMode(SINGLE)
-      is TabPromocaoViewModel     -> {
+      is TabPromocaoViewModel -> {
         setSelectionMode(MULTI)
         this.shiftSelect()
       }
 
-      is TabSemPromocaoViewModel  -> {
+      is TabSemPromocaoViewModel -> {
         setSelectionMode(MULTI)
         this.shiftSelect()
       }
 
-      else                        -> {
+      else -> {
         // Não faz nada
       }
     }

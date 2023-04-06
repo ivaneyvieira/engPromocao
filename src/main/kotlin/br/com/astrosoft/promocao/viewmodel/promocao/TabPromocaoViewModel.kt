@@ -7,7 +7,7 @@ import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 
 class TabPromocaoViewModel(viewModel: PromocaoViewModel) :
-        TabAbstractPromocaoViewModel<ITabPromocaoViewModel>(viewModel) {
+  TabAbstractPromocaoViewModel<ITabPromocaoViewModel>(viewModel) {
   override val subView
     get() = viewModel.view.tabPromocaoViewModel
   override val tipoTab

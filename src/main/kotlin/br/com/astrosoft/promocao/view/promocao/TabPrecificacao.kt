@@ -58,7 +58,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Precificacao>(Precificacao::class),
-        ITabPrecificacaoViewModel {
+  ITabPrecificacaoViewModel {
   private lateinit var edtCodigo: IntegerField
   private lateinit var edtListVend: TextField
   private lateinit var edtType: TextField
@@ -129,8 +129,7 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
         val itens = itensSelecionados()
         if (itens.isEmpty()) {
           showErro("Nenhum item selecionado")
-        }
-        else {
+        } else {
           val dialog = DialogPrecificacao(viewModel, BeanForm(), cardEntrada = true, cardSaida = true)
           dialog.open()
         }
@@ -202,8 +201,8 @@ class TabPrecificacao(val viewModel: TabPrecificacaoViewModel) : TabPanelGrid<Pr
       typeno = edtType.value ?: "",
       clno = edtCl.value ?: 0,
       marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
-      query =  edtQuery.value ?: "",
-                             )
+      query = edtQuery.value ?: "",
+    )
   }
 
   override fun listSelected(): List<Precificacao> {

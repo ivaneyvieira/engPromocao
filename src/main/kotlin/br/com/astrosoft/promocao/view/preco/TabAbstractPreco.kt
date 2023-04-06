@@ -27,9 +27,11 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewModel: TabAbstractPrecoViewModel<T>,
-                                                                val showDatas: Boolean = true) :
-        TabPanelGrid<PrecoAlteracao>(PrecoAlteracao::class), ITabAbstractPrecoViewModel {
+abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(
+  open val viewModel: TabAbstractPrecoViewModel<T>,
+  val showDatas: Boolean = true
+) :
+  TabPanelGrid<PrecoAlteracao>(PrecoAlteracao::class), ITabAbstractPrecoViewModel {
   private lateinit var edtCodigo: TextField
   private lateinit var edtVend: IntegerField
   private lateinit var edtCl: IntegerField
@@ -95,8 +97,7 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
         val itens = itensSelecionados()
         if (itens.isEmpty()) {
           showErro("Nenhum item selecionado")
-        }
-        else {
+        } else {
           val dados = itens.flatMap {
             it.dadosEtiquetas()
           }
@@ -132,12 +133,14 @@ abstract class TabAbstractPreco<T : ITabAbstractPrecoViewModel>(open val viewMod
 
   protected abstract fun HorizontalLayout.addAditionaisFields()
 
-  override fun filtro() = FiltroPrecoAlteracao(codigo = edtCodigo.value ?: "",
-                                               vendno = edtVend.value ?: 0,
-                                               clno = edtCl.value ?: 0,
-                                               typeno = edtType.value ?: 0,
-                                               dataInicial = edtDataI.value,
-                                               dataFinal = edtDataF.value)
+  override fun filtro() = FiltroPrecoAlteracao(
+    codigo = edtCodigo.value ?: "",
+    vendno = edtVend.value ?: 0,
+    clno = edtCl.value ?: 0,
+    typeno = edtType.value ?: 0,
+    dataInicial = edtDataI.value,
+    dataFinal = edtDataF.value
+  )
 
   override fun Grid<PrecoAlteracao>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)

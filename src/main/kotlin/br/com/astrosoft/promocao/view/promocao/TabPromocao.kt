@@ -14,7 +14,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import java.time.LocalDate
 
 class TabPromocao(override val viewModel: TabPromocaoViewModel) : TabAbstractPromocao<ITabPromocaoViewModel>(viewModel),
-        ITabPromocaoViewModel {
+  ITabPromocaoViewModel {
   override val label: String
     get() = "Promoção"
   private lateinit var edtValidade: DatePicker
@@ -38,8 +38,7 @@ class TabPromocao(override val viewModel: TabPromocaoViewModel) : TabAbstractPro
         val itens = itensSelecionados()
         if (itens.isEmpty()) {
           showErro("Nenhum item selecionado")
-        }
-        else {
+        } else {
           val validade = itens.firstOrNull()?.validade
           val dialog = DialogDatas(viewModel, validade)
           dialog.open()

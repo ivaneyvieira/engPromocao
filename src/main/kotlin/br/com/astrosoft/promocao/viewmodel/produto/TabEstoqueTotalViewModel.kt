@@ -4,7 +4,7 @@ import br.com.astrosoft.promocao.model.beans.FiltroProduto
 import br.com.astrosoft.promocao.model.beans.Produtos
 
 class TabEstoqueTotalViewModel(viewModel: ProdutoViewModel) :
-        TabAbstractProdutoViewModel<ITabEstoqueTotalViewModel>(viewModel) {
+  TabAbstractProdutoViewModel<ITabEstoqueTotalViewModel>(viewModel) {
   override val subView
     get() = viewModel.view.tabEstoqueTotalViewModel
 

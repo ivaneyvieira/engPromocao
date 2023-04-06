@@ -2,16 +2,18 @@ package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.promocao.model.saci
 
-class ComparaValidade(val codigo: Int,
-                      val prdno: String,
-                      val grade: String?,
-                      val descricao: String,
-                      val estoque: Int,
-                      val validade_descricao: Int,
-                      val validade_cadastro: Int,
-                      val diferenca: Int,
-                      val tipo: Int,
-                      val localizacao: String?) {
+class ComparaValidade(
+  val codigo: Int,
+  val prdno: String,
+  val grade: String?,
+  val descricao: String,
+  val estoque: Int,
+  val validade_descricao: Int,
+  val validade_cadastro: Int,
+  val diferenca: Int,
+  val tipo: Int,
+  val localizacao: String?
+) {
   val tipoGarantia
     get() = ETipoDiferencaGarantia.values().toList().firstOrNull { it.num == tipo }
 

@@ -30,7 +30,7 @@ class PlanilhaAlteracao {
       CampoString("Usuário") { usuario ?: "" },
       CampoString("Data") { data.format() },
       CampoString("Hora") { time.format() },
-          )
+    )
 
   fun grava(listaProdutos: List<PrecoAlteracao>): ByteArray {
     val wb = workbook {

@@ -29,10 +29,12 @@ object MessageUtils {
       .createQuestion()
       .withCaption("Confirmação")
       .withMessage(msg)
-      .withYesButton({
-                       execYes()
-                     },
-                     ButtonOption.caption("Sim"))
+      .withYesButton(
+        {
+          execYes()
+        },
+        ButtonOption.caption("Sim")
+      )
       .withNoButton({ execNo() }, ButtonOption.caption("Não"))
       .open()
   }

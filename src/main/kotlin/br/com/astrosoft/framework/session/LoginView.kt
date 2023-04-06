@@ -38,8 +38,7 @@ class LoginView : KComposite(), BeforeEnterObserver {
         addLoginListener { e ->
           if (!SecurityUtils.login(e.username, e.password)) {
             isError = true
-          }
-          else navigateTo(Config.mainClass)
+          } else navigateTo(Config.mainClass)
         }
       }
     }

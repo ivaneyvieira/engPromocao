@@ -37,7 +37,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabEstoqueGeralProduto(viewModel: TabEstoqueGeralViewModel) :
-        TabAbstractProduto<ITabEstoqueGeralViewModel>(viewModel, showDatas = false), ITabEstoqueGeralViewModel {
+  TabAbstractProduto<ITabEstoqueGeralViewModel>(viewModel, showDatas = false), ITabEstoqueGeralViewModel {
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoBase ?: false
 
   override val label: String
