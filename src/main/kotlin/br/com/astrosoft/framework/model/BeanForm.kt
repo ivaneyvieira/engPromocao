@@ -11,6 +11,7 @@ data class BeanForm(
   var retido: BigDecimal? = null,
   var icmsp: BigDecimal? = null,
   var frete: BigDecimal? = null,
+  var freteICMS: BigDecimal? = null,
   var icms: BigDecimal? = null,
   var fcp: BigDecimal? = null,
   var pis: BigDecimal? = null,

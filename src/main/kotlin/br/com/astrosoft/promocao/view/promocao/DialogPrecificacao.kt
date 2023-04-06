@@ -51,6 +51,7 @@ class DialogPrecificacao(
             edtNumero("IR ST", BeanForm::retido)
             edtNumero("C. ICMS", BeanForm::icmsp)
             edtNumero("Frete", BeanForm::frete)
+            edtNumero("ICMS do Frete", BeanForm::freteICMS)
           }
         }
         if (cardSaida) {

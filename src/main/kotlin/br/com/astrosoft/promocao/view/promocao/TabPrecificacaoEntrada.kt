@@ -16,6 +16,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoDescricao
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoEmbalagem
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFrete
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFreteIcms
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcms
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsEnt
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIpi
@@ -167,6 +168,7 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
     promocaoRetido()
     promocaoIcms()
     promocaoFrete()
+    promocaoFreteIcms()
     promocaoContabil()
   }
 

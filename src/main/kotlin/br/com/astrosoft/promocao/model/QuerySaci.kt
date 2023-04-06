@@ -247,6 +247,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("retido", prp.retido)
       addOptionalParameter("icmsp", prp.icmsp)
       addOptionalParameter("frete", prp.frete)
+      addOptionalParameter("freteICMS", prp.freteICMS)
 
       addOptionalParameter("icms", prp.icms)
       addOptionalParameter("fcp", prp.fcp)
@@ -301,6 +302,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         val frete = bean.frete
         if (frete != null) {
           pre.frete = frete.toDouble()
+        }
+
+        val freteICMS = bean.freteICMS
+        if (freteICMS != null) {
+          pre.freteICMS = freteICMS.toDouble()
         }
 
         val icms = bean.icms

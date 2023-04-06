@@ -35,6 +35,7 @@ class Precificacao(
   val precoDif: Double?,
   val ncm: String,
   val rotulo: String?,
+  var freteICMS: Double?,
 ) {
   fun save() {
     saci.savePrecificacao(this)

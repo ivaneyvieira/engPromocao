@@ -6,6 +6,7 @@ SET fob      = ROUND(:pcfabrica * 10000),
     costdel3 = ROUND(:retido * 100),
     dicm     = ROUND(:icmsp * 100),
     freight  = ROUND(:frete * 100),
+    freight_icms = ROUND(:freteICMS * 100),
 
     icm      = ROUND(:icms * 100),
     pis      = ROUND(:fcp * 100),
