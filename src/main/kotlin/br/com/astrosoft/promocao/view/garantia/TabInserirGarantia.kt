@@ -4,6 +4,8 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.MessageUtils.showQuestion
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.promocao.model.beans.*
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoValidade
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaValidade
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoClno
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoCodigo
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescricao
@@ -19,6 +21,9 @@ import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produt
 import br.com.astrosoft.promocao.viewmodel.garantia.ITabInserirGarantiaViewModel
 import br.com.astrosoft.promocao.viewmodel.garantia.TabInserirGarantiaViewModel
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.kaributools.tooltip
+import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -27,6 +32,10 @@ import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.textfield.TextFieldVariant
 import com.vaadin.flow.data.value.ValueChangeMode
+import org.vaadin.stefan.LazyDownloadButton
+import java.io.ByteArrayInputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
   TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabInserirGarantiaViewModel {
@@ -119,9 +128,29 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
             }
           }
         }
+        downloadExcel()
       }
     }
   }
+
+  private fun HasComponents.downloadExcel() {
+    val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
+      val planilha = PlanilhaProdutoValidade()
+      val list = itensSelecionados()
+      val bytes = planilha.grava(list)
+      ByteArrayInputStream(bytes)
+    })
+    button.addThemeVariants(ButtonVariant.LUMO_SMALL)
+    button.tooltip = "Salva a planilha"
+    add(button)
+  }
+
+  private fun filename(): String {
+    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+    val textTime = LocalDateTime.now().format(sdf)
+    return "precificacao$textTime.xlsx"
+  }
+
 
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaInserir ?: false
   override val label: String
