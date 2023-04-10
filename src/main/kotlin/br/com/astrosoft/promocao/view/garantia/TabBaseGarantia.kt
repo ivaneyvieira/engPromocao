@@ -2,10 +2,13 @@ package br.com.astrosoft.promocao.view.garantia
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.ComparaValidade
 import br.com.astrosoft.promocao.model.beans.ETipoDiferencaGarantia
 import br.com.astrosoft.promocao.model.beans.FiltroValidade
 import br.com.astrosoft.promocao.model.beans.UserSaci
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaBaseValidade
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoValidade
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaCodigo
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaDescicao
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaDiferenca
@@ -19,11 +22,19 @@ import br.com.astrosoft.promocao.viewmodel.garantia.ITabBaseGarantiaViewModel
 import br.com.astrosoft.promocao.viewmodel.garantia.TabBaseGarantiaViewModel
 import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.kaributools.tooltip
+import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
+import org.vaadin.stefan.LazyDownloadButton
+import java.io.ByteArrayInputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<ComparaValidade>(ComparaValidade::class),
   ITabBaseGarantiaViewModel {
@@ -58,6 +69,26 @@ class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<Co
         viewModel.updateView()
       }
     }
+
+    downloadExcel()
+  }
+
+  private fun HasComponents.downloadExcel() {
+    val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
+      val planilha = PlanilhaBaseValidade()
+      val list = itensSelecionados()
+      val bytes = planilha.grava(list)
+      ByteArrayInputStream(bytes)
+    })
+    button.addThemeVariants(ButtonVariant.LUMO_SMALL)
+    button.tooltip = "Salva a planilha"
+    add(button)
+  }
+
+  private fun filename(): String {
+    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+    val textTime = LocalDateTime.now().format(sdf)
+    return "precificacao$textTime.xlsx"
   }
 
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaBase ?: false
@@ -68,6 +99,8 @@ class TabBaseGarantia(val viewModel: TabBaseGarantiaViewModel) : TabPanelGrid<Co
     FiltroValidade(tipo = cmbTipoGarantia.value ?: ETipoDiferencaGarantia.TODOS, query = edtQuery.value)
 
   override fun Grid<ComparaValidade>.gridPanel() {
+    this.setSelectionMode(Grid.SelectionMode.MULTI)
+    addColumnSeq("Seq")
     garantiaCodigo()
     garantiaDescicao()
     garantiaGrade()

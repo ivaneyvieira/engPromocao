@@ -3,6 +3,7 @@ package br.com.astrosoft.promocao.view.garantia
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.MessageUtils.showQuestion
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.*
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoValidade
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaValidade
@@ -164,6 +165,7 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
 
   override fun Grid<ProdutoValidade>.gridPanel() {
     this.setSelectionMode(Grid.SelectionMode.MULTI)
+    addColumnSeq("Seq")
     produtoCodigo()
     produtoDescricao()
     produtoGrade()
