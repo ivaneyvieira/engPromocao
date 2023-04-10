@@ -20,12 +20,29 @@ object GarantiaDiferenca {
     this.setHeader("Grade")
   }
 
+  fun Grid<ComparaValidade>.garantiaVendno() = addColumnInt(ComparaValidade::vendno) {
+    this.setHeader("Cod For")
+  }
+
+  fun Grid<ComparaValidade>.garantiaTypeno() = addColumnInt(ComparaValidade::typeno) {
+    this.setHeader("Tipo")
+  }
+
+  fun Grid<ComparaValidade>.garantiaClno() = addColumnInt(ComparaValidade::clno) {
+    this.setHeader("CL")
+  }
+
   fun Grid<ComparaValidade>.garantiaLocalizacao() = addColumnString(ComparaValidade::localizacao) {
     this.setHeader("Loc")
   }
 
   fun Grid<ComparaValidade>.garantiaEstoque() = addColumnInt(ComparaValidade::estoque) {
     this.setHeader("Estoque")
+    isExpand = false
+  }
+
+  fun Grid<ComparaValidade>.garantiaEstoqueMF() = addColumnInt(ComparaValidade::estoqueMF) {
+    this.setHeader("Estoque MF")
     isExpand = false
   }
 
@@ -36,6 +53,11 @@ object GarantiaDiferenca {
 
   fun Grid<ComparaValidade>.garantiaValidadeCad() = addColumnInt(ComparaValidade::validade_cadastro) {
     this.setHeader("Validade Cad.")
+    isExpand = false
+  }
+
+  fun Grid<ComparaValidade>.garantiaValidade() = addColumnInt(ComparaValidade::validade_cadastro) {
+    this.setHeader("Validade")
     isExpand = false
   }
 

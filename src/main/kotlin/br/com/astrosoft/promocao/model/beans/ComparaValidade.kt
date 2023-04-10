@@ -5,9 +5,13 @@ import br.com.astrosoft.promocao.model.saci
 class ComparaValidade(
   val codigo: Int,
   val prdno: String,
+  val vendno: Int,
+  val typeno: Int,
+  val clno: Int,
   val grade: String?,
   val descricao: String,
   val estoque: Int,
+  val estoqueMF: Int,
   val validade_descricao: Int,
   val validade_cadastro: Int,
   val diferenca: Int,
@@ -25,7 +29,11 @@ class ComparaValidade(
   }
 }
 
-data class FiltroValidade(val tipo: ETipoDiferencaGarantia, val query: String)
+data class FiltroValidade(
+  val tipo: ETipoDiferencaGarantia,
+  val query: String,
+  val marca: EMarcaPonto = EMarcaPonto.TODOS
+)
 
 enum class ETipoDiferencaGarantia(val num: Int, val descricao: String) {
   IGUAL(1, "Validade Igual"),

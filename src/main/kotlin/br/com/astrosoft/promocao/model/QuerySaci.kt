@@ -130,6 +130,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, ComparaValidade::class) {
       addOptionalParameter("tipo", filtro.tipo.num)
       addOptionalParameter("query", filtro.query)
+      addOptionalParameter("marca", filtro.marca.codigo)
     }
   }
 

@@ -99,7 +99,3 @@ HAVING @QUERY = ''
     OR REPLACE(REPLACE(FORMAT(precoSug, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(precoRef, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(freteICMS, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
-
-
-
-
