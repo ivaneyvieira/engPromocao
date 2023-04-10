@@ -146,6 +146,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::garantiaInserir.name)
           }
+          checkBox("Validade") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::garantiaValidade.name)
+          }
         }
       }
     }
