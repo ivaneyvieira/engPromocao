@@ -146,6 +146,14 @@ object PrecificacaoColumns {
     this.setHeader("C.Cont")
   }
 
+  fun Grid<Precificacao>.promocaoPrecoCusto() = addColumnDouble(Precificacao::precoCusto) {
+    this.setHeader("P.Custo")
+  }
+
+  fun Grid<Precificacao>.promocaoDiferenca() = addColumnDouble(Precificacao::diferencaCusto) {
+    this.setHeader("Dif")
+  }
+
   fun Grid<Precificacao>.promocaoTributacao() = addColumnString(Precificacao::tributacao) {
     this.setHeader("Trib")
   }

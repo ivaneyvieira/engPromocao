@@ -34,7 +34,7 @@ SELECT prdno                                                                   A
                                    (ROUND(P.fob / 10000, 5) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 5) +
                                     ROUND((P.fob / 10000) * (package / 100) / 100, 5) +
                                     ROUND((P.fob / 10000) * (P.freight / 100) / 100, 5)) * (P.auxLong4 / 100) / 100,
-                                   5), 4)                                      AS custoContabil,
+                                   5), 2)                                      AS custoContabil,
        P.icm / 100                                                             AS icms,
        P.finsoc / 100                                                          AS pis,
        P.comm / 100                                                            AS ir,
@@ -49,7 +49,8 @@ SELECT prdno                                                                   A
        @PREF - @PSUG                                                           AS precoDif,
        S.ncm                                                                   AS ncm,
        R.form_label                                                            AS rotulo,
-       P.freight_icms / 100                                                    AS freteICMS
+       P.freight_icms / 100                                                    AS freteICMS,
+       TRUNCATE(P.cost / 10000, 2)                                              as precoCusto
 FROM sqldados.prp AS P
          INNER JOIN sqldados.prd AS PD
                     ON PD.no = P.prdno

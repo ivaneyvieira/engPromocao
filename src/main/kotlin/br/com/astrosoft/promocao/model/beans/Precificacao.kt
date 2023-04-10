@@ -37,12 +37,15 @@ class Precificacao(
   val ncm: String,
   val rotulo: String?,
   var freteICMS: Double?,
+  val precoCusto: Double?,
 ) {
+  val diferencaCusto
+    get() = (custoContabil ?: 0.00) - (precoCusto ?: 0.00)
   val freteICMSCalc: Double?
     get() {
       val freteCalc = frete ?: return null
       val icmsCalc = icmsp ?: return null
-      val calc = freteCalc * (icmsCalc/100)
+      val calc = freteCalc * (icmsCalc / 100)
       return calc.absoluteValue
     }
 
