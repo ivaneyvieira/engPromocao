@@ -1,6 +1,7 @@
 package br.com.astrosoft.promocao.view.garantia.columns
 
 import br.com.astrosoft.framework.view.addColumnInt
+import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import br.com.astrosoft.promocao.model.beans.ComparaValidade
 import com.github.mvysny.karibudsl.v10.isExpand
@@ -34,6 +35,16 @@ object GarantiaDiferenca {
 
   fun Grid<ComparaValidade>.garantiaLocalizacao() = addColumnString(ComparaValidade::localizacao) {
     this.setHeader("Loc")
+  }
+
+  fun Grid<ComparaValidade>.garantiaUltEnt() = addColumnLocalDate(ComparaValidade::ultimaEntrada) {
+    this.setHeader("Data")
+    isExpand = false
+  }
+
+  fun Grid<ComparaValidade>.garantiaUltQuant() = addColumnInt(ComparaValidade::qtty) {
+    this.setHeader("Quant")
+    isExpand = false
   }
 
   fun Grid<ComparaValidade>.garantiaEstoque() = addColumnInt(ComparaValidade::estoque) {

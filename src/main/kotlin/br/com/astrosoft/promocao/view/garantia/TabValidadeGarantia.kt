@@ -9,10 +9,13 @@ import br.com.astrosoft.promocao.model.planilhas.PlanilhaValidade
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaClno
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaCodigo
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaDescicao
+import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaEstoque
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaEstoqueMF
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaGrade
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaLocalizacao
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaTypeno
+import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaUltEnt
+import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaUltQuant
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaValidade
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaVendno
 import br.com.astrosoft.promocao.viewmodel.garantia.ITabValidadeGarantiaViewModel
@@ -105,6 +108,9 @@ class TabValidadeGarantia(val viewModel: TabValidadeGarantiaViewModel) :
     garantiaClno()
     garantiaLocalizacao()
     garantiaEstoqueMF()
+    garantiaEstoque()
+    garantiaUltEnt()
+    garantiaUltQuant()
     garantiaValidade()
   }
 }

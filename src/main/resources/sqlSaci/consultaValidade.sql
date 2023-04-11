@@ -46,6 +46,33 @@ DISTINCT
 SELECT prdno
 FROM T_VALCAD;
 
+DROP TEMPORARY TABLE IF EXISTS T_ULT_INVNO;
+CREATE TEMPORARY TABLE T_ULT_INVNO
+(
+    PRIMARY KEY (prdno, grade)
+)
+select prdno, grade, max(invno) as invno
+from sqldados.iprd AS I
+         inner join inv AS N
+                    using (invno)
+         inner join T_MESTRE AS TM
+                    USING (prdno)
+where N.storeno = 4
+  AND N.bits & POW(2, 4) = 0
+GROUP BY prdno, grade;
+
+DROP TEMPORARY TABLE IF EXISTS T_ULT_NFE;
+CREATE TEMPORARY TABLE T_ULT_NFE
+(
+    PRIMARY KEY (prdno, grade)
+)
+select prdno, grade, N.invno, cast(N.date as date) as data, I.qtty / 1000 as qtty
+from T_ULT_INVNO
+         inner join sqldados.inv AS N using (invno)
+         inner join sqldados.iprd AS I using (invno, prdno, grade)
+GROUP BY prdno, grade;
+
+
 DROP TEMPORARY TABLE IF EXISTS T_SALDO;
 CREATE TEMPORARY TABLE T_SALDO
 (
@@ -109,7 +136,7 @@ SELECT codigo,
        vendno,
        typeno,
        clno,
-       grade,
+       P.grade,
        descricao,
        estoque,
        estoqueMF,
@@ -117,10 +144,14 @@ SELECT codigo,
        validade_cadastro,
        diferenca,
        tipo,
-       CAST(MAX(MID(P.localizacao, 1, 4)) AS CHAR) AS localizacao
+       CAST(MAX(MID(P.localizacao, 1, 4)) AS CHAR) AS localizacao,
+       invno                                       as invno,
+       data                                        as ultimaEntrada,
+       qtty                                        as qtty
 FROM T_VALCOMPARA_NUM AS T
          LEFT JOIN sqldados.prdloc AS P
                    ON P.prdno = T.prdno AND P.storeno = 4
+         LEFT JOIN T_ULT_NFE AS N ON N.prdno = P.prdno AND N.grade = P.grade
 WHERE (tipo = :tipo OR :tipo = 0)
   AND LPAD(TRIM(T.prdno), 6, '0') NOT BETWEEN '980000' AND '999999'
   AND CASE :marca
@@ -136,7 +167,7 @@ WHERE (tipo = :tipo OR :tipo = 0)
             vendno LIKE @QUERY OR
             typeno LIKE @QUERY OR
             clno LIKE @QUERY OR
-            grade LIKE @QUERYLIKE OR
+            P.grade LIKE @QUERYLIKE OR
             descricao LIKE @QUERYLIKE OR
             localizacao LIKE @QUERYLIKE OR
             ROUND(estoque) LIKE @QUERY OR

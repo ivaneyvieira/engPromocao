@@ -1,6 +1,7 @@
 package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.promocao.model.saci
+import java.time.LocalDate
 
 class ComparaValidade(
   val codigo: Int,
@@ -16,7 +17,10 @@ class ComparaValidade(
   val validade_cadastro: Int,
   val diferenca: Int,
   val tipo: Int,
-  val localizacao: String?
+  val localizacao: String?,
+  val invno: Int?,
+  val ultimaEntrada: LocalDate?,
+  val qtty: Int?,
 ) {
   val tipoGarantia
     get() = ETipoDiferencaGarantia.values().toList().firstOrNull { it.num == tipo }
