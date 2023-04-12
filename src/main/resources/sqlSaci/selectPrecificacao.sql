@@ -25,16 +25,15 @@ SELECT prdno                                                                   A
        P.costdel3 / 100                                                        AS retido,
        IF(PD.taxno = '06', PD.auxShort1 / 100, 0.00)                           AS creditoICMS,
        P.freight / 100                                                         AS frete,
-       @C_CONTABIL := TRUNCATE(
-                   ROUND(P.fob / 10000, 5) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 5) +
-                   ROUND((P.fob / 10000) * (package / 100) / 100, 5) +
-                   ROUND((P.fob / 10000) * (costdel3 / 100) / 100, 5) +
-                   ROUND((P.fob / 10000) * (dicm / 100) / 100, 5) +
-                   ROUND((P.fob / 10000) * (freight / 100) / 100, 5) + ROUND(
-                                   (ROUND(P.fob / 10000, 5) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 5) +
-                                    ROUND((P.fob / 10000) * (package / 100) / 100, 5) +
-                                    ROUND((P.fob / 10000) * (P.freight / 100) / 100, 5)) * (P.auxLong4 / 100) / 100,
-                                   5), 2)                                      AS custoContabil,
+       @C_CONTABIL := ROUND(P.fob / 10000, 4) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 4) +
+                      ROUND((P.fob / 10000) * (P.package / 100) / 100, 4) +
+                      ROUND((P.fob / 10000) * (P.costdel3 / 100) / 100, 4) +
+                      ROUND((P.fob / 10000) * ((P.dicm - P.freight_icms) / 100) / 100, 4) +
+                      ROUND((P.fob / 10000) * (P.freight / 100) / 100, 4) +
+                      ROUND((ROUND(P.fob / 10000, 4) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 4) +
+                             ROUND((P.fob / 10000) * (P.package / 100) / 100, 4) +
+                             ROUND((P.fob / 10000) * (P.freight / 100) / 100, 4))
+                                * (P.auxLong4 / 100) / 100, 4)                 AS custoContabil,
        P.icm / 100                                                             AS icms,
        P.finsoc / 100                                                          AS pis,
        P.comm / 100                                                            AS ir,
@@ -50,7 +49,7 @@ SELECT prdno                                                                   A
        S.ncm                                                                   AS ncm,
        R.form_label                                                            AS rotulo,
        P.freight_icms / 100                                                    AS freteICMS,
-       TRUNCATE(P.cost / 10000, 2)                                              as precoCusto
+       TRUNCATE(P.cost / 10000, 2)                                             as precoCusto
 FROM sqldados.prp AS P
          INNER JOIN sqldados.prd AS PD
                     ON PD.no = P.prdno
