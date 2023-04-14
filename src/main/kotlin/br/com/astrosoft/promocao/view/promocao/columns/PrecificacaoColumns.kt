@@ -146,6 +146,10 @@ object PrecificacaoColumns {
     this.setHeader("C.Cont")
   }
 
+  fun Grid<Precificacao>.promocaoCFinanceiro() = addColumnDouble(Precificacao::cfinanceiro) {
+    this.setHeader("C. Fin")
+  }
+
   fun Grid<Precificacao>.promocaoPrecoCusto() = addColumnDouble(Precificacao::precoCusto) {
     this.setHeader("P.Custo")
   }

@@ -11,6 +11,7 @@ import br.com.astrosoft.promocao.model.beans.FiltroPrecificacao
 import br.com.astrosoft.promocao.model.beans.Precificacao
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaPrecificacao
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCFinanceiro
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoClno
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoCodigo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoContabil
@@ -187,6 +188,7 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
         if(it.custoContabil.format() != it.precoCusto.format()) "marcaDiferenca" else null
       }
     }
+    promocaoCFinanceiro()
     promocaoPrecoCusto().apply {
       this.setClassNameGenerator {
         if(it.custoContabil.format() != it.precoCusto.format()) "marcaDiferenca" else null

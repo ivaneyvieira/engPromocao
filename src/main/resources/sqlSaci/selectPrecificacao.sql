@@ -49,7 +49,8 @@ SELECT prdno                                                                   A
        S.ncm                                                                   AS ncm,
        R.form_label                                                            AS rotulo,
        P.freight_icms / 100                                                    AS freteICMS,
-       TRUNCATE(P.cost / 10000, 2)                                             as precoCusto
+       TRUNCATE(P.cost / 10000, 2)                                             as precoCusto,
+       TRUNCATE(P.auxLong3 / 100, 2)                                           as cfinanceiro
 FROM sqldados.prp AS P
          INNER JOIN sqldados.prd AS PD
                     ON PD.no = P.prdno
@@ -98,3 +99,4 @@ HAVING @QUERY = ''
     OR REPLACE(REPLACE(FORMAT(precoSug, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(precoRef, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(freteICMS, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(cfinanceiro, 2), ',', ''), '.', ',') LIKE @QUERYLIKE

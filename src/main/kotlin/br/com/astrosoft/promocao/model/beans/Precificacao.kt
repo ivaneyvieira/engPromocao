@@ -38,6 +38,7 @@ class Precificacao(
   val rotulo: String?,
   var freteICMS: Double?,
   val precoCusto: Double?,
+  val cfinanceiro: Double?,
 ) {
   val diferencaCusto
     get() = (custoContabil ?: 0.00) - (precoCusto ?: 0.00)
