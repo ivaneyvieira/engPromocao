@@ -15,9 +15,10 @@ import com.vaadin.flow.router.Route
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class GarantiaView : ViewLayout<GarantiaViewModel>(), IGarantiaView {
   override val viewModel: GarantiaViewModel = GarantiaViewModel(this)
-  override val tabBaseGarantiaViewModel = TabBaseGarantia(viewModel.tabBaseGarantiaViewModel)
-  override val tabValidadeGarantiaViewModel = TabValidadeGarantia(viewModel.tabValidadeGarantiaViewModel)
-  override val tabInserirGarantiaViewModel = TabInserirGarantia(viewModel.tabInserirGarantiaViewModel)
+  override val tabBaseGarantia = TabBaseGarantia(viewModel.tabBaseGarantia)
+  override val tabValidadeGarantia = TabValidadeGarantia(viewModel.tabValidadeGarantia)
+  override val tabValidadeEntrada = TabValidadeEntrada(viewModel.tabValidadeEntrada)
+  override val tabInserirGarantia = TabInserirGarantia(viewModel.tabInserirGarantia)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false

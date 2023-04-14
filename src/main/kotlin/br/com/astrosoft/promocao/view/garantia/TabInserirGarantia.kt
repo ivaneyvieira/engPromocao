@@ -152,7 +152,6 @@ class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
     return "precificacao$textTime.xlsx"
   }
 
-
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaInserir ?: false
   override val label: String
     get() = "Inserir"

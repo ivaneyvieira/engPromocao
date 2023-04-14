@@ -6,7 +6,7 @@ import br.com.astrosoft.promocao.model.beans.FiltroValidade
 
 class TabValidadeGarantiaViewModel(val viewModel: GarantiaViewModel) {
   val subView
-    get() = viewModel.view.tabValidadeGarantiaViewModel
+    get() = viewModel.view.tabValidadeGarantia
 
   fun updateView() {
     val lista = ComparaValidade.consultaByTipo(subView.filtro())

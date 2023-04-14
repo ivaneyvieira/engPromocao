@@ -39,6 +39,10 @@ data class FiltroValidade(
   val marca: EMarcaPonto = EMarcaPonto.TODOS
 )
 
+data class FiltroValidadeEntrada(
+  val query: String
+)
+
 enum class ETipoDiferencaGarantia(val num: Int, val descricao: String) {
   IGUAL(1, "Validade Igual"),
   DIFCAD(2, "Sem validade cadastro"),

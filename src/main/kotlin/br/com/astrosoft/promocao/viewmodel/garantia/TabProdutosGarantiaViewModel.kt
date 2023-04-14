@@ -8,7 +8,7 @@ import br.com.astrosoft.promocao.model.beans.ProdutoValidade
 
 class TabInserirGarantiaViewModel(val viewModel: GarantiaViewModel) {
   val subView
-    get() = viewModel.view.tabInserirGarantiaViewModel
+    get() = viewModel.view.tabInserirGarantia
 
   fun updateView() {
     val lista = ProdutoValidade.findAll(subView.filtro())
