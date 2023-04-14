@@ -1,6 +1,6 @@
 DO @NO := (SELECT MAX(no)
-	   FROM sqldados.users
-	   WHERE login = :login);
+           FROM sqldados.users
+           WHERE login = :login);
 
 UPDATE sqldados.users
 SET auxLong1 = :loja

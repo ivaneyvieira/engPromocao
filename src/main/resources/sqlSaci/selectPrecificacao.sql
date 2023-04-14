@@ -29,11 +29,11 @@ SELECT prdno                                                                   A
                       ROUND((P.fob / 10000) * (P.package / 100) / 100, 4) +
                       ROUND((P.fob / 10000) * (P.costdel3 / 100) / 100, 4) +
                       ROUND((P.fob / 10000) * ((P.dicm - P.freight_icms) / 100) / 100, 4) +
-                      ROUND((P.fob / 10000) * (P.freight / 100) / 100, 4) +
-                      ROUND((ROUND(P.fob / 10000, 4) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 4) +
-                             ROUND((P.fob / 10000) * (P.package / 100) / 100, 4) +
-                             ROUND((P.fob / 10000) * (P.freight / 100) / 100, 4))
-                                * (P.auxLong4 / 100) / 100, 4)                 AS custoContabil,
+                      ROUND((P.fob / 10000) * (P.freight / 100) / 100, 4) + ROUND(
+                                      (ROUND(P.fob / 10000, 4) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 4) +
+                                       ROUND((P.fob / 10000) * (P.package / 100) / 100, 4) +
+                                       ROUND((P.fob / 10000) * (P.freight / 100) / 100, 4)) * (P.auxLong4 / 100) / 100,
+                                      4)                                       AS custoContabil,
        P.icm / 100                                                             AS icms,
        P.finsoc / 100                                                          AS pis,
        P.comm / 100                                                            AS ir,
@@ -41,25 +41,21 @@ SELECT prdno                                                                   A
        P.refpdel2 / 100                                                        AS fixa,
        P.refpdel3 / 100                                                        AS outras,
        P.profit / 100                                                          AS lucroLiq,
-       @PSUG := TRUNCATE((@C_CONTABIL) / ((100 - (((P.icm + P.pis + P.finsoc + comm + adv + adm +
-                                                    refpdel1 + refpdel2 + refpdel3) + profit) /
-                                                  100)) / 100), 2)             AS precoSug,
+       @PSUG := TRUNCATE((@C_CONTABIL) / ((100 -
+                                           (((P.icm + P.pis + P.finsoc + comm + adv + adm + refpdel1 + refpdel2 + refpdel3) +
+                                             profit) / 100)) / 100), 2)        AS precoSug,
        @PREF := P.refprice / 100                                               AS precoRef,
        @PREF - @PSUG                                                           AS precoDif,
        S.ncm                                                                   AS ncm,
        R.form_label                                                            AS rotulo,
        P.freight_icms / 100                                                    AS freteICMS,
-       TRUNCATE(P.cost / 10000, 2)                                             as precoCusto,
-       TRUNCATE(P.auxLong3 / 100, 2)                                           as cfinanceiro
+       TRUNCATE(P.cost / 10000, 2)                                             AS precoCusto,
+       TRUNCATE(P.auxLong3 / 100, 2)                                           AS cfinanceiro
 FROM sqldados.prp AS P
-         INNER JOIN sqldados.prd AS PD
-                    ON PD.no = P.prdno
-         INNER JOIN sqldados.spedprd AS S
-                    USING (prdno)
-         LEFT JOIN sqldados.prdalq AS R
-                   USING (prdno)
-         INNER JOIN sqldados.vend AS V
-                    ON PD.mfno = V.no
+         INNER JOIN sqldados.prd AS PD ON PD.no = P.prdno
+         INNER JOIN sqldados.spedprd AS S USING (prdno)
+         LEFT JOIN sqldados.prdalq AS R USING (prdno)
+         INNER JOIN sqldados.vend AS V ON PD.mfno = V.no
 WHERE P.storeno = 10
   AND P.prdno < LPAD('960001', 16, ' ')
   AND (P.prdno = @PRDNO OR @CODIGO = 0)
@@ -68,13 +64,10 @@ WHERE P.storeno = 10
   AND (PD.clno = @CLNO OR @CLNO = 0)
   AND (PD.taxno = @TRIBUTACAO OR @TRIBUTACAO = '')
   AND CASE :marca
-          WHEN 'T'
-              THEN TRUE
-          WHEN 'N'
-              THEN MID(PD.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
-          WHEN 'S'
-              THEN MID(PD.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
-    END
+          WHEN 'T' THEN TRUE
+          WHEN 'N' THEN MID(PD.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
+          WHEN 'S' THEN MID(PD.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
+      END
 HAVING @QUERY = ''
     OR descricao LIKE @QUERYLIKE
     OR ncm LIKE @QUERYLIKE
