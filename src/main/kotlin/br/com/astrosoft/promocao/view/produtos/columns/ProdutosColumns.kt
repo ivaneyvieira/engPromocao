@@ -34,6 +34,11 @@ object ProdutosColumns {
     this.config()
   }
 
+  fun Grid<Produtos>.produto_tributacao() = addColumnString(Produtos::tributacao) {
+    this.setHeader("Tributação")
+    this.config()
+  }
+
   fun Grid<Produtos>.produto_tipo() = addColumnInt(Produtos::tipo) {
     this.setHeader("Tipo")
     this.config()

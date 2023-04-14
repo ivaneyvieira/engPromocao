@@ -77,14 +77,14 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
     }
 
     edtCodigo = integerField("Código") {
-      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeMode = LAZY
       addValueChangeListener {
         viewModel.updateView()
       }
     }
 
     edtListVend = textField("Fornecedores") {
-      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeMode = LAZY
       this.width = "250px"
       addValueChangeListener {
         viewModel.updateView()
@@ -92,7 +92,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
     }
 
     edtTributacao = textField("Tributação") {
-      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeMode = LAZY
       this.width = "80px"
       addValueChangeListener {
         viewModel.updateView()
@@ -100,14 +100,14 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
     }
 
     edtType = integerField("Tipo") {
-      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeMode = LAZY
       addValueChangeListener {
         viewModel.updateView()
       }
     }
 
     edtCl = integerField("Centro de Lucro") {
-      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeMode = LAZY
       addValueChangeListener {
         viewModel.updateView()
       }

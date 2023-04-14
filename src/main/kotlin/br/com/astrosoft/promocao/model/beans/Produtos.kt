@@ -10,6 +10,7 @@ class Produtos(
   val descricao: String,
   val grade: String,
   val forn: Int,
+  val tributacao: String?,
   val abrev: String,
   val tipo: Int,
   val cl: Int,
