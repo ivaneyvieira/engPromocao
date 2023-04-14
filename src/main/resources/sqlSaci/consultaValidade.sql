@@ -59,6 +59,7 @@ from sqldados.iprd AS I
                     USING (prdno)
 where N.storeno = 4
   AND N.bits & POW(2, 4) = 0
+  AND N.type = 0
 GROUP BY prdno, grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_ULT_NFE;
