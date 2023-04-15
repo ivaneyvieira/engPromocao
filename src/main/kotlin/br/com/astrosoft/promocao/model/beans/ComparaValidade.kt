@@ -36,11 +36,12 @@ class ComparaValidade(
 data class FiltroValidade(
   val tipo: ETipoDiferencaGarantia,
   val query: String,
-  val marca: EMarcaPonto = EMarcaPonto.TODOS
+  val marca: EMarcaPonto = EMarcaPonto.TODOS,
 )
 
 data class FiltroValidadeEntrada(
-  val query: String
+  val query: String,
+  val marca: EMarcaPonto,
 )
 
 enum class ETipoDiferencaGarantia(val num: Int, val descricao: String) {

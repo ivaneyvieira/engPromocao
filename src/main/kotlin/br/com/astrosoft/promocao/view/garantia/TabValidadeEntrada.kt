@@ -1,8 +1,12 @@
 package br.com.astrosoft.promocao.view.garantia
 
 import br.com.astrosoft.framework.model.IUser
-import br.com.astrosoft.framework.view.*
-import br.com.astrosoft.promocao.model.beans.*
+import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.promocao.model.beans.EMarcaPonto
+import br.com.astrosoft.promocao.model.beans.FiltroValidadeEntrada
+import br.com.astrosoft.promocao.model.beans.UserSaci
+import br.com.astrosoft.promocao.model.beans.ValidadeEntrada
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaValidadeEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtValidade
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoCodigo
@@ -40,6 +44,7 @@ class TabValidadeEntrada(val viewModel: TabValidadeEntradaViewModel) :
   TabPanelGrid<ValidadeEntrada>(ValidadeEntrada::class),
   ITabValidadeEntradaViewModel {
   private lateinit var edtQuery: TextField
+  private lateinit var cmbPontos: Select<EMarcaPonto>
 
   override fun updateComponent() {
     viewModel.updateView()
@@ -57,7 +62,17 @@ class TabValidadeEntrada(val viewModel: TabValidadeEntradaViewModel) :
         viewModel.updateView()
       }
     }
+    cmbPontos = select("Caracteres Especiais") {
+      setItems(EMarcaPonto.values().toList())
+      value = EMarcaPonto.TODOS
+      this.setItemLabelGenerator {
+        it.descricao
+      }
 
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
     downloadExcel()
   }
 
@@ -76,15 +91,15 @@ class TabValidadeEntrada(val viewModel: TabValidadeEntradaViewModel) :
   private fun filename(): String {
     val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
     val textTime = LocalDateTime.now().format(sdf)
-    return "precificacao$textTime.xlsx"
+    return "controleValidade$textTime.xlsx"
   }
 
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaEntrada ?: false
   override val label: String
-    get() = "Validade Entrada"
+    get() = "Controle Validade"
 
   override fun filtro() =
-    FiltroValidadeEntrada(query = edtQuery.value)
+    FiltroValidadeEntrada(query = edtQuery.value, marca = cmbPontos.value)
 
   override fun Grid<ValidadeEntrada>.gridPanel() {
     this.setSelectionMode(Grid.SelectionMode.MULTI)

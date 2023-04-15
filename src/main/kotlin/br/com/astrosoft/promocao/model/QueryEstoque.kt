@@ -9,6 +9,7 @@ class QueryEstoque : QueryDB(driver, url, username, password) {
     val sql = "/sqlEstoque/calculoValidade.sql"
     return query(sql, ValidadeEntrada::class){
       addOptionalParameter("query", filtro.query)
+      addOptionalParameter("marca", filtro.marca.codigo)
     }
   }
   companion object {

@@ -26,7 +26,12 @@ CREATE TEMPORARY TABLE T
              INNER JOIN tab_produtos AS TP ON TP.codigo = P.codigo AND TP.grade = P.grade
     WHERE meses_vencimento IS NOT NULL
       AND N.tipo_mov = 'ENTRADA'
-      AND N.tipo_nota = 'COMPRA';
+      AND N.tipo_nota = 'COMPRA'
+      AND CASE :marca
+              WHEN 'T' THEN TRUE
+              WHEN 'N' THEN MID(TP.nome, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
+              WHEN 'S' THEN MID(TP.nome, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
+          END;
 
 SET @CHAVE := '';
 SET @NUM := 0;
