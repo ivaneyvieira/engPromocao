@@ -108,5 +108,6 @@ WHERE (codigo LIKE @QUERY OR descricao LIKE @QUERYLIKE OR grade LIKE @QUERYLIKE 
        DATE_FORMAT(data, '%d/%m/%Y') LIKE @QUERYLIKE OR DATE_FORMAT(data_fabricacao, '%d/%m/%Y') LIKE @QUERYLIKE OR
        DATE_FORMAT(data_vencimento, '%d/%m/%Y') LIKE @QUERYLIKE)
   AND (tipo = 'OK' OR tipo = 'N')
+  AND (sobra > 0)
 ORDER BY seq
 
