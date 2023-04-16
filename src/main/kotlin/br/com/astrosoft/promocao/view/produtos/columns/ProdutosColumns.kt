@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.produtos.columns
 
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
+import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.config
@@ -53,6 +54,16 @@ object ProdutosColumns {
     this.setHeader("Cód. Barras")
     this.config()
   }
+
+  fun Grid<Produtos>.produto_ultCompra()= addColumnLocalDate(Produtos::ultCompra) {
+    this.setHeader("Ult Compra")
+    this.config()
+  }
+  fun Grid<Produtos>.produto_ultVenda()= addColumnLocalDate(Produtos::ultVenda) {
+    this.setHeader("Ult Venda")
+    this.config()
+  }
+
 
   fun Grid<Produtos>.produto_DS_VA() = addColumnInt(Produtos::DS_VA) {
     this.setHeader("DS VA")

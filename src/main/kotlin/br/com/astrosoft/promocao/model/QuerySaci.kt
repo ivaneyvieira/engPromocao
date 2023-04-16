@@ -215,6 +215,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("typeno", filtro.typeno)
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("estoqueTotal", filtro.estoqueTotal.codigo)
+      addOptionalParameter("diCompra", filtro.diCompra.toSaciDate())
+      addOptionalParameter("dfCompra", filtro.dfCompra.toSaciDate())
+      addOptionalParameter("diVenda", filtro.diVenda.toSaciDate())
+      addOptionalParameter("dfVenda", filtro.dfVenda.toSaciDate())
     }
   }
 

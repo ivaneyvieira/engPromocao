@@ -23,6 +23,8 @@ import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_f
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_grade
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_tipo
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_tributacao
+import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_ultCompra
+import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_ultVenda
 import br.com.astrosoft.promocao.viewmodel.produto.ITabEstoqueTotalViewModel
 import br.com.astrosoft.promocao.viewmodel.produto.TabEstoqueTotalViewModel
 import com.github.mvysny.karibudsl.v10.select
@@ -73,6 +75,8 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
     produto_tipo()
     produto_cl()
     produto_codBar()
+    produto_ultCompra()
+    produto_ultVenda()
   }
 
   override fun estoqueTotal(): EEstoqueTotal {
