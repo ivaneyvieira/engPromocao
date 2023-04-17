@@ -94,8 +94,6 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
 
         addAditionaisFields()
 
-        this.downloadExcel(planilha())
-
         cmbPontos = select("Caracteres Especiais") {
           setItems(EMarcaPonto.values().toList())
           value = EMarcaPonto.TODOS
@@ -107,6 +105,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
           }
         }
 
+        this.downloadExcel(planilha())
 
         label(" ")
       }
