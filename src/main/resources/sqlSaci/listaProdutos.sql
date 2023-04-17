@@ -133,10 +133,10 @@ CREATE TEMPORARY TABLE T_PRDVENDA (PRIMARY KEY (prdno, grade))
     FROM T_RESULT AS R
              LEFT JOIN sqldados.xalog2 AS X
                        ON R.prdno = X.prdno AND R.grade = X.grade AND (qtty > 0) AND (storeno IN (1, 2, 3, 4, 5, 6))
-    WHERE ((@DIVENDA != 0 AND @DFVENDA != 0) AND (DATE BETWEEN @DIVENDA AND @DFVENDA))
+    WHERE (((@DIVENDA != 0 AND @DFVENDA != 0) AND (DATE BETWEEN @DIVENDA AND @DFVENDA))
        OR ((@DIVENDA = 0 AND @DFVENDA != 0) AND (DATE <= @DFVENDA))
        OR ((@DIVENDA != 0 AND @DFVENDA = 0) AND (DATE >= @DIVENDA))
-       OR (@DIVENDA = 0 AND @DFVENDA = 0)
+       OR (@DIVENDA = 0 AND @DFVENDA = 0)) AND FALSE
     GROUP BY R.prdno, R.grade;
 
 DROP TABLE IF EXISTS T_PRDCOMPRA;
@@ -146,10 +146,10 @@ CREATE TEMPORARY TABLE T_PRDCOMPRA (PRIMARY KEY (prdno, grade))
              LEFT JOIN sqldados.iprd P ON R.prdno = P.prdno AND R.grade = P.grade
              INNER JOIN sqldados.inv AS I
                         ON (I.invno = P.invno) AND (I.storeno IN (1, 2, 3, 4, 5, 6)) AND (I.bits & POW(2, 4) = 0)
-    WHERE ((@DICOMPRA != 0 AND @DFCOMPRA != 0) AND (P.date BETWEEN @DICOMPRA AND @DFCOMPRA))
+    WHERE (((@DICOMPRA != 0 AND @DFCOMPRA != 0) AND (P.date BETWEEN @DICOMPRA AND @DFCOMPRA))
        OR ((@DICOMPRA = 0 AND @DFCOMPRA != 0) AND (P.date <= @DFCOMPRA))
        OR ((@DICOMPRA != 0 AND @DFCOMPRA = 0) AND (P.date >= @DICOMPRA))
-       OR (@DICOMPRA = 0 AND @DFCOMPRA = 0)
+       OR (@DICOMPRA = 0 AND @DFCOMPRA = 0)) AND FALSE
     GROUP BY R.prdno, R.grade;
 
 DO @PESQUISA := :pesquisa;
@@ -191,11 +191,11 @@ SELECT R.prdno,
        site,
        unidade,
        foraLinha,
-       CAST(V.date AS DATE) AS ultVenda,
-       CAST(C.date AS DATE) AS ultCompra
+       /*CAST(V.date AS DATE)*/ NULL AS ultVenda,
+       /*CAST(C.date AS DATE)*/ NULL AS ultCompra
 FROM T_RESULT AS R
-         INNER JOIN T_PRDVENDA AS V ON (R.prdno = V.prdno AND R.grade = V.grade)
-         INNER JOIN T_PRDCOMPRA AS C ON (R.prdno = C.prdno AND R.grade = C.grade)
+        /* INNER JOIN T_PRDVENDA AS V ON (R.prdno = V.prdno AND R.grade = V.grade)
+         INNER JOIN T_PRDCOMPRA AS C ON (R.prdno = C.prdno AND R.grade = C.grade)*/
 WHERE :pesquisa = ''
    OR codigo LIKE @PESQUISA
    OR descricao LIKE @PESQUISA_LIKE
