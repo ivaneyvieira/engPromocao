@@ -61,18 +61,6 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
             viewModel.updateView()
           }
         }
-        this.downloadExcel(planilha())
-
-        cmbPontos = select("Caracteres Especiais") {
-          setItems(EMarcaPonto.values().toList())
-          value = EMarcaPonto.TODOS
-          this.setItemLabelGenerator {
-            it.descricao
-          }
-          addValueChangeListener {
-            viewModel.updateView()
-          }
-        }
 
         edtListVend = textField("Fornecedores") {
           this.valueChangeMode = LAZY
@@ -106,10 +94,25 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
 
         addAditionaisFields()
 
+        this.downloadExcel(planilha())
+
+        cmbPontos = select("Caracteres Especiais") {
+          setItems(EMarcaPonto.values().toList())
+          value = EMarcaPonto.TODOS
+          this.setItemLabelGenerator {
+            it.descricao
+          }
+          addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
+
         label(" ")
       }
 
       horizontalLayout {
+        this.isVisible = false
         edtDiVenda = datePicker("Data Venda Inicial") {
           this.localePtBr()
           this.value = LocalDate.now()
