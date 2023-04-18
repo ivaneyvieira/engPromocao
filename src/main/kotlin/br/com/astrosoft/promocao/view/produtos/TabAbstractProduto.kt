@@ -113,28 +113,28 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
       horizontalLayout {
         edtDiVenda = datePicker("Data Venda Inicial") {
           this.localePtBr()
-          this.value = LocalDate.now()
+
           this.addValueChangeListener {
             viewModel.updateView()
           }
         }
         edtDfVenda = datePicker("Data Venda Final") {
           this.localePtBr()
-          this.value = LocalDate.now()
+
           this.addValueChangeListener {
             viewModel.updateView()
           }
         }
         edtDiCompra = datePicker("Data Compra Inicial") {
           this.localePtBr()
-          this.value = LocalDate.now()
+
           this.addValueChangeListener {
             viewModel.updateView()
           }
         }
         edtDfCompra = datePicker("Data Compra Final") {
           this.localePtBr()
-          this.value = LocalDate.now()
+
           this.addValueChangeListener {
             viewModel.updateView()
           }
