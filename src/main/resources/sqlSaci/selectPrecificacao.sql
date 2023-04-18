@@ -61,7 +61,7 @@ WHERE P.storeno = 10
   AND (P.prdno = @PRDNO OR @CODIGO = 0)
   AND (FIND_IN_SET(PD.mfno, @LISTVEND) OR @LISTVEND = '')
   AND (FIND_IN_SET(PD.typeno, @TYPENO) OR @TYPENO = '')
-  AND (PD.clno = @CLNO OR @CLNO = 0)
+  AND (PD.clno = @CLNO OR PD.deptno = @CLNO OR PD.groupno = @CLNO OR @CLNO = 0)
   AND (PD.taxno = @TRIBUTACAO OR @TRIBUTACAO = '')
   AND CASE :marca
           WHEN 'T' THEN TRUE
