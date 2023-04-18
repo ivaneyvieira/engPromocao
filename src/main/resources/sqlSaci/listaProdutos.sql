@@ -186,11 +186,11 @@ SELECT R.prdno,
        site,
        unidade,
        foraLinha,
-       /*CAST(V.date AS DATE)*/ NULL AS ultVenda,
-       /*CAST(C.date AS DATE)*/ NULL AS ultCompra
+       CAST(V.date AS DATE) AS ultVenda,
+       CAST(C.date AS DATE) AS ultCompra
 FROM T_RESULT AS R
-        /* INNER JOIN T_PRDVENDA AS V ON (R.prdno = V.prdno AND R.grade = V.grade)
-         INNER JOIN T_PRDCOMPRA AS C ON (R.prdno = C.prdno AND R.grade = C.grade)*/
+        INNER JOIN T_PRDVENDA AS V ON (R.prdno = V.prdno AND R.grade = V.grade)
+         INNER JOIN T_PRDCOMPRA AS C ON (R.prdno = C.prdno AND R.grade = C.grade)
 WHERE :pesquisa = ''
    OR codigo LIKE @PESQUISA
    OR descricao LIKE @PESQUISA_LIKE
