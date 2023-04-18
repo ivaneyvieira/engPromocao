@@ -103,7 +103,7 @@ CREATE TEMPORARY TABLE T_RESULT (PRIMARY KEY (prdno, grade))
     WHERE (P.no = @PRDNO OR @CODIGO = 0)
       AND (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
       AND (P.typeno = @TYPENO OR @TYPENO = 0)
-      AND (P.clno = @CLNO OR @CLNO = 0)
+      AND (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
       AND (P.taxno = @TRIBUTACAO OR @TRIBUTACAO = '')
       AND (S.estoque != 0 OR :todoEstoque = 'S')
       AND CASE :marca

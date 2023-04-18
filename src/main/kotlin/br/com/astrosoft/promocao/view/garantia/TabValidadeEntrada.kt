@@ -109,15 +109,15 @@ class TabValidadeEntrada(val viewModel: TabValidadeEntradaViewModel) :
     produtoDescricao()
     produtoGrade()
     produtValidade()
+    produtoMesesVenc()
+    produtoEntrada()
+    produtoSaldo()
+    produtoEstoque()
     produtoNFEntrada()
     produtoDataEntrada()
     produtoFabricacao()
     produtoMesesFab()
     produtoVencimento()
-    produtoMesesVenc()
-    produtoEntrada()
-    produtoSaldo()
-    produtoEstoque()
   }
 }
 
