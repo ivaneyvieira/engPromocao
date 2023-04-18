@@ -129,28 +129,23 @@ CREATE TEMPORARY TABLE T_RESULT (PRIMARY KEY (prdno, grade))
 
 DROP TABLE IF EXISTS T_PRDVENDA;
 CREATE TEMPORARY TABLE T_PRDVENDA (PRIMARY KEY (prdno, grade))
-    SELECT R.prdno, R.grade, MAX(X.DATE) AS date
-    FROM T_RESULT AS R
-             LEFT JOIN sqldados.xalog2 AS X
-                       ON R.prdno = X.prdno AND R.grade = X.grade AND (qtty > 0) AND (storeno IN (1, 2, 3, 4, 5, 6))
+    SELECT prdno, grade, MAX(DATE) AS date
+    FROM sqldados.ultimaVenda
     WHERE (((@DIVENDA != 0 AND @DFVENDA != 0) AND (DATE BETWEEN @DIVENDA AND @DFVENDA))
        OR ((@DIVENDA = 0 AND @DFVENDA != 0) AND (DATE <= @DFVENDA))
        OR ((@DIVENDA != 0 AND @DFVENDA = 0) AND (DATE >= @DIVENDA))
-       OR (@DIVENDA = 0 AND @DFVENDA = 0)) AND FALSE
-    GROUP BY R.prdno, R.grade;
+       OR (@DIVENDA = 0 AND @DFVENDA = 0))
+    GROUP BY prdno, grade;
 
 DROP TABLE IF EXISTS T_PRDCOMPRA;
 CREATE TEMPORARY TABLE T_PRDCOMPRA (PRIMARY KEY (prdno, grade))
-    SELECT R.prdno, R.grade, MAX(I.date) AS date
-    FROM T_RESULT AS R
-             LEFT JOIN sqldados.iprd P ON R.prdno = P.prdno AND R.grade = P.grade
-             INNER JOIN sqldados.inv AS I
-                        ON (I.invno = P.invno) AND (I.storeno IN (1, 2, 3, 4, 5, 6)) AND (I.bits & POW(2, 4) = 0)
-    WHERE (((@DICOMPRA != 0 AND @DFCOMPRA != 0) AND (P.date BETWEEN @DICOMPRA AND @DFCOMPRA))
-       OR ((@DICOMPRA = 0 AND @DFCOMPRA != 0) AND (P.date <= @DFCOMPRA))
-       OR ((@DICOMPRA != 0 AND @DFCOMPRA = 0) AND (P.date >= @DICOMPRA))
+    SELECT prdno, grade, MAX(date) AS date
+    FROM sqldados.ultimaCompra
+    WHERE (((@DICOMPRA != 0 AND @DFCOMPRA != 0) AND (date BETWEEN @DICOMPRA AND @DFCOMPRA))
+       OR ((@DICOMPRA = 0 AND @DFCOMPRA != 0) AND (date <= @DFCOMPRA))
+       OR ((@DICOMPRA != 0 AND @DFCOMPRA = 0) AND (date >= @DICOMPRA))
        OR (@DICOMPRA = 0 AND @DFCOMPRA = 0)) AND FALSE
-    GROUP BY R.prdno, R.grade;
+    GROUP BY prdno, grade;
 
 DO @PESQUISA := :pesquisa;
 DO @PESQUISA_LIKE := CONCAT(:pesquisa, '%');

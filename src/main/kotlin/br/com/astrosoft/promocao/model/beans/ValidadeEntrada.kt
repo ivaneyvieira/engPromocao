@@ -5,21 +5,21 @@ import java.sql.Date
 import java.time.LocalDate
 
 class ValidadeEntrada(
-  val loja: Int,
-  val codigo: Int,
-  val descricao: String,
-  val grade: String,
-  val validade: Int? = null,
-  val nfEntrada: String? = null,
-  val dataEntrada: LocalDate? = null,
-  val dataFabricacao: LocalDate? = null,
-  val mesesFabricacao: Int? = null,
-  val vencimento: LocalDate? = null,
-  val mesesVencimento: Int? = null,
-  val entrada: Int? = null,
-  val saldo: Int? = null,
-  val estoque: Int? = null,
-  val status: String
+  val loja: Int?,
+  val codigo: Int?,
+  val descricao: String?,
+  val grade: String?,
+  val validade: Int?,
+  val nfEntrada: String?,
+  val dataEntrada: LocalDate?,
+  val dataFabricacao: LocalDate?,
+  val mesesFabricacao: Int?,
+  val vencimento: LocalDate?,
+  val mesesVencimento: Int?,
+  val entrada: Int?,
+  val saldo: Int?,
+  val estoque: Int?,
+  val status: String?
 ) {
   companion object {
     fun findAll(filtro: FiltroValidadeEntrada): List<ValidadeEntrada> {

@@ -26,12 +26,7 @@ CREATE TEMPORARY TABLE T
              INNER JOIN tab_produtos AS TP ON TP.codigo = P.codigo AND TP.grade = P.grade
     WHERE meses_vencimento IS NOT NULL
       AND N.tipo_mov = 'ENTRADA'
-      AND N.tipo_nota = 'COMPRA'
-      AND CASE :marca
-              WHEN 'T' THEN TRUE
-              WHEN 'N' THEN MID(TP.nome, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
-              WHEN 'S' THEN MID(TP.nome, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
-          END;
+      AND N.tipo_nota = 'COMPRA';
 
 SET @CHAVE := '';
 SET @NUM := 0;
@@ -85,29 +80,113 @@ CREATE TEMPORARY TABLE T3
     WHERE tipo != ''
     ORDER BY seq;
 
+DROP TEMPORARY TABLE IF EXISTS PARTE01;
+CREATE TEMPORARY TABLE PARTE01
+    SELECT seq,
+           loja,
+           codigo,
+           descricao,
+           grade,
+           meses_vencimento                                                      AS validade,
+           numero                                                                AS nfEntrada,
+           data                                                                  AS dataEntrada,
+           data_fabricacao                                                       AS dataFabricacao,
+
+           TIMESTAMPDIFF(MONTH, CONCAT(DATE_FORMAT(data_fabricacao, '%Y%m'), '01'),
+                         CONCAT(DATE_FORMAT(data, '%Y%m'), '01')) + 1            AS mesesFabricacao,
+           data_vencimento                                                       AS vencimento,
+           TIMESTAMPDIFF(MONTH, CONCAT(DATE_FORMAT(CURRENT_DATE, '%Y%m'), '01'),
+                         CONCAT(DATE_FORMAT(data_vencimento, '%Y%m'), '01')) - 1 AS mesesVencimento,
+           quantidade                                                            AS entrada,
+           sobra                                                                 AS saldo,
+           saldo                                                                 AS estoque,
+           tipo                                                                  AS status
+    FROM T3
+    WHERE (tipo = 'OK' OR tipo = 'N')
+      AND (sobra > 0);
+
+DROP TEMPORARY TABLE IF EXISTS PARTE02;
+CREATE TEMPORARY TABLE PARTE02
+    SELECT R.loja,
+           TRIM(S.prdno) * 1 AS codigo,
+           S.descricao       AS descricao,
+           S.grade,
+           R.validade,
+           R.nfEntrada,
+           R.dataEntrada,
+           R.dataFabricacao,
+           R.mesesFabricacao,
+           R.vencimento,
+           S.garantia        AS mesesVencimento,
+           R.entrada,
+           S.saldo           AS saldo,
+           R.estoque,
+           R.status
+    FROM saldos AS S
+             LEFT JOIN PARTE01 AS R ON TRIM(S.prdno) * 1 = R.codigo AND S.grade = R.grade
+    WHERE R.codigo IS NULL;
+
+DROP TEMPORARY TABLE IF EXISTS PARTE03;
+CREATE TEMPORARY TABLE PARTE03
+    SELECT seq,
+           loja,
+           codigo,
+           descricao,
+           grade,
+           validade,
+           nfEntrada,
+           dataEntrada,
+           dataFabricacao,
+           mesesFabricacao,
+           vencimento,
+           mesesVencimento,
+           entrada,
+           saldo,
+           estoque,
+           status
+    FROM PARTE01
+    UNION
+    SELECT 999999 AS seq,
+           loja,
+           codigo,
+           descricao,
+           grade,
+           validade,
+           nfEntrada,
+           dataEntrada,
+           dataFabricacao,
+           mesesFabricacao,
+           vencimento,
+           mesesVencimento,
+           entrada,
+           saldo,
+           estoque,
+           status
+    FROM PARTE02;
+
 SELECT loja,
        codigo,
        descricao,
        grade,
-       meses_vencimento                                                      AS validade,
-       numero                                                                AS nfEntrada,
-       data                                                                  AS dataEntrada,
-       data_fabricacao                                                       AS dataFabricacao,
-
-       TIMESTAMPDIFF(MONTH, CONCAT(DATE_FORMAT(data_fabricacao, '%Y%m'), '01'),
-                     CONCAT(DATE_FORMAT(data, '%Y%m'), '01')) + 1            AS mesesFabricacao,
-       data_vencimento                                                       AS vencimento,
-       TIMESTAMPDIFF(MONTH, CONCAT(DATE_FORMAT(CURRENT_DATE, '%Y%m'), '01'),
-                     CONCAT(DATE_FORMAT(data_vencimento, '%Y%m'), '01')) - 1 AS mesesVencimento,
-       quantidade                                                            AS entrada,
-       sobra                                                                 AS saldo,
-       saldo                                                                 AS estoque,
-       tipo                                                                  AS status
-FROM T3
-WHERE (codigo LIKE @QUERY OR descricao LIKE @QUERYLIKE OR grade LIKE @QUERYLIKE OR numero LIKE @QUERYLIKE OR
-       DATE_FORMAT(data, '%d/%m/%Y') LIKE @QUERYLIKE OR DATE_FORMAT(data_fabricacao, '%d/%m/%Y') LIKE @QUERYLIKE OR
-       DATE_FORMAT(data_vencimento, '%d/%m/%Y') LIKE @QUERYLIKE)
-  AND (tipo = 'OK' OR tipo = 'N')
-  AND (sobra > 0)
+       validade,
+       nfEntrada,
+       dataEntrada,
+       dataFabricacao,
+       mesesFabricacao,
+       vencimento,
+       mesesVencimento,
+       entrada,
+       saldo,
+       estoque,
+       status
+FROM PARTE03
+WHERE (codigo LIKE @QUERY OR descricao LIKE @QUERYLIKE OR grade LIKE @QUERYLIKE OR nfEntrada LIKE @QUERYLIKE OR
+       DATE_FORMAT(dataEntrada, '%d/%m/%Y') LIKE @QUERYLIKE OR
+       DATE_FORMAT(dataFabricacao, '%d/%m/%Y') LIKE @QUERYLIKE OR DATE_FORMAT(vencimento, '%d/%m/%Y') LIKE @QUERYLIKE)
+  AND CASE :marca
+          WHEN 'T' THEN TRUE
+          WHEN 'N' THEN MID(descricao, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
+          WHEN 'S' THEN MID(descricao, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
+      END
 ORDER BY seq
 

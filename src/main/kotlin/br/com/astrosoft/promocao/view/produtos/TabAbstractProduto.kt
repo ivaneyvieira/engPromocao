@@ -111,7 +111,6 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
       }
 
       horizontalLayout {
-        this.isVisible = false
         edtDiVenda = datePicker("Data Venda Inicial") {
           this.localePtBr()
           this.value = LocalDate.now()

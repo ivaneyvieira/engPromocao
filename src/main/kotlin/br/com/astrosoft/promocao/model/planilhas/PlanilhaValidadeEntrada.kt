@@ -14,10 +14,10 @@ import org.apache.poi.ss.usermodel.VerticalAlignment
 class PlanilhaValidadeEntrada {
   private val campos: List<Campo<*, ValidadeEntrada>> =
     listOf(
-      CampoInt("Loja") { loja },
-      CampoInt("Código") { codigo },
-      CampoString("Descrição") { descricao },
-      CampoString("Grade") { grade },
+      CampoInt("Loja") { loja ?: 0 },
+      CampoInt("Código") { codigo ?: 0 },
+      CampoString("Descrição") { descricao ?: "" },
+      CampoString("Grade") { grade ?: "" },
       CampoInt("Validade") { validade ?: 0 },
       CampoString("NF Entrada") { nfEntrada ?: "" },
       CampoString("Data Entrada") { dataEntrada.format() },
