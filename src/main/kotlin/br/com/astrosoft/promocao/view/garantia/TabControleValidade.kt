@@ -3,10 +3,8 @@ package br.com.astrosoft.promocao.view.garantia
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnSeq
-import br.com.astrosoft.promocao.model.beans.EMarcaPonto
-import br.com.astrosoft.promocao.model.beans.FiltroValidadeEntrada
-import br.com.astrosoft.promocao.model.beans.UserSaci
-import br.com.astrosoft.promocao.model.beans.ValidadeEntrada
+import br.com.astrosoft.promocao.model.beans.*
+import br.com.astrosoft.promocao.model.estoque
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaValidadeEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtValidade
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoCodigo
@@ -54,6 +52,7 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
   private lateinit var edtType: IntegerField
   private lateinit var edtTributacao: TextField
   private lateinit var edtListVend: TextField
+  private lateinit var cmbEstoque: Select<EEstoqueTotal>
 
   private lateinit var edtQuery: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
@@ -82,6 +81,17 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
         it.descricao
       }
 
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    cmbEstoque = select("Estoque Total") {
+      setItems(EEstoqueTotal.values().toList())
+      value = EEstoqueTotal.TODOS
+      this.setItemLabelGenerator {
+        it.descricao
+      }
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -150,6 +160,7 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
       tributacao = edtTributacao.value ?: "",
       typeno = edtType.value ?: 0,
       clno = edtCl.value ?: 0,
+      estoque = cmbEstoque.value ?: EEstoqueTotal.TODOS
     )
 
   override fun Grid<ValidadeEntrada>.gridPanel() {

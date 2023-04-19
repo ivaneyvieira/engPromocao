@@ -285,5 +285,12 @@ WHERE (codigo LIKE @QUERY OR descricao LIKE @QUERYLIKE OR grade LIKE @QUERYLIKE 
   AND (typeno = @TYPENO OR @TYPENO = 0)
   AND (clno = @CLNO OR deptno = @CLNO OR groupno = @CLNO OR @CLNO = 0)
   AND (taxno = @TRIBUTACAO OR @TRIBUTACAO = '')
+AND CASE :estoque
+    WHEN 'T' THEN TRUE
+    WHEN '=' THEN estoque = 0
+    WHEN '>' THEN estoque > 0
+    WHEN '<' THEN estoque < 0
+    ELSE FALSE
+END
 ORDER BY seq
 

@@ -18,6 +18,7 @@ class QueryEstoque : QueryDB(driver, url, username, password) {
       addOptionalParameter("tributacao", filtro.tributacao)
       addOptionalParameter("typeno", filtro.typeno)
       addOptionalParameter("clno", filtro.clno)
+      addOptionalParameter("estoque", filtro.estoque.codigo)
     }
   }
   companion object {

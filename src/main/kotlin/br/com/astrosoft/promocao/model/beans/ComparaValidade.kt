@@ -50,6 +50,7 @@ data class FiltroValidadeEntrada(
   val tributacao: String,
   val typeno: Int,
   val clno: Int,
+  val estoque: EEstoqueTotal,
 )
 
 enum class ETipoDiferencaGarantia(val num: Int, val descricao: String) {
