@@ -7,9 +7,17 @@ import br.com.astrosoft.promocao.model.beans.*
 class QueryEstoque : QueryDB(driver, url, username, password) {
   fun consultaValidadeEntrada(filtro: FiltroValidadeEntrada): List<ValidadeEntrada> {
     val sql = "/sqlEstoque/calculoValidade.sql"
+
+    val listVend = filtro.listVend.joinToString(separator = ",")
+
     return query(sql, ValidadeEntrada::class){
       addOptionalParameter("query", filtro.query)
       addOptionalParameter("marca", filtro.marca.codigo)
+
+      addOptionalParameter("listVend", listVend)
+      addOptionalParameter("tributacao", filtro.tributacao)
+      addOptionalParameter("typeno", filtro.typeno)
+      addOptionalParameter("clno", filtro.clno)
     }
   }
   companion object {

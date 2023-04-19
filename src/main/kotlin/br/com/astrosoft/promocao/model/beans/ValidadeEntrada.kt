@@ -19,7 +19,18 @@ class ValidadeEntrada(
   val entrada: Int?,
   val saldo: Int?,
   val estoque: Int?,
-  val status: String?
+  val status: String?,
+  val mfno: Int?,
+  val typeno: Int?,
+  val clno: Int?,
+  val deptno: Int?,
+  val groupno: Int?,
+  val taxno: Int?,
+  val saldoDS: Int?,
+  val saldoMR: Int?,
+  val saldoMF: Int?,
+  val saldoPK: Int?,
+  val saldoTM: Int?,
 ) {
   companion object {
     fun findAll(filtro: FiltroValidadeEntrada): List<ValidadeEntrada> {

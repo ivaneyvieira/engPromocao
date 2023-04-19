@@ -4,6 +4,11 @@ SET sql_mode = '';
 DO @QUERY := :query;
 DO @QUERYLIKE := CONCAT(@QUERY, '%');
 
+DO @LISTVEND := REPLACE(:listVend, ' ', '');
+DO @TRIBUTACAO := :tributacao;
+DO @TYPENO := :typeno;
+DO @CLNO := :clno;
+
 DROP TEMPORARY TABLE IF EXISTS T;
 CREATE TEMPORARY TABLE T
     SELECT TRIM(P.codigo) * 1        AS codigo,
@@ -17,7 +22,18 @@ CREATE TEMPORARY TABLE T
            N.data,
            I.quantidade,
            ROUND(S.saldo)            AS saldo,
-           S.garantia
+           garantia,
+           S.mfno,
+           S.typeno,
+           S.clno,
+           S.deptno,
+           S.groupno,
+           S.taxno,
+           S.saldoDS,
+           S.saldoMR,
+           S.saldoMF,
+           S.saldoPK,
+           S.saldoTM
     FROM notas AS N
              INNER JOIN lojas L ON N.loja_id = L.id
              INNER JOIN itens_nota AS I ON N.id = I.nota_id
@@ -52,7 +68,18 @@ CREATE TEMPORARY TABLE T2
            @ACUMULADO := IF(@CHAVE = chave, @ACUMULADO + T.quantidade, T.quantidade)                  AS acumulado,
            @TIPO := IF(@CHAVE = chave, IF(@TIPO = 'OK', IF(@ACUMULADO > saldo, 'N', 'OK'), ''), 'OK') AS tipo,
            @CHAVE                                                                                     AS cavheOld,
-           @CHAVE := chave                                                                            AS chave
+           @CHAVE := chave                                                                            AS chave,
+           mfno,
+           typeno,
+           clno,
+           deptno,
+           groupno,
+           taxno,
+           saldoDS,
+           saldoMR,
+           saldoMF,
+           saldoPK,
+           saldoTM
     FROM T
     ORDER BY codigo, grade, data_fabricacao DESC, data DESC, numero;
 
@@ -75,7 +102,18 @@ CREATE TEMPORARY TABLE T3
            tipo,
            IF(saldo > acumulado, quantidade, T2.saldo - acumulado2)   AS sobra,
            cavheOld,
-           chave
+           chave,
+           mfno,
+           typeno,
+           clno,
+           deptno,
+           groupno,
+           taxno,
+           saldoDS,
+           saldoMR,
+           saldoMF,
+           saldoPK,
+           saldoTM
     FROM T2
     WHERE tipo != ''
     ORDER BY seq;
@@ -100,7 +138,18 @@ CREATE TEMPORARY TABLE PARTE01
            quantidade                                                            AS entrada,
            sobra                                                                 AS saldo,
            saldo                                                                 AS estoque,
-           tipo                                                                  AS status
+           tipo                                                                  AS status,
+           mfno,
+           typeno,
+           clno,
+           deptno,
+           groupno,
+           taxno,
+           saldoDS,
+           saldoMR,
+           saldoMF,
+           saldoPK,
+           saldoTM
     FROM T3
     WHERE (tipo = 'OK' OR tipo = 'N')
       AND (sobra > 0);
@@ -121,7 +170,18 @@ CREATE TEMPORARY TABLE PARTE02
            R.entrada,
            S.saldo           AS saldo,
            R.estoque,
-           R.status
+           R.status,
+           S.mfno,
+           S.typeno,
+           S.clno,
+           S.deptno,
+           S.groupno,
+           S.taxno,
+           S.saldoDS,
+           S.saldoMR,
+           S.saldoMF,
+           S.saldoPK,
+           S.saldoTM
     FROM saldos AS S
              LEFT JOIN PARTE01 AS R ON TRIM(S.prdno) * 1 = R.codigo AND S.grade = R.grade
     WHERE R.codigo IS NULL;
@@ -143,7 +203,18 @@ CREATE TEMPORARY TABLE PARTE03
            entrada,
            saldo,
            estoque,
-           status
+           status,
+           mfno,
+           typeno,
+           clno,
+           deptno,
+           groupno,
+           taxno,
+           saldoDS,
+           saldoMR,
+           saldoMF,
+           saldoPK,
+           saldoTM
     FROM PARTE01
     UNION
     SELECT 999999 AS seq,
@@ -161,7 +232,18 @@ CREATE TEMPORARY TABLE PARTE03
            entrada,
            saldo,
            estoque,
-           status
+           status,
+           mfno,
+           typeno,
+           clno,
+           deptno,
+           groupno,
+           taxno,
+           saldoDS,
+           saldoMR,
+           saldoMF,
+           saldoPK,
+           saldoTM
     FROM PARTE02;
 
 SELECT loja,
@@ -178,7 +260,18 @@ SELECT loja,
        entrada,
        saldo,
        estoque,
-       status
+       status,
+       mfno,
+       typeno,
+       clno,
+       deptno,
+       groupno,
+       taxno,
+       saldoDS,
+       saldoMR,
+       saldoMF,
+       saldoPK,
+       saldoTM
 FROM PARTE03
 WHERE (codigo LIKE @QUERY OR descricao LIKE @QUERYLIKE OR grade LIKE @QUERYLIKE OR nfEntrada LIKE @QUERYLIKE OR
        DATE_FORMAT(dataEntrada, '%d/%m/%Y') LIKE @QUERYLIKE OR
@@ -188,5 +281,9 @@ WHERE (codigo LIKE @QUERY OR descricao LIKE @QUERYLIKE OR grade LIKE @QUERYLIKE 
           WHEN 'N' THEN MID(descricao, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
           WHEN 'S' THEN MID(descricao, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
       END
+  AND (FIND_IN_SET(mfno, @LISTVEND) OR @LISTVEND = '')
+  AND (typeno = @TYPENO OR @TYPENO = 0)
+  AND (clno = @CLNO OR deptno = @CLNO OR groupno = @CLNO OR @CLNO = 0)
+  AND (taxno = @TRIBUTACAO OR @TRIBUTACAO = '')
 ORDER BY seq
 

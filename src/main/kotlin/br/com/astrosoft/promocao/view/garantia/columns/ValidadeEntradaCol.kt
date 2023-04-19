@@ -86,6 +86,36 @@ object ValidadeEntradaCol {
     isResizable = true
   }
 
+  fun Grid<ValidadeEntrada>.produtoSaldoDS() = addColumnInt(ValidadeEntrada::saldoDS) {
+    this.setHeader("DS")
+    isExpand = false
+    isResizable = true
+  }
+
+  fun Grid<ValidadeEntrada>.produtoSaldoMR() = addColumnInt(ValidadeEntrada::saldoMR) {
+    this.setHeader("MR")
+    isExpand = false
+    isResizable = true
+  }
+
+  fun Grid<ValidadeEntrada>.produtoSaldoMF() = addColumnInt(ValidadeEntrada::saldoMF) {
+    this.setHeader("MF")
+    isExpand = false
+    isResizable = true
+  }
+
+  fun Grid<ValidadeEntrada>.produtoSaldoPK() = addColumnInt(ValidadeEntrada::saldoPK) {
+    this.setHeader("PK")
+    isExpand = false
+    isResizable = true
+  }
+
+  fun Grid<ValidadeEntrada>.produtoSaldoTM() = addColumnInt(ValidadeEntrada::saldoTM) {
+    this.setHeader("TM")
+    isExpand = false
+    isResizable = true
+  }
+
   fun Grid<ValidadeEntrada>.produtoEstoque() = addColumnInt(ValidadeEntrada::estoque) {
     this.setHeader("Estoque")
     isExpand = false

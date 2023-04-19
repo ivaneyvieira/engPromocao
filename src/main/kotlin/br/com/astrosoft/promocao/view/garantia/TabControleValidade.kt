@@ -21,6 +21,11 @@ import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produt
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoMesesVenc
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoNFEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoSaldo
+import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoSaldoDS
+import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoSaldoMF
+import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoSaldoMR
+import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoSaldoPK
+import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoSaldoTM
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoVencimento
 import br.com.astrosoft.promocao.viewmodel.garantia.ITabControleValidadeViewModel
 import br.com.astrosoft.promocao.viewmodel.garantia.TabControleValidadeViewModel
@@ -157,12 +162,17 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
     produtoEstoque()
     produtoMesesVenc()
     produtoSaldo()
+    produtoSaldoDS()
+    produtoSaldoMR()
+    produtoSaldoMF()
+    produtoSaldoPK()
+    produtoSaldoTM()
     produtValidade()
+    produtoMesesFab()
     produtoEntrada()
     produtoNFEntrada()
     produtoDataEntrada()
     produtoFabricacao()
-    produtoMesesFab()
     produtoVencimento()
   }
 }
