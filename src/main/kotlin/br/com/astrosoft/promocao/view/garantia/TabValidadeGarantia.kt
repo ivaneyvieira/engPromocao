@@ -4,7 +4,6 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.*
-import br.com.astrosoft.promocao.model.planilhas.PlanilhaPrecificacao
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaValidade
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaClno
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaCodigo
@@ -20,6 +19,7 @@ import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garanti
 import br.com.astrosoft.promocao.view.garantia.columns.GarantiaDiferenca.garantiaVendno
 import br.com.astrosoft.promocao.viewmodel.garantia.ITabValidadeGarantiaViewModel
 import br.com.astrosoft.promocao.viewmodel.garantia.TabValidadeGarantiaViewModel
+import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.kaributools.tooltip
@@ -29,6 +29,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
+import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 import org.vaadin.stefan.LazyDownloadButton
@@ -39,6 +40,11 @@ import java.time.format.DateTimeFormatter
 class TabValidadeGarantia(val viewModel: TabValidadeGarantiaViewModel) :
   TabPanelGrid<ComparaValidade>(ComparaValidade::class),
   ITabValidadeGarantiaViewModel {
+  private lateinit var edtCl: IntegerField
+  private lateinit var edtType: IntegerField
+  private lateinit var edtTributacao: TextField
+  private lateinit var edtListVend: TextField
+
   private lateinit var edtQuery: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
 
@@ -57,6 +63,7 @@ class TabValidadeGarantia(val viewModel: TabValidadeGarantiaViewModel) :
         viewModel.updateView()
       }
     }
+
     cmbPontos = select("Caracteres Especiais") {
       setItems(EMarcaPonto.values().toList())
       value = EMarcaPonto.TODOS
@@ -64,6 +71,36 @@ class TabValidadeGarantia(val viewModel: TabValidadeGarantiaViewModel) :
         it.descricao
       }
 
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtListVend = textField("Fornecedores") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.width = "250px"
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtTributacao = textField("Tributação") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.width = "80px"
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtType = integerField("Tipo") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtCl = integerField("Centro de Lucro") {
+      this.valueChangeMode = ValueChangeMode.LAZY
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -95,7 +132,15 @@ class TabValidadeGarantia(val viewModel: TabValidadeGarantiaViewModel) :
     get() = "Validade"
 
   override fun filtro() =
-    FiltroValidade(tipo = ETipoDiferencaGarantia.TODOS, query = edtQuery.value, marca = cmbPontos.value)
+    FiltroValidade(
+      tipo = ETipoDiferencaGarantia.TODOS,
+      query = edtQuery.value,
+      marca = cmbPontos.value,
+      listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
+      tributacao = edtTributacao.value ?: "",
+      typeno = edtType.value ?: 0,
+      clno = edtCl.value ?: 0,
+    )
 
   override fun Grid<ComparaValidade>.gridPanel() {
     this.setSelectionMode(Grid.SelectionMode.MULTI)

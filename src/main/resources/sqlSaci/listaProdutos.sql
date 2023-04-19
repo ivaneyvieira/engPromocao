@@ -204,4 +204,3 @@ WHERE :pesquisa = ''
    OR groupno LIKE @PESQUISA
    OR deptno LIKE @PESQUISA
    OR codBar LIKE @PESQUISA
-

@@ -37,11 +37,19 @@ data class FiltroValidade(
   val tipo: ETipoDiferencaGarantia,
   val query: String,
   val marca: EMarcaPonto = EMarcaPonto.TODOS,
+  val listVend: List<Int>,
+  val tributacao: String,
+  val typeno: Int,
+  val clno: Int,
 )
 
 data class FiltroValidadeEntrada(
   val query: String,
   val marca: EMarcaPonto,
+  val listVend: List<Int>,
+  val tributacao: String,
+  val typeno: Int,
+  val clno: Int,
 )
 
 enum class ETipoDiferencaGarantia(val num: Int, val descricao: String) {

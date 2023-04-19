@@ -5,6 +5,11 @@ SET sql_mode = '';
 DO @QUERY := :query;
 DO @QUERYLIKE := CONCAT(@QUERY, '%');
 
+DO @LISTVEND := REPLACE(:listVend, ' ', '');
+DO @TRIBUTACAO := :tributacao;
+DO @TYPENO := :typeno;
+DO @CLNO := :clno;
+
 DROP TEMPORARY TABLE IF EXISTS T_PNAME;
 CREATE TEMPORARY TABLE T_PNAME
     SELECT prdno, name, TRIM(MID(name, 61, 100)) AS linha2
@@ -51,7 +56,6 @@ CREATE TEMPORARY TABLE T_ULT_NFE (PRIMARY KEY (prdno, grade))
              INNER JOIN sqldados.iprd AS I USING (invno, prdno, grade)
     GROUP BY prdno, grade;
 
-
 DROP TEMPORARY TABLE IF EXISTS T_SALDO;
 CREATE TEMPORARY TABLE T_SALDO (PRIMARY KEY (prdno))
     SELECT prdno, SUM(qtty_varejo / 1000) AS saldo, SUM(IF(S.storeno = 4, qtty_varejo / 1000, 0.000)) AS saldoMF
@@ -76,7 +80,11 @@ CREATE TEMPORARY TABLE T_VALCOMPARA
              LEFT JOIN T_VALNAME AS N USING (prdno)
              LEFT JOIN T_VALCAD AS C USING (prdno)
              LEFT JOIN T_SALDO AS S USING (prdno)
-             INNER JOIN sqldados.prd AS P ON P.no = M.prdno;
+             INNER JOIN sqldados.prd AS P ON P.no = M.prdno
+WHERE (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
+  AND (P.typeno = @TYPENO OR @TYPENO = 0)
+  AND (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
+  AND (P.taxno = @TRIBUTACAO OR @TRIBUTACAO = '');
 
 DROP TEMPORARY TABLE IF EXISTS T_VALCOMPARA_NUM;
 CREATE TEMPORARY TABLE T_VALCOMPARA_NUM
@@ -102,8 +110,8 @@ CREATE TEMPORARY TABLE T_VALCOMPARA_NUM
 SELECT codigo,
        T.prdno,
        vendno,
-       typeno,
-       clno,
+       T.typeno,
+       T.clno,
        P.grade,
        descricao,
        estoque,

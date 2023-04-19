@@ -17,7 +17,7 @@ class GarantiaView : ViewLayout<GarantiaViewModel>(), IGarantiaView {
   override val viewModel: GarantiaViewModel = GarantiaViewModel(this)
   override val tabBaseGarantia = TabBaseGarantia(viewModel.tabBaseGarantia)
   override val tabValidadeGarantia = TabValidadeGarantia(viewModel.tabValidadeGarantia)
-  override val tabValidadeEntrada = TabValidadeEntrada(viewModel.tabValidadeEntrada)
+  override val tabControleValidade = TabControleValidade(viewModel.tabControleValidade)
   override val tabInserirGarantia = TabInserirGarantia(viewModel.tabInserirGarantia)
 
   override fun isAccept(user: IUser): Boolean {

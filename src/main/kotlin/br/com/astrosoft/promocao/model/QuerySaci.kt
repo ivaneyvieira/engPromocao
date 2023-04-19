@@ -127,10 +127,17 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   fun consultaValidade(filtro: FiltroValidade): List<ComparaValidade> {
     val sql = "/sqlSaci/consultaValidade.sql"
 
+    val listVend = filtro.listVend.joinToString(separator = ",")
+
     return query(sql, ComparaValidade::class) {
       addOptionalParameter("tipo", filtro.tipo.num)
       addOptionalParameter("query", filtro.query)
       addOptionalParameter("marca", filtro.marca.codigo)
+
+      addOptionalParameter("listVend", listVend)
+      addOptionalParameter("tributacao", filtro.tributacao)
+      addOptionalParameter("typeno", filtro.typeno)
+      addOptionalParameter("clno", filtro.clno)
     }
   }
 

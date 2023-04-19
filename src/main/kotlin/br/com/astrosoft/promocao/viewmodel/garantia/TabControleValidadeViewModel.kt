@@ -4,9 +4,9 @@ import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.promocao.model.beans.FiltroValidadeEntrada
 import br.com.astrosoft.promocao.model.beans.ValidadeEntrada
 
-class TabValidadeEntradaViewModel(val viewModel: GarantiaViewModel) {
+class TabControleValidadeViewModel(val viewModel: GarantiaViewModel) {
   val subView
-    get() = viewModel.view.tabValidadeEntrada
+    get() = viewModel.view.tabControleValidade
 
   fun updateView() {
     val lista = ValidadeEntrada.findAll(subView.filtro())
@@ -14,7 +14,7 @@ class TabValidadeEntradaViewModel(val viewModel: GarantiaViewModel) {
   }
 }
 
-interface ITabValidadeEntradaViewModel : ITabView {
+interface ITabControleValidadeViewModel : ITabView {
   fun updateGrid(itens: List<ValidadeEntrada>)
   fun listSelected(): List<ValidadeEntrada>
   fun filtro(): FiltroValidadeEntrada

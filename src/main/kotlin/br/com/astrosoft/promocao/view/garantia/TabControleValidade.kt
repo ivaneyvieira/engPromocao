@@ -22,8 +22,9 @@ import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produt
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoNFEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoSaldo
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoVencimento
-import br.com.astrosoft.promocao.viewmodel.garantia.ITabValidadeEntradaViewModel
-import br.com.astrosoft.promocao.viewmodel.garantia.TabValidadeEntradaViewModel
+import br.com.astrosoft.promocao.viewmodel.garantia.ITabControleValidadeViewModel
+import br.com.astrosoft.promocao.viewmodel.garantia.TabControleValidadeViewModel
+import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.kaributools.tooltip
@@ -33,6 +34,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
+import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 import org.vaadin.stefan.LazyDownloadButton
@@ -40,9 +42,14 @@ import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class TabValidadeEntrada(val viewModel: TabValidadeEntradaViewModel) :
+class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
   TabPanelGrid<ValidadeEntrada>(ValidadeEntrada::class),
-  ITabValidadeEntradaViewModel {
+  ITabControleValidadeViewModel {
+  private lateinit var edtCl: IntegerField
+  private lateinit var edtType: IntegerField
+  private lateinit var edtTributacao: TextField
+  private lateinit var edtListVend: TextField
+
   private lateinit var edtQuery: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
 
@@ -62,6 +69,7 @@ class TabValidadeEntrada(val viewModel: TabValidadeEntradaViewModel) :
         viewModel.updateView()
       }
     }
+
     cmbPontos = select("Caracteres Especiais") {
       setItems(EMarcaPonto.values().toList())
       value = EMarcaPonto.TODOS
@@ -73,6 +81,37 @@ class TabValidadeEntrada(val viewModel: TabValidadeEntradaViewModel) :
         viewModel.updateView()
       }
     }
+
+    edtListVend = textField("Fornecedores") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.width = "250px"
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtTributacao = textField("Tributação") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.width = "80px"
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtType = integerField("Tipo") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtCl = integerField("Centro de Lucro") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
     downloadExcel()
   }
 
@@ -99,7 +138,14 @@ class TabValidadeEntrada(val viewModel: TabValidadeEntradaViewModel) :
     get() = "Controle Validade"
 
   override fun filtro() =
-    FiltroValidadeEntrada(query = edtQuery.value, marca = cmbPontos.value)
+    FiltroValidadeEntrada(
+      query = edtQuery.value,
+      marca = cmbPontos.value,
+      listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
+      tributacao = edtTributacao.value ?: "",
+      typeno = edtType.value ?: 0,
+      clno = edtCl.value ?: 0,
+    )
 
   override fun Grid<ValidadeEntrada>.gridPanel() {
     this.setSelectionMode(Grid.SelectionMode.MULTI)
@@ -108,11 +154,11 @@ class TabValidadeEntrada(val viewModel: TabValidadeEntradaViewModel) :
     produtoCodigo()
     produtoDescricao()
     produtoGrade()
-    produtValidade()
-    produtoMesesVenc()
-    produtoEntrada()
-    produtoSaldo()
     produtoEstoque()
+    produtoMesesVenc()
+    produtoSaldo()
+    produtValidade()
+    produtoEntrada()
     produtoNFEntrada()
     produtoDataEntrada()
     produtoFabricacao()
