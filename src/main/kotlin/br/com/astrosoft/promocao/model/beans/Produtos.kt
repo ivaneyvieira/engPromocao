@@ -43,6 +43,8 @@ class Produtos(
   val foraLinha: String,
   val ultVenda: LocalDate?,
   val ultCompra: LocalDate?,
+  val qttyVendas: Int?,
+  val qttyCompra: Int?,
 ) {
   companion object {
     fun find(filter: FiltroProduto) = saci.listaProdutos(filter)

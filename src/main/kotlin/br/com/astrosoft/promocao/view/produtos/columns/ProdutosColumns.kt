@@ -55,12 +55,12 @@ object ProdutosColumns {
     this.config()
   }
 
-  fun Grid<Produtos>.produto_ultCompra()= addColumnLocalDate(Produtos::ultCompra) {
-    this.setHeader("Ult Compra")
+  fun Grid<Produtos>.produto_quantCompra()= addColumnInt(Produtos::qttyCompra) {
+    this.setHeader("Qt Compra")
     this.config()
   }
-  fun Grid<Produtos>.produto_ultVenda()= addColumnLocalDate(Produtos::ultVenda) {
-    this.setHeader("Ult Venda")
+  fun Grid<Produtos>.produto_quantVenda()= addColumnInt(Produtos::qttyVendas) {
+    this.setHeader("Qt Venda")
     this.config()
   }
 

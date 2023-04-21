@@ -3,7 +3,6 @@ package br.com.astrosoft.promocao.view.produtos
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.EEstoqueTotal
-import br.com.astrosoft.promocao.model.beans.EInativo
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
@@ -21,10 +20,10 @@ import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_d
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_estoque
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_forn
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_grade
+import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_quantCompra
+import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_quantVenda
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_tipo
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_tributacao
-import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_ultCompra
-import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_ultVenda
 import br.com.astrosoft.promocao.viewmodel.produto.ITabEstoqueTotalViewModel
 import br.com.astrosoft.promocao.viewmodel.produto.TabEstoqueTotalViewModel
 import com.github.mvysny.karibudsl.v10.select
@@ -75,8 +74,8 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
     produto_tipo()
     produto_cl()
     produto_codBar()
-    produto_ultCompra()
-    produto_ultVenda()
+    produto_quantCompra()
+    produto_quantVenda()
   }
 
   override fun estoqueTotal(): EEstoqueTotal {

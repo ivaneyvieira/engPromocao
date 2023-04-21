@@ -12,7 +12,7 @@ DO @CLNO := :clno;
 DROP TEMPORARY TABLE IF EXISTS T;
 CREATE TEMPORARY TABLE T
     SELECT TRIM(P.codigo) * 1        AS codigo,
-           TP.nome                   AS descricao,
+           S.descricao               AS descricao,
            P.grade,
            CONCAT(P.codigo, P.grade) AS chave,
            L.numero                  AS loja,
@@ -39,8 +39,7 @@ CREATE TEMPORARY TABLE T
              INNER JOIN itens_nota AS I ON N.id = I.nota_id
              INNER JOIN produtos AS P ON I.produto_id = P.id
              INNER JOIN saldos AS S ON S.prdno = P.codigo AND S.grade = P.grade
-             INNER JOIN tab_produtos AS TP ON TP.codigo = P.codigo AND TP.grade = P.grade
-    WHERE meses_vencimento IS NOT NULL
+    WHERE P.meses_vencimento IS NOT NULL
       AND N.tipo_mov = 'ENTRADA'
       AND N.tipo_nota = 'COMPRA';
 

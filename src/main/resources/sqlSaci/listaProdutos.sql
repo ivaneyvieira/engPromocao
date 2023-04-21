@@ -7,12 +7,15 @@ DO @TRIBUTACAO := :tributacao;
 DO @TYPENO := :typeno;
 DO @CLNO := :clno;
 DO @DIVENDA := :diVenda;
-DO @DFVENDA := :dfVenda;
+DO @DFVENDA := IF(:dfVenda = 0, 99999999, :dfVenda);
 DO @DICOMPRA := :diCompra;
-DO @DFCOMPRA := :dfCompra;
+DO @DFCOMPRA := IF(:dfCompra = 0, 99999999, :dfCompra);
 
 DROP TABLE IF EXISTS T_STK;
-CREATE TEMPORARY TABLE T_STK (PRIMARY KEY (prdno, grade))
+CREATE TEMPORARY TABLE T_STK
+(
+    PRIMARY KEY (prdno, grade)
+)
     SELECT prdno,
            grade,
            SUM(IF(storeno = 1, qtty_varejo / 1000, 0.00))                  AS JS_VA,
@@ -44,7 +47,10 @@ CREATE TEMPORARY TABLE T_STK (PRIMARY KEY (prdno, grade))
     GROUP BY prdno, grade;
 
 DROP TABLE IF EXISTS T_RESULT;
-CREATE TEMPORARY TABLE T_RESULT (PRIMARY KEY (prdno, grade))
+CREATE TEMPORARY TABLE T_RESULT
+(
+    PRIMARY KEY (prdno, grade)
+)
     SELECT P.no                                                                                                       AS prdno,
            TRIM(P.no) * 1                                                                                             AS codigo,
            TRIM(MID(P.name, 1, 37))                                                                                   AS descricao,
@@ -86,67 +92,68 @@ CREATE TEMPORARY TABLE T_RESULT (PRIMARY KEY (prdno, grade))
                WHEN 1 THEN 'Semana'
                WHEN 2 THEN 'Mês'
                WHEN 3 THEN 'Ano'
-               ELSE ''
-           END                                                                                                        AS uGar,
-           P.GARANTIA                                                                                                 AS tGar,
+               ELSE '' END                                                                                              AS uGar,
+           P.garantia                                                                                                 AS tGar,
            P.qttyPackClosed / 1000                                                                                    AS emb,
            IFNULL(N.ncm, '')                                                                                          AS ncm,
            ''                                                                                                         AS site,
            TRIM(MID(P.name, 37, 3))                                                                                   AS unidade,
            IF((dereg & POW(2, 2)) = 0, 'N', 'S')                                                                      AS foraLinha
-    FROM sqldados.prd AS P
-             INNER JOIN T_STK AS S ON S.prdno = P.no
-             LEFT JOIN sqldados.prd2 AS P2 ON P.no = P2.prdno
-             LEFT JOIN sqldados.vend AS V ON V.no = P.mfno
-             LEFT JOIN sqldados.prdbar AS B ON S.prdno = B.prdno AND S.grade = B.grade
-             LEFT JOIN sqldados.spedprd AS N ON N.prdno = P.no
-    WHERE (P.no = @PRDNO OR @CODIGO = 0)
-      AND (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
-      AND (P.typeno = @TYPENO OR @TYPENO = 0)
-      AND (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
-      AND (P.taxno = @TRIBUTACAO OR @TRIBUTACAO = '')
-      AND (S.estoque != 0 OR :todoEstoque = 'S')
-      AND CASE :marca
-              WHEN 'T' THEN TRUE
-              WHEN 'N' THEN MID(P.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
-              WHEN 'S' THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
-              ELSE FALSE
-          END
+    FROM sqldados.prd                AS P
+             INNER JOIN T_STK            AS S
+                        ON S.prdno = P.no
+             LEFT JOIN  sqldados.prd2    AS P2
+                        ON P.no = P2.prdno
+             LEFT JOIN  sqldados.vend    AS V
+                        ON V.no = P.mfno
+             LEFT JOIN  sqldados.prdbar  AS B
+                        ON S.prdno = B.prdno AND S.grade = B.grade
+             LEFT JOIN  sqldados.spedprd AS N
+                        ON N.prdno = P.no
+    WHERE (P.no = @PRDNO OR @CODIGO = 0) AND (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
+      AND (P.typeno = @TYPENO OR @TYPENO = 0) AND (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
+      AND (P.taxno = @TRIBUTACAO OR @TRIBUTACAO = '') AND (S.estoque != 0 OR :todoEstoque = 'S') AND CASE :marca
+                                                                                                         WHEN 'T' THEN TRUE
+                                                                                                         WHEN 'N'
+                                                                                                                  THEN MID(P.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
+                                                                                                         WHEN 'S'
+                                                                                                                  THEN MID(P.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
+                                                                                                         ELSE FALSE END
       AND CASE :inativo
               WHEN 'T' THEN TRUE
               WHEN 'S' THEN (P.dereg & POW(2, 2)) != 0
               WHEN 'N' THEN (P.dereg & POW(2, 2)) = 0
-              ELSE FALSE
-          END
+              ELSE FALSE END
       AND CASE :estoqueTotal
               WHEN 'T' THEN TRUE
               WHEN '>' THEN ROUND(estoque) > 0
               WHEN '<' THEN ROUND(estoque) < 0
               WHEN '=' THEN ROUND(estoque) = 0
-              ELSE FALSE
-          END
+              ELSE FALSE END
     GROUP BY P.no, S.grade;
 
 DROP TABLE IF EXISTS T_PRDVENDA;
-CREATE TEMPORARY TABLE T_PRDVENDA (PRIMARY KEY (prdno, grade))
-    SELECT R.prdno, R.grade, MAX(DATE) AS date
-    FROM T_RESULT AS R
-             LEFT JOIN sqldados.ultimaVenda USING (prdno, grade)
-    WHERE ((@DIVENDA != 0 AND @DFVENDA != 0) AND (DATE BETWEEN @DIVENDA AND @DFVENDA))
-       OR ((@DIVENDA = 0 AND @DFVENDA != 0) AND (DATE <= @DFVENDA))
-       OR ((@DIVENDA != 0 AND @DFVENDA = 0) AND (DATE >= @DIVENDA))
-       OR (@DIVENDA = 0 AND @DFVENDA = 0)
+CREATE TEMPORARY TABLE T_PRDVENDA
+(
+    PRIMARY KEY (prdno, grade)
+)
+    SELECT R.prdno, R.grade, MAX(date) AS date, SUM(quant / 1000) AS qtty
+    FROM T_RESULT                      AS R
+             INNER JOIN sqldados.vendaDate AS X
+                        ON X.prdno = R.prdno AND X.grade = R.grade
+    WHERE (X.storeno IN (1, 2, 3, 4, 5, 6)) AND date BETWEEN @DIVENDA AND @DFVENDA
     GROUP BY R.prdno, R.grade;
 
 DROP TABLE IF EXISTS T_PRDCOMPRA;
-CREATE TEMPORARY TABLE T_PRDCOMPRA (PRIMARY KEY (prdno, grade))
-    SELECT R.prdno, R.grade, MAX(date) AS date
-    FROM T_RESULT AS R
-             LEFT JOIN sqldados.ultimaCompra USING (prdno, grade)
-    WHERE ((@DICOMPRA != 0 AND @DFCOMPRA != 0) AND (date BETWEEN @DICOMPRA AND @DFCOMPRA))
-       OR ((@DICOMPRA = 0 AND @DFCOMPRA != 0) AND (date <= @DFCOMPRA))
-       OR ((@DICOMPRA != 0 AND @DFCOMPRA = 0) AND (date >= @DICOMPRA))
-       OR (@DICOMPRA = 0 AND @DFCOMPRA = 0)
+CREATE TEMPORARY TABLE T_PRDCOMPRA
+(
+    PRIMARY KEY (prdno, grade)
+)
+    SELECT R.prdno, R.grade, MAX(date) AS date, SUM(quant / 1000) AS qtty
+    FROM T_RESULT AS                    R
+             INNER JOIN sqldados.compraDate P
+                        ON P.prdno = R.prdno AND P.grade = R.grade
+    WHERE (storeno IN (1, 2, 3, 4, 5, 6)) AND date BETWEEN @DICOMPRA AND @DFCOMPRA
     GROUP BY R.prdno, R.grade;
 
 DO @PESQUISA := :pesquisa;
@@ -188,19 +195,15 @@ SELECT R.prdno,
        site,
        unidade,
        foraLinha,
-       CAST(V.date AS DATE) AS ultVenda,
-       CAST(C.date AS DATE) AS ultCompra
-FROM T_RESULT AS R
-         INNER JOIN T_PRDVENDA AS V ON (R.prdno = V.prdno AND R.grade = V.grade)
-         INNER JOIN T_PRDCOMPRA AS C ON (R.prdno = C.prdno AND R.grade = C.grade)
-WHERE :pesquisa = ''
-   OR codigo LIKE @PESQUISA
-   OR descricao LIKE @PESQUISA_LIKE
-   OR R.grade LIKE @PESQUISA_LIKE
-   OR fornStr LIKE @PESQUISA
-   OR abrev LIKE @PESQUISA_LIKE
-   OR tipo LIKE @PESQUISA
-   OR cl LIKE @PESQUISA
-   OR groupno LIKE @PESQUISA
-   OR deptno LIKE @PESQUISA
-   OR codBar LIKE @PESQUISA
+       CAST(V.date AS DATE)     AS ultVenda,
+       CAST(C.date AS DATE)     AS ultCompra,
+       ROUND(IFNULL(V.qtty, 0)) AS qttyVendas,
+       ROUND(IFNULL(C.qtty, 0)) AS qttyCompra
+FROM T_RESULT              AS R
+         LEFT JOIN T_PRDVENDA  AS V
+                   ON (R.prdno = V.prdno AND R.grade = V.grade)
+         LEFT JOIN T_PRDCOMPRA AS C
+                   ON (R.prdno = C.prdno AND R.grade = C.grade)
+WHERE :pesquisa = '' OR codigo LIKE @PESQUISA OR descricao LIKE @PESQUISA_LIKE OR R.grade LIKE @PESQUISA_LIKE
+   OR fornStr LIKE @PESQUISA OR abrev LIKE @PESQUISA_LIKE OR tipo LIKE @PESQUISA OR cl LIKE @PESQUISA
+   OR groupno LIKE @PESQUISA OR deptno LIKE @PESQUISA OR codBar LIKE @PESQUISA
