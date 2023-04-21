@@ -81,10 +81,10 @@ CREATE TEMPORARY TABLE T_VALCOMPARA
              LEFT JOIN T_VALCAD AS C USING (prdno)
              LEFT JOIN T_SALDO AS S USING (prdno)
              INNER JOIN sqldados.prd AS P ON P.no = M.prdno
-WHERE (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
-  AND (P.typeno = @TYPENO OR @TYPENO = 0)
-  AND (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
-  AND (P.taxno = @TRIBUTACAO OR @TRIBUTACAO = '');
+    WHERE (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
+      AND (P.typeno = @TYPENO OR @TYPENO = 0)
+      AND (P.clno = @CLNO OR P.deptno = @CLNO OR P.groupno = @CLNO OR @CLNO = 0)
+      AND (P.taxno = @TRIBUTACAO OR @TRIBUTACAO = '');
 
 DROP TEMPORARY TABLE IF EXISTS T_VALCOMPARA_NUM;
 CREATE TEMPORARY TABLE T_VALCOMPARA_NUM
