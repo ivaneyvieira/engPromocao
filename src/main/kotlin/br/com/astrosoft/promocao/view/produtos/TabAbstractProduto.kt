@@ -113,6 +113,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
       horizontalLayout {
         edtDiVenda = datePicker("Data Venda Inicial") {
           this.localePtBr()
+          this.value = LocalDate.now().withDayOfMonth(1)
 
           this.addValueChangeListener {
             viewModel.updateView()
@@ -120,6 +121,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
         }
         edtDfVenda = datePicker("Data Venda Final") {
           this.localePtBr()
+          this.value = LocalDate.now()
 
           this.addValueChangeListener {
             viewModel.updateView()
@@ -127,6 +129,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
         }
         edtDiCompra = datePicker("Data Compra Inicial") {
           this.localePtBr()
+          this.value = LocalDate.now().withDayOfMonth(1)
 
           this.addValueChangeListener {
             viewModel.updateView()
@@ -134,6 +137,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
         }
         edtDfCompra = datePicker("Data Compra Final") {
           this.localePtBr()
+          this.value = LocalDate.now().minusDays(30)
 
           this.addValueChangeListener {
             viewModel.updateView()
