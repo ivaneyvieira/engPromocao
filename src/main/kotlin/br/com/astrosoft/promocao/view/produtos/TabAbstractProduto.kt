@@ -137,7 +137,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
         }
         edtDfCompra = datePicker("Data Compra Final") {
           this.localePtBr()
-          this.value = LocalDate.now().minusDays(30)
+          this.value = LocalDate.now()
 
           this.addValueChangeListener {
             viewModel.updateView()
