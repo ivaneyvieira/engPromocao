@@ -50,11 +50,12 @@ object ValidadeEntradaCol {
     isResizable = true
   }
 
-  fun Grid<ValidadeEntrada>.produtoFabricacao() = addColumnLocalDate(ValidadeEntrada::dataFabricacao) {
-    this.setHeader("Fabricação")
-    isExpand = false
-    isResizable = true
-  }
+  fun Grid<ValidadeEntrada>.produtoFabricacao() =
+    addColumnLocalDate(ValidadeEntrada::dataFabricacao, formatPattern = "MM/yyyy") {
+      this.setHeader("Fab")
+      isExpand = false
+      isResizable = true
+    }
 
   fun Grid<ValidadeEntrada>.produtoMesesFab() = addColumnInt(ValidadeEntrada::mesesFabricacao) {
     this.setHeader("Meses Fab")
@@ -62,11 +63,12 @@ object ValidadeEntradaCol {
     isResizable = true
   }
 
-  fun Grid<ValidadeEntrada>.produtoVencimento() = addColumnLocalDate(ValidadeEntrada::vencimento) {
-    this.setHeader("Vencimento")
-    isExpand = false
-    isResizable = true
-  }
+  fun Grid<ValidadeEntrada>.produtoVencimento() =
+    addColumnLocalDate(ValidadeEntrada::vencimento, formatPattern = "MM/yyyy") {
+      this.setHeader("Venc")
+      isExpand = false
+      isResizable = true
+    }
 
   fun Grid<ValidadeEntrada>.produtoMesesVenc() = addColumnInt(ValidadeEntrada::mesesVencimento) {
     this.setHeader("Meses Venc")
@@ -118,6 +120,12 @@ object ValidadeEntradaCol {
 
   fun Grid<ValidadeEntrada>.produtoEstoque() = addColumnInt(ValidadeEntrada::estoque) {
     this.setHeader("Estoque")
+    isExpand = false
+    isResizable = true
+  }
+
+  fun Grid<ValidadeEntrada>.produtoVenda() = addColumnInt(ValidadeEntrada::totalVenda) {
+    this.setHeader("Venda")
     isExpand = false
     isResizable = true
   }

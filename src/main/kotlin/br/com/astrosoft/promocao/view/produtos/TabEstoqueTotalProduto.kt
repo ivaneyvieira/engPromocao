@@ -63,6 +63,8 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
     produto_descricao()
     produto_grade()
     produto_estoque()
+    produto_quantCompra()
+    produto_quantVenda()
     produto_DS_TT()
     produto_MR_TT()
     produto_MF_TT()
@@ -74,8 +76,6 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
     produto_tipo()
     produto_cl()
     produto_codBar()
-    produto_quantCompra()
-    produto_quantVenda()
   }
 
   override fun estoqueTotal(): EEstoqueTotal {

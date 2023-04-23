@@ -366,6 +366,15 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun saldoData(diDate: LocalDate?,  dfDate: LocalDate?): List<SaldoVenda> {
+    val sql = "/sqlSaci/totalVendas.sql"
+
+    return query(sql, SaldoVenda::class) {
+      addOptionalParameter("diVenda", diDate.toSaciDate())
+      addOptionalParameter("dfVenda", dfDate.toSaciDate())
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver

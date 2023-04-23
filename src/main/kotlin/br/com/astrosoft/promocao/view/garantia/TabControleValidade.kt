@@ -3,8 +3,8 @@ package br.com.astrosoft.promocao.view.garantia
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.framework.view.localePtBr
 import br.com.astrosoft.promocao.model.beans.*
-import br.com.astrosoft.promocao.model.estoque
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaValidadeEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtValidade
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoCodigo
@@ -25,16 +25,17 @@ import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produt
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoSaldoPK
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoSaldoTM
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoVencimento
+import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoVenda
 import br.com.astrosoft.promocao.viewmodel.garantia.ITabControleValidadeViewModel
 import br.com.astrosoft.promocao.viewmodel.garantia.TabControleValidadeViewModel
-import com.github.mvysny.karibudsl.v10.integerField
-import com.github.mvysny.karibudsl.v10.select
-import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
+import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.IntegerField
@@ -42,6 +43,7 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -57,6 +59,9 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
   private lateinit var edtQuery: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
 
+  private lateinit var edtDiVenda: DatePicker
+  private lateinit var edtDfVenda: DatePicker
+
   override fun updateComponent() {
     viewModel.updateView()
   }
@@ -66,68 +71,95 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
   }
 
   override fun HorizontalLayout.toolBarConfig() {
-    edtQuery = textField("Filtro") {
-      this.valueChangeMode = ValueChangeMode.TIMEOUT
-      this.valueChangeMode = ValueChangeMode.LAZY
-      this.addValueChangeListener {
-        viewModel.updateView()
+    flexLayout {
+      this.isExpand = true
+      this.flexWrap = FlexLayout.FlexWrap.WRAP
+      this.alignContent = FlexLayout.ContentAlignment.SPACE_BETWEEN
+      horizontalLayout {
+        edtQuery = textField("Filtro") {
+          this.valueChangeMode = ValueChangeMode.TIMEOUT
+          this.valueChangeMode = ValueChangeMode.LAZY
+          this.addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
+        cmbPontos = select("Caracteres Especiais") {
+          setItems(EMarcaPonto.values().toList())
+          value = EMarcaPonto.TODOS
+          this.setItemLabelGenerator {
+            it.descricao
+          }
+
+          addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
+        cmbEstoque = select("Estoque Total") {
+          setItems(EEstoqueTotal.values().toList())
+          value = EEstoqueTotal.TODOS
+          this.setItemLabelGenerator {
+            it.descricao
+          }
+          addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
+        edtListVend = textField("Fornecedores") {
+          this.valueChangeMode = ValueChangeMode.LAZY
+          this.width = "250px"
+          addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
+        edtTributacao = textField("Tributação") {
+          this.valueChangeMode = ValueChangeMode.LAZY
+          this.width = "80px"
+          addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
+        edtType = integerField("Tipo") {
+          this.valueChangeMode = ValueChangeMode.LAZY
+          addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
+        edtCl = integerField("Centro de Lucro") {
+          this.valueChangeMode = ValueChangeMode.LAZY
+          addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
+        downloadExcel()
+
+        label(" ")
+      }
+      horizontalLayout {
+        edtDiVenda = datePicker("Data Venda Inicial") {
+          this.localePtBr()
+          this.value = LocalDate.now().withDayOfMonth(1)
+
+          this.addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+        edtDfVenda = datePicker("Data Venda Final") {
+          this.localePtBr()
+          this.value = LocalDate.now()
+
+          this.addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
       }
     }
-
-    cmbPontos = select("Caracteres Especiais") {
-      setItems(EMarcaPonto.values().toList())
-      value = EMarcaPonto.TODOS
-      this.setItemLabelGenerator {
-        it.descricao
-      }
-
-      addValueChangeListener {
-        viewModel.updateView()
-      }
-    }
-
-    cmbEstoque = select("Estoque Total") {
-      setItems(EEstoqueTotal.values().toList())
-      value = EEstoqueTotal.TODOS
-      this.setItemLabelGenerator {
-        it.descricao
-      }
-      addValueChangeListener {
-        viewModel.updateView()
-      }
-    }
-
-    edtListVend = textField("Fornecedores") {
-      this.valueChangeMode = ValueChangeMode.LAZY
-      this.width = "250px"
-      addValueChangeListener {
-        viewModel.updateView()
-      }
-    }
-
-    edtTributacao = textField("Tributação") {
-      this.valueChangeMode = ValueChangeMode.LAZY
-      this.width = "80px"
-      addValueChangeListener {
-        viewModel.updateView()
-      }
-    }
-
-    edtType = integerField("Tipo") {
-      this.valueChangeMode = ValueChangeMode.LAZY
-      addValueChangeListener {
-        viewModel.updateView()
-      }
-    }
-
-    edtCl = integerField("Centro de Lucro") {
-      this.valueChangeMode = ValueChangeMode.LAZY
-      addValueChangeListener {
-        viewModel.updateView()
-      }
-    }
-
-    downloadExcel()
   }
 
   private fun HasComponents.downloadExcel() {
@@ -160,7 +192,9 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
       tributacao = edtTributacao.value ?: "",
       typeno = edtType.value ?: 0,
       clno = edtCl.value ?: 0,
-      estoque = cmbEstoque.value ?: EEstoqueTotal.TODOS
+      estoque = cmbEstoque.value ?: EEstoqueTotal.TODOS,
+      diVenda = edtDiVenda.value ?: LocalDate.now(),
+      dfVenda = edtDfVenda.value ?: LocalDate.now()
     )
 
   override fun Grid<ValidadeEntrada>.gridPanel() {
@@ -171,6 +205,7 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
     produtoDescricao()
     produtoGrade()
     produtoEstoque()
+    produtoVenda()
     produtoMesesVenc()
     produtoSaldo()
     produtoSaldoDS()

@@ -1,6 +1,7 @@
 package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.promocao.model.estoque
+import br.com.astrosoft.promocao.model.saci
 import java.sql.Date
 import java.time.LocalDate
 
@@ -31,10 +32,18 @@ class ValidadeEntrada(
   val saldoMF: Int?,
   val saldoPK: Int?,
   val saldoTM: Int?,
+  var totalVenda: Int? = null
 ) {
   companion object {
     fun findAll(filtro: FiltroValidadeEntrada): List<ValidadeEntrada> {
-      return estoque.consultaValidadeEntrada(filtro)
+      val listVenda = saci.saldoData(filtro.diVenda, filtro.dfVenda)
+      val listaValidade = estoque.consultaValidadeEntrada(filtro)
+      return listaValidade.map {
+        it.totalVenda = listVenda.firstOrNull { venda ->
+          venda.loja == it.loja && venda.codigo == it.codigo && venda.grade == it.grade
+        }?.quant
+        it
+      }
     }
   }
 }
