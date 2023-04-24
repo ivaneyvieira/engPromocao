@@ -39,9 +39,11 @@ class ValidadeEntrada(
       val listVenda = saci.saldoData(filtro.diVenda, filtro.dfVenda)
       val listaValidade = estoque.consultaValidadeEntrada(filtro)
       return listaValidade.map {
-        it.totalVenda = listVenda.firstOrNull { venda ->
-          venda.loja == it.loja && venda.codigo == it.codigo && venda.grade == it.grade
-        }?.quant
+        it.totalVenda = listVenda.filter { venda ->
+          venda.codigo == it.codigo && venda.grade == it.grade
+        }.sumOf { venda ->
+          venda.quant
+        }
         it
       }
     }
