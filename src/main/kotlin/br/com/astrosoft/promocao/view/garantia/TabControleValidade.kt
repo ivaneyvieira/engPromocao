@@ -56,6 +56,7 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
   private lateinit var edtTributacao: TextField
   private lateinit var edtListVend: TextField
   private lateinit var cmbEstoque: Select<EEstoqueTotal>
+  private lateinit var edtNfe: TextField
 
   private lateinit var edtQuery: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
@@ -78,6 +79,14 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
       this.alignContent = FlexLayout.ContentAlignment.SPACE_BETWEEN
       horizontalLayout {
         edtQuery = textField("Filtro") {
+          this.valueChangeMode = ValueChangeMode.TIMEOUT
+          this.valueChangeMode = ValueChangeMode.LAZY
+          this.addValueChangeListener {
+            viewModel.updateView()
+          }
+        }
+
+        edtNfe = textField("NI/NFE") {
           this.valueChangeMode = ValueChangeMode.TIMEOUT
           this.valueChangeMode = ValueChangeMode.LAZY
           this.addValueChangeListener {
@@ -195,7 +204,8 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
       clno = edtCl.value ?: 0,
       estoque = cmbEstoque.value ?: EEstoqueTotal.TODOS,
       diVenda = edtDiVenda.value ?: LocalDate.now(),
-      dfVenda = edtDfVenda.value ?: LocalDate.now()
+      dfVenda = edtDfVenda.value ?: LocalDate.now(),
+      nfe = edtNfe.value,
     )
 
   override fun Grid<ValidadeEntrada>.gridPanel() {

@@ -2,7 +2,6 @@ package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.promocao.model.estoque
 import br.com.astrosoft.promocao.model.saci
-import java.sql.Date
 import java.time.LocalDate
 
 class ValidadeEntrada(
@@ -39,14 +38,23 @@ class ValidadeEntrada(
     fun findAll(filtro: FiltroValidadeEntrada): List<ValidadeEntrada> {
       val listVenda = saci.saldoData(filtro.diVenda, filtro.dfVenda)
       val listaValidade = estoque.consultaValidadeEntrada(filtro)
-      return listaValidade.map {
+      val prdNota = PrdCodigo.findPrdNfe(filtro.nfe)
+      return listaValidade.asSequence().filter { venda ->
+        when {
+          filtro.nfe.isBlank() -> true
+          prdNota.isEmpty() -> false
+          else -> prdNota.any { prd ->
+            prd.prdno.trim().toIntOrNull() == venda.codigo && prd.grade == venda.grade
+          }
+        }
+      }.map {
         it.totalVenda = listVenda.filter { venda ->
           venda.codigo == it.codigo && venda.grade == it.grade
         }.sumOf { venda ->
           venda.quant
         }
         it
-      }
+      }.toList()
     }
   }
 }

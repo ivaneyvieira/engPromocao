@@ -53,6 +53,7 @@ data class FiltroValidadeEntrada(
   val estoque: EEstoqueTotal,
   val diVenda: LocalDate?,
   val dfVenda: LocalDate?,
+  val nfe: String,
 )
 
 enum class ETipoDiferencaGarantia(val num: Int, val descricao: String) {

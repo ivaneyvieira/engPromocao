@@ -375,6 +375,28 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun findPrdNfe(numero: String): List<PrdCodigo> {
+    val sql = "/sqlSaci/findPrdNfe.sql"
+
+    return query(sql, PrdCodigo::class) {
+      if(numero.contains("/")) {
+        val nfno = numero.split("/").getOrNull(0) ?: ""
+        val nfse = numero.split("/").getOrNull(1) ?: ""
+        val invno = 0
+        addOptionalParameter("nfno", nfno)
+        addOptionalParameter("nfse", nfse)
+        addOptionalParameter("invno", invno)
+      } else {
+        val nfno = ""
+        val nfse = ""
+        val invno = numero.toIntOrNull() ?: 0
+        addOptionalParameter("nfno", nfno)
+        addOptionalParameter("nfse", nfse)
+        addOptionalParameter("invno", invno)
+      }
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
