@@ -16,7 +16,7 @@ object NetworkUtils {
     private fun pingCmd(hostname: String?): Boolean {
         val p1 = Runtime.getRuntime().exec("ping -c 1 $hostname")
         val output = StringBuilder()
-        val reader = BufferedReader(InputStreamReader(p1.getInputStream()))
+        val reader = BufferedReader(InputStreamReader(p1.inputStream))
         var line: String
         while (reader.readLine().also { line = it } != null) {
             output.append(line + "\n")

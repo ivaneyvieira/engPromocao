@@ -90,9 +90,7 @@ class PrecoPromocao(
 
         other as PrecoPromocao
 
-        if (codigo != other.codigo) return false
-
-        return true
+        return codigo == other.codigo
     }
 
     override fun hashCode(): Int {

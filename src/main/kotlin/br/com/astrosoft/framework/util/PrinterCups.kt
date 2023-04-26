@@ -5,6 +5,7 @@ import br.com.astrosoft.framework.util.PrinterType.REMOTE
 import org.cups4j.CupsClient
 import org.cups4j.CupsPrinter
 import org.cups4j.PrintJob
+import java.util.*
 
 open class PrinterCups(val host: String, val port: Int, val userName: String, val localHost: String) {
     val appPrinterNames =
@@ -27,12 +28,12 @@ open class PrinterCups(val host: String, val port: Int, val userName: String, va
             "NULA",
             "ressu4200",
             "RESSUPRIMENTO"
-        ).map { it.toUpperCase() }
+        ).map { it.uppercase(Locale.getDefault()) }
     private val cupsClient = CupsClient(host, port, userName)
     private val printers
         get() = cupsClient.printers.toList()
     private val printerRemote
-        get() = printers.filter { it.name.toUpperCase() in appPrinterNames }.map { cupsPrinter ->
+        get() = printers.filter { it.name.uppercase(Locale.getDefault()) in appPrinterNames }.map { cupsPrinter ->
             PrinterCupsInfo.newInstance(cupsPrinter, REMOTE)
         }
     private val printerLocal
