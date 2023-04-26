@@ -280,8 +280,8 @@ SELECT loja,
        saldoTM,
        localizacao
 FROM PARTE03
-WHERE (codigo LIKE @QUERY OR descricao LIKE @QUERYLIKE OR grade LIKE @QUERYLIKE OR nfEntrada LIKE @QUERYLIKE OR
-       DATE_FORMAT(dataEntrada, '%d/%m/%Y') LIKE @QUERYLIKE OR
+WHERE (codigo LIKE @QUERY OR localizacao LIKE @QUERY OR descricao LIKE @QUERYLIKE OR grade LIKE @QUERYLIKE OR
+       nfEntrada LIKE @QUERYLIKE OR DATE_FORMAT(dataEntrada, '%d/%m/%Y') LIKE @QUERYLIKE OR
        DATE_FORMAT(dataFabricacao, '%d/%m/%Y') LIKE @QUERYLIKE OR DATE_FORMAT(vencimento, '%d/%m/%Y') LIKE @QUERYLIKE)
   AND CASE :marca
           WHEN 'T' THEN TRUE
