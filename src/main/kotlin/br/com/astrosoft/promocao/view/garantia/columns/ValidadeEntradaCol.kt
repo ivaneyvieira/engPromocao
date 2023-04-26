@@ -57,7 +57,7 @@ object ValidadeEntradaCol {
   }
 
   fun Grid<ValidadeEntrada>.produtoFabricacao() =
-    addColumnLocalDate(ValidadeEntrada::dataFabricacao, formatPattern = "MM/yyyy") {
+    addColumnLocalDate(ValidadeEntrada::dataFabricacao, formatPattern = "MM/yy") {
       this.setHeader("Fab")
       isExpand = false
       isResizable = true
@@ -70,7 +70,7 @@ object ValidadeEntradaCol {
   }
 
   fun Grid<ValidadeEntrada>.produtoVencimento() =
-    addColumnLocalDate(ValidadeEntrada::vencimento, formatPattern = "MM/yyyy") {
+    addColumnLocalDate(ValidadeEntrada::vencimento, formatPattern = "MM/yy") {
       this.setHeader("Venc")
       isExpand = false
       isResizable = true
