@@ -14,6 +14,7 @@ import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produt
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoEstoque
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoFabricacao
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoGrade
+import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoLoc
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoLoja
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoMesesFab
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoMesesVenc
@@ -204,6 +205,7 @@ class TabControleValidade(val viewModel: TabControleValidadeViewModel) :
     produtoCodigo()
     produtoDescricao()
     produtoGrade()
+    produtoLoc()
     produtoEstoque()
     produtoVenda()
     produtoMesesVenc()

@@ -32,8 +32,14 @@ object ValidadeEntradaCol {
     isResizable = true
   }
 
+  fun Grid<ValidadeEntrada>.produtoLoc() = addColumnString(ValidadeEntrada::localizacao) {
+    this.setHeader("Loc")
+    isExpand = false
+    isResizable = true
+  }
+
   fun Grid<ValidadeEntrada>.produtValidade() = addColumnInt(ValidadeEntrada::validade) {
-    this.setHeader("Validade")
+    this.setHeader("Val")
     isExpand = false
     isResizable = true
   }
@@ -58,7 +64,7 @@ object ValidadeEntradaCol {
     }
 
   fun Grid<ValidadeEntrada>.produtoMesesFab() = addColumnInt(ValidadeEntrada::mesesFabricacao) {
-    this.setHeader("Meses Fab")
+    this.setHeader("M. Fab")
     isExpand = false
     isResizable = true
   }
@@ -71,7 +77,7 @@ object ValidadeEntradaCol {
     }
 
   fun Grid<ValidadeEntrada>.produtoMesesVenc() = addColumnInt(ValidadeEntrada::mesesVencimento) {
-    this.setHeader("Meses Venc")
+    this.setHeader("M. Venc.")
     isExpand = false
     isResizable = true
   }

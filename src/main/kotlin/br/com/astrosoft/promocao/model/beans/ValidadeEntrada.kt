@@ -32,7 +32,8 @@ class ValidadeEntrada(
   val saldoMF: Int?,
   val saldoPK: Int?,
   val saldoTM: Int?,
-  var totalVenda: Int? = null
+  var totalVenda: Int? = null,
+  val localizacao: String?,
 ) {
   companion object {
     fun findAll(filtro: FiltroValidadeEntrada): List<ValidadeEntrada> {

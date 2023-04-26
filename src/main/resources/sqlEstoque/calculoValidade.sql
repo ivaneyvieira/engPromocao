@@ -33,7 +33,8 @@ CREATE TEMPORARY TABLE T
            S.saldoMR,
            S.saldoMF,
            S.saldoPK,
-           S.saldoTM
+           S.saldoTM,
+           MID(I.localizacao, 1, 4)  AS localizacao
     FROM notas AS N
              INNER JOIN lojas L ON N.loja_id = L.id
              INNER JOIN itens_nota AS I ON N.id = I.nota_id
@@ -78,7 +79,8 @@ CREATE TEMPORARY TABLE T2
            saldoMR,
            saldoMF,
            saldoPK,
-           saldoTM
+           saldoTM,
+           localizacao
     FROM T
     ORDER BY codigo, grade, data_fabricacao DESC, data DESC, numero;
 
@@ -112,7 +114,8 @@ CREATE TEMPORARY TABLE T3
            saldoMR,
            saldoMF,
            saldoPK,
-           saldoTM
+           saldoTM,
+           localizacao
     FROM T2
     WHERE tipo != ''
     ORDER BY seq;
@@ -148,7 +151,8 @@ CREATE TEMPORARY TABLE PARTE01
            saldoMR,
            saldoMF,
            saldoPK,
-           saldoTM
+           saldoTM,
+           localizacao
     FROM T3
     WHERE (tipo = 'OK' OR tipo = 'N')
       AND (sobra > 0);
@@ -180,7 +184,8 @@ CREATE TEMPORARY TABLE PARTE02
            S.saldoMR,
            S.saldoMF,
            S.saldoPK,
-           S.saldoTM
+           S.saldoTM,
+           R.localizacao
     FROM saldos AS S
              LEFT JOIN PARTE01 AS R ON TRIM(S.prdno) * 1 = R.codigo AND S.grade = R.grade
     WHERE R.codigo IS NULL;
@@ -213,7 +218,8 @@ CREATE TEMPORARY TABLE PARTE03
            saldoMR,
            saldoMF,
            saldoPK,
-           saldoTM
+           saldoTM,
+           localizacao
     FROM PARTE01
     UNION
     SELECT 999999 AS seq,
@@ -242,7 +248,8 @@ CREATE TEMPORARY TABLE PARTE03
            saldoMR,
            saldoMF,
            saldoPK,
-           saldoTM
+           saldoTM,
+           localizacao
     FROM PARTE02;
 
 SELECT loja,
@@ -270,7 +277,8 @@ SELECT loja,
        saldoMR,
        saldoMF,
        saldoPK,
-       saldoTM
+       saldoTM,
+       localizacao
 FROM PARTE03
 WHERE (codigo LIKE @QUERY OR descricao LIKE @QUERYLIKE OR grade LIKE @QUERYLIKE OR nfEntrada LIKE @QUERYLIKE OR
        DATE_FORMAT(dataEntrada, '%d/%m/%Y') LIKE @QUERYLIKE OR
