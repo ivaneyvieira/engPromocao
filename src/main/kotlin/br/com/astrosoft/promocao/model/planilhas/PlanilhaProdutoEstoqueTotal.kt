@@ -7,23 +7,23 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.promocao.model.beans.Produtos
 
 class PlanilhaProdutoEstoqueTotal : PlanilhaProduto() {
-  override val campos: List<Campo<*, Produtos>>
-    get() = listOf(
-      CampoInt("Cód") { codigo },
-      CampoString("Descrição") { descricao },
-      CampoString("Grade") { grade },
-      CampoInt("Total") { estoque },
-      CampoInt("Forn") { forn },
-      CampoString("Abrev") { abrev },
-      CampoInt("Tipo") { tipo },
-      CampoInt("CL") { cl },
-      CampoString("Cód. Barras") { codBar },
-      CampoInt("DS TT") { DS_TT },
-      CampoInt("MR TT") { MR_TT },
-      CampoInt("MF TT") { MF_TT },
-      CampoInt("PK TT") { PK_TT },
-      CampoInt("TM TT") { TM_TT },
-      CampoString("Ult Compra") { ultCompra?.format() ?: "" },
-      CampoString("Ult Venda") { ultCompra?.format() ?: "" },
-    )
+    override val campos: List<Campo<*, Produtos>>
+        get() = listOf(
+            CampoInt("Cód") { codigo },
+            CampoString("Descrição") { descricao },
+            CampoString("Grade") { grade },
+            CampoInt("Total") { estoque },
+            CampoInt("Forn") { forn },
+            CampoString("Abrev") { abrev },
+            CampoInt("Tipo") { tipo },
+            CampoInt("CL") { cl },
+            CampoString("Cód. Barras") { codBar },
+            CampoInt("DS TT") { DS_TT },
+            CampoInt("MR TT") { MR_TT },
+            CampoInt("MF TT") { MF_TT },
+            CampoInt("PK TT") { PK_TT },
+            CampoInt("TM TT") { TM_TT },
+            CampoString("Ult Compra") { ultCompra?.format() ?: "" },
+            CampoString("Ult Venda") { ultCompra?.format() ?: "" },
+        )
 }

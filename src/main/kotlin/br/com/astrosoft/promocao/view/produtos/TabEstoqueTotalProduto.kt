@@ -32,53 +32,53 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
 
 class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
-  TabAbstractProduto<ITabEstoqueTotalViewModel>(viewModel, showDatas = false), ITabEstoqueTotalViewModel {
-  private lateinit var cmbEstoque: Select<EEstoqueTotal>
-  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoBase ?: false
+    TabAbstractProduto<ITabEstoqueTotalViewModel>(viewModel, showDatas = false), ITabEstoqueTotalViewModel {
+    private lateinit var cmbEstoque: Select<EEstoqueTotal>
+    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoBase ?: false
 
-  override val label: String
-    get() = "Estoque Total"
+    override val label: String
+        get() = "Estoque Total"
 
-  override fun planilha(): PlanilhaProduto {
-    return PlanilhaProdutoEstoqueTotal()
-  }
-
-  override fun HorizontalLayout.addAditionaisFields() {
-    cmbEstoque = select("Estoque Total") {
-      setItems(EEstoqueTotal.values().toList())
-      value = EEstoqueTotal.TODOS
-      this.setItemLabelGenerator {
-        it.descricao
-      }
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    override fun planilha(): PlanilhaProduto {
+        return PlanilhaProdutoEstoqueTotal()
     }
-  }
 
-  override fun Grid<Produtos>.colunasGrid() {
-    this.setSelectionMode(Grid.SelectionMode.MULTI)
-    addColumnSeq("Seq")
-    produto_codigo()
-    produto_descricao()
-    produto_grade()
-    produto_estoque()
-    produto_quantCompra()
-    produto_quantVenda()
-    produto_DS_TT()
-    produto_MR_TT()
-    produto_MF_TT()
-    produto_PK_TT()
-    produto_TM_TT()
-    produto_forn()
-    produto_abrev()
-    produto_tributacao()
-    produto_tipo()
-    produto_cl()
-    produto_codBar()
-  }
+    override fun HorizontalLayout.addAditionaisFields() {
+        cmbEstoque = select("Estoque Total") {
+            setItems(EEstoqueTotal.values().toList())
+            value = EEstoqueTotal.TODOS
+            this.setItemLabelGenerator {
+                it.descricao
+            }
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+    }
 
-  override fun estoqueTotal(): EEstoqueTotal {
-    return cmbEstoque.value ?: EEstoqueTotal.TODOS
-  }
+    override fun Grid<Produtos>.colunasGrid() {
+        this.setSelectionMode(Grid.SelectionMode.MULTI)
+        addColumnSeq("Seq")
+        produto_codigo()
+        produto_descricao()
+        produto_grade()
+        produto_estoque()
+        produto_quantCompra()
+        produto_quantVenda()
+        produto_DS_TT()
+        produto_MR_TT()
+        produto_MF_TT()
+        produto_PK_TT()
+        produto_TM_TT()
+        produto_forn()
+        produto_abrev()
+        produto_tributacao()
+        produto_tipo()
+        produto_cl()
+        produto_codBar()
+    }
+
+    override fun estoqueTotal(): EEstoqueTotal {
+        return cmbEstoque.value ?: EEstoqueTotal.TODOS
+    }
 }

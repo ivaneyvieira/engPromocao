@@ -38,126 +38,126 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class TabValidadeGarantia(val viewModel: TabValidadeGarantiaViewModel) :
-  TabPanelGrid<ComparaValidade>(ComparaValidade::class),
-  ITabValidadeGarantiaViewModel {
-  private lateinit var edtCl: IntegerField
-  private lateinit var edtType: IntegerField
-  private lateinit var edtTributacao: TextField
-  private lateinit var edtListVend: TextField
+    TabPanelGrid<ComparaValidade>(ComparaValidade::class),
+    ITabValidadeGarantiaViewModel {
+    private lateinit var edtCl: IntegerField
+    private lateinit var edtType: IntegerField
+    private lateinit var edtTributacao: TextField
+    private lateinit var edtListVend: TextField
 
-  private lateinit var edtQuery: TextField
-  private lateinit var cmbPontos: Select<EMarcaPonto>
+    private lateinit var edtQuery: TextField
+    private lateinit var cmbPontos: Select<EMarcaPonto>
 
-  override fun updateComponent() {
-    viewModel.updateView()
-  }
-
-  override fun listSelected(): List<ComparaValidade> {
-    return itensSelecionados()
-  }
-
-  override fun HorizontalLayout.toolBarConfig() {
-    edtQuery = textField("Filtro") {
-      this.valueChangeMode = ValueChangeMode.TIMEOUT
-      this.addValueChangeListener {
+    override fun updateComponent() {
         viewModel.updateView()
-      }
     }
 
-    cmbPontos = select("Caracteres Especiais") {
-      setItems(EMarcaPonto.values().toList())
-      value = EMarcaPonto.TODOS
-      this.setItemLabelGenerator {
-        it.descricao
-      }
-
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    override fun listSelected(): List<ComparaValidade> {
+        return itensSelecionados()
     }
 
-    edtListVend = textField("Fornecedores") {
-      this.valueChangeMode = ValueChangeMode.LAZY
-      this.width = "250px"
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    override fun HorizontalLayout.toolBarConfig() {
+        edtQuery = textField("Filtro") {
+            this.valueChangeMode = ValueChangeMode.TIMEOUT
+            this.addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        cmbPontos = select("Caracteres Especiais") {
+            setItems(EMarcaPonto.values().toList())
+            value = EMarcaPonto.TODOS
+            this.setItemLabelGenerator {
+                it.descricao
+            }
+
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        edtListVend = textField("Fornecedores") {
+            this.valueChangeMode = ValueChangeMode.LAZY
+            this.width = "250px"
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        edtTributacao = textField("Tributação") {
+            this.valueChangeMode = ValueChangeMode.LAZY
+            this.width = "80px"
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        edtType = integerField("Tipo") {
+            this.valueChangeMode = ValueChangeMode.LAZY
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        edtCl = integerField("Centro de Lucro") {
+            this.valueChangeMode = ValueChangeMode.LAZY
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        downloadExcel()
     }
 
-    edtTributacao = textField("Tributação") {
-      this.valueChangeMode = ValueChangeMode.LAZY
-      this.width = "80px"
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    private fun HasComponents.downloadExcel() {
+        val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
+            val planilha = PlanilhaValidade()
+            val list = itensSelecionados()
+            val bytes = planilha.grava(list)
+            ByteArrayInputStream(bytes)
+        })
+        button.addThemeVariants(ButtonVariant.LUMO_SMALL)
+        button.tooltip = "Salva a planilha"
+        add(button)
     }
 
-    edtType = integerField("Tipo") {
-      this.valueChangeMode = ValueChangeMode.LAZY
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    private fun filename(): String {
+        val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+        val textTime = LocalDateTime.now().format(sdf)
+        return "precificacao$textTime.xlsx"
     }
 
-    edtCl = integerField("Centro de Lucro") {
-      this.valueChangeMode = ValueChangeMode.LAZY
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaValidade ?: false
+    override val label: String
+        get() = "Validade"
+
+    override fun filtro() =
+        FiltroValidade(
+            tipo = ETipoDiferencaGarantia.TODOS,
+            query = edtQuery.value,
+            marca = cmbPontos.value,
+            listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
+            tributacao = edtTributacao.value ?: "",
+            typeno = edtType.value ?: 0,
+            clno = edtCl.value ?: 0,
+        )
+
+    override fun Grid<ComparaValidade>.gridPanel() {
+        this.setSelectionMode(Grid.SelectionMode.MULTI)
+        addColumnSeq("Seq")
+        garantiaCodigo()
+        garantiaDescicao()
+        garantiaGrade()
+        garantiaVendno()
+        garantiaTypeno()
+        garantiaClno()
+        garantiaLocalizacao()
+        garantiaEstoqueMF()
+        garantiaEstoque()
+        garantiaUltEnt()
+        garantiaUltQuant()
+        garantiaValidade()
     }
-
-    downloadExcel()
-  }
-
-  private fun HasComponents.downloadExcel() {
-    val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
-      val planilha = PlanilhaValidade()
-      val list = itensSelecionados()
-      val bytes = planilha.grava(list)
-      ByteArrayInputStream(bytes)
-    })
-    button.addThemeVariants(ButtonVariant.LUMO_SMALL)
-    button.tooltip = "Salva a planilha"
-    add(button)
-  }
-
-  private fun filename(): String {
-    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
-    val textTime = LocalDateTime.now().format(sdf)
-    return "precificacao$textTime.xlsx"
-  }
-
-  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaValidade ?: false
-  override val label: String
-    get() = "Validade"
-
-  override fun filtro() =
-    FiltroValidade(
-      tipo = ETipoDiferencaGarantia.TODOS,
-      query = edtQuery.value,
-      marca = cmbPontos.value,
-      listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
-      tributacao = edtTributacao.value ?: "",
-      typeno = edtType.value ?: 0,
-      clno = edtCl.value ?: 0,
-    )
-
-  override fun Grid<ComparaValidade>.gridPanel() {
-    this.setSelectionMode(Grid.SelectionMode.MULTI)
-    addColumnSeq("Seq")
-    garantiaCodigo()
-    garantiaDescicao()
-    garantiaGrade()
-    garantiaVendno()
-    garantiaTypeno()
-    garantiaClno()
-    garantiaLocalizacao()
-    garantiaEstoqueMF()
-    garantiaEstoque()
-    garantiaUltEnt()
-    garantiaUltQuant()
-    garantiaValidade()
-  }
 }
 
 

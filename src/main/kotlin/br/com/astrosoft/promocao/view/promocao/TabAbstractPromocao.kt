@@ -38,126 +38,126 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 abstract class TabAbstractPromocao<T : ITabAbstractPromocaoViewModel>(open val viewModel: TabAbstractPromocaoViewModel<T>) :
-  TabPanelGrid<PrecoPromocao>(PrecoPromocao::class), ITabAbstractPromocaoViewModel {
-  private lateinit var edtCodigo: IntegerField
-  private lateinit var edtVend: IntegerField
-  private lateinit var edtCl: IntegerField
-  private lateinit var edtType: IntegerField
-  private lateinit var cmbPontos: Select<EMarcaPonto>
+    TabPanelGrid<PrecoPromocao>(PrecoPromocao::class), ITabAbstractPromocaoViewModel {
+    private lateinit var edtCodigo: IntegerField
+    private lateinit var edtVend: IntegerField
+    private lateinit var edtCl: IntegerField
+    private lateinit var edtType: IntegerField
+    private lateinit var cmbPontos: Select<EMarcaPonto>
 
-  override fun updateComponent() {
-    viewModel.updateView()
-  }
-
-  override fun listSelected(): List<PrecoPromocao> {
-    return itensSelecionados()
-  }
-
-  override fun HorizontalLayout.toolBarConfig() {
-    edtCodigo = integerField("Código") {
-      this.valueChangeMode = TIMEOUT
-      addValueChangeListener {
+    override fun updateComponent() {
         viewModel.updateView()
-      }
     }
 
-    edtVend = integerField("Fornecedor") {
-      this.valueChangeMode = TIMEOUT
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    override fun listSelected(): List<PrecoPromocao> {
+        return itensSelecionados()
     }
 
-    edtCl = integerField("Centro de Lucro") {
-      this.valueChangeMode = TIMEOUT
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    override fun HorizontalLayout.toolBarConfig() {
+        edtCodigo = integerField("Código") {
+            this.valueChangeMode = TIMEOUT
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        edtVend = integerField("Fornecedor") {
+            this.valueChangeMode = TIMEOUT
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        edtCl = integerField("Centro de Lucro") {
+            this.valueChangeMode = TIMEOUT
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        edtType = integerField("Tipo de produto") {
+            this.valueChangeMode = TIMEOUT
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        cmbPontos = select("Caracteres Especiais") {
+            setItems(EMarcaPonto.values().toList())
+            value = EMarcaPonto.TODOS
+            this.setItemLabelGenerator {
+                it.descricao
+            }
+
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+        }
+
+        this.downloadExcel()
+
+        addAditionaisFields()
     }
 
-    edtType = integerField("Tipo de produto") {
-      this.valueChangeMode = TIMEOUT
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    private fun HasComponents.downloadExcel() {
+        val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
+            val planilha = PlanilhaPromocao()
+            val bytes = planilha.grava(listBeans())
+            ByteArrayInputStream(bytes)
+        })
+        button.addThemeVariants(ButtonVariant.LUMO_SMALL)
+        button.tooltip = "Salva a planilha"
+        add(button)
     }
 
-    cmbPontos = select("Caracteres Especiais") {
-      setItems(EMarcaPonto.values().toList())
-      value = EMarcaPonto.TODOS
-      this.setItemLabelGenerator {
-        it.descricao
-      }
-
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+    private fun filename(): String {
+        val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+        val textTime = LocalDateTime.now().format(sdf)
+        val filename = "promocao$textTime.xlsx"
+        return filename
     }
 
-    this.downloadExcel()
+    protected abstract fun HorizontalLayout.addAditionaisFields()
 
-    addAditionaisFields()
-  }
+    override fun filtro() = FiltroPrecoPromocao(
+        codigo = edtCodigo.value ?: 0,
+        vendno = edtVend.value ?: 0,
+        clno = edtCl.value ?: 0,
+        typeno = edtType.value ?: 0,
+        tipoLista = viewModel.tipoTab,
+        decimal99 = "N",
+        marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS
+    )
 
-  private fun HasComponents.downloadExcel() {
-    val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
-      val planilha = PlanilhaPromocao()
-      val bytes = planilha.grava(listBeans())
-      ByteArrayInputStream(bytes)
-    })
-    button.addThemeVariants(ButtonVariant.LUMO_SMALL)
-    button.tooltip = "Salva a planilha"
-    add(button)
-  }
+    override fun Grid<PrecoPromocao>.gridPanel() {
+        when (viewModel) {
+            is TabBasePromocaoViewModel -> setSelectionMode(SINGLE)
+            is TabPromocaoViewModel -> {
+                setSelectionMode(MULTI)
+                this.shiftSelect()
+            }
 
-  private fun filename(): String {
-    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
-    val textTime = LocalDateTime.now().format(sdf)
-    val filename = "promocao$textTime.xlsx"
-    return filename
-  }
+            is TabSemPromocaoViewModel -> {
+                setSelectionMode(MULTI)
+                this.shiftSelect()
+            }
 
-  protected abstract fun HorizontalLayout.addAditionaisFields()
+            else -> {
+                // Não faz nada
+            }
+        }
 
-  override fun filtro() = FiltroPrecoPromocao(
-    codigo = edtCodigo.value ?: 0,
-    vendno = edtVend.value ?: 0,
-    clno = edtCl.value ?: 0,
-    typeno = edtType.value ?: 0,
-    tipoLista = viewModel.tipoTab,
-    decimal99 = "N",
-    marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS
-  )
-
-  override fun Grid<PrecoPromocao>.gridPanel() {
-    when (viewModel) {
-      is TabBasePromocaoViewModel -> setSelectionMode(SINGLE)
-      is TabPromocaoViewModel -> {
-        setSelectionMode(MULTI)
-        this.shiftSelect()
-      }
-
-      is TabSemPromocaoViewModel -> {
-        setSelectionMode(MULTI)
-        this.shiftSelect()
-      }
-
-      else -> {
-        // Não faz nada
-      }
+        addColumnSeq("Item")
+        promocaoCodigo()
+        promocaoDescricao()
+        promocaoEstoque()
+        promocaoPrecoRef()
+        promocaoPrecoPromocional()
+        promocaoDesconto()
+        promocaoValidade()
+        promocaoVendno()
+        promocaoFornecedor()
+        promocaoTipoProduto()
+        promocaoCentroLucro()
     }
-
-    addColumnSeq("Item")
-    promocaoCodigo()
-    promocaoDescricao()
-    promocaoEstoque()
-    promocaoPrecoRef()
-    promocaoPrecoPromocional()
-    promocaoDesconto()
-    promocaoValidade()
-    promocaoVendno()
-    promocaoFornecedor()
-    promocaoTipoProduto()
-    promocaoCentroLucro()
-  }
 }

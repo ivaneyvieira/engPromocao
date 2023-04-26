@@ -6,7 +6,6 @@ import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.*
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoValidade
-import br.com.astrosoft.promocao.model.planilhas.PlanilhaValidade
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoClno
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoCodigo
 import br.com.astrosoft.promocao.view.garantia.columns.ProdutoValidadeCol.produtoDescricao
@@ -39,145 +38,145 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class TabInserirGarantia(val viewModel: TabInserirGarantiaViewModel) :
-  TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabInserirGarantiaViewModel {
-  private lateinit var edtTipoDiferenca: Select<ETipoDiferencaGarantiaSimples>
-  private lateinit var edtTipoValidade: Select<ETipoValidade>
-  private lateinit var edtFiltro: TextField
+    TabPanelGrid<ProdutoValidade>(ProdutoValidade::class), ITabInserirGarantiaViewModel {
+    private lateinit var edtTipoDiferenca: Select<ETipoDiferencaGarantiaSimples>
+    private lateinit var edtTipoValidade: Select<ETipoValidade>
+    private lateinit var edtFiltro: TextField
 
-  private lateinit var cmbTipoValidade: Select<ETipoValidade>
-  private lateinit var cmbRegistroValidade: Select<ERegistroValidade>
-  private lateinit var edtValidade: IntegerField
+    private lateinit var cmbTipoValidade: Select<ETipoValidade>
+    private lateinit var cmbRegistroValidade: Select<ERegistroValidade>
+    private lateinit var edtValidade: IntegerField
 
-  override fun updateComponent() {
-    viewModel.updateView()
-  }
-
-  override fun listSelected(): List<ProdutoValidade> {
-    return itensSelecionados()
-  }
-
-  override fun infoModifica(): InfoModifica {
-    return InfoModifica(
-      tipo = cmbTipoValidade.value,
-      validade = edtValidade.value ?: 0,
-      registro = cmbRegistroValidade.value
-    )
-  }
-
-  override fun HorizontalLayout.toolBarConfig() {
-    verticalLayout {
-      this.isSpacing = false
-      this.isMargin = false
-      horizontalLayout {
-        edtTipoDiferenca = select("Cad x Des") {
-          this.setItems(ETipoDiferencaGarantiaSimples.values().toList())
-          this.value = ETipoDiferencaGarantiaSimples.TODOS
-          this.width = "125px"
-          this.setItemLabelGenerator {
-            it.descricao
-          }
-
-          this.addValueChangeListener {
-            viewModel.updateView()
-          }
-        }
-
-        edtTipoValidade = select("Tempo") {
-          this.setItems(ETipoValidade.values().toList())
-          this.value = ETipoValidade.TODOS
-          this.width = "125px"
-          this.setItemLabelGenerator {
-            it.descricao
-          }
-
-          this.addValueChangeListener {
-            viewModel.updateView()
-          }
-        }
-
-        edtFiltro = textField("Filtro") {
-          this.valueChangeMode = ValueChangeMode.TIMEOUT
-          this.width = "500px"
-          this.addValueChangeListener {
-            viewModel.updateView()
-          }
-        }
-      }
-      horizontalLayout {
-        cmbTipoValidade = select("Tipo") {
-          this.setItems(ETipoValidade.values().toList())
-          this.value = ETipoValidade.MES
-          this.setItemLabelGenerator {
-            it.descricao
-          }
-        }
-        cmbRegistroValidade = select("Salva") {
-          this.setItems(ERegistroValidade.values().toList())
-          this.value = ERegistroValidade.CADASTRO
-          this.setItemLabelGenerator {
-            it.descricao
-          }
-        }
-        edtValidade = integerField("Validade") {
-          this.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT)
-        }
-        button("Modifica validade") {
-          icon = VaadinIcon.PLUS_CIRCLE.create()
-          onLeftClick {
-            showQuestion("Confirma o processamento?") {
-              viewModel.modificaValidade()
-            }
-          }
-        }
-        downloadExcel()
-      }
+    override fun updateComponent() {
+        viewModel.updateView()
     }
-  }
 
-  private fun HasComponents.downloadExcel() {
-    val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
-      val planilha = PlanilhaProdutoValidade()
-      val list = itensSelecionados()
-      val bytes = planilha.grava(list)
-      ByteArrayInputStream(bytes)
-    })
-    button.addThemeVariants(ButtonVariant.LUMO_SMALL)
-    button.tooltip = "Salva a planilha"
-    add(button)
-  }
+    override fun listSelected(): List<ProdutoValidade> {
+        return itensSelecionados()
+    }
 
-  private fun filename(): String {
-    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
-    val textTime = LocalDateTime.now().format(sdf)
-    return "precificacao$textTime.xlsx"
-  }
+    override fun infoModifica(): InfoModifica {
+        return InfoModifica(
+            tipo = cmbTipoValidade.value,
+            validade = edtValidade.value ?: 0,
+            registro = cmbRegistroValidade.value
+        )
+    }
 
-  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaInserir ?: false
-  override val label: String
-    get() = "Inserir"
+    override fun HorizontalLayout.toolBarConfig() {
+        verticalLayout {
+            this.isSpacing = false
+            this.isMargin = false
+            horizontalLayout {
+                edtTipoDiferenca = select("Cad x Des") {
+                    this.setItems(ETipoDiferencaGarantiaSimples.values().toList())
+                    this.value = ETipoDiferencaGarantiaSimples.TODOS
+                    this.width = "125px"
+                    this.setItemLabelGenerator {
+                        it.descricao
+                    }
 
-  override fun filtro() = FiltroGarantia(
-    tipoDiferenca = edtTipoDiferenca.value ?: ETipoDiferencaGarantiaSimples.TODOS,
-    tipoValidade = edtTipoValidade.value ?: ETipoValidade.TODOS,
-    filtro = edtFiltro.value ?: "",
-  )
+                    this.addValueChangeListener {
+                        viewModel.updateView()
+                    }
+                }
 
-  override fun Grid<ProdutoValidade>.gridPanel() {
-    this.setSelectionMode(Grid.SelectionMode.MULTI)
-    addColumnSeq("Seq")
-    produtoCodigo()
-    produtoDescricao()
-    produtoGrade()
-    produtoEstoque()
-    produtoDescricaoCompleta2()
-    produtoClno()
-    produtoVendno()
-    produtoFornecedor()
-    produtoTipoNo()
-    produtoTipoProduto()
-    produtoTipoValidade()
-    produtoMeseValidade()
-  }
+                edtTipoValidade = select("Tempo") {
+                    this.setItems(ETipoValidade.values().toList())
+                    this.value = ETipoValidade.TODOS
+                    this.width = "125px"
+                    this.setItemLabelGenerator {
+                        it.descricao
+                    }
+
+                    this.addValueChangeListener {
+                        viewModel.updateView()
+                    }
+                }
+
+                edtFiltro = textField("Filtro") {
+                    this.valueChangeMode = ValueChangeMode.TIMEOUT
+                    this.width = "500px"
+                    this.addValueChangeListener {
+                        viewModel.updateView()
+                    }
+                }
+            }
+            horizontalLayout {
+                cmbTipoValidade = select("Tipo") {
+                    this.setItems(ETipoValidade.values().toList())
+                    this.value = ETipoValidade.MES
+                    this.setItemLabelGenerator {
+                        it.descricao
+                    }
+                }
+                cmbRegistroValidade = select("Salva") {
+                    this.setItems(ERegistroValidade.values().toList())
+                    this.value = ERegistroValidade.CADASTRO
+                    this.setItemLabelGenerator {
+                        it.descricao
+                    }
+                }
+                edtValidade = integerField("Validade") {
+                    this.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT)
+                }
+                button("Modifica validade") {
+                    icon = VaadinIcon.PLUS_CIRCLE.create()
+                    onLeftClick {
+                        showQuestion("Confirma o processamento?") {
+                            viewModel.modificaValidade()
+                        }
+                    }
+                }
+                downloadExcel()
+            }
+        }
+    }
+
+    private fun HasComponents.downloadExcel() {
+        val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
+            val planilha = PlanilhaProdutoValidade()
+            val list = itensSelecionados()
+            val bytes = planilha.grava(list)
+            ByteArrayInputStream(bytes)
+        })
+        button.addThemeVariants(ButtonVariant.LUMO_SMALL)
+        button.tooltip = "Salva a planilha"
+        add(button)
+    }
+
+    private fun filename(): String {
+        val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+        val textTime = LocalDateTime.now().format(sdf)
+        return "precificacao$textTime.xlsx"
+    }
+
+    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaInserir ?: false
+    override val label: String
+        get() = "Inserir"
+
+    override fun filtro() = FiltroGarantia(
+        tipoDiferenca = edtTipoDiferenca.value ?: ETipoDiferencaGarantiaSimples.TODOS,
+        tipoValidade = edtTipoValidade.value ?: ETipoValidade.TODOS,
+        filtro = edtFiltro.value ?: "",
+    )
+
+    override fun Grid<ProdutoValidade>.gridPanel() {
+        this.setSelectionMode(Grid.SelectionMode.MULTI)
+        addColumnSeq("Seq")
+        produtoCodigo()
+        produtoDescricao()
+        produtoGrade()
+        produtoEstoque()
+        produtoDescricaoCompleta2()
+        produtoClno()
+        produtoVendno()
+        produtoFornecedor()
+        produtoTipoNo()
+        produtoTipoProduto()
+        produtoTipoValidade()
+        produtoMeseValidade()
+    }
 }
 
 

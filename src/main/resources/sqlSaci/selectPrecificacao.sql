@@ -67,7 +67,7 @@ WHERE P.storeno = 10
           WHEN 'T' THEN TRUE
           WHEN 'N' THEN MID(PD.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
           WHEN 'S' THEN MID(PD.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
-      END
+    END
 HAVING @QUERY = ''
     OR descricao LIKE @QUERYLIKE
     OR ncm LIKE @QUERYLIKE

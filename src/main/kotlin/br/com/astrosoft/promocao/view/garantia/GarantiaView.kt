@@ -14,19 +14,19 @@ import com.vaadin.flow.router.Route
 @PageTitle("Garantia")
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class GarantiaView : ViewLayout<GarantiaViewModel>(), IGarantiaView {
-  override val viewModel: GarantiaViewModel = GarantiaViewModel(this)
-  override val tabBaseGarantia = TabBaseGarantia(viewModel.tabBaseGarantia)
-  override val tabValidadeGarantia = TabValidadeGarantia(viewModel.tabValidadeGarantia)
-  override val tabControleValidade = TabControleValidade(viewModel.tabControleValidade)
-  override val tabInserirGarantia = TabInserirGarantia(viewModel.tabInserirGarantia)
+    override val viewModel: GarantiaViewModel = GarantiaViewModel(this)
+    override val tabBaseGarantia = TabBaseGarantia(viewModel.tabBaseGarantia)
+    override val tabValidadeGarantia = TabValidadeGarantia(viewModel.tabValidadeGarantia)
+    override val tabControleValidade = TabControleValidade(viewModel.tabControleValidade)
+    override val tabInserirGarantia = TabInserirGarantia(viewModel.tabInserirGarantia)
 
-  override fun isAccept(user: IUser): Boolean {
-    val userSaci = user as? UserSaci ?: return false
-    return userSaci.menuGarantia
-  }
+    override fun isAccept(user: IUser): Boolean {
+        val userSaci = user as? UserSaci ?: return false
+        return userSaci.menuGarantia
+    }
 
-  init {
-    addTabSheat(viewModel)
-  }
+    init {
+        addTabSheat(viewModel)
+    }
 }
 

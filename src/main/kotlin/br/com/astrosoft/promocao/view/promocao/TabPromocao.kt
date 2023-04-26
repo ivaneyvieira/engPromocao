@@ -14,38 +14,38 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import java.time.LocalDate
 
 class TabPromocao(override val viewModel: TabPromocaoViewModel) : TabAbstractPromocao<ITabPromocaoViewModel>(viewModel),
-  ITabPromocaoViewModel {
-  override val label: String
-    get() = "Promoção"
-  private lateinit var edtValidade: DatePicker
+    ITabPromocaoViewModel {
+    override val label: String
+        get() = "Promoção"
+    private lateinit var edtValidade: DatePicker
 
-  override fun validade(): LocalDate? = edtValidade.value
+    override fun validade(): LocalDate? = edtValidade.value
 
-  override fun HorizontalLayout.addAditionaisFields() {
-    edtValidade = datePicker("Validade") {
-      this.localePtBr()
-    }
-    button("Executa") {
-      this.icon = VaadinIcon.ROCKET.create()
-
-      onLeftClick {
-        viewModel.prorrogaValidade()
-      }
-    }
-
-    button("Mudar data") {
-      onLeftClick {
-        val itens = itensSelecionados()
-        if (itens.isEmpty()) {
-          showErro("Nenhum item selecionado")
-        } else {
-          val validade = itens.firstOrNull()?.validade
-          val dialog = DialogDatas(viewModel, validade)
-          dialog.open()
+    override fun HorizontalLayout.addAditionaisFields() {
+        edtValidade = datePicker("Validade") {
+            this.localePtBr()
         }
-      }
-    }
-  }
+        button("Executa") {
+            this.icon = VaadinIcon.ROCKET.create()
 
-  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.promocaoPromocao ?: false
+            onLeftClick {
+                viewModel.prorrogaValidade()
+            }
+        }
+
+        button("Mudar data") {
+            onLeftClick {
+                val itens = itensSelecionados()
+                if (itens.isEmpty()) {
+                    showErro("Nenhum item selecionado")
+                } else {
+                    val validade = itens.firstOrNull()?.validade
+                    val dialog = DialogDatas(viewModel, validade)
+                    dialog.open()
+                }
+            }
+        }
+    }
+
+    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.promocaoPromocao ?: false
 }
