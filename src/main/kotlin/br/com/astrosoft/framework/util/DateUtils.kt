@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.regex.Pattern
 
 private const val DATE_PATTERN = "dd/MM/yyyy"
 private const val DATETIME_PATTERN = "dd/MM/yyyy HH:mm"
@@ -100,6 +101,10 @@ fun Time?.format(): String {
 
 fun LocalDate?.format(): String {
     return this?.format(DATE_FORMATTER) ?: ""
+}
+
+fun LocalDate?.format(pattern: String): String {
+    return this?.format(DateTimeFormatter.ofPattern(pattern)) ?: ""
 }
 
 fun LocalTime?.format(): String {
