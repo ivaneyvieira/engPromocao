@@ -13,7 +13,7 @@ import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.lumo.Lumo
 
-@Theme(value = Lumo::class, variant = Lumo.DARK)
+@Theme(value = Lumo::class)
 @Push
 @JsModule("./styles/shared-styles.js")
 class PromocaoLayout : MainLayout() {
