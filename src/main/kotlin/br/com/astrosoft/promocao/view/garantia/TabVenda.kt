@@ -29,6 +29,7 @@ import br.com.astrosoft.promocao.viewmodel.garantia.TabVendaViewModel
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
@@ -172,6 +173,7 @@ class TabVenda(val viewModel: TabVendaViewModel) :
 
     override fun Grid<VendaEntrada>.gridPanel() {
         this.setSelectionMode(Grid.SelectionMode.MULTI)
+        this.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS)
         addColumnSeq("Seq")
         produtoLoja()
         produtoCodigo()

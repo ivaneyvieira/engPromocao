@@ -34,7 +34,9 @@ class VendaEntrada(
 ) {
     companion object {
         fun findAll(filtro: FiltroValidadeEntrada): List<VendaEntrada> {
-            val listVenda = saci.saldoData(filtro.diVenda, filtro.dfVenda)
+            val mapSaldo = saci.saldoData(filtro.diVenda, filtro.dfVenda).groupBy {
+                it.chaveNota()
+            }
 
             val listaValidade = estoque.consultaValidadeEntrada(filtro)
             val prdNota = PrdCodigo.findPrdNfe(filtro.nfe)
@@ -47,9 +49,7 @@ class VendaEntrada(
                     }
                 }
             }.map { venda ->
-                val mapVenda = listVenda.filter { saldo ->
-                    saldo.codigo == venda.codigo && saldo.grade == venda.grade && saldo.loja == venda.loja
-                }.groupBy { it.numMes }.mapValues { values ->
+                val mapVenda = mapSaldo[ChaveProcuto(venda.loja, venda.codigo,  venda.grade)].orEmpty().groupBy { it.numMes }.mapValues { values ->
                     values.value.sumOf { it.quant }
                 }
                 VendaEntrada(

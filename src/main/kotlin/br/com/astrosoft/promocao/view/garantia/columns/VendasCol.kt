@@ -51,7 +51,7 @@ object VendasCol {
     }
 
     fun Grid<VendaEntrada>.produtoVenda00() = addColumnInt(VendaEntrada::venda00) {
-        this.setHeader("M. Atual")
+        this.setHeader(headerMes(0))
         isExpand = false
         isResizable = true
     }
