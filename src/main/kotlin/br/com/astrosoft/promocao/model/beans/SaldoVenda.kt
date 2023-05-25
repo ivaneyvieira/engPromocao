@@ -4,7 +4,7 @@ import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 
-val mapDate = 0.until(12).associateBy { num -> LocalDate.now().withDayOfMonth(1).minusMonths(num.toLong()).format("MM/yyyy") }
+val mapDate = 0.until(13).associateBy { num -> LocalDate.now().withDayOfMonth(1).minusMonths(num.toLong()).format("MM/yyyy") }
 
 
 class SaldoVenda(
@@ -15,5 +15,5 @@ class SaldoVenda(
     val quant: Int,
 ){
 val numMes
-    get() = mapDate[date.withDayOfMonth(1).format("MM/yyyy")]
+    get() = mapDate[date.format("MM/yyyy")]
 }
