@@ -1,4 +1,5 @@
 #### Backup da precificação
-create table sqldados.prpbak03
-select * from sqldados.prp
-where storeno = 10;
+CREATE TABLE sqldados.prpbak03
+SELECT *
+FROM sqldados.prp
+WHERE storeno = 10;

@@ -5,20 +5,20 @@ import br.com.astrosoft.promocao.model.beans.FiltroProduto
 import br.com.astrosoft.promocao.model.beans.Produtos
 
 sealed class TabAbstractProdutoViewModel<T : ITabAbstractProdutoViewModel>(val viewModel: ProdutoViewModel) {
-  abstract val subView: T
+    abstract val subView: T
 
-  fun updateView() {
-    val filtro = subView.filtro()
-    val resultList = findPrecoAlteracao(filtro)
-    subView.updateGrid(resultList)
-  }
+    fun updateView() {
+        val filtro = subView.filtro()
+        val resultList = findPrecoAlteracao(filtro)
+        subView.updateGrid(resultList)
+    }
 
-  abstract fun findPrecoAlteracao(filtro: FiltroProduto): List<Produtos>
+    abstract fun findPrecoAlteracao(filtro: FiltroProduto): List<Produtos>
 
-  abstract fun todoEstoque(): Boolean
+    abstract fun todoEstoque(): Boolean
 }
 
 interface ITabAbstractProdutoViewModel : ITabView {
-  fun filtro(): FiltroProduto
-  fun updateGrid(itens: List<Produtos>)
+    fun filtro(): FiltroProduto
+    fun updateGrid(itens: List<Produtos>)
 }

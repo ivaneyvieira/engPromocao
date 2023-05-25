@@ -31,44 +31,44 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabCadastroProduto(viewModel: TabCadastroProdutoViewModel) :
-  TabAbstractProduto<ITabCadastroProdutoViewModel>(viewModel, showDatas = false), ITabCadastroProdutoViewModel {
-  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoCadastro ?: false
+    TabAbstractProduto<ITabCadastroProdutoViewModel>(viewModel, showDatas = false), ITabCadastroProdutoViewModel {
+    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoCadastro ?: false
 
-  override val label: String
-    get() = "Cadastro"
+    override val label: String
+        get() = "Cadastro"
 
-  override fun planilha(): PlanilhaProduto {
-    return PlanilhaProdutoCadastro()
-  }
+    override fun planilha(): PlanilhaProduto {
+        return PlanilhaProdutoCadastro()
+    }
 
-  override fun HorizontalLayout.addAditionaisFields() {
-  }
+    override fun HorizontalLayout.addAditionaisFields() {
+    }
 
-  override fun estoqueTotal(): EEstoqueTotal {
-    return EEstoqueTotal.TODOS
-  }
+    override fun estoqueTotal(): EEstoqueTotal {
+        return EEstoqueTotal.TODOS
+    }
 
-  override fun Grid<Produtos>.colunasGrid() {
-    this.setSelectionMode(Grid.SelectionMode.MULTI)
-    addColumnSeq("Seq")
-    produto_codigo()
-    produto_descricao()
-    produto_grade()
-    produto_Unidade()
-    produto_FLinha()
-    produto_Trib()
-    produto_forn()
-    produto_abrev()
-    produto_tipo()
-    produto_cl()
-    produto_codBar()
+    override fun Grid<Produtos>.colunasGrid() {
+        this.setSelectionMode(Grid.SelectionMode.MULTI)
+        addColumnSeq("Seq")
+        produto_codigo()
+        produto_descricao()
+        produto_grade()
+        produto_Unidade()
+        produto_FLinha()
+        produto_Trib()
+        produto_forn()
+        produto_abrev()
+        produto_tipo()
+        produto_cl()
+        produto_codBar()
 
-    produto_RefForn()
-    produto_PesoBruto()
-    produto_UGar()
-    produto_TGar()
-    produto_Emb()
-    produto_Ncm()
-    produto_Site()
-  }
+        produto_RefForn()
+        produto_PesoBruto()
+        produto_UGar()
+        produto_TGar()
+        produto_Emb()
+        produto_Ncm()
+        produto_Site()
+    }
 }

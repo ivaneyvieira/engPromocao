@@ -21,37 +21,37 @@ import com.vaadin.flow.theme.lumo.Lumo
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 class LoginView : KComposite(), BeforeEnterObserver {
 
-  override fun beforeEnter(event: BeforeEnterEvent) {
-    if (SecurityUtils.isUserLoggedIn) {
-      navigateTo(Config.mainClass)
-    }
-  }
-
-  private lateinit var loginForm: LoginForm
-  private val root = ui {
-    verticalLayout {
-      setSizeFull(); isPadding = false
-      content { center() }
-
-      val loginI18n = loginI18n()
-      loginForm = loginForm(loginI18n) {
-        addLoginListener { e ->
-          if (!SecurityUtils.login(e.username, e.password)) {
-            isError = true
-          } else navigateTo(Config.mainClass)
+    override fun beforeEnter(event: BeforeEnterEvent) {
+        if (SecurityUtils.isUserLoggedIn) {
+            navigateTo(Config.mainClass)
         }
-      }
     }
-  }
 
-  private fun loginI18n() = LoginI18n.createDefault().apply {
-    this.form.username = "Usuário"
-    this.form.title = Config.title
-    this.form.submit = "Entrar"
-    this.form.password = "Senha"
-    this.form.forgotPassword = ""
-    this.errorMessage.title = "Usuário/senha inválidos"
-    this.errorMessage.message = "Confira seu usuário e senha e tente novamente."
-    this.additionalInformation = "Versão ${Config.version}"
-  }
+    private lateinit var loginForm: LoginForm
+    private val root = ui {
+        verticalLayout {
+            setSizeFull(); isPadding = false
+            content { center() }
+
+            val loginI18n = loginI18n()
+            loginForm = loginForm(loginI18n) {
+                addLoginListener { e ->
+                    if (!SecurityUtils.login(e.username, e.password)) {
+                        isError = true
+                    } else navigateTo(Config.mainClass)
+                }
+            }
+        }
+    }
+
+    private fun loginI18n() = LoginI18n.createDefault().apply {
+        this.form.username = "Usuário"
+        this.form.title = Config.title
+        this.form.submit = "Entrar"
+        this.form.password = "Senha"
+        this.form.forgotPassword = ""
+        this.errorMessage.title = "Usuário/senha inválidos"
+        this.errorMessage.message = "Confira seu usuário e senha e tente novamente."
+        this.additionalInformation = "Versão ${Config.version}"
+    }
 }

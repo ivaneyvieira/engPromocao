@@ -9,18 +9,17 @@ DO @VENDNO := :vendno;
 DO @TYPENO := :typeno;
 DO @CLNO := LPAD(:clno, 6, '0');
 DO @CLNF := CASE
-	      WHEN @CLNO LIKE '%0000'
-		THEN CONCAT(MID(@CLNO, 1, 2), '9999')
-	      WHEN @CLNO LIKE '%00'
-		THEN CONCAT(MID(@CLNO, 1, 4), '99')
-	      ELSE @CLNO
-	    END;
+                WHEN @CLNO LIKE '%0000' THEN CONCAT(MID(@CLNO, 1, 2), '9999')
+                WHEN @CLNO LIKE '%00' THEN CONCAT(MID(@CLNO, 1, 4), '99')
+                ELSE @CLNO
+    END;
 DO @DATAI := :dataInicial;
 DO @DATAF := :dataFinal;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
-CREATE TEMPORARY TABLE T_PRD (
-  PRIMARY KEY (prdno)
+CREATE TEMPORARY TABLE T_PRD
+(
+    PRIMARY KEY (prdno)
 )
 SELECT P.no                     AS prdno,
        TRIM(MID(P.name, 1, 37)) AS descricao,
@@ -32,13 +31,10 @@ SELECT P.no                     AS prdno,
        P.typeno                 AS typeno,
        T.name                   AS tipo,
        ROUND(sp / 100, 2)       AS preco
-FROM sqldados.prd          AS P
-  INNER JOIN sqldados.cl   AS C
-	       ON P.clno = C.no
-  INNER JOIN sqldados.type AS T
-	       ON P.typeno = T.no
-  INNER JOIN sqldados.vend AS V
-	       ON P.mfno = V.no
+FROM sqldados.prd AS P
+         INNER JOIN sqldados.cl AS C ON P.clno = C.no
+         INNER JOIN sqldados.type AS T ON P.typeno = T.no
+         INNER JOIN sqldados.vend AS V ON P.mfno = V.no
 WHERE (P.clno BETWEEN @CLNO AND @CLNF OR @CLNO = 0)
   AND (P.mfno = @VENDNO OR @VENDNO = 0)
   AND (P.typeno = @TYPENO OR @TYPENO = 0)
@@ -49,8 +45,9 @@ DO @DATAF := :dataFinal;
 
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
-CREATE TEMPORARY TABLE T_PRD (
-  PRIMARY KEY (prdno)
+CREATE TEMPORARY TABLE T_PRD
+(
+    PRIMARY KEY (prdno)
 )
 SELECT P.no                     AS prdno,
        TRIM(MID(P.name, 1, 37)) AS descricao,
@@ -62,13 +59,10 @@ SELECT P.no                     AS prdno,
        P.typeno                 AS typeno,
        T.name                   AS tipo,
        ROUND(sp / 100, 2)       AS preco
-FROM sqldados.prd          AS P
-  INNER JOIN sqldados.cl   AS C
-	       ON P.clno = C.no
-  INNER JOIN sqldados.type AS T
-	       ON P.typeno = T.no
-  INNER JOIN sqldados.vend AS V
-	       ON P.mfno = V.no
+FROM sqldados.prd AS P
+         INNER JOIN sqldados.cl AS C ON P.clno = C.no
+         INNER JOIN sqldados.type AS T ON P.typeno = T.no
+         INNER JOIN sqldados.vend AS V ON P.mfno = V.no
 WHERE (P.clno BETWEEN @CLNO AND @CLNF OR @CLNO = 0)
   AND (P.mfno = @VENDNO OR @VENDNO = 0)
   AND (P.typeno = @TYPENO OR @TYPENO = 0)
@@ -80,9 +74,7 @@ DO @DI := CAST(SUBDATE(20220301, 365 * 1) * 1 AS UNSIGNED);
 
 DROP TEMPORARY TABLE IF EXISTS T_HIS_TEMP;
 CREATE TEMPORARY TABLE T_HIS_TEMP
-SELECT storeno,
-       prdno,
-       MAX(CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)) AS datetime
+SELECT storeno, prdno, MAX(CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)) AS datetime
 FROM sqldados.prphis AS H
 WHERE storeno = 10
   AND date >= @DI
@@ -90,30 +82,24 @@ WHERE storeno = 10
 GROUP BY storeno, prdno;
 
 DROP TEMPORARY TABLE IF EXISTS T_HIS;
-CREATE TEMPORARY TABLE T_HIS (
-  PRIMARY KEY (storeno, prdno, date, time),
-  date INT(10),
-  time INT(10)
+CREATE TEMPORARY TABLE T_HIS
+(
+    PRIMARY KEY (storeno, prdno, date, time),
+    date INT(10),
+    time INT(10)
 )
-SELECT storeno,
-       prdno,
-       MID(datetime, 1, 10) * 1  AS date,
-       MID(datetime, 11, 10) * 1 AS time
+SELECT storeno, prdno, MID(datetime, 1, 10) * 1 AS date, MID(datetime, 11, 10) * 1 AS time
 FROM T_HIS_TEMP;
 
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD_HIS;
-CREATE TEMPORARY TABLE T_PRD_HIS (
-  PRIMARY KEY (prdno)
+CREATE TEMPORARY TABLE T_PRD_HIS
+(
+    PRIMARY KEY (prdno)
 )
-SELECT prdno,
-       date,
-       refprice         AS refpriceAnt,
-       H.promo_validate AS promo_validateAnt,
-       H.promo_price    AS promo_priceAnt
+SELECT prdno, date, refprice AS refpriceAnt, H.promo_validate AS promo_validateAnt, H.promo_price AS promo_priceAnt
 FROM sqldados.prphis AS H
-  INNER JOIN T_HIS
-	       USING (storeno, prdno, date, time)
+         INNER JOIN T_HIS USING (storeno, prdno, date, time)
 GROUP BY prdno;
 
 DO @CHAVE := '';
@@ -122,55 +108,49 @@ DO @PRECO := '';
 DO @NUMERO := 0;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRECO_HIS;
-CREATE TEMPORARY TABLE T_PRECO_HIS (
-  PRIMARY KEY (storeno, prdno, datetime),
-  datetime VARCHAR(20)
+CREATE TEMPORARY TABLE T_PRECO_HIS
+(
+    PRIMARY KEY (storeno, prdno, datetime),
+    datetime VARCHAR(20)
 )
 SELECT H.storeno,
-       @CHAVE                                                                                    AS chaveAnt,
-       @COD := H.prdno                                                                           AS prdno,
-       @PRECO :=
-	 IF(H.promo_validate >= H.date, H.promo_price, refprice)                                 AS precoSaci,
-       @VALIDADE :=
-	 IF(H.promo_validate = 0, NULL, H.promo_validate)                                        AS promo_validate,
-       @NUMERO := @NUMERO + IF(@CHAVE = CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR), 0,
-			       1)                                                                AS numero,
-       @CHAVE :=
-	 CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR)                                AS chave,
-       @PRECO / 100                                                                              AS promo_price,
+       @CHAVE                                                                                           AS chaveAnt,
+       @COD := H.prdno                                                                                  AS prdno,
+       @PRECO := IF(H.promo_validate >= H.date, H.promo_price, refprice)                                AS precoSaci,
+       @VALIDADE := IF(H.promo_validate = 0, NULL, H.promo_validate)                                    AS promo_validate,
+       @NUMERO := @NUMERO + IF(@CHAVE = CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR), 0, 1) AS numero,
+       @CHAVE := CAST(CONCAT(@PRECO, @COD, IFNULL(@VALIDADE, 0)) AS CHAR)                               AS chave,
+       @PRECO / 100                                                                                     AS promo_price,
        IF(P.promo_validateAnt >= P.date, P.promo_priceAnt, P.refpriceAnt) /
-       100                                                                                       AS promo_priceAnt,
-       refprice / 100                                                                            AS refprice,
-       P.refpriceAnt / 100                                                                       AS refpriceAnt,
-       CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)                        AS datetime,
+       100                                                                                              AS promo_priceAnt,
+       refprice / 100                                                                                   AS refprice,
+       P.refpriceAnt / 100                                                                              AS refpriceAnt,
+       CAST(CONCAT(LPAD(H.date, 10, '0'), LPAD(H.time, 10, '0')) AS CHAR)                               AS datetime,
        H.userno,
        H.date,
        H.time
-FROM sqldados.prphis   AS H
-  INNER JOIN T_PRD
-	       USING (prdno)
-  LEFT JOIN  T_PRD_HIS AS P
-	       USING (prdno)
+FROM sqldados.prphis AS H
+         INNER JOIN T_PRD USING (prdno)
+         LEFT JOIN T_PRD_HIS AS P USING (prdno)
 WHERE H.date BETWEEN @DATAI AND @DATAF
   AND H.storeno = 10
   AND (H.promo_price != P.promo_priceAnt OR H.promo_validate != P.promo_validateAnt)
 ORDER BY H.storeno, H.prdno, H.date, H.time;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRECO_HIS_MAX;
-CREATE TEMPORARY TABLE T_PRECO_HIS_MAX (
-  PRIMARY KEY (storeno, prdno, date, time)
+CREATE TEMPORARY TABLE T_PRECO_HIS_MAX
+(
+    PRIMARY KEY (storeno, prdno, date, time)
 )
-SELECT H.storeno,
-       H.prdno,
-       H.date,
-       MAX(H.time) AS time
+SELECT H.storeno, H.prdno, H.date, MAX(H.time) AS time
 FROM T_PRECO_HIS AS H
 GROUP BY H.storeno, H.prdno, H.date;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRECO_HIS02;
-CREATE TEMPORARY TABLE T_PRECO_HIS02 (
-  PRIMARY KEY (storeno, prdno, datetime),
-  datetime VARCHAR(20)
+CREATE TEMPORARY TABLE T_PRECO_HIS02
+(
+    PRIMARY KEY (storeno, prdno, datetime),
+    datetime VARCHAR(20)
 )
 SELECT storeno,
        chaveAnt,
@@ -188,8 +168,7 @@ SELECT storeno,
        date,
        time
 FROM T_PRECO_HIS AS H
-  INNER JOIN T_PRECO_HIS_MAX
-	       USING (storeno, prdno, date, time)
+         INNER JOIN T_PRECO_HIS_MAX USING (storeno, prdno, date, time)
 WHERE IFNULL(H.promo_validate, 0) >= @HOJE;
 
 SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
@@ -212,9 +191,7 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')                            AS codigo,
        P.tipo                                                 AS tipoProduto,
        P.refFornecedor                                        AS refFornecedor,
        promo_price                                            AS precoEtiqueta
-FROM T_PRD                  AS P
-  INNER JOIN T_PRECO_HIS02  AS V
-	       USING (prdno)
-  INNER JOIN sqldados.users AS U
-	       ON U.no = userno
+FROM T_PRD AS P
+         INNER JOIN T_PRECO_HIS02 AS V USING (prdno)
+         INNER JOIN sqldados.users AS U ON U.no = userno
 GROUP BY numero

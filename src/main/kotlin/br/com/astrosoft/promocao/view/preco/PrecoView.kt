@@ -14,18 +14,18 @@ import com.vaadin.flow.router.Route
 @PageTitle("Preco")
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class PrecoView : ViewLayout<PrecoViewModel>(), IPrecoView {
-  override val viewModel: PrecoViewModel = PrecoViewModel(this)
-  override val tabBaseViewModel = TabBasePreco(viewModel.tabBaseViewModel)
-  override val tabPrecoViewModel = TabPrecoPreco(viewModel.tabPrecoViewModel)
-  override val tabPromocaoViewModel = TabPromocaoPreco(viewModel.tabPromocaoViewModel)
+    override val viewModel: PrecoViewModel = PrecoViewModel(this)
+    override val tabBaseViewModel = TabBasePreco(viewModel.tabBaseViewModel)
+    override val tabPrecoViewModel = TabPrecoPreco(viewModel.tabPrecoViewModel)
+    override val tabPromocaoViewModel = TabPromocaoPreco(viewModel.tabPromocaoViewModel)
 
-  override fun isAccept(user: IUser): Boolean {
-    val userSaci = user as? UserSaci ?: return false
-    return userSaci.menuPreco
-  }
+    override fun isAccept(user: IUser): Boolean {
+        val userSaci = user as? UserSaci ?: return false
+        return userSaci.menuPreco
+    }
 
-  init {
-    addTabSheat(viewModel)
-  }
+    init {
+        addTabSheat(viewModel)
+    }
 }
 

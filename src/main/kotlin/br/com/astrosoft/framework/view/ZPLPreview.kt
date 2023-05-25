@@ -15,40 +15,40 @@ import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 object ZPLPreview {
-  fun createPdf(zpl: String, size: String): ByteArray? {
-    val url = "http://api.labelary.com/v1/printers/8dpmm/labels/$size/"
-    val client: OkHttpClient = OkHttpClient.Builder().build()
-    val body = zpl.toRequestBody()
-    val request: Request = Request.Builder().addHeader("Accept", "application/pdf").url(url).post(body).build()
-    val response: Response = client.newCall(request).execute()
+    fun createPdf(zpl: String, size: String): ByteArray? {
+        val url = "http://api.labelary.com/v1/printers/8dpmm/labels/$size/"
+        val client: OkHttpClient = OkHttpClient.Builder().build()
+        val body = zpl.toRequestBody()
+        val request: Request = Request.Builder().addHeader("Accept", "application/pdf").url(url).post(body).build()
+        val response: Response = client.newCall(request).execute()
 
-    return if (response.isSuccessful) response.body?.bytes() else null
-  }
+        return if (response.isSuccessful) response.body?.bytes() else null
+    }
 
-  fun showZPLPreview(impressora: String, zplPreview: String, printRunnable: () -> Unit) {
-    val image = createPdf(zplPreview, "4x1")
-    if (image != null) showImage(impressora, image, printRunnable)
-  }
+    fun showZPLPreview(impressora: String, zplPreview: String, printRunnable: () -> Unit) {
+        val image = createPdf(zplPreview, "4x1")
+        if (image != null) showImage(impressora, image, printRunnable)
+    }
 
-  fun showImage(impressora: String, image: ByteArray, printRunnable: () -> Unit) {
-    val filename = "etiqueta${System.currentTimeMillis()}.pdf"
-    val resource = StreamResource(filename, InputStreamFactoryImage(image))
-    val registration = VaadinSession.getCurrent().resourceRegistry.registerResource(resource)
+    fun showImage(impressora: String, image: ByteArray, printRunnable: () -> Unit) {
+        val filename = "etiqueta${System.currentTimeMillis()}.pdf"
+        val resource = StreamResource(filename, InputStreamFactoryImage(image))
+        val registration = VaadinSession.getCurrent().resourceRegistry.registerResource(resource)
 
-    val embedded = IFrame(registration.resourceUri.toString())
-    embedded.setSizeFull()
-    ConfirmDialog
-      .create()
-      .withMessage(embedded)
-      .withCaption("Impressão ($impressora)")
-      .withNoButton(printRunnable, ButtonOption.caption("Imprimir"), ButtonOption.icon(VaadinIcon.PRINT))
-      .withCancelButton(ButtonOption.caption("Cancelar"))
-      .open()
-  }
+        val embedded = IFrame(registration.resourceUri.toString())
+        embedded.setSizeFull()
+        ConfirmDialog
+            .create()
+            .withMessage(embedded)
+            .withCaption("Impressão ($impressora)")
+            .withNoButton(printRunnable, ButtonOption.caption("Imprimir"), ButtonOption.icon(VaadinIcon.PRINT))
+            .withCancelButton(ButtonOption.caption("Cancelar"))
+            .open()
+    }
 }
 
 class InputStreamFactoryImage(val image: ByteArray) : InputStreamFactory {
-  override fun createInputStream(): InputStream {
-    return ByteArrayInputStream(image)
-  }
+    override fun createInputStream(): InputStream {
+        return ByteArrayInputStream(image)
+    }
 }
