@@ -48,7 +48,7 @@ class VendaEntrada(
                 }
             }.map { venda ->
                 val mapVenda = listVenda.filter { saldo ->
-                    saldo.codigo == venda.codigo && saldo.grade == venda.grade
+                    saldo.codigo == venda.codigo && saldo.grade == venda.grade && saldo.loja == venda.loja
                 }.groupBy { it.numMes }.mapValues { values ->
                     values.value.sumOf { it.quant }
                 }

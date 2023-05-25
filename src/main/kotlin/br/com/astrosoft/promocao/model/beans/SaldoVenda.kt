@@ -15,5 +15,5 @@ class SaldoVenda(
     val quant: Int,
 ){
 val numMes
-    get() = mapDate[date.format("MM/yyyy")]
+    get() = mapDate[date.format("MM/yyyy")] ?: -1
 }
