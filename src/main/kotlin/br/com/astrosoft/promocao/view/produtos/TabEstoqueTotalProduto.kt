@@ -12,6 +12,7 @@ import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_M
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MR_TT
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_PK_TT
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_TM_TT
+import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Unidade
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_abrev
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_cl
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_codBar
@@ -62,6 +63,7 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
         produto_codigo()
         produto_descricao()
         produto_grade()
+        produto_Unidade()
         produto_estoque()
         produto_quantCompra()
         produto_quantVenda()
