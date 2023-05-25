@@ -10,14 +10,15 @@ DO @DIVENDA := :diVenda;
 DO @DFVENDA := IF(:dfVenda = 0, 99999999, :dfVenda);
 DO @DICOMPRA := :diCompra;
 DO @DFCOMPRA := IF(:dfCompra = 0, 99999999, :dfCompra);
+DO @GRADE := :temGrade;
 
 DROP TABLE IF EXISTS T_STK;
 CREATE TEMPORARY TABLE T_STK
 (
-    PRIMARY KEY (prdno, grade)
+    PRIMARY KEY (prdno, gradeOpt)
 )
 SELECT prdno,
-       grade,
+       if(@GRADE = 'S', grade, '')                                     as gradeOpt,
        SUM(IF(storeno = 1, qtty_varejo / 1000, 0.00))                  AS JS_VA,
        SUM(IF(storeno = 1, qtty_atacado / 1000, 0.00))                 AS JS_AT,
        SUM(IF(storeno = 1, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS JS_TT,
@@ -44,7 +45,7 @@ SELECT prdno,
        SUM(qtty_varejo + qtty_atacado) / 1000                          AS estoque
 FROM sqldados.stk AS S
 WHERE S.storeno IN (1, 2, 3, 4, 5, 6)
-GROUP BY prdno, grade;
+GROUP BY prdno, gradeOpt;
 
 DROP TABLE IF EXISTS T_RESULT;
 CREATE TEMPORARY TABLE T_RESULT
@@ -54,7 +55,7 @@ CREATE TEMPORARY TABLE T_RESULT
 SELECT P.no                                                             AS prdno,
        TRIM(P.no) * 1                                                   AS codigo,
        TRIM(MID(P.name, 1, 37))                                         AS descricao,
-       IFNULL(S.grade, '')                                              AS grade,
+       IFNULL(S.gradeOpt, '')                                           AS grade,
        CAST(P.mfno AS CHAR ASCII)                                       AS fornStr,
        P.mfno                                                           AS forn,
        P.taxno                                                          AS tributacao,
@@ -104,7 +105,7 @@ FROM sqldados.prd AS P
          INNER JOIN T_STK AS S ON S.prdno = P.no
          LEFT JOIN sqldados.prd2 AS P2 ON P.no = P2.prdno
          LEFT JOIN sqldados.vend AS V ON V.no = P.mfno
-         LEFT JOIN sqldados.prdbar AS B ON S.prdno = B.prdno AND S.grade = B.grade
+         LEFT JOIN sqldados.prdbar AS B ON S.prdno = B.prdno AND S.gradeOpt = B.grade
          LEFT JOIN sqldados.spedprd AS N ON N.prdno = P.no
 WHERE (P.no = @PRDNO OR @CODIGO = 0)
   AND (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
@@ -131,7 +132,7 @@ WHERE (P.no = @PRDNO OR @CODIGO = 0)
           WHEN '=' THEN ROUND(estoque) = 0
           ELSE FALSE
     END
-GROUP BY P.no, S.grade;
+GROUP BY P.no, IFNULL(S.gradeOpt, '');
 
 DROP TABLE IF EXISTS T_PRDVENDA;
 CREATE TEMPORARY TABLE T_PRDVENDA

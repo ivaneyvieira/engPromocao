@@ -11,6 +11,7 @@ import com.github.mvysny.kaributools.header2
 import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
+import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -42,6 +43,8 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
     private lateinit var edtDfVenda: DatePicker
     private lateinit var edtDiCompra: DatePicker
     private lateinit var edtDfCompra: DatePicker
+
+    private lateinit var chkGrade: Checkbox
 
     override fun updateComponent() {
         viewModel.updateView()
@@ -101,6 +104,13 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
                         it.descricao
                     }
                     addValueChangeListener {
+                        viewModel.updateView()
+                    }
+                }
+
+                chkGrade = checkBox("Grade") {
+                    this.value = true
+                    this.addValueChangeListener {
                         viewModel.updateView()
                     }
                 }
@@ -172,6 +182,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
         dfVenda = edtDfVenda.value,
         diCompra = edtDiCompra.value,
         dfCompra = edtDfCompra.value,
+        grade = chkGrade.value,
     )
 
     abstract fun estoqueTotal(): EEstoqueTotal
