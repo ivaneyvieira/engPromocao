@@ -8,6 +8,7 @@ import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoEstoqueTotal
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_DS_TT
+import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Localizacao
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MF_TT
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MR_TT
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_PK_TT
@@ -64,6 +65,7 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
         produto_descricao()
         produto_grade()
         produto_Unidade()
+        produto_Localizacao()
         produto_estoque()
         produto_quantCompra()
         produto_quantVenda()

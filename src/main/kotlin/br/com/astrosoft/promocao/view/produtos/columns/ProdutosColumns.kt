@@ -199,6 +199,11 @@ object ProdutosColumns {
         this.config()
     }
 
+    fun Grid<Produtos>.produto_Localizacao() = addColumnString(Produtos::localizacao) {
+        this.setHeader("LOC")
+        this.config()
+    }
+
     fun Grid<Produtos>.produto_FLinha() = addColumnString(Produtos::foraLinha) {
         this.setHeader("F. Linha")
         this.config()

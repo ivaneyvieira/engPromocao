@@ -100,13 +100,15 @@ SELECT P.no                                                             AS prdno
        IFNULL(N.ncm, '')                                                AS ncm,
        ''                                                               AS site,
        TRIM(MID(P.name, 37, 3))                                         AS unidade,
-       IF((dereg & POW(2, 2)) = 0, 'N', 'S')                            AS foraLinha
+       IF((dereg & POW(2, 2)) = 0, 'N', 'S')                            AS foraLinha,
+       MID(L.localizacao, 1, 4)                                         as localizacao
 FROM sqldados.prd AS P
          INNER JOIN T_STK AS S ON S.prdno = P.no
          LEFT JOIN sqldados.prd2 AS P2 ON P.no = P2.prdno
          LEFT JOIN sqldados.vend AS V ON V.no = P.mfno
-         LEFT JOIN sqldados.prdbar AS B ON S.prdno = B.prdno AND S.gradeOpt = B.grade
+         LEFT JOIN sqldados.prdbar AS B ON S.prdno = B.prdno AND S.gradeOpt = IF(@GRADE = 'S', B.grade, '')
          LEFT JOIN sqldados.spedprd AS N ON N.prdno = P.no
+         LEFT JOIN sqldados.prdloc AS L ON L.prdno = S.prdno AND S.gradeOpt = IF(@GRADE = 'S', L.grade, '')
 WHERE (P.no = @PRDNO OR @CODIGO = 0)
   AND (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
   AND (P.typeno = @TYPENO OR @TYPENO = 0)
@@ -200,7 +202,8 @@ SELECT R.prdno,
        CAST(V.date AS DATE)     AS ultVenda,
        CAST(C.date AS DATE)     AS ultCompra,
        ROUND(IFNULL(V.qtty, 0)) AS qttyVendas,
-       ROUND(IFNULL(C.qtty, 0)) AS qttyCompra
+       ROUND(IFNULL(C.qtty, 0)) AS qttyCompra,
+       localizacao
 FROM T_RESULT AS R
          LEFT JOIN T_PRDVENDA AS V ON (R.prdno = V.prdno AND R.grade = V.grade)
          LEFT JOIN T_PRDCOMPRA AS C ON (R.prdno = C.prdno AND R.grade = C.grade)

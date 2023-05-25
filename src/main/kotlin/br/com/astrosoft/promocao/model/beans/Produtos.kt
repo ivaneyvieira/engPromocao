@@ -47,13 +47,15 @@ class Produtos(
     val qttyVendas: Int?,
     val qttyCompra: Int?,
     var MF_App: Int? = null,
+    val localizacao: String?,
 ) {
     val MF_Dif
         get() = MF_TT - (MF_App ?: 0)
+
     companion object {
         fun find(filter: FiltroProduto, withSaldoApp: Boolean): List<Produtos> {
             val lista = saci.listaProdutos(filter)
-            if(withSaldoApp) {
+            if (withSaldoApp) {
                 val saldoApp = estoque.consultaSaldo(filter.grade).groupBy {
                     PrdGrade(it.codigo, it.grade)
                 }
