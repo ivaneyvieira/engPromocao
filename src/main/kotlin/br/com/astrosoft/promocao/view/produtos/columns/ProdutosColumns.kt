@@ -109,6 +109,16 @@ object ProdutosColumns {
         this.config()
     }
 
+    fun Grid<Produtos>.produto_MF_App() = addColumnInt(Produtos::MF_App) {
+        this.setHeader("MF App")
+        this.config()
+    }
+
+    fun Grid<Produtos>.produto_MF_Dif() = addColumnInt(Produtos::MF_Dif) {
+        this.setHeader("MF Dif")
+        this.config()
+    }
+
     fun Grid<Produtos>.produto_PK_VA() = addColumnInt(Produtos::PK_VA) {
         this.setHeader("PK VA")
         this.config()

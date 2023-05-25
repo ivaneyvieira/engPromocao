@@ -1,6 +1,7 @@
 package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.framework.util.parserDate
+import br.com.astrosoft.promocao.model.estoque
 import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 
@@ -45,11 +46,27 @@ class Produtos(
     val ultCompra: LocalDate?,
     val qttyVendas: Int?,
     val qttyCompra: Int?,
+    var MF_App: Int? = null,
 ) {
+    val MF_Dif
+        get() = MF_TT - (MF_App ?: 0)
     companion object {
-        fun find(filter: FiltroProduto) = saci.listaProdutos(filter)
+        fun find(filter: FiltroProduto, withSaldoApp: Boolean): List<Produtos> {
+            val lista = saci.listaProdutos(filter)
+            if(withSaldoApp) {
+                val saldoApp = estoque.consultaSaldo(filter.grade).groupBy {
+                    PrdGrade(it.codigo, it.grade)
+                }
+                lista.forEach { prd ->
+                    prd.MF_App = saldoApp[PrdGrade(prd.codigo, prd.grade)]?.sumOf { it.saldo }
+                }
+            }
+            return lista
+        }
     }
 }
+
+data class PrdGrade(val codigo: Int, val grade: String)
 
 data class FiltroProduto(
     val pesquisa: String,

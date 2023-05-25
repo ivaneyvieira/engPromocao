@@ -3,6 +3,7 @@ package br.com.astrosoft.promocao.model
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.promocao.model.beans.FiltroValidadeEntrada
+import br.com.astrosoft.promocao.model.beans.SaldoApp
 import br.com.astrosoft.promocao.model.beans.ValidadeEntrada
 
 class QueryEstoque : QueryDB(driver, url, username, password) {
@@ -20,6 +21,14 @@ class QueryEstoque : QueryDB(driver, url, username, password) {
             addOptionalParameter("typeno", filtro.typeno)
             addOptionalParameter("clno", filtro.clno)
             addOptionalParameter("estoque", filtro.estoque.codigo)
+        }
+    }
+
+    fun consultaSaldo(grade: Boolean): List<SaldoApp> {
+        val sql = "/sqlEstoque/saldoEstoque.sql"
+
+        return query(sql, SaldoApp::class) {
+            addOptionalParameter("grade", grade.let { if (it) "S" else "N" })
         }
     }
 

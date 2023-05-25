@@ -9,7 +9,7 @@ class TabEstoqueGeralViewModel(viewModel: ProdutoViewModel) :
         get() = viewModel.view.tabEstoqueGeralViewModel
 
     override fun findPrecoAlteracao(filtro: FiltroProduto): List<Produtos> {
-        return Produtos.find(filtro)
+        return Produtos.find(filtro, false)
     }
 
     override fun todoEstoque(): Boolean {
