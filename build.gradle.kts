@@ -6,12 +6,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 object Defs {
   const val vaadinonkotlin_version = "1.1.0"
   const val vaadin10_version = "14.9.5"
-  const val kotlin_version = "1.7.20"
+  const val kotlin_version = "1.8.20"
   const val vaadin_plugin = "0.14.9.1"
 }
 
 plugins {
-  kotlin("jvm") version "1.7.20"
+  kotlin("jvm") version "1.8.20"
   war
   id("com.vaadin") version "0.14.9.1"
 }
@@ -82,6 +82,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   //implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
 
   implementation(kotlin("stdlib"))
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 
   implementation(kotlin("reflect")) // test support
   testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.16")

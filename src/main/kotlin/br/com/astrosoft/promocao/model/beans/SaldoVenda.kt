@@ -17,12 +17,12 @@ class SaldoVenda(
     val numMes
         get() = mapDate[date.format("MM/yyyy")] ?: -1
 
-    fun chaveNota(): ChaveProcuto {
-        return ChaveProcuto(loja, codigo, grade)
+    fun chaveNota(): ChaveProduto {
+        return ChaveProduto(loja, codigo, grade)
     }
 }
 
-data class ChaveProcuto(
+data class ChaveProduto(
     val loja: Int?,
     val codigo: Int?,
     val grade: String?,
