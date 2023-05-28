@@ -56,7 +56,7 @@ class Produtos(
         fun find(filter: FiltroProduto, withSaldoApp: Boolean): List<Produtos> {
             val lista = saci.listaProdutos(filter)
             if (withSaldoApp) {
-                val saldoApp = estoque.consultaSaldo(filter.grade).groupBy {
+                val saldoApp = estoque.consultaSaldo(filter.temGrade).groupBy {
                     PrdGrade(it.codigo, it.grade)
                 }
                 lista.forEach { prd ->
@@ -85,7 +85,8 @@ data class FiltroProduto(
     val dfVenda: LocalDate?,
     val diCompra: LocalDate?,
     val dfCompra: LocalDate?,
-    val grade: Boolean,
+    val temGrade: Boolean,
+    val grade: String?,
     val loja: Int = 0,
 ) {
     val pesquisaNumero: Int?

@@ -10,7 +10,8 @@ DO @DIVENDA := :diVenda;
 DO @DFVENDA := IF(:dfVenda = 0, 99999999, :dfVenda);
 DO @DICOMPRA := :diCompra;
 DO @DFCOMPRA := IF(:dfCompra = 0, 99999999, :dfCompra);
-DO @GRADE := :temGrade;
+DO @TEMGRADE := :temGrade;
+DO @GRADE := :grade;
 DO @LOJA := :loja;
 
 DROP TABLE IF EXISTS T_STK;
@@ -19,7 +20,7 @@ CREATE TEMPORARY TABLE T_STK
     PRIMARY KEY (prdno, gradeOpt)
 )
 SELECT prdno,
-       if(@GRADE = 'S', grade, '')                                     as gradeOpt,
+       if(@TEMGRADE = 'S', grade, '')                                  as gradeOpt,
        SUM(IF(storeno = 1, qtty_varejo / 1000, 0.00))                  AS JS_VA,
        SUM(IF(storeno = 1, qtty_atacado / 1000, 0.00))                 AS JS_AT,
        SUM(IF(storeno = 1, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS JS_TT,
@@ -108,9 +109,9 @@ FROM sqldados.prd AS P
          INNER JOIN T_STK AS S ON S.prdno = P.no
          LEFT JOIN sqldados.prd2 AS P2 ON P.no = P2.prdno
          LEFT JOIN sqldados.vend AS V ON V.no = P.mfno
-         LEFT JOIN sqldados.prdbar AS B ON S.prdno = B.prdno AND S.gradeOpt = IF(@GRADE = 'S', B.grade, '')
+         LEFT JOIN sqldados.prdbar AS B ON S.prdno = B.prdno AND S.gradeOpt = IF(@TEMGRADE = 'S', B.grade, '')
          LEFT JOIN sqldados.spedprd AS N ON N.prdno = P.no
-         LEFT JOIN sqldados.prdloc AS L ON L.prdno = S.prdno AND S.gradeOpt = IF(@GRADE = 'S', L.grade, '')
+         LEFT JOIN sqldados.prdloc AS L ON L.prdno = S.prdno AND S.gradeOpt = IF(@TEMGRADE = 'S', L.grade, '')
 WHERE (P.no = @PRDNO OR @CODIGO = 0)
   AND (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
   AND (P.typeno = @TYPENO OR @TYPENO = 0)
@@ -211,14 +212,15 @@ SELECT R.prdno,
 FROM T_RESULT AS R
          LEFT JOIN T_PRDVENDA AS V ON (R.prdno = V.prdno AND R.grade = V.grade)
          LEFT JOIN T_PRDCOMPRA AS C ON (R.prdno = C.prdno AND R.grade = C.grade)
-WHERE :pesquisa = ''
-   OR codigo LIKE @PESQUISA
-   OR descricao LIKE @PESQUISA_LIKE
-   OR R.grade LIKE @PESQUISA_LIKE
-   OR fornStr LIKE @PESQUISA
-   OR abrev LIKE @PESQUISA_LIKE
-   OR tipo LIKE @PESQUISA
-   OR cl LIKE @PESQUISA
-   OR groupno LIKE @PESQUISA
-   OR deptno LIKE @PESQUISA
-   OR codBar LIKE @PESQUISA
+WHERE (:pesquisa = ''
+    OR codigo LIKE @PESQUISA
+    OR descricao LIKE @PESQUISA_LIKE
+    OR R.grade LIKE @PESQUISA_LIKE
+    OR fornStr LIKE @PESQUISA
+    OR abrev LIKE @PESQUISA_LIKE
+    OR tipo LIKE @PESQUISA
+    OR cl LIKE @PESQUISA
+    OR groupno LIKE @PESQUISA
+    OR deptno LIKE @PESQUISA
+    OR codBar LIKE @PESQUISA)
+  AND (R.grade LIKE @GRADE OR @GRADE = '')

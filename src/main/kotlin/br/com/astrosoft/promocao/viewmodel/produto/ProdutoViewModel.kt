@@ -8,12 +8,14 @@ class ProdutoViewModel(view: IProdutoView) : ViewModel<IProdutoView>(view) {
     val tabCadastroViewModel = TabCadastroProdutoViewModel(this)
     val tabEstoqueTotalViewModel = TabEstoqueTotalViewModel(this)
     val tabEstoqueAppViewModel = TabEstoqueAppViewModel(this)
+    val tabEstoqueAppEntradaViewModel = TabEstoqueAppEntradaViewModel(this)
 
     override fun listTab() = listOf(
         view.tabEstoqueGeralViewModel,
         view.tabCadastroViewModel,
         view.tabEstoqueTotalViewModel,
         view.tabEstoqueAppViewModel,
+        view.tabEstoqueAppEntradaViewModel,
     )
 }
 
@@ -22,5 +24,6 @@ interface IProdutoView : IView {
     val tabCadastroViewModel: ITabCadastroProdutoViewModel
     val tabEstoqueGeralViewModel: ITabEstoqueGeralViewModel
     val tabEstoqueAppViewModel: ITabEstoqueAppViewModel
+    val tabEstoqueAppEntradaViewModel: ITabEstoqueAppEntradaViewModel
 }
 

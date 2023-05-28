@@ -227,7 +227,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
             addOptionalParameter("diVenda", filtro.diVenda.toSaciDate())
             addOptionalParameter("dfVenda", filtro.dfVenda.toSaciDate())
             addOptionalParameter("loja", filtro.loja)
-            addOptionalParameter("temGrade", filtro.grade.let { if (it) "S" else "N" })
+            addOptionalParameter("temGrade", filtro.temGrade.let { if (it) "S" else "N" })
+            addOptionalParameter("grade", filtro.grade)
         }
     }
 

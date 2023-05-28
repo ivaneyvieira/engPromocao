@@ -45,6 +45,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
     private lateinit var edtDfCompra: DatePicker
 
     private lateinit var chkGrade: Checkbox
+    private lateinit var edtGrade: TextField
 
     override fun updateComponent() {
         viewModel.updateView()
@@ -111,6 +112,14 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
                 chkGrade = checkBox("Grade") {
                     this.value = true
                     this.addValueChangeListener {
+                        viewModel.updateView()
+                    }
+                }
+
+                edtGrade = textField("Grade") {
+                    this.valueChangeMode = LAZY
+                    this.width = "80px"
+                    addValueChangeListener {
                         viewModel.updateView()
                     }
                 }
@@ -182,7 +191,8 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
         dfVenda = edtDfVenda.value,
         diCompra = edtDiCompra.value,
         dfCompra = edtDfCompra.value,
-        grade = chkGrade.value,
+        temGrade = chkGrade.value,
+        grade =  edtGrade.value ?: ""
     )
 
     abstract fun estoqueTotal(): EEstoqueTotal
