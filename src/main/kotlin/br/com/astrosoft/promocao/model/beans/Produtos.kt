@@ -86,6 +86,7 @@ data class FiltroProduto(
     val diCompra: LocalDate?,
     val dfCompra: LocalDate?,
     val grade: Boolean,
+    val loja: Int = 0,
 ) {
     val pesquisaNumero: Int?
         get() = pesquisa.toIntOrNull()

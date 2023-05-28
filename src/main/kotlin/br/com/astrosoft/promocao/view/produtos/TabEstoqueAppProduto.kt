@@ -9,7 +9,6 @@ import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoEstoqueTotal
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MF_App
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MF_Dif
-import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MF_TT
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Unidade
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_abrev
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_cl
@@ -64,10 +63,9 @@ class TabEstoqueAppProduto(viewModel: TabEstoqueAppViewModel) :
         produto_descricao()
         produto_grade()
         produto_Unidade()
-        produto_estoque()
         produto_quantCompra()
         produto_quantVenda()
-        produto_MF_TT()
+        produto_estoque()
         produto_MF_App()
         produto_MF_Dif()
         produto_forn()
@@ -81,4 +79,6 @@ class TabEstoqueAppProduto(viewModel: TabEstoqueAppViewModel) :
     override fun estoqueTotal(): EEstoqueTotal {
         return cmbEstoque.value ?: EEstoqueTotal.TODOS
     }
+
+    override fun filtro() = super.filtro().copy(loja = 4)
 }

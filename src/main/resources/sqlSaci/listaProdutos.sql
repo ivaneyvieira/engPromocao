@@ -11,6 +11,7 @@ DO @DFVENDA := IF(:dfVenda = 0, 99999999, :dfVenda);
 DO @DICOMPRA := :diCompra;
 DO @DFCOMPRA := IF(:dfCompra = 0, 99999999, :dfCompra);
 DO @GRADE := :temGrade;
+DO @LOJA := :loja;
 
 DROP TABLE IF EXISTS T_STK;
 CREATE TEMPORARY TABLE T_STK
@@ -45,6 +46,7 @@ SELECT prdno,
        SUM(qtty_varejo + qtty_atacado) / 1000                          AS estoque
 FROM sqldados.stk AS S
 WHERE S.storeno IN (1, 2, 3, 4, 5, 6)
+  AND (S.storeno = @LOJA OR @LOJA = 0)
 GROUP BY prdno, gradeOpt;
 
 DROP TABLE IF EXISTS T_RESULT;
@@ -145,6 +147,7 @@ SELECT R.prdno, R.grade, MAX(date) AS date, SUM(quant / 1000) AS qtty
 FROM T_RESULT AS R
          INNER JOIN sqldados.vendaDate AS X ON X.prdno = R.prdno AND X.grade = R.grade
 WHERE (X.storeno IN (1, 2, 3, 4, 5, 6))
+  AND (X.storeno = @LOJA OR @LOJA = 0)
   AND date BETWEEN @DIVENDA AND @DFVENDA
 GROUP BY R.prdno, R.grade;
 
@@ -157,6 +160,7 @@ SELECT R.prdno, R.grade, MAX(date) AS date, SUM(quant / 1000) AS qtty
 FROM T_RESULT AS R
          INNER JOIN sqldados.compraDate P ON P.prdno = R.prdno AND P.grade = R.grade
 WHERE (storeno IN (1, 2, 3, 4, 5, 6))
+  AND (storeno = @LOJA OR @LOJA = 0)
   AND date BETWEEN @DICOMPRA AND @DFCOMPRA
 GROUP BY R.prdno, R.grade;
 
