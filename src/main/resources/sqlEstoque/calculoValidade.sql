@@ -8,6 +8,7 @@ DO @LISTVEND := REPLACE(:listVend, ' ', '');
 DO @TRIBUTACAO := :tributacao;
 DO @TYPENO := :typeno;
 DO @CLNO := :clno;
+DO @NFE := :nfe;
 
 DROP TEMPORARY TABLE IF EXISTS T;
 CREATE TEMPORARY TABLE T
@@ -299,5 +300,6 @@ WHERE (codigo LIKE @QUERY OR localizacao LIKE @QUERY OR descricao LIKE @QUERYLIK
           WHEN '<' THEN estoque < 0
           ELSE FALSE
     END
+  AND (nfEntrada = @NFE OR @NFE = '')
 ORDER BY seq
 

@@ -36,9 +36,9 @@ class VendaEntrada(
         private val querySaldoData = QuerySaldoData()
         fun findAll(filtro: FiltroValidadeEntrada): List<VendaEntrada> {
             querySaldoData.update(filtro.diVenda, filtro.dfVenda)
-
-            val listaValidade = estoque.consultaValidadeEntrada(filtro)
             val prdNota = PrdCodigo.findPrdNfe(filtro.nfe)
+            val nfe = prdNota.firstOrNull()?.nfe ?: ""
+            val listaValidade = estoque.consultaValidadeEntrada(filtro.copy(nfe = nfe))
             return listaValidade.asSequence().filter { venda ->
                 when {
                     filtro.nfe.isBlank() -> true

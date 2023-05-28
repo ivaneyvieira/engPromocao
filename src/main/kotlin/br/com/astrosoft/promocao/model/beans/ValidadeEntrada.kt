@@ -36,9 +36,10 @@ class ValidadeEntrada(
 ) {
     companion object {
         fun findAll(filtro: FiltroValidadeEntrada): List<ValidadeEntrada> {
-            val listVenda = saci.saldoData(filtro.diVenda, filtro.dfVenda)
-            val listaValidade = estoque.consultaValidadeEntrada(filtro)
             val prdNota = PrdCodigo.findPrdNfe(filtro.nfe)
+            val nfe = prdNota.firstOrNull()?.nfe ?: ""
+            val listVenda = saci.saldoData(filtro.diVenda, filtro.dfVenda)
+            val listaValidade = estoque.consultaValidadeEntrada(filtro.copy(nfe = nfe))
             return listaValidade.asSequence().filter { venda ->
                 when {
                     filtro.nfe.isBlank() -> true
