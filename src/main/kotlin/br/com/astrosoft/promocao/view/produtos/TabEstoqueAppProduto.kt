@@ -6,7 +6,7 @@ import br.com.astrosoft.promocao.model.beans.EEstoqueTotal
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
-import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoEstoqueTotal
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaProdutoEstoqueApp
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MF_App
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_MF_Dif
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Unidade
@@ -39,8 +39,7 @@ class TabEstoqueAppProduto(viewModel: TabEstoqueAppViewModel) :
         get() = "Estoque App"
 
     override fun planilha(): PlanilhaProduto {
-        return PlanilhaProdutoEstoqueTotal()
-        //TODO Fazer o estoque específico
+        return PlanilhaProdutoEstoqueApp()
     }
 
     override fun HorizontalLayout.addAditionaisFields() {
