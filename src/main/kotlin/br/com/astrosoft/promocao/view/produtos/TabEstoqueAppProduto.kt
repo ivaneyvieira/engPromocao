@@ -32,7 +32,7 @@ import com.vaadin.flow.component.select.Select
 class TabEstoqueAppProduto(viewModel: TabEstoqueAppViewModel) :
     TabAbstractProduto<ITabEstoqueAppViewModel>(viewModel, showDatas = false), ITabEstoqueAppViewModel {
     private lateinit var cmbEstoque: Select<EEstoqueTotal>
-    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoBase ?: false
+    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoApp ?: false
     //Falta configurar as prermissoes
 
     override val label: String

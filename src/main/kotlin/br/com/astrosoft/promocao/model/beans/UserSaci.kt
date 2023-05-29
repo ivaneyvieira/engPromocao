@@ -27,7 +27,7 @@ class UserSaci : IUser {
     var promocaoPromocao by DelegateAuthorized(8)
     var promocaoSemPromocao by DelegateAuthorized(9)
 
-    var produtoBase by DelegateAuthorized(10)
+//    var produtoBase by DelegateAuthorized(10)
 
     val promocaoPrecificacao by DelegateAuthorized(11)
     var produtoCadastro by DelegateAuthorized(12)
@@ -36,8 +36,12 @@ class UserSaci : IUser {
     var garantiaValidade by DelegateAuthorized(15)
     var garantiaEntrada by DelegateAuthorized(16)
     var garantiaVenda by DelegateAuthorized(17)
+    var produtoAppEntrada by DelegateAuthorized(18)
+    var produtoApp by DelegateAuthorized(19)
+    var produtoEstoqueGeral by DelegateAuthorized(20)
+    var produtoEstoqueTotal by DelegateAuthorized(21)
 
-    val menuProduto = produtoBase || produtoCadastro
+    val menuProduto = produtoAppEntrada || produtoApp || produtoEstoqueGeral || produtoEstoqueTotal || produtoCadastro
     val menuPromocao =
         precoBase || precoPreco || precoPromocao || promocaoPrecificacao || promocaoPrecificacaoEntrada || promocaoPrecificacaoSaida
     val menuGarantia = garantiaBase || garantiaInserir || garantiaValidade || garantiaEntrada || garantiaVenda

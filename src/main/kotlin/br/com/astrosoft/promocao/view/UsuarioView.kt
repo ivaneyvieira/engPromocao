@@ -68,14 +68,29 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
                         colspan = 2
                     }
 
-                    checkBox("Base") {
+                    checkBox("Estoque Geral") {
                         isReadOnly = readOnly
-                        binder.bind(this, UserSaci::produtoBase.name)
+                        binder.bind(this, UserSaci::produtoEstoqueGeral.name)
                     }
 
                     checkBox("Cadastro") {
                         isReadOnly = readOnly
                         binder.bind(this, UserSaci::produtoCadastro.name)
+                    }
+
+                    checkBox("Estoque Total") {
+                        isReadOnly = readOnly
+                        binder.bind(this, UserSaci::produtoEstoqueTotal.name)
+                    }
+
+                    checkBox("Estoque App") {
+                        isReadOnly = readOnly
+                        binder.bind(this, UserSaci::produtoApp.name)
+                    }
+
+                    checkBox("Estoque App Por Entrada") {
+                        isReadOnly = readOnly
+                        binder.bind(this, UserSaci::produtoAppEntrada.name)
                     }
                 }
 

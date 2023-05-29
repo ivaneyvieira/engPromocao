@@ -36,7 +36,7 @@ import com.vaadin.flow.component.select.Select
 class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
     TabAbstractProduto<ITabEstoqueTotalViewModel>(viewModel, showDatas = false), ITabEstoqueTotalViewModel {
     private lateinit var cmbEstoque: Select<EEstoqueTotal>
-    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoBase ?: false
+    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoEstoqueTotal ?: false
 
     override val label: String
         get() = "Estoque Total"

@@ -153,7 +153,7 @@ class TabVenda(val viewModel: TabVendaViewModel) :
         return "controleValidade$textTime.xlsx"
     }
 
-    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaEntrada ?: false
+    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.garantiaVenda ?: false
     override val label: String
         get() = "Venda"
 
