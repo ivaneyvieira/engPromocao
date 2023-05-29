@@ -4,6 +4,8 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.promocao.model.beans.*
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaGarantiaVenda
+import br.com.astrosoft.promocao.model.planilhas.PlanilhaValidadeEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.VendasCol.produtoCodigo
 import br.com.astrosoft.promocao.view.garantia.columns.VendasCol.produtoDescricao
 import br.com.astrosoft.promocao.view.garantia.columns.VendasCol.produtoEstoque
@@ -27,15 +29,20 @@ import br.com.astrosoft.promocao.view.garantia.columns.VendasCol.produtoVenda12
 import br.com.astrosoft.promocao.viewmodel.garantia.ITabVendaViewModel
 import br.com.astrosoft.promocao.viewmodel.garantia.TabVendaViewModel
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
+import org.vaadin.stefan.LazyDownloadButton
+import java.io.ByteArrayInputStream
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -144,7 +151,15 @@ class TabVenda(val viewModel: TabVendaViewModel) :
     }
 
     private fun HasComponents.downloadExcel() {
-
+        val button = LazyDownloadButton(VaadinIcon.TABLE.create(), { filename() }, {
+            val planilha = PlanilhaGarantiaVenda()
+            val list = itensSelecionados()
+            val bytes = planilha.grava(list)
+            ByteArrayInputStream(bytes)
+        })
+        button.addThemeVariants(ButtonVariant.LUMO_SMALL)
+        button.tooltip = "Salva a planilha"
+        add(button)
     }
 
     private fun filename(): String {
