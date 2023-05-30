@@ -18,6 +18,7 @@ class GarantiaView : ViewLayout<GarantiaViewModel>(), IGarantiaView {
     override val tabBaseGarantia = TabBaseGarantia(viewModel.tabBaseGarantia)
     override val tabValidadeGarantia = TabValidadeGarantia(viewModel.tabValidadeGarantia)
     override val tabControleValidade = TabControleValidade(viewModel.tabControleValidade)
+    override val tabEstoqueAppGarantia = TabEstoqueAppGarantia(viewModel.tabEstoqueAppGarantia)
     override val tabVenda = TabVenda(viewModel.tabVenda)
     override val tabInserirGarantia = TabInserirGarantia(viewModel.tabInserirGarantia)
 

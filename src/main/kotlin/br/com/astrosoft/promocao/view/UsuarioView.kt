@@ -173,6 +173,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
                         isReadOnly = readOnly
                         binder.bind(this, UserSaci::garantiaVenda.name)
                     }
+                    checkBox("Estoque App") {
+                        isReadOnly = readOnly
+                        binder.bind(this, UserSaci::garantiaEstoqueApp.name)
+                    }
                 }
             }
         }

@@ -7,6 +7,7 @@ class GarantiaViewModel(view: IGarantiaView) : ViewModel<IGarantiaView>(view) {
     val tabBaseGarantia = TabBaseGarantiaViewModel(this)
     val tabValidadeGarantia = TabValidadeGarantiaViewModel(this)
     val tabControleValidade = TabControleValidadeViewModel(this)
+    val tabEstoqueAppGarantia = TabEstoqueAppGarantiaViewModel(this)
     val tabVenda = TabVendaViewModel(this)
     val tabInserirGarantia = TabInserirGarantiaViewModel(this)
 
@@ -17,6 +18,7 @@ class GarantiaViewModel(view: IGarantiaView) : ViewModel<IGarantiaView>(view) {
             view.tabValidadeGarantia,
             view.tabControleValidade,
             view.tabVenda,
+            view.tabEstoqueAppGarantia,
         )
 }
 
@@ -26,5 +28,6 @@ interface IGarantiaView : IView {
     val tabControleValidade: ITabControleValidadeViewModel
     val tabVenda: ITabVendaViewModel
     val tabInserirGarantia: ITabInserirGarantiaViewModel
+    val tabEstoqueAppGarantia: ITabEstoqueAppGarantiaViewModel
 }
 

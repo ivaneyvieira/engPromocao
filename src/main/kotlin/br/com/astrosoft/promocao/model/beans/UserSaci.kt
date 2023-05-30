@@ -40,11 +40,12 @@ class UserSaci : IUser {
     var produtoApp by DelegateAuthorized(19)
     var produtoEstoqueGeral by DelegateAuthorized(20)
     var produtoEstoqueTotal by DelegateAuthorized(21)
+    var garantiaEstoqueApp by DelegateAuthorized(22)
 
     val menuProduto = produtoAppEntrada || produtoApp || produtoEstoqueGeral || produtoEstoqueTotal || produtoCadastro
     val menuPromocao =
         precoBase || precoPreco || precoPromocao || promocaoPrecificacao || promocaoPrecificacaoEntrada || promocaoPrecificacaoSaida
-    val menuGarantia = garantiaBase || garantiaInserir || garantiaValidade || garantiaEntrada || garantiaVenda
+    val menuGarantia = garantiaBase || garantiaInserir || garantiaValidade || garantiaEntrada || garantiaVenda || garantiaEstoqueApp
     val menuPreco = promocao99 || promocaoBase || promocaoPromocao || promocaoSemPromocao
 
     override val admin

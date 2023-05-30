@@ -2,9 +2,7 @@ package br.com.astrosoft.promocao.model
 
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
-import br.com.astrosoft.promocao.model.beans.FiltroValidadeEntrada
-import br.com.astrosoft.promocao.model.beans.SaldoApp
-import br.com.astrosoft.promocao.model.beans.ValidadeEntrada
+import br.com.astrosoft.promocao.model.beans.*
 
 class QueryEstoque : QueryDB(driver, url, username, password) {
     fun consultaValidadeEntrada(filtro: FiltroValidadeEntrada): List<ValidadeEntrada> {
@@ -13,6 +11,24 @@ class QueryEstoque : QueryDB(driver, url, username, password) {
         val listVend = filtro.listVend.joinToString(separator = ",")
 
         return query(sql, ValidadeEntrada::class) {
+            addOptionalParameter("query", filtro.query)
+            addOptionalParameter("marca", filtro.marca.codigo)
+
+            addOptionalParameter("listVend", listVend)
+            addOptionalParameter("tributacao", filtro.tributacao)
+            addOptionalParameter("typeno", filtro.typeno)
+            addOptionalParameter("clno", filtro.clno)
+            addOptionalParameter("estoque", filtro.estoque.codigo)
+            addOptionalParameter("nfe", filtro.nfe)
+        }
+    }
+
+    fun consultaEstoqueApp(filtro: FiltroEstoqueApp): List<GarantiaEstoqueApp> {
+        val sql = "/sqlEstoque/estoqueApp.sql"
+
+        val listVend = filtro.listVend.joinToString(separator = ",")
+
+        return query(sql, GarantiaEstoqueApp::class) {
             addOptionalParameter("query", filtro.query)
             addOptionalParameter("marca", filtro.marca.codigo)
 
