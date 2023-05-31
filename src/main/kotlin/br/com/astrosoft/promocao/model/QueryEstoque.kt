@@ -33,11 +33,13 @@ class QueryEstoque : QueryDB(driver, url, username, password) {
             addOptionalParameter("marca", filtro.marca.codigo)
 
             addOptionalParameter("listVend", listVend)
-            addOptionalParameter("tributacao", filtro.tributacao)
             addOptionalParameter("typeno", filtro.typeno)
             addOptionalParameter("clno", filtro.clno)
             addOptionalParameter("estoque", filtro.estoque.codigo)
             addOptionalParameter("nfe", filtro.nfe)
+            addOptionalParameter("codigo", filtro.codigo ?: 0)
+            addOptionalParameter("grade", filtro.grade)
+            addOptionalParameter("temGrade", filtro.temGrade.let { if (it) "S" else "N" })
         }
     }
 

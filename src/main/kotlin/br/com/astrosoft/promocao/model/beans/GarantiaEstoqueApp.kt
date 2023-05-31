@@ -16,6 +16,9 @@ class GarantiaEstoqueApp(
     val nfEntrada: String?,
     val dataEntrada: LocalDate?,
 ) {
+
+    val estoqueLoja
+        get() = (estoqueNerus ?: 0) - (estoqueApp ?: 0)
     companion object {
         fun findAll(filtro: FiltroEstoqueApp): List<GarantiaEstoqueApp> {
             val prdNota = PrdCodigo.findPrdNfe(filtro.nfe)
@@ -29,9 +32,11 @@ data class FiltroEstoqueApp(
     val query: String,
     val marca: EMarcaPonto,
     val listVend: List<Int>,
-    val tributacao: String,
     val typeno: Int,
     val clno: Int,
     val estoque: EEstoqueTotal,
     val nfe: String,
+    val temGrade: Boolean,
+    val grade: String?,
+    val codigo: Int?,
 )

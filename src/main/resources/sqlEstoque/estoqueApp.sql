@@ -5,7 +5,6 @@ DO @QUERY := :query;
 DO @QUERYLIKE := CONCAT(@QUERY, '%');
 
 DO @LISTVEND := REPLACE(:listVend, ' ', '');
-DO @TRIBUTACAO := :tributacao;
 DO @TYPENO := :typeno;
 DO @CLNO := :clno;
 DO @NFE := :nfe;
@@ -16,7 +15,7 @@ CREATE TEMPORARY TABLE T_PRD
     PRIMARY KEY (prdno, grade)
 )
 SELECT prdno,
-       grade          AS grade,
+       IF(:temGrade = 'S', grade, '') AS grade,
        descricao,
        mfno,
        typeno,
@@ -24,7 +23,7 @@ SELECT prdno,
        deptno,
        groupno,
        taxno,
-       ROUND(saldoMF) AS saldoNerus
+       ROUND(SUM(saldoMF))            AS saldoNerus
 FROM saldos
 WHERE CASE :marca
           WHEN 'T' THEN TRUE
@@ -34,13 +33,14 @@ WHERE CASE :marca
   AND (FIND_IN_SET(mfno, @LISTVEND) OR @LISTVEND = '')
   AND (typeno = @TYPENO OR @TYPENO = 0)
   AND (clno = @CLNO OR deptno = @CLNO OR groupno = @CLNO OR @CLNO = 0)
-  AND (taxno = @TRIBUTACAO OR @TRIBUTACAO = '') ;
+  AND (prdno = :codigo OR :codigo = 0)
+GROUP BY prdno, IF(:temGrade = 'S', grade, '');
 
 DROP TEMPORARY TABLE IF EXISTS T_MOV_APP;
 CREATE TEMPORARY TABLE T_MOV_APP
 SELECT L.numero                                                      AS loja,
        P.codigo                                                      AS prdno,
-       P.grade                                                       AS grade,
+       IF(:temGrade = 'S', P.grade, '')                              AS grade,
        CAST(GROUP_CONCAT(DISTINCT MID(I.localizacao, 1, 4)) AS char) AS abreviacao,
        N.numero                                                      AS nota,
        I.status                                                      AS status,
@@ -56,10 +56,10 @@ FROM engEstoque.notas AS N
          INNER JOIN engEstoque.produtos AS P
                     ON I.produto_id = P.id
          INNER JOIN T_PRD AS T
-                    ON P.codigo = T.prdno AND P.grade = T.grade
+                    ON P.codigo = T.prdno AND IF(:temGrade = 'S', P.grade, '') = T.grade
 WHERE N.tipo_nota NOT LIKE 'CANCELADA%'
   AND I.status IN ('RECEBIDO', 'CONFERIDA', 'ENTREGUE')
-GROUP BY L.numero, P.codigo, P.grade, nota, tipo, status;
+GROUP BY L.numero, P.codigo, IF(:temGrade = 'S', P.grade, ''), nota, tipo, status;
 
 DROP TEMPORARY TABLE IF EXISTS T_SALDO_APP;
 CREATE TEMPORARY TABLE T_SALDO_APP
@@ -134,11 +134,13 @@ SELECT loja,
        deptno,
        groupno,
        taxno,
+       @CHAVE AS cv,
+       chave AS ch,
        ROUND(IF(@CHAVE = chave, @SALDO, estoqueApp))                               AS saldoAnt,
        @SALDO := ROUND(IF(@CHAVE = chave, @SALDO - entrada, estoqueApp - entrada)) AS saldo,
        @CHAVE := chave                                                             AS chave
 FROM T_MOV01
-ORDER BY chave, dataEntrada DESC;
+ORDER BY loja, codigo, grade, dataEntrada DESC;
 
 SELECT loja,
        TRIM(codigo) * 1                          AS codigo,
@@ -164,4 +166,5 @@ WHERE saldoAnt > 0
           ELSE FALSE
     END
   AND (nfEntrada = @NFE OR @NFE = '')
-ORDER BY chave, dataEntrada DESC
+  AND (grade = :grade OR :grade = '')
+ORDER BY loja, codigo, grade, dataEntrada DESC

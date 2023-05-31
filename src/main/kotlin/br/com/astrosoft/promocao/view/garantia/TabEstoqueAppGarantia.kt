@@ -11,6 +11,7 @@ import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueAppL
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueDataEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueEstoqueApp
+import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueEstoqueLoja
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueEstoqueNerus
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueNotaEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueSaldo
@@ -41,6 +42,7 @@ import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
+import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
@@ -59,13 +61,15 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
     ITabEstoqueAppGarantiaViewModel {
     private lateinit var edtCl: IntegerField
     private lateinit var edtType: IntegerField
-    private lateinit var edtTributacao: TextField
     private lateinit var edtListVend: TextField
     private lateinit var cmbEstoque: Select<EEstoqueTotal>
     private lateinit var edtNfe: TextField
 
     private lateinit var edtQuery: TextField
     private lateinit var cmbPontos: Select<EMarcaPonto>
+    private lateinit var edtCodigo: IntegerField
+    private lateinit var chkGrade: Checkbox
+    private lateinit var edtGrade: TextField
 
     override fun updateComponent() {
         viewModel.updateView()
@@ -81,6 +85,14 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
             this.flexWrap = FlexLayout.FlexWrap.WRAP
             this.alignContent = FlexLayout.ContentAlignment.SPACE_BETWEEN
             horizontalLayout {
+                edtCodigo = integerField {
+                    this.valueChangeMode = ValueChangeMode.TIMEOUT
+                    this.valueChangeMode = ValueChangeMode.LAZY
+                    this.addValueChangeListener {
+                        viewModel.updateView()
+                    }
+                }
+
                 edtQuery = textField("Filtro") {
                     this.valueChangeMode = ValueChangeMode.TIMEOUT
                     this.valueChangeMode = ValueChangeMode.LAZY
@@ -128,14 +140,6 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
                     }
                 }
 
-                edtTributacao = textField("Tributação") {
-                    this.valueChangeMode = ValueChangeMode.LAZY
-                    this.width = "80px"
-                    addValueChangeListener {
-                        viewModel.updateView()
-                    }
-                }
-
                 edtType = integerField("Tipo") {
                     this.valueChangeMode = ValueChangeMode.LAZY
                     addValueChangeListener {
@@ -145,6 +149,21 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
 
                 edtCl = integerField("Centro de Lucro") {
                     this.valueChangeMode = ValueChangeMode.LAZY
+                    addValueChangeListener {
+                        viewModel.updateView()
+                    }
+                }
+
+                chkGrade = checkBox("Grade") {
+                    this.value = true
+                    this.addValueChangeListener {
+                        viewModel.updateView()
+                    }
+                }
+
+                edtGrade = textField("Grade") {
+                    this.valueChangeMode = ValueChangeMode.LAZY
+                    this.width = "80px"
                     addValueChangeListener {
                         viewModel.updateView()
                     }
@@ -182,11 +201,13 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
             query = edtQuery.value,
             marca = cmbPontos.value,
             listVend = edtListVend.value?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
-            tributacao = edtTributacao.value ?: "",
             typeno = edtType.value ?: 0,
             clno = edtCl.value ?: 0,
             estoque = cmbEstoque.value ?: EEstoqueTotal.TODOS,
             nfe = edtNfe.value,
+            codigo =  edtCodigo.value ?: 0,
+            temGrade = chkGrade.value ?: false,
+            grade = edtGrade.value ?: ""
         )
 
     override fun Grid<GarantiaEstoqueApp>.gridPanel() {
@@ -197,6 +218,7 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
         estoqueAppGrade()
         estoqueAppLocalizacao()
         estoqueEstoqueNerus()
+        estoqueEstoqueLoja()
         estoqueEstoqueApp()
         estoqueSaldo()
         estoqueEntrada()

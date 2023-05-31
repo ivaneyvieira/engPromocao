@@ -35,6 +35,11 @@ object EstoqueAppCol {
         isResizable = true
     }
 
+    fun Grid<GarantiaEstoqueApp>.estoqueEstoqueLoja() = addColumnInt(GarantiaEstoqueApp::estoqueLoja) {
+        this.setHeader("Est Loja")
+        isResizable = true
+    }
+
     fun Grid<GarantiaEstoqueApp>.estoqueEstoqueApp() = addColumnInt(GarantiaEstoqueApp::estoqueApp) {
         this.setHeader("Est App")
         isResizable = true
