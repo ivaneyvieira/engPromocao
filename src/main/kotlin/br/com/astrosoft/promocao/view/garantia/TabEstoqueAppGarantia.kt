@@ -85,7 +85,7 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
             this.flexWrap = FlexLayout.FlexWrap.WRAP
             this.alignContent = FlexLayout.ContentAlignment.SPACE_BETWEEN
             horizontalLayout {
-                edtCodigo = integerField("") {
+                edtCodigo = integerField("Código") {
                     this.valueChangeMode = ValueChangeMode.TIMEOUT
                     this.valueChangeMode = ValueChangeMode.LAZY
                     this.addValueChangeListener {
