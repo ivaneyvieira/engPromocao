@@ -26,7 +26,7 @@ object EstoqueAppCol {
     }
 
     fun Grid<GarantiaEstoqueApp>.estoqueAppLocalizacao() = addColumnString(GarantiaEstoqueApp::localizacao) {
-        this.setHeader("Localização")
+        this.setHeader("Loc")
         isResizable = true
     }
 

@@ -90,6 +90,7 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
                 edtCodigo = integerField("Código") {
                     this.valueChangeMode = ValueChangeMode.TIMEOUT
                     this.valueChangeMode = ValueChangeMode.LAZY
+                    this.width = "80px"
                     this.addValueChangeListener {
                         viewModel.updateView()
                     }
@@ -106,6 +107,7 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
                 edtNfe = textField("NI/NFE") {
                     this.valueChangeMode = ValueChangeMode.TIMEOUT
                     this.valueChangeMode = ValueChangeMode.LAZY
+                    this.width = "80px"
                     this.addValueChangeListener {
                         viewModel.updateView()
                     }
@@ -114,6 +116,7 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
                 cmbPontos = select("Caracteres Especiais") {
                     setItems(EMarcaPonto.values().toList())
                     value = EMarcaPonto.TODOS
+                    this.width = "80px"
                     this.setItemLabelGenerator {
                         it.descricao
                     }
@@ -129,6 +132,7 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
                     this.setItemLabelGenerator {
                         it.descricao
                     }
+                    this.width = "80px"
                     addValueChangeListener {
                         viewModel.updateView()
                     }
@@ -144,13 +148,15 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
 
                 edtType = integerField("Tipo") {
                     this.valueChangeMode = ValueChangeMode.LAZY
+                    this.width = "80px"
                     addValueChangeListener {
                         viewModel.updateView()
                     }
                 }
 
-                edtCl = integerField("Centro de Lucro") {
+                edtCl = integerField("Centro Lucro") {
                     this.valueChangeMode = ValueChangeMode.LAZY
+                    this.width = "100px"
                     addValueChangeListener {
                         viewModel.updateView()
                     }
