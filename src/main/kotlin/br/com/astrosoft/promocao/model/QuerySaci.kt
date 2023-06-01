@@ -400,6 +400,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         }
     }
 
+    fun findFornecedores(): List<Fornecedor> {
+        val sql = "/sqlSaci/fornecedores.sql"
+        return query(sql, Fornecedor::class)
+    }
+
     companion object {
         private val db = DB("saci")
         internal val driver = db.driver

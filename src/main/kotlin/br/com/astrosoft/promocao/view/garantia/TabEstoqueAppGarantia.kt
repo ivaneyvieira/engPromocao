@@ -13,8 +13,10 @@ import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueEntr
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueEstoqueApp
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueEstoqueLoja
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueEstoqueNerus
+import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueFornecedor
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueNotaEntrada
 import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueSaldo
+import br.com.astrosoft.promocao.view.garantia.columns.EstoqueAppCol.estoqueVendo
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtValidade
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoCodigo
 import br.com.astrosoft.promocao.view.garantia.columns.ValidadeEntradaCol.produtoDataEntrada
@@ -224,6 +226,8 @@ class TabEstoqueAppGarantia(val viewModel: TabEstoqueAppGarantiaViewModel) :
         estoqueEntrada()
         estoqueNotaEntrada()
         estoqueDataEntrada()
+        estoqueVendo()
+        estoqueFornecedor()
     }
 }
 

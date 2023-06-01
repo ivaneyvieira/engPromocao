@@ -64,4 +64,14 @@ object EstoqueAppCol {
         this.setHeader("Data Entrada")
         isResizable = true
     }
+
+    fun Grid<GarantiaEstoqueApp>.estoqueVendo()= addColumnInt(GarantiaEstoqueApp::vendno) {
+        this.setHeader("For")
+        isResizable = true
+    }
+
+    fun Grid<GarantiaEstoqueApp>.estoqueFornecedor()= addColumnString(GarantiaEstoqueApp::abrev) {
+        this.setHeader("Abrev")
+        isResizable = true
+    }
 }

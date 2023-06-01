@@ -1,12 +1,14 @@
 package br.com.astrosoft.promocao.model.beans
 
 import br.com.astrosoft.promocao.model.estoque
+import br.com.astrosoft.promocao.model.saci
 import java.time.LocalDate
 
 class GarantiaEstoqueApp(
     val loja: Int,
     val codigo: Int,
     val descricao: String,
+    val vendno : Int?,
     val grade: String,
     val localizacao: String?,
     val estoqueNerus: Int?,
@@ -19,12 +21,16 @@ class GarantiaEstoqueApp(
 
     val estoqueLoja
         get() = (estoqueNerus ?: 0) - (estoqueApp ?: 0)
+
+    val abrev = listVend.firstOrNull { it.vendno == vendno }?.abrev ?: ""
     companion object {
         fun findAll(filtro: FiltroEstoqueApp): List<GarantiaEstoqueApp> {
             val prdNota = PrdCodigo.findPrdNfe(filtro.nfe)
             val nfe = prdNota.firstOrNull()?.nfe ?: ""
             return estoque.consultaEstoqueApp(filtro.copy(nfe = nfe))
         }
+
+        val listVend : List<Fornecedor> = saci.findFornecedores();
     }
 }
 
