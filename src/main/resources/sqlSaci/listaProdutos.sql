@@ -222,5 +222,6 @@ WHERE (:pesquisa = ''
     OR cl LIKE @PESQUISA
     OR groupno LIKE @PESQUISA
     OR deptno LIKE @PESQUISA
-    OR codBar LIKE @PESQUISA)
+    OR codBar LIKE @PESQUISA
+    OR ncm LIKE @PESQUISA)
   AND (R.grade LIKE @GRADE OR @GRADE = '')
