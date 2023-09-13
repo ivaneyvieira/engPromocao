@@ -103,6 +103,14 @@ object PrecificacaoColumns {
         this.setHeader("MVA")
     }
 
+    fun Grid<Precificacao>.promocaoIcmsEntMa() = addColumnDouble(Precificacao::icmsEntradaMa) {
+        this.setHeader("ICMS Ent")
+    }
+
+    fun Grid<Precificacao>.promocaoMvaMa() = addColumnDouble(Precificacao::mvaMa) {
+        this.setHeader("MVA")
+    }
+
     fun Grid<Precificacao>.promocaoIcmsEnt() = addColumnDouble(Precificacao::creditoICMS) {
         this.setHeader("ICMS Ent")
     }

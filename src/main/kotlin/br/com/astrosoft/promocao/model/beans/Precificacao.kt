@@ -39,7 +39,42 @@ class Precificacao(
     var freteICMS: Double?,
     val precoCusto: Double?,
     val cfinanceiro: Double?,
+    val impostos: String?,
 ) {
+    val impostoList = impostos?.split("\\") ?: emptyList()
+
+    fun icmsEntradaMa(icms: String): Double? {
+        val imposto = impostoList.firstOrNull { linha ->
+            val parte = linha.split(" +".toRegex())
+            parte.getOrNull(0) == "ICMS" &&
+                    parte.getOrNull(1) == "ENTRADA" &&
+                    parte.getOrNull(2) == icms &&
+                    parte.getOrNull(3) == "MVA"
+
+        } ?: return null
+        return imposto.split(" +".toRegex()).getOrNull(2)?.replace(',', '.')?.toDoubleOrNull()
+    }
+
+    var filtroIcmsMa: String = "4"
+
+    val icmsEntradaMa: Double?
+        get() = icmsEntradaMa(filtroIcmsMa)
+
+    val mvaMa: Double?
+        get() = mvaMa(filtroIcmsMa)
+
+    fun mvaMa(icms: String): Double? {
+        val imposto = impostoList.firstOrNull { linha ->
+            val parte = linha.split(" +".toRegex())
+            parte.getOrNull(0) == "ICMS" &&
+                    parte.getOrNull(1) == "ENTRADA" &&
+                    parte.getOrNull(2) == icms &&
+                    parte.getOrNull(3) == "MVA"
+
+        } ?: return null
+        return imposto.split(" +".toRegex()).getOrNull(4)?.replace(',', '.')?.toDoubleOrNull()
+    }
+
     val diferencaCusto
         get() = (custoContabil ?: 0.00) - (precoCusto ?: 0.00)
     val freteICMSCalc: Double?

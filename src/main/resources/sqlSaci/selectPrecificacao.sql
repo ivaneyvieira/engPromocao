@@ -7,6 +7,16 @@ DO @CLNO := :clno;
 DO @QUERY := :query;
 DO @QUERYLIKE := CONCAT(@QUERY, '%');
 
+DROP TEMPORARY TABLE IF EXISTS T_ETIQUETAS;
+CREATE TEMPORARY TABLE T_ETIQUETAS
+(
+    PRIMARY KEY (prdno)
+)
+SELECT prdno, GROUP_CONCAT(DISTINCT TRIM(text__256) ORDER BY seqno SEPARATOR '\\') AS impostos
+FROM sqldados.prdetq2
+WHERE text__256 LIKE 'ICMS ENTRADA%'
+GROUP BY prdno;
+
 SELECT prdno                                                                   AS prdno,
        LPAD(TRIM(prdno), 6, '0')                                               AS codigo,
        TRIM(MID(PD.name, 1, 37))                                               AS descricao,
@@ -50,12 +60,14 @@ SELECT prdno                                                                   A
        R.form_label                                                            AS rotulo,
        P.freight_icms / 100                                                    AS freteICMS,
        TRUNCATE(P.cost / 10000, 2)                                             AS precoCusto,
-       TRUNCATE(P.auxLong3 / 100, 2)                                           AS cfinanceiro
+       TRUNCATE(P.auxLong3 / 100, 2)                                           AS cfinanceiro,
+       CAST(IFNULL(E.impostos, '') AS CHAR)                                    AS impostos
 FROM sqldados.prp AS P
          INNER JOIN sqldados.prd AS PD ON PD.no = P.prdno
          INNER JOIN sqldados.spedprd AS S USING (prdno)
          LEFT JOIN sqldados.prdalq AS R USING (prdno)
          INNER JOIN sqldados.vend AS V ON PD.mfno = V.no
+         LEFT JOIN T_ETIQUETAS AS E USING (prdno)
 WHERE P.storeno = 10
   AND P.prdno < LPAD('960001', 16, ' ')
   AND (P.prdno = @PRDNO OR @CODIGO = 0)
