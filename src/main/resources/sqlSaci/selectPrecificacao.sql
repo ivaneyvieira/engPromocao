@@ -14,7 +14,7 @@ CREATE TEMPORARY TABLE T_ETIQUETAS
 )
 SELECT prdno, GROUP_CONCAT(DISTINCT TRIM(text__256) ORDER BY seqno SEPARATOR '\\') AS impostos
 FROM sqldados.prdetq2
-WHERE text__256 LIKE 'ICMS ENTRADA%'
+WHERE (text__256 LIKE 'ICMS ENTRADA%' OR text__256 LIKE 'MVA ORIGINAL%')
 GROUP BY prdno;
 
 SELECT prdno                                                                   AS prdno,

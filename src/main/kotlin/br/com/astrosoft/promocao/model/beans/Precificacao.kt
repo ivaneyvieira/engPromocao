@@ -75,6 +75,19 @@ class Precificacao(
         return imposto.split(" +".toRegex()).getOrNull(4)?.replace(',', '.')?.toDoubleOrNull()
     }
 
+    fun mvaMaOrig(): Double? {
+        val mvaOri = impostoList.firstOrNull { linha ->
+            val parte = linha.split(" +".toRegex())
+            parte.getOrNull(0) == "MVA" &&
+                    parte.getOrNull(1) == "ORIGINAL"
+
+        } ?: return null
+        return mvaOri.split(" +".toRegex()).getOrNull(3)?.replace(',', '.')?.toDoubleOrNull()
+    }
+
+    val mvaMaOrig: Double?
+        get() = mvaMaOrig()
+
     val diferencaCusto
         get() = (custoContabil ?: 0.00) - (precoCusto ?: 0.00)
     val freteICMSCalc: Double?
