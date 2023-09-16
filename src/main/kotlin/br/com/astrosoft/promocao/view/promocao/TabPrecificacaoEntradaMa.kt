@@ -22,9 +22,10 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFreteIcms
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFreteIcmsCalc
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcms
-import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsEntMa
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIpi
-import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMvaMa
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMvaMa04
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMvaMa07
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMvaMa12
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoNcm
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPFabrica
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPrecoCusto
@@ -164,8 +165,9 @@ class TabPrecificacaoEntradaMa(val viewModel: TabPrecificacaoEntradaMaViewModel)
         promocaoNcm()
         promocaoRotulo()
         promocaoTributacao()
-        promocaoMvaMa()
-        promocaoIcmsEntMa()
+        promocaoMvaMa04()
+        promocaoMvaMa07()
+        promocaoMvaMa12()
         promocaoPFabrica()
         promocaoIpi()
         promocaoEmbalagem()

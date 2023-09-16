@@ -54,14 +54,14 @@ class Precificacao(
         } ?: return null
         return imposto.split(" +".toRegex()).getOrNull(2)?.replace(',', '.')?.toDoubleOrNull()
     }
+    val mvaMa04: Double?
+        get() = mvaMa("4")
 
-    var filtroIcmsMa: String = "4"
+    val mvaMa07: Double?
+        get() = mvaMa("7")
 
-    val icmsEntradaMa: Double?
-        get() = icmsEntradaMa(filtroIcmsMa)
-
-    val mvaMa: Double?
-        get() = mvaMa(filtroIcmsMa)
+    val mvaMa12: Double?
+        get() = mvaMa("12")
 
     fun mvaMa(icms: String): Double? {
         val imposto = impostoList.firstOrNull { linha ->
