@@ -22,7 +22,9 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFreteIcms
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFreteIcmsCalc
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcms
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsEnt
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIpi
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMva
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMvaMa04
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMvaMa07
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMvaMa12
@@ -165,6 +167,8 @@ class TabPrecificacaoEntradaMa(val viewModel: TabPrecificacaoEntradaMaViewModel)
         promocaoNcm()
         promocaoRotulo()
         promocaoTributacao()
+        promocaoMva()
+        promocaoIcmsEnt()
         promocaoMvaMa04()
         promocaoMvaMa07()
         promocaoMvaMa12()
