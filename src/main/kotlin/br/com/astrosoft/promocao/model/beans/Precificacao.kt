@@ -82,7 +82,7 @@ class Precificacao(
                     parte.getOrNull(1) == "ORIGINAL"
 
         } ?: return null
-        return mvaOri.split(" +".toRegex()).getOrNull(3)?.replace(',', '.')?.toDoubleOrNull()
+        return mvaOri.split(" +".toRegex()).getOrNull(2)?.replace(',', '.')?.toDoubleOrNull()
     }
 
     val mvaMaOrig: Double?
