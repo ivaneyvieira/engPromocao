@@ -180,6 +180,7 @@ class TabPrecificacaoEntradaMa(val viewModel: TabPrecificacaoEntradaMaViewModel)
         promocaoRetido()
         promocaoIcms()
         promocaoFrete()
+        /*
         promocaoFreteIcmsCalc().apply {
             this.setClassNameGenerator {
                 if (it.freteICMS.format() != it.freteICMSCalc.format()) "marcaDiferenca" else null
@@ -190,11 +191,13 @@ class TabPrecificacaoEntradaMa(val viewModel: TabPrecificacaoEntradaMaViewModel)
                 if (it.freteICMS.format() != it.freteICMSCalc.format()) "marcaDiferenca" else null
             }
         }
+         */
         promocaoContabil().apply {
             this.setClassNameGenerator {
                 if (it.custoContabil.format() != it.precoCusto.format()) "marcaDiferenca" else null
             }
         }
+        /*
         promocaoCFinanceiro()
         promocaoPrecoCusto().apply {
             this.setClassNameGenerator {
@@ -206,6 +209,7 @@ class TabPrecificacaoEntradaMa(val viewModel: TabPrecificacaoEntradaMaViewModel)
                 if (it.custoContabil.format() != it.precoCusto.format()) "marcaDiferenca" else null
             }
         }
+         */
     }
 
     override fun filtro(): FiltroPrecificacao {
