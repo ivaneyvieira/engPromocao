@@ -111,6 +111,10 @@ object PrecificacaoColumns {
         this.setHeader("NCM MA")
     }
 
+    fun Grid<Precificacao>.promocaoMvaMa00() = addColumnDouble(Precificacao::mvaMa00) {
+        this.setHeader("MVA 0")
+    }
+
     fun Grid<Precificacao>.promocaoMvaMa04() = addColumnDouble(Precificacao::mvaMa04) {
         this.setHeader("MVA 4")
     }

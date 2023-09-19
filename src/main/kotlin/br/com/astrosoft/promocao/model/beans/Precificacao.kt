@@ -54,6 +54,10 @@ class Precificacao(
         } ?: return null
         return imposto.split(" +".toRegex()).getOrNull(2)?.replace(',', '.')?.toDoubleOrNull()
     }
+
+    val mvaMa00: Double?
+        get() = mvaMa("0")
+
     val mvaMa04: Double?
         get() = mvaMa("4")
 
