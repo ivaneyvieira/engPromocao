@@ -30,6 +30,7 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMvaMa12
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMvaMaOriginal
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoNcm
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoNcmMa
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPFabrica
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPrecoCusto
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoRetido
@@ -170,6 +171,7 @@ class TabPrecificacaoEntradaMa(val viewModel: TabPrecificacaoEntradaMaViewModel)
         promocaoTributacao()
         promocaoMva()
         promocaoIcmsEnt()
+        promocaoNcmMa()
         promocaoMvaMaOriginal()
         promocaoMvaMa04()
         promocaoMvaMa07()
@@ -180,36 +182,11 @@ class TabPrecificacaoEntradaMa(val viewModel: TabPrecificacaoEntradaMaViewModel)
         promocaoRetido()
         promocaoIcms()
         promocaoFrete()
-        /*
-        promocaoFreteIcmsCalc().apply {
-            this.setClassNameGenerator {
-                if (it.freteICMS.format() != it.freteICMSCalc.format()) "marcaDiferenca" else null
-            }
-        }
-        promocaoFreteIcms().apply {
-            this.setClassNameGenerator {
-                if (it.freteICMS.format() != it.freteICMSCalc.format()) "marcaDiferenca" else null
-            }
-        }
-         */
         promocaoContabil().apply {
             this.setClassNameGenerator {
                 if (it.custoContabil.format() != it.precoCusto.format()) "marcaDiferenca" else null
             }
         }
-        /*
-        promocaoCFinanceiro()
-        promocaoPrecoCusto().apply {
-            this.setClassNameGenerator {
-                if (it.custoContabil.format() != it.precoCusto.format()) "marcaDiferenca" else null
-            }
-        }
-        promocaoDiferenca().apply {
-            this.setClassNameGenerator {
-                if (it.custoContabil.format() != it.precoCusto.format()) "marcaDiferenca" else null
-            }
-        }
-         */
     }
 
     override fun filtro(): FiltroPrecificacao {

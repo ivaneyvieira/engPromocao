@@ -85,6 +85,21 @@ class Precificacao(
         return mvaOri.split(" +".toRegex()).getOrNull(2)?.replace(',', '.')?.toDoubleOrNull()
     }
 
+    fun ncmMa(): String? {
+        val ncmMa = impostoList.firstOrNull { linha ->
+            val parte = linha.split(" +".toRegex())
+            parte.getOrNull(0) == "TIMON" &&
+                    parte.getOrNull(1) == "-" &&
+                    parte.getOrNull(2) == "MA" &&
+                    parte.getOrNull(3) == "NCM"
+
+        } ?: return null
+        return ncmMa.split(" +".toRegex()).getOrNull(4)
+    }
+
+    val ncmMa: String?
+        get() = ncmMa()
+
     val mvaMaOrig: Double?
         get() = mvaMaOrig()
 
