@@ -50,7 +50,7 @@ CREATE TEMPORARY TABLE T_STK
 SELECT prdno, SUM(ROUND(qtty_varejo / 1000)) AS estoque
 FROM sqldados.stk AS S
          INNER JOIN T_PRD USING (prdno)
-WHERE storeno IN (1, 2, 3, 4, 5, 6)
+WHERE storeno IN (1, 2, 3, 4, 5, 6, 8)
 GROUP BY prdno;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRICE;

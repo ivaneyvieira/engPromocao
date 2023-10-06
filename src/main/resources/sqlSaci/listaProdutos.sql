@@ -46,7 +46,7 @@ SELECT prdno,
        SUM(IF(storeno = 8, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS TM_TT,
        SUM(qtty_varejo + qtty_atacado) / 1000                          AS estoque
 FROM sqldados.stk AS S
-WHERE S.storeno IN (1, 2, 3, 4, 5, 6)
+WHERE S.storeno IN (1, 2, 3, 4, 5, 6, 8)
   AND (S.storeno = @LOJA OR @LOJA = 0)
 GROUP BY prdno, gradeOpt;
 
@@ -147,7 +147,7 @@ CREATE TEMPORARY TABLE T_PRDVENDA
 SELECT R.prdno, R.grade, MAX(date) AS date, SUM(quant / 1000) AS qtty
 FROM T_RESULT AS R
          INNER JOIN sqldados.vendaDate AS X ON X.prdno = R.prdno AND X.grade = R.grade
-WHERE (X.storeno IN (1, 2, 3, 4, 5, 6))
+WHERE (X.storeno IN (1, 2, 3, 4, 5, 6, 8))
   AND (X.storeno = @LOJA OR @LOJA = 0)
   AND date BETWEEN @DIVENDA AND @DFVENDA
 GROUP BY R.prdno, R.grade;
@@ -160,7 +160,7 @@ CREATE TEMPORARY TABLE T_PRDCOMPRA
 SELECT R.prdno, R.grade, MAX(date) AS date, SUM(quant / 1000) AS qtty
 FROM T_RESULT AS R
          INNER JOIN sqldados.compraDate P ON P.prdno = R.prdno AND P.grade = R.grade
-WHERE (storeno IN (1, 2, 3, 4, 5, 6))
+WHERE (storeno IN (1, 2, 3, 4, 5, 6, 8))
   AND (storeno = @LOJA OR @LOJA = 0)
   AND date BETWEEN @DICOMPRA AND @DFCOMPRA
 GROUP BY R.prdno, R.grade;

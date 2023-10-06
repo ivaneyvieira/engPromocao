@@ -79,7 +79,7 @@ CREATE TEMPORARY TABLE T_SALDO
 SELECT prdno, SUM(qtty_varejo / 1000) AS saldo, SUM(IF(S.storeno = 4, qtty_varejo / 1000, 0.000)) AS saldoMF
 FROM sqldados.stk AS S
          INNER JOIN T_MESTRE AS M USING (prdno)
-WHERE S.storeno IN (2, 3, 4, 5, 6, 7)
+WHERE S.storeno IN (2, 3, 4, 5, 6, 7, 8)
 GROUP BY prdno;
 
 DROP TEMPORARY TABLE IF EXISTS T_VALCOMPARA;

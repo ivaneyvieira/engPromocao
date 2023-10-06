@@ -13,7 +13,7 @@ FROM sqldados.nf AS N
          INNER JOIN sqldados.xaprd2 AS X USING (storeno, pdvno, xano)
 WHERE tipo IN (3, 0)
   AND status <> 1
-  AND (X.storeno IN (1, 2, 3, 4, 5, 6))
+  AND (X.storeno IN (1, 2, 3, 4, 5, 6, 8))
   AND issuedate = CURRENT_DATE * 1
 GROUP BY X.storeno, X.prdno, X.grade;
 
@@ -22,7 +22,7 @@ CREATE TEMPORARY TABLE T_NF_DEVOLUCAO
 SELECT storeno, prdno, grade, date as data, SUM(qtty) AS quant
 FROM sqldados.xalog2
 WHERE qtty < 0
-  AND (storeno IN (1, 2, 3, 4, 5, 6))
+  AND (storeno IN (1, 2, 3, 4, 5, 6, 8))
   AND date = CURRENT_DATE * 1
 GROUP BY storeno, prdno, grade;
 

@@ -134,7 +134,7 @@ SELECT LPAD(TRIM(P.prdno), 6, '0')          AS codigo,
        IFNULL(descricaoCompleta2, '')       AS descricaoCompleta2,
        SUM(IFNULL(S.qtty_varejo, 0) / 1000) AS estoque
 FROM T_PRD AS P
-         LEFT JOIN sqldados.stk AS S ON P.prdno = S.prdno AND storeno IN (1, 2, 3, 4, 5, 6)
+         LEFT JOIN sqldados.stk AS S ON P.prdno = S.prdno AND storeno IN (1, 2, 3, 4, 5, 6, 8)
 WHERE LPAD(TRIM(P.prdno), 6, '0') NOT BETWEEN '980000' AND '999999'
 GROUP BY P.prdno, S.grade
 
