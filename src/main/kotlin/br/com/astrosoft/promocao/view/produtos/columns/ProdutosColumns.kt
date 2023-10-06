@@ -34,7 +34,7 @@ object ProdutosColumns {
     }
 
     fun Grid<Produtos>.produto_tributacao() = addColumnString(Produtos::tributacao) {
-        this.setHeader("Tributação")
+        this.setHeader("Trib")
         this.config()
     }
 
