@@ -204,6 +204,11 @@ object ProdutosColumns {
         this.config()
     }
 
+    fun Grid<Produtos>.produto_Rotulo() = addColumnString(Produtos::rotulo) {
+        this.setHeader("Rotulo")
+        this.config()
+    }
+
     fun Grid<Produtos>.produto_FLinha() = addColumnString(Produtos::foraLinha) {
         this.setHeader("F. Linha")
         this.config()

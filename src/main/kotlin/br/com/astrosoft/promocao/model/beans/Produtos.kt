@@ -48,6 +48,7 @@ class Produtos(
     val qttyCompra: Int?,
     var MF_App: Int? = null,
     val localizacao: String?,
+    val rotulo: String?,
 ) {
     val MF_Dif
         get() = MF_TT - (MF_App ?: 0)

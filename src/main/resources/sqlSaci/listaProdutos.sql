@@ -20,7 +20,7 @@ CREATE TEMPORARY TABLE T_STK
     PRIMARY KEY (prdno, gradeOpt)
 )
 SELECT prdno,
-       if(@TEMGRADE = 'S', grade, '')                                  as gradeOpt,
+       IF(@TEMGRADE = 'S', grade, '')                                  AS gradeOpt,
        SUM(IF(storeno = 1, qtty_varejo / 1000, 0.00))                  AS JS_VA,
        SUM(IF(storeno = 1, qtty_atacado / 1000, 0.00))                 AS JS_AT,
        SUM(IF(storeno = 1, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS JS_TT,
@@ -104,9 +104,11 @@ SELECT P.no                                                             AS prdno
        ''                                                               AS site,
        TRIM(MID(P.name, 37, 3))                                         AS unidade,
        IF((dereg & POW(2, 2)) = 0, 'N', 'S')                            AS foraLinha,
-       MID(L.localizacao, 1, 4)                                         as localizacao
+       MID(L.localizacao, 1, 4)                                         AS localizacao,
+       R.form_label                                                     AS rotulo
 FROM sqldados.prd AS P
          INNER JOIN T_STK AS S ON S.prdno = P.no
+         LEFT JOIN sqldados.prdalq AS R USING (prdno)
          LEFT JOIN sqldados.prd2 AS P2 ON P.no = P2.prdno
          LEFT JOIN sqldados.vend AS V ON V.no = P.mfno
          LEFT JOIN sqldados.prdbar AS B ON S.prdno = B.prdno AND S.gradeOpt = IF(@TEMGRADE = 'S', B.grade, '')
@@ -208,7 +210,8 @@ SELECT R.prdno,
        CAST(C.date AS DATE)     AS ultCompra,
        ROUND(IFNULL(V.qtty, 0)) AS qttyVendas,
        ROUND(IFNULL(C.qtty, 0)) AS qttyCompra,
-       localizacao
+       localizacao,
+       rotulo
 FROM T_RESULT AS R
          LEFT JOIN T_PRDVENDA AS V ON (R.prdno = V.prdno AND R.grade = V.grade)
          LEFT JOIN T_PRDCOMPRA AS C ON (R.prdno = C.prdno AND R.grade = C.grade)
@@ -223,5 +226,7 @@ WHERE (:pesquisa = ''
     OR groupno LIKE @PESQUISA
     OR deptno LIKE @PESQUISA
     OR codBar LIKE @PESQUISA
-    OR ncm LIKE @PESQUISA)
+    OR ncm LIKE @PESQUISA
+    OR localizacao LIKE @PESQUISA
+    OR rotulo LIKE @PESQUISA)
   AND (R.grade LIKE @GRADE OR @GRADE = '')
