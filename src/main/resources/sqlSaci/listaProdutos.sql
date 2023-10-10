@@ -136,7 +136,8 @@ FROM sqldados.prd AS P
          LEFT JOIN sqldados.vend AS V ON V.no = P.mfno
          LEFT JOIN sqldados.prdbar AS B ON S.prdno = B.prdno AND S.gradeOpt = IF(@TEMGRADE = 'S', B.grade, '')
          LEFT JOIN sqldados.spedprd AS N ON N.prdno = P.no
-         LEFT JOIN sqldados.prdloc AS L ON L.prdno = S.prdno AND S.gradeOpt = IF(@TEMGRADE = 'S', L.grade, '')
+         LEFT JOIN sqldados.prdloc AS L
+                   ON L.prdno = S.prdno AND S.gradeOpt = IF(@TEMGRADE = 'S', L.grade, '') AND L.storeno = 4
 WHERE (P.no = @PRDNO OR @CODIGO = 0)
   AND (FIND_IN_SET(P.mfno, @LISTVEND) OR @LISTVEND = '')
   AND (P.typeno = @TYPENO OR @TYPENO = 0)

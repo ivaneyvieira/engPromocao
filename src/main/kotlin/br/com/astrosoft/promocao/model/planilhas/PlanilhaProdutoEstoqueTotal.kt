@@ -23,6 +23,9 @@ class PlanilhaProdutoEstoqueTotal : PlanilhaProduto() {
             CampoInt("MF TT") { MF_TT },
             CampoInt("PK TT") { PK_TT },
             CampoInt("TM TT") { TM_TT },
+            CampoInt("TM TT") { TM_TT },
+            CampoInt("Qtd Ped") { qtPedido },
+            CampoString("Loc") { localizacao ?: ""},
             CampoString("Ult Compra") { ultCompra?.format() ?: "" },
             CampoString("Ult Venda") { ultCompra?.format() ?: "" },
         )
