@@ -32,6 +32,7 @@ class Produtos(
     val TM_AT: Int,
     val TM_TT: Int,
     val estoque: Int,
+    val qtPedido: Int,
     val trib: String,
     val refForn: String,
     val pesoBruto: Double,

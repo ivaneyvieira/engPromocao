@@ -149,6 +149,11 @@ object ProdutosColumns {
         this.config()
     }
 
+    fun Grid<Produtos>.produto_qtPedido() = addColumnInt(Produtos::qtPedido) {
+        this.setHeader("Qtd Ped")
+        this.config()
+    }
+
     fun Grid<Produtos>.produto_estoque() = addColumnInt(Produtos::estoque) {
         this.setHeader("Total")
         this.config()

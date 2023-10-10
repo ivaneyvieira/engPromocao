@@ -26,10 +26,11 @@ CREATE TEMPORARY TABLE T_ORDS
 (
     PRIMARY KEY (prdno, grade)
 )
-SELECT DISTINCT prdno, grade
+SELECT prdno, grade, SUM(qtty) AS qtPedido
 FROM sqldados.oprd
 WHERE storeno = @PEDIDO_LOJA
-  AND ordno = @PEDIDO_NUMERO;
+  AND ordno = @PEDIDO_NUMERO
+GROUP BY prdno, grade;
 
 DROP TABLE IF EXISTS T_STK;
 CREATE TEMPORARY TABLE T_STK
@@ -61,7 +62,8 @@ SELECT prdno,
        SUM(IF(storeno = 8, qtty_varejo / 1000, 0.00))                  AS TM_VA,
        SUM(IF(storeno = 8, qtty_atacado / 1000, 0.00))                 AS TM_AT,
        SUM(IF(storeno = 8, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS TM_TT,
-       SUM(qtty_varejo + qtty_atacado) / 1000                          AS estoque
+       SUM(qtty_varejo + qtty_atacado) / 1000                          AS estoque,
+       O.qtPedido                                                      AS qtPedido
 FROM sqldados.stk AS S
          LEFT JOIN T_ORDS AS O
                    USING (prdno, grade)
@@ -108,6 +110,7 @@ SELECT P.no                                                             AS prdno
        ROUND(TM_AT)                                                     AS TM_AT,
        ROUND(TM_TT)                                                     AS TM_TT,
        ROUND(estoque)                                                   AS estoque,
+       ROUND(qtPedido)                                                  AS qtPedido,
        P.taxno                                                          AS trib,
        P.mfno_ref                                                       AS refForn,
        P.weight_g                                                       AS pesoBruto,
@@ -213,6 +216,7 @@ SELECT R.prdno,
        TM_AT,
        TM_TT,
        estoque,
+       qtPedido,
        trib,
        refForn,
        pesoBruto,
