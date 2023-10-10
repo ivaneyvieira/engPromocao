@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.produtos
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.promocao.model.beans.EEstoqueTotal
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
@@ -62,6 +63,7 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
 
     override fun Grid<Produtos>.colunasGrid() {
         this.setSelectionMode(Grid.SelectionMode.MULTI)
+        this.shiftSelect()
         addColumnSeq("Seq")
         produto_codigo()
         produto_descricao()
