@@ -14,6 +14,23 @@ DO @TEMGRADE := :temGrade;
 DO @GRADE := :grade;
 DO @LOJA := :loja;
 
+DO @PEDIDO := IF(:pesquisa REGEXP '^[0-9]{1,2} [0-9]+$', :pesquisa, '');
+DO @PEDIDO_LOJA := SUBSTRING_INDEX(@PEDIDO, ' ', 1) * 1;
+DO @PEDIDO_NUMERO := SUBSTRING_INDEX(@PEDIDO, ' ', -1) * 1;
+
+DO @PESQUISA := IF(:pesquisa NOT REGEXP '^[0-9]{1,2} [0-9]+$', :pesquisa, '');
+DO @PESQUISA_LIKE := CONCAT(@PESQUISA, '%');
+
+DROP TABLE IF EXISTS T_ORDS;
+CREATE TEMPORARY TABLE T_ORDS
+(
+    PRIMARY KEY (prdno, grade)
+)
+SELECT DISTINCT prdno, grade
+FROM sqldados.oprd
+WHERE storeno = @PEDIDO_LOJA
+  AND ordno = @PEDIDO_NUMERO;
+
 DROP TABLE IF EXISTS T_STK;
 CREATE TEMPORARY TABLE T_STK
 (
@@ -46,8 +63,11 @@ SELECT prdno,
        SUM(IF(storeno = 8, (qtty_varejo + qtty_atacado) / 1000, 0.00)) AS TM_TT,
        SUM(qtty_varejo + qtty_atacado) / 1000                          AS estoque
 FROM sqldados.stk AS S
+         LEFT JOIN T_ORDS AS O
+                   USING (prdno, grade)
 WHERE S.storeno IN (1, 2, 3, 4, 5, 6, 8)
   AND (S.storeno = @LOJA OR @LOJA = 0)
+  AND (O.prdno IS NOT NULL OR @PEDIDO = '')
 GROUP BY prdno, gradeOpt;
 
 DROP TABLE IF EXISTS T_RESULT;
@@ -166,9 +186,6 @@ WHERE (storeno IN (1, 2, 3, 4, 5, 6, 8))
   AND (storeno = @LOJA OR @LOJA = 0)
   AND date BETWEEN @DICOMPRA AND @DFCOMPRA
 GROUP BY R.prdno, R.grade;
-
-DO @PESQUISA := :pesquisa;
-DO @PESQUISA_LIKE := CONCAT(:pesquisa, '%');
 
 SELECT R.prdno,
        codigo,
