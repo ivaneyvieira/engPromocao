@@ -20,55 +20,55 @@ import com.vaadin.flow.data.provider.ListDataProvider
 import kotlin.reflect.KClass
 
 abstract class TabPanelGrid<T : Any>(classGrid: KClass<T>) : VerticalLayout() {
-    private val dataProviderPanel = ListDataProvider<T>(mutableListOf())
-    protected val gridPanel: Grid<T> = Grid(classGrid.java, false)
-    protected abstract fun HorizontalLayout.toolBarConfig()
-    protected abstract fun Grid<T>.gridPanel()
+  private val dataProviderPanel = ListDataProvider<T>(mutableListOf())
+  protected val gridPanel: Grid<T> = Grid(classGrid.java, false)
+  protected abstract fun HorizontalLayout.toolBarConfig()
+  protected abstract fun Grid<T>.gridPanel()
 
-    fun createTabComponent(): Component {
-        this.setSizeFull()
-        isMargin = false
-        isPadding = false
-        horizontalLayout {
-            setWidthFull()
-            toolBarConfig()
-        }
-
-        gridPanel.apply {
-            this.dataProvider = dataProviderPanel
-            isExpand = true
-            isMultiSort = true
-            addThemeVariants(LUMO_COMPACT)
-            gridPanel()
-        }
-        addAndExpand(gridPanel)
-        return this
+  fun createTabComponent(): Component {
+    this.setSizeFull()
+    isMargin = false
+    isPadding = false
+    horizontalLayout {
+      setWidthFull()
+      toolBarConfig()
     }
 
-    fun updateGrid(itens: List<T>) {
-        gridPanel.deselectAll()
-        dataProviderPanel.updateItens(itens)
+    gridPanel.apply {
+      this.dataProvider = dataProviderPanel
+      isExpand = true
+      isMultiSort = true
+      addThemeVariants(LUMO_COMPACT)
+      gridPanel()
     }
+    addAndExpand(gridPanel)
+    return this
+  }
 
-    fun listBeans() = dataProviderPanel.fetchAll()
+  fun updateGrid(itens: List<T>) {
+    gridPanel.deselectAll()
+    dataProviderPanel.updateItens(itens)
+  }
 
-    fun itensSelecionados() = gridPanel.selectedItems.toList()
+  fun listBeans() = dataProviderPanel.fetchAll()
 
-    fun showErro(msg: String?) {
-        val notification = Notification()
-        notification.addThemeVariants(NotificationVariant.LUMO_ERROR)
+  fun itensSelecionados() = gridPanel.selectedItems.toList()
 
-        val text = Div(Text(msg))
+  fun showErro(msg: String?) {
+    val notification = Notification()
+    notification.addThemeVariants(NotificationVariant.LUMO_ERROR)
 
-        val closeButton = Button(Icon("lumo", "cross"))
-        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE)
-        closeButton.element.setAttribute("aria-label", "Close")
-        closeButton.addClickListener { event -> notification.close() }
+    val text = Div(Text(msg))
 
-        val layout = HorizontalLayout(text, closeButton)
-        layout.alignItems = FlexComponent.Alignment.CENTER
+    val closeButton = Button(Icon("lumo", "cross"))
+    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE)
+    closeButton.element.setAttribute("aria-label", "Close")
+    closeButton.addClickListener { event -> notification.close() }
 
-        notification.add(layout)
-        notification.open()
-    }
+    val layout = HorizontalLayout(text, closeButton)
+    layout.alignItems = FlexComponent.Alignment.CENTER
+
+    notification.add(layout)
+    notification.open()
+  }
 }

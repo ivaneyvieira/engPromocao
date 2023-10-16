@@ -18,62 +18,62 @@ import com.vaadin.flow.server.PageConfigurator
 import kotlin.reflect.KClass
 
 abstract class MainLayout : AppLayout(), RouterLayout, BeforeEnterObserver, PageConfigurator {
-    init {
-        isDrawerOpened = true
-        navbar {
-            drawerToggle()
-            h3(Config.title)
-            horizontalLayout {
-                isExpand = true
-            }
-            button("Sair") {
-                onLeftClick {
-                    Session.current.close()
-                    ui.ifPresent {
-                        it.session.close()
-                        it.navigate("")
-                    }
-                }
-            }
+  init {
+    isDrawerOpened = true
+    navbar {
+      drawerToggle()
+      h3(Config.title)
+      horizontalLayout {
+        isExpand = true
+      }
+      button("Sair") {
+        onLeftClick {
+          Session.current.close()
+          ui.ifPresent {
+            it.session.close()
+            it.navigate("")
+          }
         }
-        drawer {
-            verticalLayout {
-                label("Versão ${Config.version}")
-                label(Config.user?.login)
-            }
-            hr()
-
-            tabs {
-                orientation = Tabs.Orientation.VERTICAL
-                this.menuConfig()
-            }
-        }
+      }
     }
+    drawer {
+      verticalLayout {
+        label("Versão ${Config.version}")
+        label(Config.user?.login)
+      }
+      hr()
 
-    abstract fun Tabs.menuConfig()
-
-    override fun beforeEnter(event: BeforeEnterEvent) {
-        if (!SecurityUtils.isUserLoggedIn) {
-            event.rerouteTo(LoginView::class.java)
-        }
+      tabs {
+        orientation = Tabs.Orientation.VERTICAL
+        this.menuConfig()
+      }
     }
+  }
 
-    fun Tabs.menuRoute(
-        icon: VaadinIcon,
-        text: String,
-        viewType: KClass<out Component>,
-        isEnabled: Boolean = true
-    ): Tab {
-        return tab {
-            this.isEnabled = isEnabled
-            this.icon(icon)
-            routerLink(text = text, viewType = viewType)
-        }
-    }
+  abstract fun Tabs.menuConfig()
 
-    override fun configurePage(settings: InitialPageSettings?) {
-        val attributes = HashMap<String, String>()
-        attributes["rel"] = "shortcut icon"
-        settings?.addLink(Config.iconPath, attributes)
+  override fun beforeEnter(event: BeforeEnterEvent) {
+    if (!SecurityUtils.isUserLoggedIn) {
+      event.rerouteTo(LoginView::class.java)
     }
+  }
+
+  fun Tabs.menuRoute(
+    icon: VaadinIcon,
+    text: String,
+    viewType: KClass<out Component>,
+    isEnabled: Boolean = true
+  ): Tab {
+    return tab {
+      this.isEnabled = isEnabled
+      this.icon(icon)
+      routerLink(text = text, viewType = viewType)
+    }
+  }
+
+  override fun configurePage(settings: InitialPageSettings?) {
+    val attributes = HashMap<String, String>()
+    attributes["rel"] = "shortcut icon"
+    settings?.addLink(Config.iconPath, attributes)
+  }
 }

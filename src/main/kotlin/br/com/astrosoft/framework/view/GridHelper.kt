@@ -17,110 +17,110 @@ import kotlin.reflect.KClass
 //***********************************************************************************************
 
 fun <T : Any> Grid<T>.withEditor(
-    classBean: KClass<T>,
-    openEditor: (Binder<T>) -> Unit,
-    closeEditor: (Binder<T>) -> Unit
+  classBean: KClass<T>,
+  openEditor: (Binder<T>) -> Unit,
+  closeEditor: (Binder<T>) -> Unit
 ) {
-    val binder = Binder(classBean.java)
-    editor.binder = binder
-    addItemDoubleClickListener { event ->
-        editor.editItem(event.item)
-    }
-    editor.addOpenListener {
-        openEditor(binder)
-    }
-    editor.addCloseListener { _ ->
-        editor.refresh()
-        openEditor(binder)
-        closeEditor(binder)
-    }
-    element.addEventListener("keyup") { editor.cancel() }.filter = "event.key === 'Escape' || event.key === 'Esc'"
+  val binder = Binder(classBean.java)
+  editor.binder = binder
+  addItemDoubleClickListener { event ->
+    editor.editItem(event.item)
+  }
+  editor.addOpenListener {
+    openEditor(binder)
+  }
+  editor.addCloseListener { _ ->
+    editor.refresh()
+    openEditor(binder)
+    closeEditor(binder)
+  }
+  element.addEventListener("keyup") { editor.cancel() }.filter = "event.key === 'Escape' || event.key === 'Esc'"
 }
 
 fun <T : Any> Grid.Column<T>.decimalFieldEditor(): Grid.Column<T> {
-    val component = decimalFieldComponent()
-    grid.editor.binder.forField(component).withConverter(BigDecimalToDoubleConverter()).bind(this.key)
-    this.editorComponent = component
-    return this
+  val component = decimalFieldComponent()
+  grid.editor.binder.forField(component).withConverter(BigDecimalToDoubleConverter()).bind(this.key)
+  this.editorComponent = component
+  return this
 }
 
 fun <T : Any> Grid.Column<T>.textAreaEditor(block: TextArea.() -> Unit = {}): Grid.Column<T> {
-    val component = textAreaComponente()
-    component.block()
-    grid.editor.binder.forField(component).bind(this.key)
-    this.editorComponent = component
-    return this
+  val component = textAreaComponente()
+  component.block()
+  grid.editor.binder.forField(component).bind(this.key)
+  this.editorComponent = component
+  return this
 }
 
 fun <T : Any> Grid.Column<T>.integerFieldEditor(block: IntegerField.() -> Unit = {}): Grid.Column<T> {
-    val component = integerFieldComponente()
-    component.block()
-    grid.editor.binder.forField(component).bind(this.key)
-    this.editorComponent = component
-    return this
+  val component = integerFieldComponente()
+  component.block()
+  grid.editor.binder.forField(component).bind(this.key)
+  this.editorComponent = component
+  return this
 }
 
 fun <T : Any> Grid.Column<T>.textFieldEditor(): Grid.Column<T> {
-    val grid = this.grid
-    val component = textFieldComponente()/*
+  val grid = this.grid
+  val component = textFieldComponente()/*
   component.addKeyPressListener {
     if(it.key == Key.ENTER){
       grid.editor.save()
     }
   }*/
-    component.element.addEventListener("keydown") { event ->
-        grid.editor.cancel()
-    }.filter = "event.key === 'Enter'"
-    grid.editor.binder.forField(component).bind(this.key)
-    this.editorComponent = component
-    return this
+  component.element.addEventListener("keydown") { event ->
+    grid.editor.cancel()
+  }.filter = "event.key === 'Enter'"
+  grid.editor.binder.forField(component).bind(this.key)
+  this.editorComponent = component
+  return this
 }
 
 //***********************************************************************************************
 
 private fun decimalFieldComponent(): BigDecimalField {
-    return BigDecimalField().apply {
-        this.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT)
-        this.setSizeFull()
-        addThemeVariants(TextFieldVariant.LUMO_SMALL)
-        this.valueChangeMode = ValueChangeMode.ON_CHANGE
-        this.isAutoselect = true
-        this.locale = Locale.forLanguageTag("pt-BR")
-    }
+  return BigDecimalField().apply {
+    this.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT)
+    this.setSizeFull()
+    addThemeVariants(TextFieldVariant.LUMO_SMALL)
+    this.valueChangeMode = ValueChangeMode.ON_CHANGE
+    this.isAutoselect = true
+    this.locale = Locale.forLanguageTag("pt-BR")
+  }
 }
 
 private fun textFieldComponente() = TextField().apply {
-    this.valueChangeMode = ValueChangeMode.ON_CHANGE
-    addThemeVariants(TextFieldVariant.LUMO_SMALL)
-    this.isAutoselect = true
-    this.isClearButtonVisible = true
-    this.setWidthFull()
-    setSizeFull()
+  this.valueChangeMode = ValueChangeMode.ON_CHANGE
+  addThemeVariants(TextFieldVariant.LUMO_SMALL)
+  this.isAutoselect = true
+  this.isClearButtonVisible = true
+  this.setWidthFull()
+  setSizeFull()
 }
 
 private fun integerFieldComponente() = IntegerField().apply {
-    this.valueChangeMode = ValueChangeMode.ON_CHANGE
-    addThemeVariants(TextFieldVariant.LUMO_SMALL)
-    this.isAutoselect = true
-    setSizeFull()
+  this.valueChangeMode = ValueChangeMode.ON_CHANGE
+  addThemeVariants(TextFieldVariant.LUMO_SMALL)
+  this.isAutoselect = true
+  setSizeFull()
 }
 
 private fun textAreaComponente() = TextArea().apply {
-    this.valueChangeMode = ValueChangeMode.ON_CHANGE
-    style.set("maxHeight", "50em")
-    style.set("minHeight", "2em")
-    addThemeVariants(TextAreaVariant.LUMO_SMALL)
-    this.isAutoselect = true
-    setSizeFull()
+  this.valueChangeMode = ValueChangeMode.ON_CHANGE
+  style.set("maxHeight", "50em")
+  style.set("minHeight", "2em")
+  addThemeVariants(TextAreaVariant.LUMO_SMALL)
+  this.isAutoselect = true
+  setSizeFull()
 }
 
 class BigDecimalToDoubleConverter : Converter<BigDecimal, Double> {
-    override fun convertToPresentation(value: Double?, context: ValueContext?): BigDecimal {
-        value ?: return BigDecimal.valueOf(0.00)
-        return BigDecimal.valueOf(value)
-    }
+  override fun convertToPresentation(value: Double?, context: ValueContext?): BigDecimal {
+    value ?: return BigDecimal.valueOf(0.00)
+    return BigDecimal.valueOf(value)
+  }
 
-    override fun convertToModel(value: BigDecimal?, context: ValueContext?): Result<Double> {
-        return Result.ok(value?.toDouble() ?: 0.00)
-    }
+  override fun convertToModel(value: BigDecimal?, context: ValueContext?): Result<Double> {
+    return Result.ok(value?.toDouble() ?: 0.00)
+  }
 }

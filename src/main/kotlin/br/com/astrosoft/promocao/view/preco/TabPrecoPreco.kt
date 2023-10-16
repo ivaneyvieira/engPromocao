@@ -21,27 +21,27 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabPrecoPreco(viewModel: TabPrecoAlteradoViewModel) : TabAbstractPreco<ITabPrecoAlteradoViewModel>(viewModel),
-    ITabPrecoAlteradoViewModel {
-    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.precoPreco ?: false
+  ITabPrecoAlteradoViewModel {
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.precoPreco ?: false
 
-    override val label: String
-        get() = "Preço Referência"
+  override val label: String
+    get() = "Preço Referência"
 
-    override fun HorizontalLayout.addAditionaisFields() {
-    }
+  override fun HorizontalLayout.addAditionaisFields() {
+  }
 
-    override fun Grid<PrecoAlteracao>.colunasGrid() {
-        precoCodigo()
-        precoDescricao()
-        precoDataAlteracao()
-        precoHoraAlteracao()
-        precoUsuario()
-        precoVendno()
-        precoFornecedor()
-        precoTipoProduto()
-        precoCentroLucro()
-        precoPrecoRefAnt()
-        precoPrecoRef()
-        precoPrecoRefM()
-    }
+  override fun Grid<PrecoAlteracao>.colunasGrid() {
+    precoCodigo()
+    precoDescricao()
+    precoDataAlteracao()
+    precoHoraAlteracao()
+    precoUsuario()
+    precoVendno()
+    precoFornecedor()
+    precoTipoProduto()
+    precoCentroLucro()
+    precoPrecoRefAnt()
+    precoPrecoRef()
+    precoPrecoRefM()
+  }
 }

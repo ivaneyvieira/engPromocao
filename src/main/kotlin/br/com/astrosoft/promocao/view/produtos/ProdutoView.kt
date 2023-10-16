@@ -14,20 +14,20 @@ import com.vaadin.flow.router.Route
 @PageTitle("Produto")
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class ProdutoView : ViewLayout<ProdutoViewModel>(), IProdutoView {
-    override val viewModel: ProdutoViewModel = ProdutoViewModel(this)
-    override val tabEstoqueGeralViewModel = TabEstoqueGeralProduto(viewModel.tabEstoqueGeralViewModel)
-    override val tabCadastroViewModel = TabCadastroProduto(viewModel.tabCadastroViewModel)
-    override val tabEstoqueTotalViewModel = TabEstoqueTotalProduto(viewModel.tabEstoqueTotalViewModel)
-    override val tabEstoqueAppViewModel = TabEstoqueAppProduto(viewModel.tabEstoqueAppViewModel)
-    override val tabEstoqueAppEntradaViewModel = TabEstoqueAppEntradaProduto(viewModel.tabEstoqueAppEntradaViewModel)
+  override val viewModel: ProdutoViewModel = ProdutoViewModel(this)
+  override val tabEstoqueGeralViewModel = TabEstoqueGeralProduto(viewModel.tabEstoqueGeralViewModel)
+  override val tabCadastroViewModel = TabCadastroProduto(viewModel.tabCadastroViewModel)
+  override val tabEstoqueTotalViewModel = TabEstoqueTotalProduto(viewModel.tabEstoqueTotalViewModel)
+  override val tabEstoqueAppViewModel = TabEstoqueAppProduto(viewModel.tabEstoqueAppViewModel)
+  override val tabEstoqueAppEntradaViewModel = TabEstoqueAppEntradaProduto(viewModel.tabEstoqueAppEntradaViewModel)
 
-    override fun isAccept(user: IUser): Boolean {
-        val userSaci = user as? UserSaci ?: return false
-        return userSaci.menuProduto
-    }
+  override fun isAccept(user: IUser): Boolean {
+    val userSaci = user as? UserSaci ?: return false
+    return userSaci.menuProduto
+  }
 
-    init {
-        addTabSheat(viewModel)
-    }
+  init {
+    addTabSheat(viewModel)
+  }
 }
 

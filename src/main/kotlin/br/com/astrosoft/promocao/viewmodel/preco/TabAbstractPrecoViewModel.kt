@@ -5,18 +5,18 @@ import br.com.astrosoft.promocao.model.beans.FiltroPrecoAlteracao
 import br.com.astrosoft.promocao.model.beans.PrecoAlteracao
 
 sealed class TabAbstractPrecoViewModel<T : ITabAbstractPrecoViewModel>(val viewModel: PrecoViewModel) {
-    abstract val subView: T
+  abstract val subView: T
 
-    fun updateView() {
-        val filtro = subView.filtro()
-        val resultList = findPrecoAlteracao(filtro)
-        subView.updateGrid(resultList)
-    }
+  fun updateView() {
+    val filtro = subView.filtro()
+    val resultList = findPrecoAlteracao(filtro)
+    subView.updateGrid(resultList)
+  }
 
-    abstract fun findPrecoAlteracao(filtro: FiltroPrecoAlteracao): List<PrecoAlteracao>
+  abstract fun findPrecoAlteracao(filtro: FiltroPrecoAlteracao): List<PrecoAlteracao>
 }
 
 interface ITabAbstractPrecoViewModel : ITabView {
-    fun filtro(): FiltroPrecoAlteracao
-    fun updateGrid(itens: List<PrecoAlteracao>)
+  fun filtro(): FiltroPrecoAlteracao
+  fun updateGrid(itens: List<PrecoAlteracao>)
 }

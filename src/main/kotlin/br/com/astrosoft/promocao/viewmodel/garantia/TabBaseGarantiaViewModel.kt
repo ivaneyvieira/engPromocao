@@ -5,17 +5,17 @@ import br.com.astrosoft.promocao.model.beans.ComparaValidade
 import br.com.astrosoft.promocao.model.beans.FiltroValidade
 
 class TabBaseGarantiaViewModel(val viewModel: GarantiaViewModel) {
-    val subView
-        get() = viewModel.view.tabBaseGarantia
+  val subView
+    get() = viewModel.view.tabBaseGarantia
 
-    fun updateView() {
-        val lista = ComparaValidade.consultaByTipo(subView.filtro())
-        subView.updateGrid(lista)
-    }
+  fun updateView() {
+    val lista = ComparaValidade.consultaByTipo(subView.filtro())
+    subView.updateGrid(lista)
+  }
 }
 
 interface ITabBaseGarantiaViewModel : ITabView {
-    fun filtro(): FiltroValidade
-    fun updateGrid(itens: List<ComparaValidade>)
-    fun listSelected(): List<ComparaValidade>
+  fun filtro(): FiltroValidade
+  fun updateGrid(itens: List<ComparaValidade>)
+  fun listSelected(): List<ComparaValidade>
 }

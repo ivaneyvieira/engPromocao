@@ -5,17 +5,17 @@ import br.com.astrosoft.promocao.model.beans.FiltroEstoqueApp
 import br.com.astrosoft.promocao.model.beans.GarantiaEstoqueApp
 
 class TabEstoqueAppGarantiaViewModel(val viewModel: GarantiaViewModel) {
-    val subView
-        get() = viewModel.view.tabEstoqueAppGarantia
+  val subView
+    get() = viewModel.view.tabEstoqueAppGarantia
 
-    fun updateView() {
-        val lista = GarantiaEstoqueApp.findAll(subView.filtro())
-        subView.updateGrid(lista)
-    }
+  fun updateView() {
+    val lista = GarantiaEstoqueApp.findAll(subView.filtro())
+    subView.updateGrid(lista)
+  }
 }
 
 interface ITabEstoqueAppGarantiaViewModel : ITabView {
-    fun updateGrid(itens: List<GarantiaEstoqueApp>)
-    fun listSelected(): List<GarantiaEstoqueApp>
-    fun filtro(): FiltroEstoqueApp
+  fun updateGrid(itens: List<GarantiaEstoqueApp>)
+  fun listSelected(): List<GarantiaEstoqueApp>
+  fun filtro(): FiltroEstoqueApp
 }

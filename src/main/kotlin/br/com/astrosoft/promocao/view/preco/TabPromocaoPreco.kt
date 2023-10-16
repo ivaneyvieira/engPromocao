@@ -23,29 +23,29 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabPromocaoPreco(viewModel: TabPromocaoAlteradoViewModel) :
-    TabAbstractPreco<ITabPromocaoAlteradoViewModel>(viewModel), ITabPromocaoAlteradoViewModel {
-    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.precoPromocao ?: false
+  TabAbstractPreco<ITabPromocaoAlteradoViewModel>(viewModel), ITabPromocaoAlteradoViewModel {
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.precoPromocao ?: false
 
-    override val label: String
-        get() = "Preço Promocional"
+  override val label: String
+    get() = "Preço Promocional"
 
-    override fun HorizontalLayout.addAditionaisFields() {
-    }
+  override fun HorizontalLayout.addAditionaisFields() {
+  }
 
-    override fun Grid<PrecoAlteracao>.colunasGrid() {
-        precoCodigo()
-        precoDescricao()
-        precoDataAlteracao()
-        precoHoraAlteracao()
-        precoUsuario()
-        precoVendno()
-        precoFornecedor()
-        precoTipoProduto()
-        precoCentroLucro()
-        precoValidade()
-        precoPrecoPromocionalAnt()
-        precoPrecoPromocional()
-        precoPrecoPromocionalM()
-        precoDesconto()
-    }
+  override fun Grid<PrecoAlteracao>.colunasGrid() {
+    precoCodigo()
+    precoDescricao()
+    precoDataAlteracao()
+    precoHoraAlteracao()
+    precoUsuario()
+    precoVendno()
+    precoFornecedor()
+    precoTipoProduto()
+    precoCentroLucro()
+    precoValidade()
+    precoPrecoPromocionalAnt()
+    precoPrecoPromocional()
+    precoPrecoPromocionalM()
+    precoDesconto()
+  }
 }

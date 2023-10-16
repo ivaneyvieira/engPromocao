@@ -14,24 +14,24 @@ import com.vaadin.flow.router.Route
 @PageTitle("Promoção")
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class PromocaoView : ViewLayout<PromocaoViewModel>(), IPromocaoView {
-    override val viewModel: PromocaoViewModel = PromocaoViewModel(this)
-    override val tabBaseViewModel = TabBasePromocao(viewModel.tabBaseViewModel)
-    override val tab99ViewModel = Tab99(viewModel.tab99ViewModel)
-    override val tabPromocaoViewModel = TabPromocao(viewModel.tabPromocaoViewModel)
-    override val tabSemPromocaoViewModel = TabSemPromocao(viewModel.tabSemPromocaoViewModel)
-    override val tabPrecificacaoViewModel = TabPrecificacao(viewModel.tabPrecificacaoViewModel)
-    override val tabPrecificacaoEntradaViewModel = TabPrecificacaoEntrada(viewModel.tabPrecificacaoEntradaViewModel)
-    override val tabPrecificacaoEntradaMaViewModel =
-        TabPrecificacaoEntradaMa(viewModel.tabPrecificacaoEntradaMaViewModel)
-    override val tabPrecificacaoSaidaViewModel = TabPrecificacaoSaida(viewModel.tabPrecificacaoSaidaViewModel)
+  override val viewModel: PromocaoViewModel = PromocaoViewModel(this)
+  override val tabBaseViewModel = TabBasePromocao(viewModel.tabBaseViewModel)
+  override val tab99ViewModel = Tab99(viewModel.tab99ViewModel)
+  override val tabPromocaoViewModel = TabPromocao(viewModel.tabPromocaoViewModel)
+  override val tabSemPromocaoViewModel = TabSemPromocao(viewModel.tabSemPromocaoViewModel)
+  override val tabPrecificacaoViewModel = TabPrecificacao(viewModel.tabPrecificacaoViewModel)
+  override val tabPrecificacaoEntradaViewModel = TabPrecificacaoEntrada(viewModel.tabPrecificacaoEntradaViewModel)
+  override val tabPrecificacaoEntradaMaViewModel =
+    TabPrecificacaoEntradaMa(viewModel.tabPrecificacaoEntradaMaViewModel)
+  override val tabPrecificacaoSaidaViewModel = TabPrecificacaoSaida(viewModel.tabPrecificacaoSaidaViewModel)
 
-    override fun isAccept(user: IUser): Boolean {
-        val userSaci = user as? UserSaci ?: return false
-        return userSaci.menuPromocao
-    }
+  override fun isAccept(user: IUser): Boolean {
+    val userSaci = user as? UserSaci ?: return false
+    return userSaci.menuPromocao
+  }
 
-    init {
-        addTabSheat(viewModel)
-    }
+  init {
+    addTabSheat(viewModel)
+  }
 }
 
