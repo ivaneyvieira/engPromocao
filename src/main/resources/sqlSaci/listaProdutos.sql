@@ -14,12 +14,15 @@ DO @TEMGRADE := :temGrade;
 DO @GRADE := :grade;
 DO @LOJA := :loja;
 
-DO @PEDIDO := IF(:pesquisa REGEXP '^[0-9]{1,2} [0-9]+$', :pesquisa, '');
+DO @PEDIDO := IF(:pesquisa REGEXP '^[0-9]{1,2} [0-9]+(-[0-9]+)?$', :pesquisa, '');
 DO @PEDIDO_LOJA := SUBSTRING_INDEX(@PEDIDO, ' ', 1) * 1;
-DO @PEDIDO_NUMERO := SUBSTRING_INDEX(@PEDIDO, ' ', -1) * 1;
+DO @PEDIDO_NUMEROS := SUBSTRING_INDEX(@PEDIDO, ' ', -1);
+DO @PEDIDO_I := SUBSTRING_INDEX(@PEDIDO_NUMEROS, '-', 1) * 1;
+DO @PEDIDO_F := SUBSTRING_INDEX(@PEDIDO_NUMEROS, '-', -1) * 1;
 
-DO @PESQUISA := IF(:pesquisa NOT REGEXP '^[0-9]{1,2} [0-9]+$', :pesquisa, '');
+DO @PESQUISA := IF(:pesquisa NOT REGEXP '^[0-9]{1,2} [0-9]+(-[0-9]+)?$', :pesquisa, '');
 DO @PESQUISA_LIKE := CONCAT(@PESQUISA, '%');
+
 
 DROP TABLE IF EXISTS T_ORDS;
 CREATE TEMPORARY TABLE T_ORDS
@@ -29,7 +32,7 @@ CREATE TEMPORARY TABLE T_ORDS
 SELECT prdno, grade, SUM(qtty) AS qtPedido
 FROM sqldados.oprd
 WHERE storeno = @PEDIDO_LOJA
-  AND ordno = @PEDIDO_NUMERO
+  AND ordno BETWEEN @PEDIDO_I AND @PEDIDO_F
 GROUP BY prdno, grade;
 
 DROP TABLE IF EXISTS T_STK;
