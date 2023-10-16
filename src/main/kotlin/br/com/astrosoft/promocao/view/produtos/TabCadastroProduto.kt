@@ -48,6 +48,8 @@ class TabCadastroProduto(viewModel: TabCadastroProdutoViewModel) :
         return EEstoqueTotal.TODOS
     }
 
+    override fun lojaEstoque() = 0
+
     override fun Grid<Produtos>.colunasGrid() {
         this.setSelectionMode(Grid.SelectionMode.MULTI)
         addColumnSeq("Seq")

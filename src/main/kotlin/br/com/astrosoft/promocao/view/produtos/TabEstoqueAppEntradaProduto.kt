@@ -81,4 +81,5 @@ class TabEstoqueAppEntradaProduto(viewModel: TabEstoqueAppEntradaViewModel) :
     }
 
     override fun filtro() = super.filtro().copy(loja = 4)
+    override fun lojaEstoque() = 0
 }

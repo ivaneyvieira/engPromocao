@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.viewmodel.produto
 
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.promocao.model.beans.FiltroProduto
+import br.com.astrosoft.promocao.model.beans.Loja
 import br.com.astrosoft.promocao.model.beans.Produtos
 
 sealed class TabAbstractProdutoViewModel<T : ITabAbstractProdutoViewModel>(val viewModel: ProdutoViewModel) {
@@ -16,6 +17,7 @@ sealed class TabAbstractProdutoViewModel<T : ITabAbstractProdutoViewModel>(val v
     abstract fun findPrecoAlteracao(filtro: FiltroProduto): List<Produtos>
 
     abstract fun todoEstoque(): Boolean
+    fun allLojas() = Loja.allLojas()
 }
 
 interface ITabAbstractProdutoViewModel : ITabView {

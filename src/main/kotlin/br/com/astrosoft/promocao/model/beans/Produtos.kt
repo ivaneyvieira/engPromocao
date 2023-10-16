@@ -82,6 +82,7 @@ data class FiltroProduto(
     val tributacao: String,
     val typeno: Int,
     val clno: Int,
+    val lojaEstoque: Int,
     val estoqueTotal: EEstoqueTotal,
     val diVenda: LocalDate?,
     val dfVenda: LocalDate?,

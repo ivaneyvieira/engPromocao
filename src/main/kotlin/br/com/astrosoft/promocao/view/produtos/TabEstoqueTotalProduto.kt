@@ -4,6 +4,7 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.promocao.model.beans.EEstoqueTotal
+import br.com.astrosoft.promocao.model.beans.Loja
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
 import br.com.astrosoft.promocao.model.planilhas.PlanilhaProduto
@@ -39,6 +40,7 @@ import com.vaadin.flow.component.select.Select
 class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
     TabAbstractProduto<ITabEstoqueTotalViewModel>(viewModel, showDatas = false), ITabEstoqueTotalViewModel {
     private lateinit var cmbEstoque: Select<EEstoqueTotal>
+    private lateinit var cmbLoja: Select<Loja>
     override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoEstoqueTotal ?: false
 
     override val label: String
@@ -49,6 +51,19 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
     }
 
     override fun HorizontalLayout.addAditionaisFields() {
+        cmbLoja = select("Loja") {
+            val lojaTodas = Loja(0, "Todas", "Todas")
+            val lojas = listOf(lojaTodas) + viewModel.allLojas()
+            setItems(lojas)
+            value = lojaTodas
+            this.setItemLabelGenerator {
+                it.sname
+            }
+            addValueChangeListener {
+                viewModel.updateView()
+            }
+            this.width = "5em"
+        }
         cmbEstoque = select("Estoque Total") {
             setItems(EEstoqueTotal.values().toList())
             value = EEstoqueTotal.TODOS
@@ -58,6 +73,7 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
             addValueChangeListener {
                 viewModel.updateView()
             }
+            this.width = "8em"
         }
     }
 
@@ -90,5 +106,9 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
 
     override fun estoqueTotal(): EEstoqueTotal {
         return cmbEstoque.value ?: EEstoqueTotal.TODOS
+    }
+
+    override fun lojaEstoque(): Int {
+        return cmbLoja.value?.no ?: 0
     }
 }

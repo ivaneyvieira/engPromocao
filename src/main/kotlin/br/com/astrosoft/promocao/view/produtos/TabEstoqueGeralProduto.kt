@@ -82,8 +82,9 @@ class TabEstoqueGeralProduto(viewModel: TabEstoqueGeralViewModel) :
         produto_TM_TT()
     }
 
-
     override fun estoqueTotal(): EEstoqueTotal {
         return EEstoqueTotal.TODOS
     }
+
+    override fun lojaEstoque() = 0
 }

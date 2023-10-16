@@ -186,6 +186,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
         tributacao = edtTributacao.value ?: "",
         typeno = edtType.value ?: 0,
         clno = edtCl.value ?: 0,
+        lojaEstoque = lojaEstoque(),
         estoqueTotal = estoqueTotal(),
         diVenda = edtDiVenda.value,
         dfVenda = edtDfVenda.value,
@@ -196,6 +197,7 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
     )
 
     abstract fun estoqueTotal(): EEstoqueTotal
+    abstract fun lojaEstoque(): Int
 
     override fun Grid<Produtos>.gridPanel() {
         setSelectionMode(Grid.SelectionMode.MULTI)
