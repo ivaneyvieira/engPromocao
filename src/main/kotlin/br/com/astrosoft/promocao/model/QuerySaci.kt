@@ -230,6 +230,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("loja", filtro.loja)
       addOptionalParameter("temGrade", filtro.temGrade.let { if (it) "S" else "N" })
       addOptionalParameter("grade", filtro.grade)
+      addOptionalParameter("estoque", filtro.estoque.codigo)
+      addOptionalParameter("saldo", filtro.saldo)
     }
   }
 

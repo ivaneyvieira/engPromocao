@@ -2,6 +2,7 @@ package br.com.astrosoft.promocao.view.produtos
 
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.promocao.model.beans.EEstoque
 import br.com.astrosoft.promocao.model.beans.EEstoqueTotal
 import br.com.astrosoft.promocao.model.beans.Produtos
 import br.com.astrosoft.promocao.model.beans.UserSaci
@@ -49,6 +50,8 @@ class TabCadastroProduto(viewModel: TabCadastroProdutoViewModel) :
   }
 
   override fun lojaEstoque() = 0
+  override fun estoque(): EEstoque = EEstoque.TODOS
+  override fun saldo(): Int = 0
 
   override fun Grid<Produtos>.colunasGrid() {
     this.setSelectionMode(Grid.SelectionMode.MULTI)

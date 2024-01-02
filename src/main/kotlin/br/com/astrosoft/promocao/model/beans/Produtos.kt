@@ -91,6 +91,8 @@ data class FiltroProduto(
   val temGrade: Boolean,
   val grade: String?,
   val loja: Int = 0,
+  val estoque: EEstoque,
+  val saldo: Int,
 ) {
   val pesquisaNumero: Int?
     get() = pesquisa.toIntOrNull()
@@ -112,4 +114,8 @@ enum class EInativo(val codigo: String, val descricao: String) {
 
 enum class EEstoqueTotal(val codigo: String, val descricao: String) {
   MENOR("<", "<"), MAIOR(">", ">"), IGUAL("=", "="), TODOS("T", "Todos")
+}
+
+enum class EEstoque(val codigo: String, val descricao: String) {
+  MENOR("<", "<"), MAIOR(">", ">"), TODOS("T", "Todos")
 }
