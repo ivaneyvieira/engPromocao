@@ -39,55 +39,55 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabEstoqueGeralProduto(viewModel: TabEstoqueGeralViewModel) :
-    TabAbstractProduto<ITabEstoqueGeralViewModel>(viewModel, showDatas = false), ITabEstoqueGeralViewModel {
-    override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoEstoqueGeral ?: false
+  TabAbstractProduto<ITabEstoqueGeralViewModel>(viewModel, showDatas = false), ITabEstoqueGeralViewModel {
+  override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoEstoqueGeral ?: false
 
-    override val label: String
-        get() = "Estoque Geral"
+  override val label: String
+    get() = "Estoque Geral"
 
-    override fun planilha(): PlanilhaProduto {
-        return PlanilhaProdutoEstoqueGeral()
-    }
+  override fun planilha(): PlanilhaProduto {
+    return PlanilhaProdutoEstoqueGeral()
+  }
 
-    override fun HorizontalLayout.addAditionaisFields() {
-    }
+  override fun HorizontalLayout.addAditionaisFields() {
+  }
 
-    override fun Grid<Produtos>.colunasGrid() {
-        this.setSelectionMode(Grid.SelectionMode.MULTI)
-        addColumnSeq("Seq")
-        produto_codigo()
-        produto_descricao()
-        produto_grade()
-        produto_Unidade()
-        produto_estoque()
-        produto_forn()
-        produto_abrev()
-        produto_tipo()
-        produto_cl()
-        produto_codBar()
+  override fun Grid<Produtos>.colunasGrid() {
+    this.setSelectionMode(Grid.SelectionMode.MULTI)
+    addColumnSeq("Seq")
+    produto_codigo()
+    produto_descricao()
+    produto_grade()
+    produto_Unidade()
+    produto_estoque()
+    produto_forn()
+    produto_abrev()
+    produto_tipo()
+    produto_cl()
+    produto_codBar()
 
-        produto_DS_VA()
-        produto_DS_AT()
-        produto_DS_TT()
-        produto_MR_VA()
-        produto_MR_AT()
-        produto_MR_TT()
-        produto_MF_VA()
-        produto_MF_AT()
-        produto_MF_TT()
-        produto_PK_VA()
-        produto_PK_AT()
-        produto_PK_TT()
-        produto_TM_VA()
-        produto_TM_AT()
-        produto_TM_TT()
-    }
+    produto_DS_VA()
+    produto_DS_AT()
+    produto_DS_TT()
+    produto_MR_VA()
+    produto_MR_AT()
+    produto_MR_TT()
+    produto_MF_VA()
+    produto_MF_AT()
+    produto_MF_TT()
+    produto_PK_VA()
+    produto_PK_AT()
+    produto_PK_TT()
+    produto_TM_VA()
+    produto_TM_AT()
+    produto_TM_TT()
+  }
 
-    override fun estoqueTotal(): EEstoqueTotal {
-        return EEstoqueTotal.TODOS
-    }
+  override fun estoqueTotal(): EEstoqueTotal {
+    return EEstoqueTotal.TODOS
+  }
 
-    override fun lojaEstoque() = 0
-    override fun estoque(): EEstoque = EEstoque.TODOS
-    override fun saldo(): Int = 0
+  override fun lojaEstoque() = 0
+  override fun estoque(): EEstoque = EEstoque.TODOS
+  override fun saldo(): Int = 0
 }

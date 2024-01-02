@@ -8,7 +8,7 @@ CREATE TEMPORARY TABLE T_NF_VENDA
 (
     PRIMARY KEY (storeno, prdno, grade)
 )
-SELECT X.storeno, X.prdno, X.grade, issuedate as data, SUM(X.qtty) AS quant
+SELECT X.storeno, X.prdno, X.grade, issuedate AS data, SUM(X.qtty) AS quant
 FROM sqldados.nf AS N
          INNER JOIN sqldados.xaprd2 AS X USING (storeno, pdvno, xano)
 WHERE tipo IN (3, 0)
@@ -19,7 +19,7 @@ GROUP BY X.storeno, X.prdno, X.grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_NF_DEVOLUCAO;
 CREATE TEMPORARY TABLE T_NF_DEVOLUCAO
-SELECT storeno, prdno, grade, date as data, SUM(qtty) AS quant
+SELECT storeno, prdno, grade, date AS data, SUM(qtty) AS quant
 FROM sqldados.xalog2
 WHERE qtty < 0
   AND (storeno IN (1, 2, 3, 4, 5, 6, 8))
@@ -40,12 +40,12 @@ CREATE TEMPORARY TABLE T_NF_VENDA_DEV_SISTETICO
 SELECT X.storeno,
        X.prdno,
        X.grade,
-       DATE_SUB(data, INTERVAL DAYOFMONTH(data) - 1 DAY) as date,
+       DATE_SUB(data, INTERVAL DAYOFMONTH(data) - 1 DAY) AS date,
        ROUND(SUM(X.quant))                               AS quant
 FROM T_NF_VENDA_DEV_ANALITICO AS X
 GROUP BY X.storeno, X.prdno, X.grade, X.data
 UNION
-SELECT storeno, prdno, grade, DATE_SUB(date, INTERVAL DAYOFMONTH(date) - 1 DAY) as date, ROUND(SUM(quant)) AS quant
+SELECT storeno, prdno, grade, DATE_SUB(date, INTERVAL DAYOFMONTH(date) - 1 DAY) AS date, ROUND(SUM(quant)) AS quant
 FROM vendaDate
 WHERE date BETWEEN @DIVENDA AND @DFVENDA
 GROUP BY storeno, prdno, grade, date;
@@ -53,6 +53,6 @@ GROUP BY storeno, prdno, grade, date;
 SELECT storeno            AS loja,
        TRIM(prdno) * 1    AS codigo,
        grade              AS grade,
-       cast(date as date) AS date,
+       CAST(date AS date) AS date,
        quant / 1000       AS quant
 FROM T_NF_VENDA_DEV_SISTETICO

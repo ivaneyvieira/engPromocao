@@ -41,10 +41,10 @@ SELECT prdno                                                                   A
                       ROUND((P.fob / 10000) * (P.costdel3 / 100) / 100, 4) +
                       ROUND((P.fob / 10000) * ((P.dicm - P.freight_icms) / 100) / 100, 4) +
                       ROUND((P.fob / 10000) * (P.freight / 100) / 100, 4) + ROUND(
-                                      (ROUND(P.fob / 10000, 4) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 4) +
-                                       ROUND((P.fob / 10000) * (P.package / 100) / 100, 4) +
-                                       ROUND((P.fob / 10000) * (P.freight / 100) / 100, 4)) * (P.auxLong4 / 100) / 100,
-                                      4)                                       AS custoContabil,
+                              (ROUND(P.fob / 10000, 4) + ROUND((P.fob / 10000) * (P.ipi / 100) / 100, 4) +
+                               ROUND((P.fob / 10000) * (P.package / 100) / 100, 4) +
+                               ROUND((P.fob / 10000) * (P.freight / 100) / 100, 4)) * (P.auxLong4 / 100) / 100,
+                              4)                                               AS custoContabil,
        P.icm / 100                                                             AS icms,
        P.finsoc / 100                                                          AS pis,
        P.comm / 100                                                            AS ir,
