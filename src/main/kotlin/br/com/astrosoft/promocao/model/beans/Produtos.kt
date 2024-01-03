@@ -117,5 +117,5 @@ enum class EEstoqueTotal(val codigo: String, val descricao: String) {
 }
 
 enum class EEstoque(val codigo: String, val descricao: String) {
-  MENOR("<", "<"), MAIOR(">", ">"), TODOS("T", "Todos")
+  MENOR("<", "<"), MAIOR(">", ">"), IGUAL("=", "="), TODOS("T", "Todos")
 }

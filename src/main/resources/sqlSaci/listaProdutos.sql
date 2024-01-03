@@ -168,6 +168,7 @@ WHERE (P.no = @PRDNO OR @CODIGO = 0)
     END
   AND CASE :estoque
           WHEN 'T' THEN TRUE
+          WHEN '=' THEN ROUND(estoqueLoja) = (:saldo)
           WHEN '>' THEN ROUND(estoqueLoja) > (:saldo)
           WHEN '<' THEN ROUND(estoqueLoja) < -(:saldo)
           ELSE FALSE
