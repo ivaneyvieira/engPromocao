@@ -13,39 +13,23 @@ import java.awt.Color
 
 object Templates {
   val rootStyle: StyleBuilder = stl.style().setPadding(1)
-  val boldStyle: StyleBuilder = stl.style(rootStyle).bold()
-  val italicStyle: StyleBuilder = stl.style(rootStyle).italic()
-  val boldCenteredStyle: StyleBuilder = stl.style(boldStyle).setTextAlignment(CENTER, MIDDLE)
-  val bold9CenteredStyle: StyleBuilder = stl.style(boldCenteredStyle).setFontSize(9)
-  val columnStyle: StyleBuilder = stl.style(rootStyle).setFontSize(8)
-  val columnTitleStyle: StyleBuilder =
+  fun columnStyle(fontSize: Int): StyleBuilder = stl.style(rootStyle).setFontSize(fontSize)
+  fun columnTitleStyle(fontSize: Int): StyleBuilder =
       stl
-        .style(columnStyle)
+        .style(columnStyle(fontSize))
         .setBorder(stl.pen1Point())
         .setHorizontalTextAlignment(CENTER)
         .setBackgroundColor(Color.LIGHT_GRAY)
         .bold()
-  val groupStyle: StyleBuilder = stl.style(boldStyle).setHorizontalTextAlignment(LEFT)
-  val subtotalStyle: StyleBuilder = stl.style(boldStyle)
-  val reportTemplate: ReportTemplateBuilder =
+  val groupStyle: StyleBuilder = stl.style().setHorizontalTextAlignment(LEFT).bold()
+  val subtotalStyle: StyleBuilder = stl.style().bold()
+  fun reportTemplate(fontSize: Int): ReportTemplateBuilder =
       template()
         .setPageFormat(A4, LANDSCAPE)
-        .setColumnStyle(columnStyle)
-        .setColumnTitleStyle(columnTitleStyle)
+        .setColumnStyle(columnStyle(fontSize))
+        .setColumnTitleStyle(columnTitleStyle(fontSize))
         .setGroupStyle(groupStyle)
         .setGroupTitleStyle(groupStyle)
         .setSubtotalStyle(subtotalStyle)
-        .setDetailStyle(stl.style(rootStyle).setFontSize(8))
-  val fieldFontTitle: StyleBuilder = stl.style(rootStyle).setFontSize(4)
-  val fieldFont: StyleBuilder = stl.style(rootStyle).setFontSize(6)
-  val fieldBorder: StyleBuilder = stl.style(fieldFont).setBorder(stl.penThin()).setRadius(10)
-  val fieldFontNormal: StyleBuilder = stl.style(rootStyle).setFontSize(10)
-  val fieldFontNormalCol: StyleBuilder =
-      stl
-        .style(fieldFontNormal)
-        .setBorder(stl.pen1Point())
-        .setHorizontalTextAlignment(CENTER)
-        .setBackgroundColor(Color.LIGHT_GRAY)
-        .bold()
-  val fieldFontGrande: StyleBuilder = stl.style(rootStyle).setFontSize(10)
+        .setDetailStyle(stl.style(rootStyle).setFontSize(fontSize))
 }

@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.math.roundToInt
 import kotlin.reflect.KProperty1
 
 abstract class ReportBuild<T> {
@@ -186,7 +187,11 @@ abstract class ReportBuild<T> {
     return verticalBlock {
       horizontalList {
         text(propriedades.titulo, HorizontalTextAlignment.CENTER, largura).apply {
-          this.setStyle(stl.style(Templates.fieldFontGrande).setForegroundColor(propriedades.color))
+          this.setStyle(
+            stl.style(Templates.columnStyle((propriedades.fonteSize * 1.5).roundToInt()))
+              .setForegroundColor(propriedades.color)
+              .setFontSize(propriedades.fonteSize)
+          )
         }
       }
       if (propriedades.subTitulo != "") {
@@ -215,7 +220,7 @@ abstract class ReportBuild<T> {
 
     return report()
       .title(titleBuider(propriedades))
-      .setTemplate(Templates.reportTemplate)
+      .setTemplate(Templates.reportTemplate(propriedades.fonteSize))
       .columns(* colunms)
       .columnGrid(* colunms)
       .setDataSource(itens)
@@ -224,17 +229,20 @@ abstract class ReportBuild<T> {
       .summary(pageFooterBuilder())
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
-      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+      .pageFooter(
+        cmp.pageNumber().setHorizontalTextAlignment(RIGHT)
+          .setStyle(stl.style().setFontSize(propriedades.fonteSize))
+      )
       .setColumnStyle(
         stl.style()
-          .setFontSize(propriedades.detailFonteSize)
+          .setFontSize(propriedades.fonteSize)
           .setLeftPadding(4)
           .setRightPadding(4)
           .setTopPadding(2)
           .setBottomPadding(2)
           .setBottomBorder(stl.pen1Point())
       )
-      .setDetailStyle(stl.style().setFontSize(propriedades.detailFonteSize))
+      .setDetailStyle(stl.style().setFontSize(propriedades.fonteSize))
       .apply {
         if (itemGroup != null) this.groupBy(itemGroup).addGroupFooter(itemGroup, cmp.text(""))
           .setShowColumnTitle(false)
@@ -297,7 +305,7 @@ private class DateFormatter(private val pattern: String) : AbstractValueFormatte
 data class PropriedadeRelatorio(
   val titulo: String,
   val subTitulo: String,
-  val detailFonteSize: Int = 10,
+  val fonteSize: Int = 10,
   val color: Color = Color.BLACK,
   val pageOrientation: PageOrientation = PORTRAIT,
   val pageType: PageType = A4
