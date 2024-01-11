@@ -51,6 +51,10 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
     viewModel.updateView()
   }
 
+  override fun produtosSelecionados(): List<Produtos> {
+    return this.itensSelecionados()
+  }
+
   override fun HorizontalLayout.toolBarConfig() {
     flexLayout {
       this.isExpand = true

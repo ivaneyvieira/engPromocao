@@ -29,9 +29,11 @@ import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_t
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_tributacao
 import br.com.astrosoft.promocao.viewmodel.produto.ITabEstoqueTotalViewModel
 import br.com.astrosoft.promocao.viewmodel.produto.TabEstoqueTotalViewModel
+import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.IntegerField
@@ -43,6 +45,7 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
   private lateinit var cmbEstoqueFiltro: Select<EEstoque>
   private lateinit var edtSaldo: IntegerField
   private lateinit var cmbLoja: Select<Loja>
+
   override fun isAuthorized(user: IUser) = (user as? UserSaci)?.produtoEstoqueTotal ?: false
 
   override val label: String
@@ -99,6 +102,13 @@ class TabEstoqueTotalProduto(viewModel: TabEstoqueTotalViewModel) :
         viewModel.updateView()
       }
       this.width = "5em"
+    }
+
+    button("Relatório"){
+      icon = VaadinIcon.PRINT.create()
+      this.addClickListener {
+        viewModel.geraRelatorio()
+      }
     }
   }
 

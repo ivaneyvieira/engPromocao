@@ -4,6 +4,7 @@ import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.promocao.model.beans.FiltroProduto
 import br.com.astrosoft.promocao.model.beans.Loja
 import br.com.astrosoft.promocao.model.beans.Produtos
+import br.com.astrosoft.promocao.reports.RelatorioProduto
 
 sealed class TabAbstractProdutoViewModel<T : ITabAbstractProdutoViewModel>(val viewModel: ProdutoViewModel) {
   abstract val subView: T
@@ -18,9 +19,16 @@ sealed class TabAbstractProdutoViewModel<T : ITabAbstractProdutoViewModel>(val v
 
   abstract fun todoEstoque(): Boolean
   fun allLojas() = Loja.allLojas()
+  fun geraRelatorio() {
+    val produtos = subView.produtosSelecionados()
+    val report = RelatorioProduto()
+    val file = report.processaRelatorio(produtos)
+    viewModel.view.showReport(chave = "NotaImpresso${System.nanoTime()}", report = file)
+  }
 }
 
 interface ITabAbstractProdutoViewModel : ITabView {
   fun filtro(): FiltroProduto
   fun updateGrid(itens: List<Produtos>)
+  fun produtosSelecionados(): List<Produtos>
 }
