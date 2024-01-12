@@ -20,12 +20,19 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.data.provider.DataCommunicator
+import com.vaadin.flow.data.provider.ListDataProvider
+import com.vaadin.flow.data.provider.Query
 import com.vaadin.flow.data.value.ValueChangeMode.LAZY
+import com.vaadin.flow.function.SerializablePredicate
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.stream.Collectors
+import java.util.stream.Stream
+
 
 abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
   open val viewModel: TabAbstractProdutoViewModel<T>,
@@ -52,7 +59,23 @@ abstract class TabAbstractProduto<T : ITabAbstractProdutoViewModel>(
   }
 
   override fun produtosSelecionados(): List<Produtos> {
-    return this.itensSelecionados()
+    val sortGrid = this.gridPanel.sortOrder
+    val dataProvider: ListDataProvider<Produtos> = gridPanel.dataProvider as ListDataProvider<Produtos>
+    val size = dataProvider.items.size
+    val dataCommunicator: DataCommunicator<Produtos> = gridPanel.dataCommunicator
+    val stream: Stream<Produtos> =
+      dataProvider.fetch(
+        Query<Produtos, SerializablePredicate<Produtos>>(
+          0,
+          size,
+          dataCommunicator.backEndSorting,
+          dataCommunicator.inMemorySorting,
+          null
+        )
+      )
+    val list: List<Produtos> = stream.collect(Collectors.toList())
+    val selecionado = this.itensSelecionados()
+    return list.filter { selecionado.contains(it) }
   }
 
   override fun HorizontalLayout.toolBarConfig() {
