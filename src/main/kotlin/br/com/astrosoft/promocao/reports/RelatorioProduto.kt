@@ -2,24 +2,24 @@ package br.com.astrosoft.promocao.reports
 
 import br.com.astrosoft.framework.model.reports.PropriedadeRelatorio
 import br.com.astrosoft.framework.model.reports.ReportBuild
-import br.com.astrosoft.promocao.model.beans.Produtos
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
-import net.sf.dynamicreports.report.builder.DynamicReports.*
+import net.sf.dynamicreports.report.builder.DynamicReports.margin
+import net.sf.dynamicreports.report.builder.DynamicReports.stl
 import net.sf.dynamicreports.report.builder.style.Styles
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation
 import java.awt.Color
 
-class RelatorioProduto : ReportBuild<Produtos>() {
+class RelatorioProduto(val lojaEstoque : Int) : ReportBuild<ProdutoRelatorio>() {
   init {
-    columnReport(Produtos::codigo, header = "Código", aligment = RIGHT, width = 80)
-    columnReport(Produtos::descricao, header = "Descrição", aligment = LEFT)
-    columnReport(Produtos::grade, header = "Grade", aligment = CENTER, width = 100)
-    columnReport(Produtos::unidade, header = "Unidade", aligment = CENTER, width = 80)
-    columnReport(Produtos::DS_TT, header = "Quant", aligment = RIGHT, width = 80)
+    columnReport(ProdutoRelatorio::codigo, header = "Código", aligment = RIGHT, width = 80)
+    columnReport(ProdutoRelatorio::descricao, header = "Descrição", aligment = LEFT)
+    columnReport(ProdutoRelatorio::grade, header = "Grade", aligment = CENTER, width = 100)
+    columnReport(ProdutoRelatorio::unidade, header = "Unidade", aligment = CENTER, width = 80)
+    columnReport(ProdutoRelatorio::quant, header = "Quant", aligment = RIGHT, width = 80)
   }
 
-  override fun makeReport(itens: List<Produtos>): JasperReportBuilder {
+  override fun makeReport(itens: List<ProdutoRelatorio>): JasperReportBuilder {
     return super
       .makeReport(itens)
       .setPageMargin(margin(0))
@@ -36,9 +36,18 @@ class RelatorioProduto : ReportBuild<Produtos>() {
       .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)))
   }
 
-  override fun config(itens: List<Produtos>): PropriedadeRelatorio {
+  override fun config(itens: List<ProdutoRelatorio>): PropriedadeRelatorio {
+    val loja = when (lojaEstoque) {
+          0 -> "Todas"
+          2 -> "DS"
+          3 -> "MR"
+          4 -> "MF"
+          5 -> "PK"
+          8 -> "TM"
+          else -> "Outra"
+        }
     return PropriedadeRelatorio(
-      titulo = "Estoque Loja DS",
+      titulo = "Estoque Loja $loja",
       subTitulo = "",
       color = Color.WHITE,
       fonteSize = 14,
@@ -46,3 +55,11 @@ class RelatorioProduto : ReportBuild<Produtos>() {
     )
   }
 }
+
+data class ProdutoRelatorio(
+  val codigo: Int,
+  val descricao: String,
+  val grade: String,
+  val unidade: String,
+  val quant: Int
+                         )
