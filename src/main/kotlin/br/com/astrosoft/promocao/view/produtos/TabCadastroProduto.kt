@@ -13,6 +13,7 @@ import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_F
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Ncm
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_PesoBruto
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_RefForn
+import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Rotulo
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Site
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_TGar
 import br.com.astrosoft.promocao.view.produtos.columns.ProdutosColumns.produto_Trib
@@ -60,10 +61,11 @@ class TabCadastroProduto(viewModel: TabCadastroProdutoViewModel) :
     produto_descricao()
     produto_grade()
     produto_Unidade()
-    produto_FLinha()
+    produto_Rotulo()
     produto_Trib()
     produto_forn()
     produto_abrev()
+    produto_Ncm()
     produto_tipo()
     produto_cl()
     produto_codBar()
@@ -73,7 +75,7 @@ class TabCadastroProduto(viewModel: TabCadastroProdutoViewModel) :
     produto_UGar()
     produto_TGar()
     produto_Emb()
-    produto_Ncm()
+    produto_FLinha()
     produto_Site()
   }
 }

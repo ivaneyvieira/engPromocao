@@ -158,6 +158,11 @@ object ProdutosColumns {
     this.config()
   }
 
+  fun Grid<Produtos>.produto_Rotulo() = addColumnString(Produtos::rotulo) {
+    this.setHeader("Rotulo")
+    this.config()
+  }
+
   fun Grid<Produtos>.produto_Trib() = addColumnString(Produtos::trib) {
     this.setHeader("Trib")
     this.config()
@@ -205,11 +210,6 @@ object ProdutosColumns {
 
   fun Grid<Produtos>.produto_Localizacao() = addColumnString(Produtos::localizacao) {
     this.setHeader("LOC")
-    this.config()
-  }
-
-  fun Grid<Produtos>.produto_Rotulo() = addColumnString(Produtos::rotulo) {
-    this.setHeader("Rotulo")
     this.config()
   }
 
