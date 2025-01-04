@@ -24,7 +24,7 @@ SELECT prdno                                                                   A
        PD.mfno                                                                 AS vendno,
        V.sname                                                                 AS fornecedor,
        ROUND(adm / 100, 2)                                                     AS cpmf,
-       taxno                                                                   AS tributacao,
+       PD.taxno                                                                AS tributacao,
        PD.typeno                                                               AS typeno,
        PD.clno                                                                 AS clno,
        ROUND(IF(PD.taxno = '00', 0.00, IFNULL(PD.lucroTributado, 0)) / 100, 4) AS mvap,
