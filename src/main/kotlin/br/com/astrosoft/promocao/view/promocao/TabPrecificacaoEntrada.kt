@@ -43,6 +43,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
+import com.vaadin.flow.component.textfield.BigDecimalField
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
@@ -61,6 +62,8 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
   private lateinit var edtTributacao: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
   private lateinit var edtQuery: TextField
+  private lateinit var edtMva: BigDecimalField
+  private lateinit var edtNCM: TextField
 
   override fun HorizontalLayout.toolBarConfig() {
     edtQuery = textField("Pesquisa") {
@@ -85,9 +88,26 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
       }
     }
 
+
+    edtNCM = textField("NCM") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.width = "80px"
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+
     edtTributacao = textField("Tributação") {
       this.valueChangeMode = ValueChangeMode.LAZY
       this.width = "80px"
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtMva = bigDecimalField("MVA") {
+      this.valueChangeMode = ValueChangeMode.LAZY
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -209,6 +229,8 @@ class TabPrecificacaoEntrada(val viewModel: TabPrecificacaoEntradaViewModel) : T
       typeno = edtType.value ?: "",
       clno = edtCl.value ?: 0,
       marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
+      mvap = edtMva.value?.toDouble(),
+      ncm = edtNCM.value ?: "",
       query = edtQuery.value ?: "",
     )
   }
