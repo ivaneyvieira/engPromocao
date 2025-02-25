@@ -95,13 +95,6 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
       }
     }
 
-    edtType = textField("Tipo") {
-      this.valueChangeMode = ValueChangeMode.LAZY
-      addValueChangeListener {
-        viewModel.updateView()
-      }
-    }
-
     edtMva = bigDecimalField("MVA") {
       this.valueChangeMode = ValueChangeMode.LAZY
       addValueChangeListener {
@@ -110,6 +103,13 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
     }
 
     edtIcmsEnt = bigDecimalField("ICMS Ent") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtType = textField("Tipo") {
       this.valueChangeMode = ValueChangeMode.LAZY
       addValueChangeListener {
         viewModel.updateView()
