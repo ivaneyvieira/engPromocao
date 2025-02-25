@@ -136,5 +136,7 @@ data class FiltroPrecificacao(
   val typeno: String,
   val clno: Int,
   val marcaPonto: EMarcaPonto,
+  val mvap: Double? = null,
+  val icmsEnt: Double? = null,
   val query: String,
 )

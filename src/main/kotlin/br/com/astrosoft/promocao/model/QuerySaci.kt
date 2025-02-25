@@ -7,6 +7,7 @@ import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.toSaciDate
 import br.com.astrosoft.promocao.model.beans.*
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 class QuerySaci : QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -248,6 +249,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("marca", filtro.marcaPonto.codigo)
       addOptionalParameter("query", filtro.query)
+      addOptionalParameter("mvap", ((filtro.mvap ?: -1.00) * 100.00).roundToInt())
+      addOptionalParameter("icmsEnt", ((filtro.icmsEnt ?: -1.00) * 100.00).roundToInt())
     }
   }
 

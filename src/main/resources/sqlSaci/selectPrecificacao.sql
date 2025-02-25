@@ -81,7 +81,7 @@ WHERE P.storeno = 10
           WHEN 'N' THEN MID(PD.name, 1, 1) NOT IN ('.', '*', '!', '*', ']', ':', '#')
           WHEN 'S' THEN MID(PD.name, 1, 1) IN ('.', '*', '!', '*', ']', ':', '#')
     END
-HAVING @QUERY = ''
+HAVING (@QUERY = ''
     OR descricao LIKE @QUERYLIKE
     OR ncm LIKE @QUERYLIKE
     OR rotulo LIKE @QUERYLIKE
@@ -105,4 +105,6 @@ HAVING @QUERY = ''
     OR REPLACE(REPLACE(FORMAT(precoSug, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(precoRef, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
     OR REPLACE(REPLACE(FORMAT(freteICMS, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
-    OR REPLACE(REPLACE(FORMAT(cfinanceiro, 2), ',', ''), '.', ',') LIKE @QUERYLIKE
+    OR REPLACE(REPLACE(FORMAT(cfinanceiro, 2), ',', ''), '.', ',') LIKE @QUERYLIKE)
+   AND ((mvap * 100) = :mvap OR :mvap < 0)
+   AND ((creditoICMS * 100) = :icmsEnt OR :icmsEnt < 0)

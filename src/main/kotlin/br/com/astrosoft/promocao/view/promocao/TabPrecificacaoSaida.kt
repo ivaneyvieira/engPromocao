@@ -18,8 +18,10 @@ import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promo
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoDesp
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoFCP
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIR
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsEnt
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoIcmsSai
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoLucro
+import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoMva
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoNcm
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoOut
 import br.com.astrosoft.promocao.view.promocao.columns.PrecificacaoColumns.promocaoPDif
@@ -40,6 +42,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
+import com.vaadin.flow.component.textfield.BigDecimalField
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
@@ -58,6 +61,8 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
   private lateinit var edtTributacao: TextField
   private lateinit var cmbPontos: Select<EMarcaPonto>
   private lateinit var edtQuery: TextField
+  private lateinit var edtMva: BigDecimalField
+  private lateinit var edtIcmsEnt: BigDecimalField
 
   override fun HorizontalLayout.toolBarConfig() {
     edtQuery = textField("Pesquisa") {
@@ -91,6 +96,20 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
     }
 
     edtType = textField("Tipo") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtMva = bigDecimalField("MVA") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtIcmsEnt = bigDecimalField("ICMS Ent") {
       this.valueChangeMode = ValueChangeMode.LAZY
       addValueChangeListener {
         viewModel.updateView()
@@ -162,6 +181,8 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
     promocaoNcm()
     promocaoRotulo()
     promocaoTributacao()
+    promocaoMva()
+    promocaoIcmsEnt()
     promocaoIcmsSai()
     promocaoFCP()
     promocaoPis()
@@ -184,6 +205,8 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
       typeno = edtType.value ?: "",
       clno = edtCl.value ?: 0,
       marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
+      mvap = edtMva.value?.toDouble(),
+      icmsEnt = edtIcmsEnt.value?.toDouble(),
       query = edtQuery.value ?: "",
     )
   }
