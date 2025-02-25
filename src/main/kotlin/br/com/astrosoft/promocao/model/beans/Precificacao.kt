@@ -138,5 +138,6 @@ data class FiltroPrecificacao(
   val marcaPonto: EMarcaPonto,
   val mvap: Double? = null,
   val icmsEnt: Double? = null,
+  val ncm: String = "",
   val query: String,
 )

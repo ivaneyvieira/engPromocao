@@ -108,3 +108,4 @@ HAVING (@QUERY = ''
     OR REPLACE(REPLACE(FORMAT(cfinanceiro, 2), ',', ''), '.', ',') LIKE @QUERYLIKE)
    AND ((mvap * 100) = :mvap OR :mvap < 0)
    AND ((creditoICMS * 100) = :icmsEnt OR :icmsEnt < 0)
+   AND (ncm LIKE CONCAT(:ncm, '%') OR :ncm = '')

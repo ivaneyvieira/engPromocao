@@ -63,6 +63,7 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
   private lateinit var edtQuery: TextField
   private lateinit var edtMva: BigDecimalField
   private lateinit var edtIcmsEnt: BigDecimalField
+  private lateinit var edtNCM: TextField
 
   override fun HorizontalLayout.toolBarConfig() {
     edtQuery = textField("Pesquisa") {
@@ -82,6 +83,14 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
     edtListVend = textField("Fornecedores") {
       this.valueChangeMode = ValueChangeMode.LAZY
       this.width = "250px"
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtNCM = textField("NCM") {
+      this.valueChangeMode = ValueChangeMode.LAZY
+       this.width = "80px"
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -207,6 +216,7 @@ class TabPrecificacaoSaida(val viewModel: TabPrecificacaoSaidaViewModel) : TabPa
       marcaPonto = cmbPontos.value ?: EMarcaPonto.TODOS,
       mvap = edtMva.value?.toDouble(),
       icmsEnt = edtIcmsEnt.value?.toDouble(),
+      ncm = edtNCM.value ?: "",
       query = edtQuery.value ?: "",
     )
   }

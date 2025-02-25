@@ -249,6 +249,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("clno", filtro.clno)
       addOptionalParameter("marca", filtro.marcaPonto.codigo)
       addOptionalParameter("query", filtro.query)
+      addOptionalParameter("ncm", filtro.ncm)
       addOptionalParameter("mvap", ((filtro.mvap ?: -1.00) * 100.00).roundToInt())
       addOptionalParameter("icmsEnt", ((filtro.icmsEnt ?: -1.00) * 100.00).roundToInt())
     }
